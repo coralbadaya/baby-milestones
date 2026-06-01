@@ -3,6 +3,7 @@ export const ROUTES = {
   home: '/',
   month: (n) => `/month/${n}`,
   shopping: '/shopping',
+  vaccination: '/vaccination',
   travel: '/travel',
   travelTab: (type) => `/travel#${type}`,
   momCare: '/mom-care',
@@ -23,6 +24,7 @@ export function isCommunityTab(tab) {
 export function navSectionFromPath(pathname) {
   if (pathname === ROUTES.home || pathname.startsWith('/month/')) return 'home';
   if (pathname.startsWith('/shopping')) return 'shopping';
+  if (pathname.startsWith('/vaccination')) return 'vaccination';
   if (pathname.startsWith('/travel')) return 'travel';
   if (pathname.startsWith('/mom-care')) return 'momCare';
   if (pathname.startsWith('/community')) return 'community';

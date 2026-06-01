@@ -6,6 +6,7 @@ import { ROUTES } from '../routes';
 const FOOTER_LINKS = [
   { to: ROUTES.home, label: 'Home', icon: 'home' },
   { to: ROUTES.shopping, label: 'Shopping', icon: 'shopping-cart' },
+  { to: ROUTES.vaccination, label: 'Vaccination', icon: 'medical' },
   { to: ROUTES.travel, label: 'Travel', icon: 'luggage' },
   { to: ROUTES.momCare, label: 'Mom Care', icon: 'heart' },
   { to: ROUTES.communityTab('feed'), label: 'Community', icon: 'speech-bubble' },
@@ -37,7 +38,7 @@ function Footer() {
               className="site-footer-link"
               onClick={() => interact('tap', 'light')}
             >
-              <Icon name={icon} size={18} />
+              <Icon name={icon} size={14} />
               {label}
             </Link>
           ))}

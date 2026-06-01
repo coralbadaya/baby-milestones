@@ -7,6 +7,7 @@ import MonthDetail from './pages/MonthDetail';
 import Dashboard from './pages/Dashboard';
 import Sources from './pages/Sources';
 import Shopping from './pages/Shopping';
+import Vaccination from './pages/Vaccination';
 import Travel from './pages/Travel';
 import MomCare from './pages/MomCare';
 import Community from './pages/Community';
@@ -55,6 +56,19 @@ function App() {
     const saved = localStorage.getItem('babySoundEnabled');
     return saved !== null ? JSON.parse(saved) : true;
   });
+  const [vaccineScheduleType, setVaccineScheduleType] = useState(() => localStorage.getItem('babyVaccineScheduleType') || 'india');
+  const [vaccineRecords, setVaccineRecords] = useState(() => {
+    const saved = localStorage.getItem('babyVaccineRecords');
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [customVaccines, setCustomVaccines] = useState(() => {
+    const saved = localStorage.getItem('babyCustomVaccines');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [vaccineReminderDays, setVaccineReminderDays] = useState(() => {
+    const saved = localStorage.getItem('babyVaccineReminderDays');
+    return saved ? JSON.parse(saved) : 7;
+  });
 
   useEffect(() => {
     localStorage.setItem('babyMilestoneChecks', JSON.stringify(checkedItems));
@@ -70,6 +84,18 @@ function App() {
     localStorage.setItem('babySoundEnabled', JSON.stringify(soundEnabled));
     window.__soundEnabled = soundEnabled;
   }, [soundEnabled]);
+  useEffect(() => {
+    localStorage.setItem('babyVaccineScheduleType', vaccineScheduleType);
+  }, [vaccineScheduleType]);
+  useEffect(() => {
+    localStorage.setItem('babyVaccineRecords', JSON.stringify(vaccineRecords));
+  }, [vaccineRecords]);
+  useEffect(() => {
+    localStorage.setItem('babyCustomVaccines', JSON.stringify(customVaccines));
+  }, [customVaccines]);
+  useEffect(() => {
+    localStorage.setItem('babyVaccineReminderDays', JSON.stringify(vaccineReminderDays));
+  }, [vaccineReminderDays]);
 
   useEffect(() => {
     window.__soundEnabled = soundEnabled;
@@ -151,6 +177,23 @@ function App() {
               checkedItems={checkedItems}
               toggleCheck={toggleCheck}
               currentMonth={getCurrentMonth()}
+            />
+          )}
+        />
+        <Route
+          path={ROUTES.vaccination}
+          element={(
+            <Vaccination
+              birthDate={birthDate}
+              currentMonth={getCurrentMonth()}
+              scheduleType={vaccineScheduleType}
+              onScheduleTypeChange={setVaccineScheduleType}
+              vaccineRecords={vaccineRecords}
+              setVaccineRecords={setVaccineRecords}
+              customVaccines={customVaccines}
+              setCustomVaccines={setCustomVaccines}
+              reminderDays={vaccineReminderDays}
+              setReminderDays={setVaccineReminderDays}
             />
           )}
         />

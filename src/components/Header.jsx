@@ -26,6 +26,9 @@ function Header({ soundEnabled, onToggleSound }) {
             <Link to={ROUTES.shopping} className={navClass('shopping')} onClick={onNav}>
               Shopping
             </Link>
+            <Link to={ROUTES.vaccination} className={navClass('vaccination')} onClick={onNav}>
+              Vaccination
+            </Link>
             <Link to={ROUTES.travel} className={navClass('travel')} onClick={onNav}>
               Travel
             </Link>
@@ -54,31 +57,35 @@ function Header({ soundEnabled, onToggleSound }) {
       </header>
       <nav className="mobile-nav">
         <Link to={ROUTES.home} className={navClass('home')} onClick={onNav}>
-          <Icon name="home" size={22} />
+          <Icon name="home" size={18} />
           <span>Home</span>
         </Link>
         <Link to={ROUTES.shopping} className={navClass('shopping')} onClick={onNav}>
-          <Icon name="shopping-cart" size={22} />
+          <Icon name="shopping-cart" size={18} />
           <span>Shop</span>
         </Link>
+        <Link to={ROUTES.vaccination} className={navClass('vaccination')} onClick={onNav}>
+          <Icon name="medical" size={18} />
+          <span>Vaccines</span>
+        </Link>
         <Link to={ROUTES.travel} className={navClass('travel')} onClick={onNav}>
-          <Icon name="luggage" size={22} />
+          <Icon name="luggage" size={18} />
           <span>Travel</span>
         </Link>
         <Link to={ROUTES.momCare} className={navClass('momCare')} onClick={onNav}>
-          <Icon name="heart" size={22} />
+          <Icon name="heart" size={18} />
           <span>Mom Care</span>
         </Link>
         <Link to={ROUTES.communityTab('feed')} className={navClass('community')} onClick={onNav}>
-          <Icon name="speech-bubble" size={22} />
+          <Icon name="speech-bubble" size={18} />
           <span>Community</span>
         </Link>
         <Link to={ROUTES.progress} className={navClass('dashboard')} onClick={onNav}>
-          <Icon name="bar-chart" size={22} />
+          <Icon name="bar-chart" size={18} />
           <span>Progress</span>
         </Link>
         <Link to={ROUTES.sources} className={navClass('sources')} onClick={onNav}>
-          <Icon name="books" size={22} />
+          <Icon name="books" size={18} />
           <span>Sources</span>
         </Link>
         <button
@@ -86,7 +93,7 @@ function Header({ soundEnabled, onToggleSound }) {
           className="sound-toggle-mobile"
           onClick={(e) => { e.stopPropagation(); onToggleSound(); }}
         >
-          <Icon name={soundEnabled ? 'speaker-loud' : 'speaker-muted'} size={22} />
+          <Icon name={soundEnabled ? 'speaker-loud' : 'speaker-muted'} size={18} />
           <span>Sound</span>
         </button>
       </nav>
