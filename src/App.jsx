@@ -52,6 +52,10 @@ function App() {
     const saved = localStorage.getItem('babyMilestoneChecks');
     return saved ? JSON.parse(saved) : {};
   });
+  const [momMilestoneChecks, setMomMilestoneChecks] = useState(() => {
+    const saved = localStorage.getItem('momMilestoneChecks');
+    return saved ? JSON.parse(saved) : {};
+  });
   const [soundEnabled, setSoundEnabled] = useState(() => {
     const saved = localStorage.getItem('babySoundEnabled');
     return saved !== null ? JSON.parse(saved) : true;
@@ -73,6 +77,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem('babyMilestoneChecks', JSON.stringify(checkedItems));
   }, [checkedItems]);
+
+  useEffect(() => {
+    localStorage.setItem('momMilestoneChecks', JSON.stringify(momMilestoneChecks));
+  }, [momMilestoneChecks]);
 
   useEffect(() => {
     if (birthDate) {
@@ -124,6 +132,10 @@ function App() {
 
   const toggleCheck = useCallback((id) => {
     setCheckedItems((prev) => ({ ...prev, [id]: !prev[id] }));
+  }, []);
+
+  const toggleMomMilestone = useCallback((id) => {
+    setMomMilestoneChecks((prev) => ({ ...prev, [id]: !prev[id] }));
   }, []);
 
   const handleSelectMonth = useCallback((month) => {
@@ -203,7 +215,13 @@ function App() {
         />
         <Route
           path={ROUTES.momCare}
-          element={<MomCare />}
+          element={(
+            <MomCare
+              birthDate={birthDate}
+              momMilestoneChecks={momMilestoneChecks}
+              toggleMomMilestone={toggleMomMilestone}
+            />
+          )}
         />
         <Route path={ROUTES.community} element={<Navigate to={ROUTES.communityTab('feed')} replace />} />
         <Route

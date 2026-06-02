@@ -27,6 +27,7 @@ alwaysApply: true
 | `docs/shopping-ui-design.md` | Shopping checklist, cards, grid, images |
 | `docs/travel-ui-design.md` | Travel page, type tabs, tip cards |
 | `docs/mom-care-ui-design.md` | Mom Care page, self-care tabs, tip cards |
+| `docs/mom-milestones-ui-design.md` | Mom postpartum timeline (`/mom-care#timeline`), checkboxes |
 | `docs/month-detail-ui-design.md` | DIY & Care grids, detail modal on month page |
 | `docs/vaccination-ui-design.md` | Vaccination tracker: India/CDC/custom schedules, CRUD, reminders/export/print |
 | `docs/community-feature-plan.md` | **Community feature** — phased plan, memories, recipes, tips, social |

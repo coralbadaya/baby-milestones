@@ -4,7 +4,10 @@
 
 ## Route
 
-`/mom-care` — hash selects topic: `/mom-care#posture`, `/mom-care#nippleCare`, etc.
+`/mom-care` — hash selects section:
+
+- **`/mom-care#timeline`** — Mom's postpartum milestones (first tab, default landing). Spec: [mom-milestones-ui-design.md](mom-milestones-ui-design.md)
+- **Topic tabs:** `/mom-care#posture`, `/mom-care#nippleCare`, etc. (16 self-care topics)
 
 ## Navigation
 
@@ -23,7 +26,15 @@
 | `momCareTips` | `Record<id, { title, subtitle, sections[] }>` | Content per topic |
 | `MOM_CARE_DISCLAIMER` | `string` | Footer disclaimer text |
 
-### Categories (16)
+### Timeline tab
+
+| ID | Label | Icon | Color |
+|----|-------|------|-------|
+| `timeline` | Timeline | `calendar` | `#9B88C0` |
+
+Renders `MomMilestonesPanel` (checkable postpartum milestones). No entry in `momCareTips` — content lives in `src/data/momMilestones.js`.
+
+### Topic categories (16)
 
 | ID | Label | Icon | Color |
 |----|-------|------|-------|
@@ -49,7 +60,8 @@
 | Component | File | Purpose |
 |-----------|------|---------|
 | `MomCare` | `src/pages/MomCare.jsx` | Page wrapper |
-| `MomCareTips` | `src/components/MomCareTips.jsx` | Full page content: hero, tabs, tip card |
+| `MomCareTips` | `src/components/MomCareTips.jsx` | Full page content: hero, tabs, timeline or tip card |
+| `MomMilestonesPanel` | `src/components/MomMilestonesPanel.jsx` | Postpartum timeline when `#timeline` active |
 
 ## Layout
 

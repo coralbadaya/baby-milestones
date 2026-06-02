@@ -444,6 +444,17 @@ Persistent on every route in `App.jsx` (below `<main className="app-main">`).
 
 Mobile: footer `padding-bottom` clears fixed bottom nav. Print: hidden.
 
+#### Mom postpartum timeline (`MomMilestonesPanel`)
+
+Inside Mom Care (`/mom-care#timeline`):
+
+- Checkable rows reuse `.milestone-item` / `.milestone-check` (same as baby month detail)
+- Period sections: `.mom-milestones-period` with `.card-accent-top`, lavender accent
+- Hero shows postpartum week/month when `babyBirthDate` is set; banner if missing
+- **Watch for** blocks: short red-flag bullets; never diagnosis — urge provider contact
+- Disclaimer at panel footer; calm, exhaustion-aware copy (see Brand Voice)
+- Spec: `docs/mom-milestones-ui-design.md`
+
 #### Card Variants (other)
 
 | Variant | Usage | Special Properties |

@@ -16,6 +16,7 @@
 | `docs/shopping-ui-design.md` | Shopping page grid, cards, images, toolbar |
 | `docs/travel-ui-design.md` | Travel page, type tabs, age-aware tip cards |
 | `docs/mom-care-ui-design.md` | Mom Care page, self-care topic tabs, tip cards |
+| `docs/mom-milestones-ui-design.md` | Mom's postpartum timeline tab (`#timeline`), checkboxes, birth-date personalization |
 | `docs/month-detail-ui-design.md` | DIY & Care grids, detail modal |
 | `docs/vaccination-ui-design.md` | Vaccination tracker: chart-first timeline, India/CDC/custom, CRUD, reminders/export/print |
 

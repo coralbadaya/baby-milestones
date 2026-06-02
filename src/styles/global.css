@@ -3589,6 +3589,166 @@ a {
   }
 }
 
+/* Mom postpartum milestones (Mom Care #timeline) */
+.mom-milestones-panel {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.mom-milestones-panel.card-accent-top {
+  box-shadow:
+    inset 0 var(--card-accent-height) 0 0 var(--card-accent-color),
+    var(--shadow-card);
+}
+
+.mom-milestones-hero {
+  margin-bottom: var(--space-5);
+}
+
+.mom-milestones-age {
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-3);
+}
+
+.mom-milestones-birth-banner {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  background: var(--gold);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  margin: 0 0 var(--space-3);
+}
+
+.mom-milestones-birth-banner a {
+  color: var(--coral-primary-dark);
+  font-weight: 600;
+}
+
+.mom-milestones-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.mom-milestones-progress {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--cream-dark);
+  overflow: hidden;
+}
+
+.mom-milestones-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--lavender-dark);
+  transition: width var(--motion-normal) var(--ease-out);
+}
+
+.mom-milestones-period {
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--cream-dark);
+}
+
+.mom-milestones-period:last-of-type {
+  border-bottom: none;
+  margin-bottom: var(--space-4);
+}
+
+.mom-milestones-period.is-current {
+  background: var(--cream);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-left: calc(-1 * var(--space-4));
+  margin-right: calc(-1 * var(--space-4));
+  border-bottom: none;
+}
+
+.mom-milestones-period-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.mom-milestones-period-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lavender-dark);
+}
+
+.mom-milestones-current-badge {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--white);
+  background: var(--lavender-dark);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.mom-milestones-period-count {
+  margin-left: auto;
+  font-size: var(--text-sm);
+  color: var(--text-light);
+}
+
+.mom-milestones-period-header h2 {
+  font-size: var(--text-lg);
+  margin: 0 0 var(--space-2);
+}
+
+.mom-milestones-period-summary {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mom-milestones-items {
+  margin-bottom: var(--space-3);
+}
+
+.mom-milestones-watch {
+  background: var(--rose);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.mom-milestones-watch h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--rose-dark);
+  margin: 0 0 var(--space-2);
+}
+
+.mom-milestones-watch ul {
+  margin: 0;
+  padding-left: var(--space-4);
+}
+
+.mom-milestones-watch li {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.mom-milestones-learn {
+  width: 100%;
+  justify-content: center;
+}
+
 /* =====================
    Community
    ===================== */

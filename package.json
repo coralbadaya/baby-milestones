@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "verify:data": "node scripts/verify-milestones.mjs",
+    "verify:data": "node scripts/verify-milestones.mjs && node scripts/verify-mom-milestones.mjs",
     "scrape:recipes": "node scripts/scrape-instagram-recipes.mjs",
     "download:emojis": "node scripts/download-emoji-icons.mjs"
   },

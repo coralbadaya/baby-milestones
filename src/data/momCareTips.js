@@ -1,3 +1,5 @@
+export const MOM_CARE_TIMELINE_TAB = 'timeline';
+
 export const MOM_CARE_CATEGORIES = [
   'mentalHealth',
   'recovery',
@@ -17,7 +19,18 @@ export const MOM_CARE_CATEGORIES = [
   'stretchMarks',
 ];
 
+/** Tab order: timeline first, then topic categories */
+export const MOM_CARE_TAB_IDS = [MOM_CARE_TIMELINE_TAB, ...MOM_CARE_CATEGORIES];
+
 export const momCareCategoryConfig = {
+  [MOM_CARE_TIMELINE_TAB]: {
+    id: MOM_CARE_TIMELINE_TAB,
+    label: 'Timeline',
+    icon: 'calendar',
+    color: '#9B88C0',
+    bg: '#E8E0F0',
+    description: 'Your postpartum milestones week by week — what to expect and when to check in with your doctor.',
+  },
   mentalHealth: {
     id: 'mentalHealth',
     label: 'Mental Health',

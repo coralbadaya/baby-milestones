@@ -1,16 +1,33 @@
-# React + Vite
+# Coral
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Baby milestone tracker for Gen Z and millennial parents — React 19 + Vite.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Home** — Birth date, monthly timeline, parenting assistant
+- **Month detail** — Baby physical/emotional milestones, DIY, baby care
+- **Shopping** — Age-range checklist with product cards
+- **Vaccination** — India / CDC / custom schedules with timeline charts
+- **Travel** — Age-aware travel tips
+- **Mom Care** — Postpartum **Timeline** tab (mom milestones) + 16 self-care topic guides
+- **Community** — Memories, baby recipes, parenting tips
+- **Progress** — Milestone completion dashboard
+- **Sources** — Referenced guidelines (WHO, IAP, ICMR, etc.)
 
-## React Compiler
+## Commands
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm run dev          # local dev server
+npm test             # Vitest unit tests
+npm run verify:data  # milestone + mom-milestone data integrity
+npm run build        # production build
+```
 
-## Expanding the ESLint configuration
+## Design docs
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Before UI work, read `docs/design-system-2026.md`, `docs/ui-design.md`, and the feature-specific doc (e.g. `docs/mom-milestones-ui-design.md`). See `.cursor/rules/coral.mdc` for the full index.
+
+## Project guides
+
+- [CLAUDE.md](CLAUDE.md) — stack, conventions, assistant
+- [memory.md](memory.md) — parenting assistant knowledge base

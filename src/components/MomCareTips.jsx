@@ -1,30 +1,34 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
 import {
+  MOM_CARE_TAB_IDS,
+  MOM_CARE_TIMELINE_TAB,
   MOM_CARE_CATEGORIES,
   momCareCategoryConfig,
   momCareTips,
   MOM_CARE_DISCLAIMER,
 } from '../data/momCareTips';
+import MomMilestonesPanel from './MomMilestonesPanel';
 import { interact } from '../utils/haptics';
 import { ROUTES } from '../routes';
 import Icon from './Icon';
 
-const DEFAULT_CATEGORY = 'posture';
+const DEFAULT_CATEGORY = MOM_CARE_TIMELINE_TAB;
 
 function parseCareHash(hash) {
   const id = hash.replace(/^#/, '');
-  return MOM_CARE_CATEGORIES.includes(id) ? id : DEFAULT_CATEGORY;
+  return MOM_CARE_TAB_IDS.includes(id) ? id : DEFAULT_CATEGORY;
 }
 
-function MomCareTips() {
+function MomCareTips({ birthDate, momMilestoneChecks, toggleMomMilestone }) {
   const navigate = useNavigate();
   const location = useLocation();
   const activeCategory = parseCareHash(location.hash);
+  const isTimeline = activeCategory === MOM_CARE_TIMELINE_TAB;
 
   useEffect(() => {
     const fromHash = location.hash.replace(/^#/, '');
-    if (!fromHash || !MOM_CARE_CATEGORIES.includes(fromHash)) {
+    if (!fromHash || !MOM_CARE_TAB_IDS.includes(fromHash)) {
       navigate({ pathname: ROUTES.momCare, hash: DEFAULT_CATEGORY }, { replace: true });
     }
   }, [location.hash, navigate]);
@@ -34,22 +38,35 @@ function MomCareTips() {
     navigate({ pathname: ROUTES.momCare, hash: id });
   };
 
-  const activeIndex = MOM_CARE_CATEGORIES.indexOf(activeCategory);
+  const topicCategories = MOM_CARE_CATEGORIES;
+  const activeTopicIndex = topicCategories.indexOf(
+    isTimeline ? topicCategories[0] : activeCategory
+  );
 
   const { prevCat, nextCat } = useMemo(() => {
-    const prevIdx = activeIndex <= 0 ? MOM_CARE_CATEGORIES.length - 1 : activeIndex - 1;
-    const nextIdx = activeIndex >= MOM_CARE_CATEGORIES.length - 1 ? 0 : activeIndex + 1;
+    if (isTimeline) {
+      return {
+        prevCat: momCareCategoryConfig[topicCategories[topicCategories.length - 1]],
+        nextCat: momCareCategoryConfig[topicCategories[0]],
+      };
+    }
+    const prevIdx = activeTopicIndex <= 0 ? topicCategories.length - 1 : activeTopicIndex - 1;
+    const nextIdx = activeTopicIndex >= topicCategories.length - 1 ? 0 : activeTopicIndex + 1;
+    const prevId = activeTopicIndex <= 0 ? MOM_CARE_TIMELINE_TAB : topicCategories[prevIdx];
+    const nextId = activeTopicIndex >= topicCategories.length - 1
+      ? MOM_CARE_TIMELINE_TAB
+      : topicCategories[nextIdx];
     return {
-      prevCat: momCareCategoryConfig[MOM_CARE_CATEGORIES[prevIdx]],
-      nextCat: momCareCategoryConfig[MOM_CARE_CATEGORIES[nextIdx]],
+      prevCat: momCareCategoryConfig[prevId],
+      nextCat: momCareCategoryConfig[nextId],
     };
-  }, [activeIndex]);
+  }, [isTimeline, activeTopicIndex, topicCategories]);
 
   const goPrev = () => selectCategory(prevCat.id);
   const goNext = () => selectCategory(nextCat.id);
 
   const cat = momCareCategoryConfig[activeCategory];
-  const tips = momCareTips[activeCategory];
+  const tips = !isTimeline ? momCareTips[activeCategory] : null;
 
   return (
     <div className="mom-care-page-content fade-in">
@@ -61,8 +78,8 @@ function MomCareTips() {
       </div>
 
       <div className="mom-care-tabs-wrap">
-        <div className="diy-filter-tabs mom-care-tabs" role="tablist" aria-label="Mom care topic">
-          {MOM_CARE_CATEGORIES.map((id) => {
+        <div className="diy-filter-tabs mom-care-tabs" role="tablist" aria-label="Mom care sections">
+          {MOM_CARE_TAB_IDS.map((id) => {
             const cfg = momCareCategoryConfig[id];
             return (
               <button
@@ -91,7 +108,13 @@ function MomCareTips() {
         <p className="mom-care-category-desc">{cat.description}</p>
       )}
 
-      {tips && (
+      {isTimeline ? (
+        <MomMilestonesPanel
+          birthDate={birthDate}
+          checkedItems={momMilestoneChecks}
+          toggleCheck={toggleMomMilestone}
+        />
+      ) : tips && (
         <article
           id={`mom-care-panel-${activeCategory}`}
           role="tabpanel"
