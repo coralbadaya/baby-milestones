@@ -1,6 +1,6 @@
-# Coral
+# Nestmile
 
-Baby milestone tracker for Gen Z and millennial parents — React 19 + Vite.
+Baby milestone tracker and mom care app for Gen Z and millennial parents — React 19 + Vite.
 
 ## Features
 

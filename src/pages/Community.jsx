@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import Icon from '../components/Icon';
 import { useNavigate } from 'react-router-dom';
 import { interact } from '../utils/haptics';
+import { COMMUNITY_TAGLINE } from '../constants/brand';
 import { applyPageMeta, resetPageMeta } from '../utils/pageMeta';
 import { ROUTES } from '../routes';
 import { useMemories } from '../hooks/useMemories';
@@ -27,7 +28,7 @@ function formatBabyAge(currentMonth) {
 const TAB_META = {
   feed: {
     title: 'Mom Feed',
-    description: 'Share memories, tips, and milestones — from a mom to new age moms.',
+    description: 'Share memories, tips, and baby milestones with other parents.',
   },
   recipes: {
     title: 'Baby Recipes',
@@ -69,8 +70,8 @@ function Community({ currentMonth, tab }) {
   return (
     <div className="community-page">
       <header className="community-header">
-        <h1>Coral Community</h1>
-        <p className="community-tagline">from a mom to new age moms</p>
+        <h1>Nestmile Community</h1>
+        <p className="community-tagline">{COMMUNITY_TAGLINE}</p>
       </header>
 
       <nav className="community-tabs" role="tablist" aria-label="Community sections">

@@ -332,6 +332,62 @@ a {
   object-fit: contain;
 }
 
+/* Nestmile brand logo */
+.coral-logo--lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+.coral-logo-mark {
+  flex-shrink: 0;
+  display: block;
+}
+
+.coral-logo-stroke-parent {
+  stroke: var(--coral-primary);
+}
+
+.coral-logo-stroke-baby {
+  stroke: var(--lavender-dark);
+}
+
+.coral-logo-stroke-mile {
+  stroke: var(--coral-primary);
+  opacity: 0.55;
+}
+
+.coral-logo-fill-primary {
+  fill: var(--coral-primary);
+}
+
+.coral-logo-fill-accent {
+  fill: var(--lavender-dark);
+}
+
+.coral-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.15;
+  min-width: 0;
+}
+
+.coral-logo-wordmark {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.coral-logo-tagline {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-light);
+  letter-spacing: 0.01em;
+}
+
 .header-logo {
   display: flex;
   align-items: center;
@@ -414,17 +470,6 @@ a {
 
 .header-logo:hover {
   opacity: 0.85;
-}
-
-.header-logo span:first-child {
-  font-size: 28px;
-}
-
-.header-logo span:last-child {
-  font-size: var(--text-lg);
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
 }
 
 .header-nav {

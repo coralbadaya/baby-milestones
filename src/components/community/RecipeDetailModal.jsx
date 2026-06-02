@@ -40,7 +40,7 @@ function RecipeDetailBody({ recipe }) {
       <div className="recipe-detail-actions">
         <ShareButton
           title={recipe.title}
-          text={`${recipe.title} — ${recipe.description || ''} from a mom to new age moms`}
+          text={`${recipe.title} — ${recipe.description || ''}`.trim()}
         />
       </div>
     </>

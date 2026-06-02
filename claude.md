@@ -1,6 +1,6 @@
-# Coral — Claude / Cursor project guide
+# Nestmile — Claude / Cursor project guide
 
-Baby Milestone Tracker (React + Vite). See [memory.md](memory.md) for parenting-assistant knowledge base.
+Baby milestone tracker and mom care (React + Vite). See [memory.md](memory.md) for parenting-assistant knowledge base.
 
 ## Stack
 
@@ -18,6 +18,8 @@ Baby Milestone Tracker (React + Vite). See [memory.md](memory.md) for parenting-
 | `src/data/travelTips.js` | Age-aware travel tips by type |
 | `src/pages/Travel.jsx` | Travel nav page |
 | `src/components/AssistantPanel.jsx` | UI on Home + Month Detail |
+| `src/components/CoralLogo.jsx` | Nestmile brand mark + lockup (header/footer) |
+| `src/constants/brand.js` | Brand name, SEO defaults, share copy |
 
 ## Mom Care
 

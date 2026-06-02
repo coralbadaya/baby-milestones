@@ -1,6 +1,8 @@
+import { SHARE_SUFFIX } from '../constants/brand';
+
 export function buildSharePayload({ title, text, url }) {
   const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
-  const shareText = text || `${title} — from a mom to new age moms`;
+  const shareText = text || `${title} ${SHARE_SUFFIX}`;
   const full = `${shareText} ${shareUrl}`.trim();
 
   return {

@@ -1,4 +1,4 @@
-# Coral Design System 2026
+# Nestmile Design System 2026
 
 > A comprehensive design system for Gen Z and late millennial parents.  
 > **Target:** Parents aged 22–38 with babies 0–36 months.  
@@ -212,6 +212,46 @@ Based on a 1.25 ratio with 16px base.
 3. **Left-align** body text (no justify, no center for paragraphs)
 4. **Line length** max 65–75 characters for readability
 5. **No all-caps** for more than 2 words (accessibility + readability)
+
+---
+
+## Brand / Logo
+
+**Product name:** Nestmile. **Header tagline:** `for parents`. SEO title/description live in `src/constants/brand.js`.
+
+### Mark
+
+**Nest + milestone path** (not emoji): shelter arc and nest bowl in `--coral-primary`; baby circle in nest (`--lavender-dark` stroke); ascending milestone dots (primary + accent fills) with a light connector path. Readable at 24–32px.
+
+| Asset | Path |
+|-------|------|
+| Mark only | `public/brand/coral-mark.svg` |
+| Lockup export | `public/brand/coral-logo.svg` |
+| React | `src/components/CoralLogo.jsx` |
+
+### Usage
+
+```jsx
+import CoralLogo from './CoralLogo';
+
+<CoralLogo variant="lockup" size={32} tagline="for parents" />
+<CoralLogo variant="lockup" size={28} tagline={null} />
+<CoralLogo variant="mark" size={24} />
+```
+
+| Placement | Spec |
+|-----------|------|
+| Header | Lockup: **Nestmile** + tagline `for parents` |
+| Footer | Lockup: **Nestmile** only (long tagline in footer copy below) |
+| Favicon | `/brand/coral-mark.svg` |
+
+### Rules
+
+| Do | Don't |
+|----|-------|
+| Use `CoralLogo` for brand | Use `Icon name="baby"` as logo |
+| Min size 24px for mark | Heavy gradients or 3D effects |
+| Keep clear space ~8px around mark | Storks, pacifiers, stock baby clipart |
 
 ---
 
@@ -432,7 +472,7 @@ Persistent on every route in `App.jsx` (below `<main className="app-main">`).
 
 | Region | Content |
 |--------|---------|
-| Brand | Coral logo + tagline |
+| Brand | Nestmile logo + tagline |
 | Nav | Home, Shopping, Travel, Mom Care, Community, Progress, Sources |
 | Meta | Disclaimer + copyright |
 
@@ -850,6 +890,7 @@ Before shipping any UI change:
 |------|--------|
 | Light warm palette | Shipped — `global.css` |
 | Switzer typography | Shipped |
+| Nestmile SVG logo (`CoralLogo`) | Shipped |
 | Minimal card border (`.card-accent-top`) | Shipped |
 | Full 1px border, no top accent bar | Shipped |
 | Detail modal (scroll, safe area) | Shipped |

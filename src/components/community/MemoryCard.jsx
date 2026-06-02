@@ -72,7 +72,7 @@ function MemoryCard({ memory, onReact, onAddComment }) {
       <div className="memory-share-row">
         <ShareButton
           title={memory.title}
-          text={`${memory.content.slice(0, 120)}… — from a mom to new age moms`}
+          text={`${memory.content.slice(0, 120)}…`}
         />
       </div>
 

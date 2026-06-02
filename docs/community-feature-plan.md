@@ -1,6 +1,6 @@
-# Coral Community Feature — Phased Implementation Plan
+# Nestmile Community Feature — Phased Implementation Plan
 
-> **Tagline:** "from a mom to new age moms"  
+> **Tagline:** Milestones, recipes, and tips shared by parents  
 > **Target:** Gen Z & late Millennial parents, especially new moms  
 > **Source inspiration:** @avira.ig (Instagram recipes)
 
@@ -45,8 +45,8 @@
 - [x] Apply design system styling (warm colors, General Sans font)
 
 ### 2.2 Page Header
-- [x] Add "Coral Community" title
-- [x] Display tagline "from a mom to new age moms"
+- [x] Add "Nestmile Community" title
+- [x] Display community tagline (see `COMMUNITY_TAGLINE` in `src/constants/brand.js`)
 - [x] Style header per design-system-2026.md
 
 ### 2.3 Empty States

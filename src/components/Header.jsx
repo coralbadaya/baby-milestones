@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { interact } from '../utils/haptics';
 import { ROUTES, navSectionFromPath } from '../routes';
 import Icon from './Icon';
+import CoralLogo from './CoralLogo';
 
 function Header({ soundEnabled, onToggleSound }) {
   const { pathname } = useLocation();
@@ -16,8 +17,7 @@ function Header({ soundEnabled, onToggleSound }) {
       <header className="header">
         <div className="header-inner">
           <Link to={ROUTES.home} className="header-logo" onClick={onNav}>
-            <Icon name="baby" size={28} className="header-logo-icon" label="Baby Milestones" />
-            <span>Baby Milestones</span>
+            <CoralLogo variant="lockup" size={32} tagline="for parents" />
           </Link>
           <nav className="header-nav">
             <Link to={ROUTES.home} className={navClass('home')} onClick={onNav}>

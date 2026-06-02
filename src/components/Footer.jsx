@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Icon from './Icon';
+import CoralLogo from './CoralLogo';
 import { interact } from '../utils/haptics';
 import { ROUTES } from '../routes';
 
@@ -22,8 +23,7 @@ function Footer() {
       <div className="site-footer-inner">
         <div className="site-footer-brand">
           <Link to={ROUTES.home} className="site-footer-logo" onClick={() => interact('tap', 'light')}>
-            <Icon name="baby" size={28} className="site-footer-logo-icon" label="Coral home" />
-            <span>Coral</span>
+            <CoralLogo variant="lockup" size={28} tagline={null} />
           </Link>
           <p className="site-footer-tagline">
             Milestones, care tips, and shopping from our journey — not medical advice.
@@ -48,7 +48,7 @@ function Footer() {
           <p className="site-footer-disclaimer">
             Personal recommendations only. Always check with your pediatrician for health decisions.
           </p>
-          <p className="site-footer-copy">&copy; {year} Coral</p>
+          <p className="site-footer-copy">&copy; {year} Nestmile</p>
         </div>
       </div>
     </footer>

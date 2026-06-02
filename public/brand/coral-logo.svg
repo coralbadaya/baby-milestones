@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 40" fill="none" role="img" aria-label="Nestmile for parents">
+  <title>Nestmile for parents</title>
+  <g transform="translate(0 4)">
+    <path
+      d="M8 12.25Q16 5.75 24 12.25"
+      stroke="#E89060"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+    <path
+      d="M10.5 16.75L14 13.25L17.25 10.25L21 8.25"
+      stroke="#E89060"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      opacity="0.55"
+    />
+    <circle cx="10.5" cy="16.75" r="1.35" fill="#E89060" />
+    <circle cx="14" cy="13.25" r="1.35" fill="#E89060" />
+    <circle cx="17.25" cy="10.25" r="1.35" fill="#9B88C0" />
+    <circle cx="21" cy="8.25" r="1.35" fill="#9B88C0" />
+    <path
+      d="M7 20.25Q16 27.25 25 20.25"
+      stroke="#E89060"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+    <circle cx="16" cy="21.25" r="2.35" stroke="#9B88C0" stroke-width="1.75" />
+  </g>
+  <text
+    x="40"
+    y="21"
+    font-family="Switzer, system-ui, sans-serif"
+    font-size="17"
+    font-weight="700"
+    fill="#2D2A2A"
+    letter-spacing="-0.02em"
+  >
+    Nestmile
+  </text>
+  <text
+    x="40"
+    y="34"
+    font-family="Switzer, system-ui, sans-serif"
+    font-size="11"
+    font-weight="500"
+    fill="#8A8585"
+  >
+    for parents
+  </text>
+</svg>

@@ -1,6 +1,6 @@
 # Emoji inventory & image alternates
 
-All emoticons used in Coral, with downloaded **Twemoji** PNG alternates in [`public/images/emojis/`](../public/images/emojis/).
+All emoticons used in Nestmile, with downloaded **Twemoji** PNG alternates in [`public/images/emojis/`](../public/images/emojis/).
 
 Regenerate: `npm run download:emojis`
 

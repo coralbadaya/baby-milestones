@@ -1,8 +1,16 @@
+import {
+  BRAND_NAME,
+  OG_IMAGE,
+  SEO_DEFAULT_DESCRIPTION,
+  SEO_DEFAULT_TITLE,
+  SITE_URL,
+} from '../constants/brand';
+
 const DEFAULT = {
-  title: 'Coral — Baby Milestones & Mom Community',
-  description: 'from a mom to new age moms — milestones, recipes, tips, and memories for parents.',
-  image: 'https://coral.app/og-default.png',
-  url: typeof window !== 'undefined' ? window.location.href : '',
+  title: SEO_DEFAULT_TITLE,
+  description: SEO_DEFAULT_DESCRIPTION,
+  image: OG_IMAGE,
+  url: typeof window !== 'undefined' ? window.location.href : SITE_URL,
 };
 
 function setMeta(attr, key, value) {
@@ -16,20 +24,21 @@ function setMeta(attr, key, value) {
 }
 
 export function applyPageMeta(meta = {}) {
-  const title = meta.title ? `${meta.title} | Coral` : DEFAULT.title;
+  const title = meta.title ? `${meta.title} | ${BRAND_NAME}` : DEFAULT.title;
+  const ogTitle = meta.title ? `${meta.title} | ${BRAND_NAME}` : DEFAULT.title;
   const description = meta.description || DEFAULT.description;
   const image = meta.image || DEFAULT.image;
   const url = meta.url || DEFAULT.url;
 
   document.title = title;
   setMeta('name', 'description', description);
-  setMeta('property', 'og:title', meta.title || 'Coral Community');
+  setMeta('property', 'og:title', ogTitle);
   setMeta('property', 'og:description', description);
   setMeta('property', 'og:image', image);
   setMeta('property', 'og:url', url);
   setMeta('property', 'og:type', meta.type || 'website');
   setMeta('name', 'twitter:card', 'summary_large_image');
-  setMeta('name', 'twitter:title', meta.title || 'Coral Community');
+  setMeta('name', 'twitter:title', ogTitle);
   setMeta('name', 'twitter:description', description);
   setMeta('name', 'twitter:image', image);
 }

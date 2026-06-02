@@ -1,4 +1,4 @@
-# Coral UI Design System
+# Nestmile UI Design System
 
 > **Before any UI work:** read this file, `docs/design-system-2026.md`, and the feature-specific design doc.  
 > **After UI changes:** update this file and the feature doc in the same session.
@@ -43,13 +43,29 @@ Rendered once in `App.jsx` on every route:
 
 | Piece | Component | Notes |
 |-------|-----------|-------|
-| Header | `Header.jsx` | Sticky top; desktop nav + mobile bottom nav |
+| Header | `Header.jsx` | Sticky top; `CoralLogo` lockup + desktop nav + mobile bottom nav |
 | Main | `<main className="app-main">` | Route content; `flex: 1` |
-| Footer | `Footer.jsx` | Brand, nav links, disclaimer, copyright |
+| Footer | `Footer.jsx` | `CoralLogo`, nav links, disclaimer, copyright |
 
 Do not add page-specific footers — extend `Footer.jsx` or footer styles in `global.css`.
 
 Spec: [`docs/design-system-2026.md`](design-system-2026.md) — Site footer section.
+
+---
+
+## Brand logo (`CoralLogo.jsx`)
+
+Use for header/footer brand only — not for in-app emoji icons (`Icon.jsx`).
+
+```jsx
+import CoralLogo from './CoralLogo';
+
+<CoralLogo variant="lockup" size={32} tagline="for parents" />
+<CoralLogo variant="mark" size={24} />
+```
+
+Styles: `.coral-logo--lockup`, `.coral-logo-wordmark`, `.coral-logo-tagline` in `global.css`.  
+Spec: [`docs/design-system-2026.md`](design-system-2026.md) — Brand / Logo.
 
 ---
 

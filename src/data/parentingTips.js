@@ -3,7 +3,7 @@ export const parentingTips = [
   {
     id: 'baby-teething',
     title: 'Baby Teething Guide',
-    tagline: 'from a mom to new age moms',
+    tagline: 'Practical tips for new parents',
     preview: 'Signs, gentle remedies, and what to expect when those first teeth arrive.',
     content: `**When it usually starts:** 4–7 months, though every baby is different.
 
@@ -34,7 +34,7 @@ You're not doing anything wrong — teething is hard on everyone. This phase pas
   {
     id: 'diaper-rash',
     title: 'Diaper Rash Remedies',
-    tagline: 'from a mom to new age moms',
+    tagline: 'Practical tips for new parents',
     preview: 'Quick relief when bum rash shows up — and how to prevent the next one.',
     content: `**Common causes:** Wet diapers left too long, teething, new foods, sensitive skin, or yeast.
 
@@ -60,7 +60,7 @@ You're not doing anything wrong — teething is hard on everyone. This phase pas
   {
     id: 'sleep-regression-4m',
     title: '4-Month Sleep Regression',
-    tagline: 'from a mom to new age moms',
+    tagline: 'Practical tips for new parents',
     preview: 'Why sleep suddenly falls apart — and how to ride it out.',
     content: `Around 4 months, baby sleep cycles mature. That "sleeping through the night" streak may vanish overnight.
 
@@ -81,7 +81,7 @@ This usually lasts 2–6 weeks. You're exhausted — that's valid.`,
   {
     id: 'starting-solids',
     title: 'Starting Solids at 6 Months',
-    tagline: 'from a mom to new age moms',
+    tagline: 'Practical tips for new parents',
     preview: 'A gentle guide to first foods — puree, mash, or baby-led weaning.',
     content: `**Readiness signs:** Sits with support, shows interest in food, lost tongue-thrust reflex.
 
@@ -99,7 +99,7 @@ This usually lasts 2–6 weeks. You're exhausted — that's valid.`,
   {
     id: 'tummy-time-tips',
     title: 'Tummy Time That Actually Works',
-    tagline: 'from a mom to new age moms',
+    tagline: 'Practical tips for new parents',
     preview: 'Short, fun sessions beat long crying spells every time.',
     content: `**Start early:** Even 1–2 minutes after a diaper change counts.
 

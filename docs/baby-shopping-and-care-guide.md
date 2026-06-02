@@ -19,7 +19,7 @@
 8. [Holding Games by Month](#holding-games-by-month)
 9. [Items for Parents](#items-for-parents)
 10. [Approximate Prices (India)](#approximate-prices-india)
-11. [Data Schema for Coral App](#data-schema-for-coral-app)
+11. [Data Schema for Nestmile App](#data-schema-for-nestmile-app)
 12. [References](#references)
 
 ---
@@ -290,7 +290,7 @@ Prices change frequently — verify on retailer sites.
 
 ---
 
-## Data Schema for Coral App
+## Data Schema for Nestmile App
 
 See `src/data/shoppingAndCare.js`:
 
