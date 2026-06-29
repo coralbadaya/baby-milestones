@@ -1,0 +1,73 @@
+# Monetization Strategy
+
+> Revenue model for affluent tier-1 new mothers. **Scaffold shipped**; Stripe integration planned.
+
+---
+
+## Positioning
+
+Nestmile Premium is **curation and concierge**, not more checkboxes. Free tier = tracking; paid = editorial guides, expert framing, commerce edits, and AI depth.
+
+---
+
+## Tiers
+
+| Tier | Price (indicative) | Includes |
+|------|-------------------|----------|
+| **Free** | £0 | Milestone tracking, mom care tips, vaccination tracker, community browse |
+| **Premium** | £14.99/mo or £119/yr | Weekly editorial digest, premium travel/shopping edits, concierge assistant depth, export/print bundles |
+| **Premium+** (future) | £29.99/mo | Expert Q&A slots, nanny directory (Phase 8), city-specific guides |
+
+Gulf markets: price in AED/USD; annual preferred.
+
+---
+
+## Gating rules (scaffold)
+
+| Feature | Free | Premium |
+|---------|------|---------|
+| Today focus — editorial card | Teaser | Full |
+| Travel — long-haul guides | Teaser | Full |
+| Shopping — premium brand edit | Teaser | Full |
+| Vaccination export PDF | — | Full |
+| Assistant — advanced topics | Limited | Full |
+
+Implementation: `src/components/PremiumGate.jsx` + `usePremium()` hook (localStorage until auth).
+
+---
+
+## Revenue streams
+
+1. **Subscriptions** — Primary (Premium / Premium+)
+2. **Affiliate commerce** — Essentials shopping edits (high AOV brands)
+3. **Partnerships** — Pediatric wellness, postpartum care, luxury travel (future)
+4. **Nanny concierge** — Referral / listing fees (Phase 8)
+
+---
+
+## Paywall UX
+
+- Never block core health tracking or emergency guidance
+- Teaser + blur on premium editorial; CTA → `/premium`
+- Tone: invitation, not punishment — *"Unlock the full guide"*
+
+---
+
+## Code
+
+| File | Role |
+|------|------|
+| `src/constants/premium.js` | Plans, feature flags, copy |
+| `src/hooks/usePremium.js` | `isPremium`, `startTrial`, `setPremium` (local) |
+| `src/components/PremiumGate.jsx` | Wrapper with teaser overlay |
+| `src/pages/Premium.jsx` | Pricing / upgrade page |
+
+### Future: Stripe
+
+- `POST /api/checkout` → Stripe Checkout Session
+- Webhook → Supabase `subscriptions` table
+- Replace localStorage with session claim
+
+---
+
+*Last updated: June 2026*

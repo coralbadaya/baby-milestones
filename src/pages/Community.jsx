@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from 'react';
+import PageHero from '../components/PageHero';
 import Icon from '../components/Icon';
 import { useNavigate } from 'react-router-dom';
 import { interact } from '../utils/haptics';
@@ -68,46 +69,51 @@ function Community({ currentMonth, tab }) {
   }, [addMemory, navigate]);
 
   return (
-    <div className="community-page">
-      <header className="community-header">
-        <h1>Nestmile Community</h1>
-        <p className="community-tagline">{COMMUNITY_TAGLINE}</p>
-      </header>
+    <>
+      <PageHero
+        imageKey="community"
+        eyebrow="Connection"
+        title="Community"
+        subtitle={COMMUNITY_TAGLINE}
+        size="md"
+      />
 
-      <nav className="community-tabs" role="tablist" aria-label="Community sections">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            role="tab"
-            aria-selected={tab === t.id}
-            className={`community-tab${tab === t.id ? ' active' : ''}`}
-            onClick={() => handleTab(t.id)}
-          >
-            <Icon name={t.icon} size={18} className="community-tab-icon" />
-            <span>{t.label}</span>
-          </button>
-        ))}
-      </nav>
+      <div className="community-page page-body page-body--narrow page-body--with-mobile-nav">
+        <nav className="community-tabs" role="tablist" aria-label="Community sections">
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              role="tab"
+              aria-selected={tab === t.id}
+              className={`community-tab${tab === t.id ? ' active' : ''}`}
+              onClick={() => handleTab(t.id)}
+            >
+              <Icon name={t.icon} size={18} className="community-tab-icon" />
+              <span>{t.label}</span>
+            </button>
+          ))}
+        </nav>
 
-      <div className="community-panel" role="tabpanel">
-        {tab === 'feed' && (
-          <MemoryFeed
-            memories={memories}
-            onReact={reactToMemory}
-            onAddComment={addComment}
-          />
-        )}
-        {tab === 'recipes' && <RecipeFeed recipes={recipes} />}
-        {tab === 'tips' && <TipsFeed tips={parentingTips} />}
-        {tab === 'create' && (
-          <CreateMemory
-            onSubmit={handleCreate}
-            defaultBabyAge={formatBabyAge(currentMonth)}
-          />
-        )}
+        <div className="community-panel" role="tabpanel">
+          {tab === 'feed' && (
+            <MemoryFeed
+              memories={memories}
+              onReact={reactToMemory}
+              onAddComment={addComment}
+            />
+          )}
+          {tab === 'recipes' && <RecipeFeed recipes={recipes} />}
+          {tab === 'tips' && <TipsFeed tips={parentingTips} />}
+          {tab === 'create' && (
+            <CreateMemory
+              onSubmit={handleCreate}
+              defaultBabyAge={formatBabyAge(currentMonth)}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

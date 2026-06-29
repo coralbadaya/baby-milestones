@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   BRAND_NAME,
   OG_IMAGE,
@@ -23,6 +24,16 @@ function setMeta(attr, key, value) {
   el.setAttribute('content', value);
 }
 
+function setCanonical(url) {
+  let el = document.querySelector('link[rel="canonical"]');
+  if (!el) {
+    el = document.createElement('link');
+    el.setAttribute('rel', 'canonical');
+    document.head.appendChild(el);
+  }
+  el.setAttribute('href', url);
+}
+
 export function applyPageMeta(meta = {}) {
   const title = meta.title ? `${meta.title} | ${BRAND_NAME}` : DEFAULT.title;
   const ogTitle = meta.title ? `${meta.title} | ${BRAND_NAME}` : DEFAULT.title;
@@ -41,8 +52,20 @@ export function applyPageMeta(meta = {}) {
   setMeta('name', 'twitter:title', ogTitle);
   setMeta('name', 'twitter:description', description);
   setMeta('name', 'twitter:image', image);
+  setCanonical(meta.canonical || url);
 }
 
 export function resetPageMeta() {
   applyPageMeta({});
+}
+
+/**
+ * React hook: apply per-page SEO meta on mount / when inputs change.
+ * @param {{ title?: string, description?: string, image?: string, url?: string, canonical?: string, type?: string }} meta
+ */
+export function usePageMeta(meta = {}) {
+  const { title, description, image, url, canonical, type } = meta;
+  useEffect(() => {
+    applyPageMeta({ title, description, image, url, canonical, type });
+  }, [title, description, image, url, canonical, type]);
 }

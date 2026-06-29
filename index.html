@@ -2,21 +2,77 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/brand/coral-mark.svg" type="image/svg+xml" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#FFFBF7">
-    <meta name="description" content="Month-by-month baby milestones, postpartum mom care, vaccination schedules, and practical guides for Gen Z and millennial parents." />
-    <meta property="og:title" content="Nestmile — Baby Milestone Tracker &amp; Mom Care" />
-    <meta property="og:description" content="Month-by-month baby milestones, postpartum mom care, vaccination schedules, and practical guides for Gen Z and millennial parents." />
+    <meta name="theme-color" content="#C2603E" />
+
+    <title>Nestbean — The Art of Early Motherhood</title>
+    <meta name="description" content="Curated baby milestones, postpartum care, vaccination tracking, and evidence-informed guides for the modern mother. Considered care for your first years." />
+    <link rel="canonical" href="https://nestbean.app/" />
+
+    <!-- Favicons & app icons -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="Nestbean" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Nestbean" />
+    <meta property="og:title" content="Nestbean — The Art of Early Motherhood" />
+    <meta property="og:description" content="Curated baby milestones, postpartum care, and evidence-informed guides for the modern mother." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://nestmile.app/" />
-    <meta property="og:image" content="https://nestmile.app/og-default.png" />
+    <meta property="og:url" content="https://nestbean.app/" />
+    <meta property="og:image" content="https://nestbean.app/og-default.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Nestmile — Baby Milestone Tracker &amp; Mom Care" />
-    <meta name="twitter:description" content="Month-by-month baby milestones, postpartum mom care, vaccination schedules, and practical guides for parents." />
-    <meta name="twitter:image" content="https://nestmile.app/og-default.png" />
+    <meta name="twitter:title" content="Nestbean — The Art of Early Motherhood" />
+    <meta name="twitter:description" content="Curated baby milestones, postpartum care, and evidence-informed guides for the modern mother." />
+    <meta name="twitter:image" content="https://nestbean.app/og-default.png" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <title>Nestmile — Baby Milestone Tracker &amp; Mom Care</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://nestbean.app/#organization",
+            "name": "Nestbean",
+            "url": "https://nestbean.app/",
+            "logo": "https://nestbean.app/icon-512.png",
+            "slogan": "The art of early motherhood"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://nestbean.app/#website",
+            "url": "https://nestbean.app/",
+            "name": "Nestbean",
+            "description": "Curated baby milestones, postpartum care, and evidence-informed guides for the modern mother.",
+            "publisher": { "@id": "https://nestbean.app/#organization" }
+          },
+          {
+            "@type": "WebApplication",
+            "name": "Nestbean",
+            "url": "https://nestbean.app/",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "Web, iOS, Android",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

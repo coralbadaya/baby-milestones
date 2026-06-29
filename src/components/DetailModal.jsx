@@ -2,7 +2,17 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { interact } from '../utils/haptics';
 
-function DetailModal({ title, subtitle, onClose, children }) {
+function DetailModal({
+  title,
+  subtitle,
+  meta,
+  lead,
+  displayTitle = false,
+  onClose,
+  children,
+}) {
+  const isEditorial = Boolean(meta || lead);
+
   useEffect(() => {
     const scrollY = window.scrollY;
 
@@ -48,10 +58,25 @@ function DetailModal({ title, subtitle, onClose, children }) {
         aria-labelledby="detail-modal-title"
         onClick={(e) => e.stopPropagation()}
       >
-        <header className="detail-modal-header">
+        <header
+          className={`detail-modal-header${isEditorial ? ' detail-modal-header--editorial' : ''}`}
+        >
           <div className="detail-modal-heading">
-            <h2 id="detail-modal-title">{title}</h2>
-            {subtitle ? <p className="detail-modal-sub">{subtitle}</p> : null}
+            <h2
+              id="detail-modal-title"
+              className={displayTitle ? 'detail-modal-title--display font-display' : undefined}
+            >
+              {title}
+            </h2>
+            {meta}
+            {subtitle && !meta ? <p className="detail-modal-sub">{subtitle}</p> : null}
+            {lead ? (
+              typeof lead === 'string' ? (
+                <p className="detail-modal-lead">{lead}</p>
+              ) : (
+                lead
+              )
+            ) : null}
           </div>
           <button
             type="button"

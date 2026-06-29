@@ -1,18 +1,38 @@
 /** Public brand name and SEO defaults (user-facing). */
-export const BRAND_NAME = 'Nestmile';
+export const BRAND_NAME = 'Nestbean';
 
-export const BRAND_TAGLINE = 'for parents';
+export const BRAND_TAGLINE = 'The art of early motherhood';
 
-export const SEO_DEFAULT_TITLE = `${BRAND_NAME} — Baby Milestone Tracker & Mom Care`;
+/** Short tagline for compact placements (e.g. header lockup). */
+export const BRAND_TAGLINE_SHORT = 'early motherhood';
+
+export const SEO_DEFAULT_TITLE = `${BRAND_NAME} — The Art of Early Motherhood`;
 
 export const SEO_DEFAULT_DESCRIPTION =
-  'Month-by-month baby milestones, postpartum mom care, vaccination schedules, and practical guides for Gen Z and millennial parents.';
+  'Curated baby milestones, postpartum care, and concierge guides for the modern mother. Considered care for your first years.';
 
 /** Canonical site URL for OG tags (update when production domain is live). */
-export const SITE_URL = 'https://nestmile.app';
+export const SITE_URL = 'https://nestbean.app';
 
 export const OG_IMAGE = `${SITE_URL}/og-default.png`;
 
-export const COMMUNITY_TAGLINE = 'Milestones, recipes, and tips shared by parents';
+export const COMMUNITY_TAGLINE = 'Milestones, recipes, and tips shared by mothers';
 
 export const SHARE_SUFFIX = `— ${BRAND_NAME}`;
+
+/** Contact email (update to the production inbox before launch). */
+export const CONTACT_EMAIL = 'hello@nestbean.app';
+
+/**
+ * Social profile URLs. Placeholders — replace with live handles once secured.
+ * @type {{ key: string, label: string, icon: string, url: string }[]}
+ */
+export const SOCIAL_LINKS = [
+  { key: 'instagram', label: 'Instagram', icon: 'instagram', url: 'https://instagram.com/nestbean' },
+  { key: 'tiktok', label: 'TikTok', icon: 'tiktok', url: 'https://tiktok.com/@nestbean' },
+  { key: 'pinterest', label: 'Pinterest', icon: 'pinterest', url: 'https://pinterest.com/nestbean' },
+  { key: 'youtube', label: 'YouTube', icon: 'youtube', url: 'https://youtube.com/@nestbean' },
+];
+
+/** Legal entity name for structured data / copyright. */
+export const LEGAL_ENTITY = BRAND_NAME;

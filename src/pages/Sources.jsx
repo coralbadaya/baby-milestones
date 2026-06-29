@@ -2,6 +2,7 @@ import { useState } from 'react';
 import sources from '../data/sources';
 import { interact } from '../utils/haptics';
 import Icon from '../components/Icon';
+import { usePageMeta } from '../utils/pageMeta';
 
 function TabButton({ active, onClick, icon, children }) {
   return (
@@ -12,6 +13,10 @@ function TabButton({ active, onClick, icon, children }) {
 }
 
 function Sources() {
+  usePageMeta({
+    title: 'Medical Sources & Citations',
+    description: 'The recognized medical authorities and citations behind Nestbean\u2019s milestones and guidance.',
+  });
   const [activeTab, setActiveTab] = useState('global');
   const [expandedSource, setExpandedSource] = useState(null);
   const [expandedCitation, setExpandedCitation] = useState(null);

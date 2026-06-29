@@ -1,7 +1,12 @@
 import milestones from '../data/milestones';
 import ProgressRing from '../components/ProgressRing';
+import { usePageMeta } from '../utils/pageMeta';
 
 function Dashboard({ checkedItems, onSelectMonth }) {
+  usePageMeta({
+    title: 'Progress',
+    description: 'Track your baby\u2019s milestone progress across physical and emotional development.',
+  });
   const getStats = () => {
     let totalPhysical = 0, checkedPhysical = 0;
     let totalEmotional = 0, checkedEmotional = 0;

@@ -14,10 +14,14 @@
 
 ## Page shell
 
-| Viewport | `.travel-page` |
-|----------|----------------|
-| Mobile (&lt; 768px) | `width: 100%`, padding `16px 12px`, bottom `100px` (mobile nav) |
-| Desktop (≥ 768px) | `max-width: 1100px`, centered, padding `24px 20px` |
+Uses shared [`.page-body`](page-layout-standardization.md) utilities on `.travel-page`:
+
+| Viewport | Layout |
+|----------|--------|
+| Mobile (≤768px) | `.page-body--wide` + `.page-body--with-mobile-nav` |
+| Desktop (≥769px) | `max-width: 1100px`, centered |
+
+`<PageHero>` is full-bleed outside `.travel-page`.
 
 ---
 

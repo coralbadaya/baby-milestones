@@ -1,24 +1,21 @@
-import { resolveIconSrc } from '../utils/iconRegistry';
+import { resolvePhosphorIcon } from '../utils/phosphorIconMap';
 
 /**
- * Renders a PNG icon from /public/images/emojis/ (no native emoji).
- * @param {{ name: string, size?: number, className?: string, label?: string }} props
+ * Premium monoline icons (Phosphor Light) — replaces Twemoji PNGs in UI chrome.
+ * @param {{ name: string, size?: number, className?: string, label?: string, weight?: 'thin'|'light'|'regular'|'bold'|'fill'|'duotone' }} props
  */
-function Icon({ name, size = 20, className = '', label }) {
-  const src = resolveIconSrc(name);
-  if (!src) return null;
+function Icon({ name, size = 20, className = '', label, weight = 'light' }) {
+  const PhosphorIcon = resolvePhosphorIcon(name);
+  if (!PhosphorIcon) return null;
 
   return (
-    <img
-      src={src}
-      alt={label ?? ''}
-      aria-hidden={label ? undefined : true}
+    <PhosphorIcon
+      size={size}
+      weight={weight}
       className={`app-icon${className ? ` ${className}` : ''}`}
-      width={size}
-      height={size}
-      loading="lazy"
-      decoding="async"
-      draggable={false}
+      aria-hidden={label ? undefined : true}
+      aria-label={label}
+      color="currentColor"
     />
   );
 }

@@ -163,6 +163,13 @@
 - [x] Fallback: copy link to clipboard
 - [x] Share text includes tagline + memory preview
 - [x] Share options: WhatsApp, Twitter/X, Facebook, Copy Link
+- [x] **Icon-first row** (Phosphor brand logos + Link/Check); 44px circular buttons; optional section label
+- [x] Used on recipe modal, memory cards, and expanded tip cards
+
+### 5.2b Recipe modal header (editorial)
+- [x] `RecipeMetaChips` — prep time + age shown **once** in modal header (not duplicated in body)
+- [x] `DetailModal` supports `meta`, `lead`, `displayTitle` for Fraunces title + lead description
+- [x] Share section label: "Share this recipe"
 
 ### 5.3 Open Graph Meta
 - [x] Add dynamic OG tags for shared memories (tab-level via `pageMeta.js`)

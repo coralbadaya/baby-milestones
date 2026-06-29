@@ -6,6 +6,7 @@ import { useSwipe } from '../utils/gestures';
 import DIYSection from '../components/DIYSection';
 import CareSection from '../components/CareSection';
 import Icon from '../components/Icon';
+import { usePageMeta } from '../utils/pageMeta';
 
 function SectionHeading({ icon, children }) {
   return (
@@ -18,6 +19,10 @@ function SectionHeading({ icon, children }) {
 
 function MonthDetail({ month, checkedItems, toggleCheck, onBack, onNavigate, currentWeek }) {
   const data = milestones.find(m => m.month === month);
+  usePageMeta({
+    title: `Month ${month} Milestones`,
+    description: `Developmental milestones, activities, and care for your baby in month ${month}.`,
+  });
   const [showCelebration, setShowCelebration] = useState(false);
   const [justChecked, setJustChecked] = useState(null);
 

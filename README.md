@@ -1,6 +1,6 @@
-# Nestmile
+# Nestbean
 
-Baby milestone tracker and mom care app for Gen Z and millennial parents — React 19 + Vite.
+*The art of early motherhood.* Curated baby milestones and mom care for the modern mother — React 19 + Vite.
 
 ## Features
 
@@ -29,5 +29,6 @@ Before UI work, read `docs/design-system-2026.md`, `docs/ui-design.md`, and the 
 
 ## Project guides
 
+- [docs/development-workflow.md](docs/development-workflow.md) — beginner workflow for Git, Vercel, Supabase, local development, and testing
 - [CLAUDE.md](CLAUDE.md) — stack, conventions, assistant
 - [memory.md](memory.md) — parenting assistant knowledge base

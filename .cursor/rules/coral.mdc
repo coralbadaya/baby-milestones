@@ -9,9 +9,16 @@ alwaysApply: true
 
 **Before** implementing or changing UI, layouts, or shared components:
 
-1. Read [`docs/design-system-2026.md`](docs/design-system-2026.md) — **complete design system for Gen Z/Millennial parents**.
+1. Read [`docs/design-system-2026.md`](docs/design-system-2026.md) — **complete design system** (quiet luxury, affluent tier-1 audience).
 2. Read [`docs/ui-design.md`](docs/ui-design.md) — shared components (`Select`, tokens, patterns).
-3. Read the feature design doc when one exists (e.g. [`docs/shopping-ui-design.md`](docs/shopping-ui-design.md)).
+3. Read [`docs/premium-redesign-plan.md`](docs/premium-redesign-plan.md) when changing nav, home, or premium surfaces.
+4. Read the feature design doc when one exists (e.g. [`docs/shopping-ui-design.md`](docs/shopping-ui-design.md)).
+
+**Skills (premium UI, imagery & brand):**
+
+- [`.cursor/skills/premium-ui/SKILL.md`](.cursor/skills/premium-ui/SKILL.md) — quiet luxury, Fraunces, PageHero, nav order.
+- [`.cursor/skills/image-curation/SKILL.md`](.cursor/skills/image-curation/SKILL.md) — hero images, AI prompts, legal sourcing.
+- [`.cursor/skills/brand-assets/SKILL.md`](.cursor/skills/brand-assets/SKILL.md) — logo, favicon/app icons, palette, SEO/PWA.
 
 **After** UI changes in the same session:
 
@@ -22,20 +29,36 @@ alwaysApply: true
 
 | Doc | Scope |
 |-----|--------|
-| `docs/design-system-2026.md` | **Master design system** — audience, colors, typography, components, motion, brand voice |
+| `docs/design-system-2026.md` | **Master design system** — audience, colors, typography, quiet luxury |
+| `docs/brand-identity.md` | **Brand** — Nestbean logo, palette, asset pipeline, SEO |
+| `docs/premium-redesign-plan.md` | **Premium repositioning** — phases, metrics, file map |
+| `docs/information-architecture.md` | Nav order, routes, page hierarchy |
+| `docs/imagery-system.md` | PageHero, AI art direction, image manifest |
+| `docs/page-layout-standardization.md` | Full-bleed hero + centered body, mobile nav clearance |
+| `docs/home-redesign.md` | Today dashboard spec |
+| `docs/monetization-strategy.md` | Premium tiers, gating, revenue |
 | `docs/ui-design.md` | Select, tokens, shared form/layout patterns |
 | `docs/shopping-ui-design.md` | Shopping checklist, cards, grid, images |
 | `docs/travel-ui-design.md` | Travel page, type tabs, tip cards |
 | `docs/mom-care-ui-design.md` | Mom Care page, self-care tabs, tip cards |
-| `docs/mom-milestones-ui-design.md` | Mom postpartum timeline (`/mom-care#timeline`), checkboxes |
+| `docs/mom-milestones-ui-design.md` | Mom postpartum timeline (`/mom-care#timeline`) |
 | `docs/month-detail-ui-design.md` | DIY & Care grids, detail modal on month page |
-| `docs/vaccination-ui-design.md` | Vaccination tracker: India/CDC/custom schedules, CRUD, reminders/export/print |
-| `docs/community-feature-plan.md` | **Community feature** — phased plan, memories, recipes, tips, social |
+| `docs/vaccination-ui-design.md` | Vaccination tracker |
+| `docs/community-feature-plan.md` | Community feature — phased plan |
+| `docs/navigation-seo.md` | Navigation, footer & SEO — IA, top nav + Premium CTA, footer columns, structured data, sitemap/robots |
 
 ## UI components
 
+- **PageHero:** `src/components/PageHero.jsx` — editorial heroes; spec in `docs/imagery-system.md`.
 - **Select:** `src/components/Select.jsx` — use for all dropdowns; spec in `docs/ui-design.md`.
 - **Footer:** `src/components/Footer.jsx` — global footer; do not duplicate per page.
+- **PremiumGate:** `src/components/PremiumGate.jsx` — premium content gating.
+
+## Nav order (primary)
+
+Today · My Baby · My Care · Essentials · Community
+
+Progress, Sources, Premium → footer only.
 
 ## Data and assistant (other areas)
 

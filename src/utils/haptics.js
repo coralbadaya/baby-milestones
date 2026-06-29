@@ -1,74 +1,56 @@
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-let audioCtx = null;
+/** Soothing UI sounds — see public/sounds/ and scripts/generate-sounds.mjs */
 
-function getAudioCtx() {
-  if (!audioCtx) audioCtx = new AudioCtx();
-  return audioCtx;
-}
+const SOUND_FILES = {
+  tap: '/sounds/tap.wav',
+  check: '/sounds/check.wav',
+  uncheck: '/sounds/uncheck.wav',
+  navigate: '/sounds/navigate.wav',
+  celebrate: '/sounds/celebrate.wav',
+  swoosh: '/sounds/swoosh.wav',
+};
 
-function isSoundEnabled() {
-  return window.__soundEnabled !== false;
-}
+/** @type {Record<string, HTMLAudioElement>} */
+const cache = {};
 
-function playTone(frequency, duration, type = 'sine', volume = 0.15) {
-  if (!isSoundEnabled()) return;
+function playFile(key, volume = 0.35) {
   try {
-    const ctx = getAudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(frequency, ctx.currentTime);
-    gain.gain.setValueAtTime(volume, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + duration);
+    const src = SOUND_FILES[key];
+    if (!src) return;
+    if (!cache[key]) {
+      const audio = new Audio(src);
+      audio.preload = 'auto';
+      cache[key] = audio;
+    }
+    const audio = cache[key].cloneNode();
+    audio.volume = volume;
+    audio.play().catch(() => {});
   } catch (_) {}
 }
 
 export const sounds = {
   check() {
-    playTone(880, 0.08, 'sine', 0.12);
-    setTimeout(() => playTone(1175, 0.12, 'sine', 0.12), 80);
+    playFile('check', 0.32);
   },
 
   uncheck() {
-    playTone(660, 0.1, 'triangle', 0.08);
+    playFile('uncheck', 0.28);
   },
 
   navigate() {
-    playTone(523, 0.06, 'sine', 0.06);
+    playFile('navigate', 0.22);
   },
 
   tap() {
-    playTone(1000, 0.03, 'sine', 0.04);
+    playFile('tap', 0.25);
   },
 
   celebrate() {
-    playTone(523, 0.08, 'sine', 0.1);
-    setTimeout(() => playTone(659, 0.08, 'sine', 0.1), 100);
-    setTimeout(() => playTone(784, 0.08, 'sine', 0.1), 200);
-    setTimeout(() => playTone(1047, 0.15, 'sine', 0.12), 300);
+    playFile('celebrate', 0.3);
   },
 
   swoosh() {
-    if (!isSoundEnabled()) return;
-    try {
-      const ctx = getAudioCtx();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(400, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.1);
-      gain.gain.setValueAtTime(0.05, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.15);
-    } catch (_) {}
-  }
+    playFile('swoosh', 0.24);
+  },
 };
 
 export const haptics = {
@@ -98,7 +80,7 @@ export const haptics = {
 
   pattern(pattern) {
     if (navigator.vibrate) navigator.vibrate(pattern);
-  }
+  },
 };
 
 export function interact(soundName, hapticName = 'light') {

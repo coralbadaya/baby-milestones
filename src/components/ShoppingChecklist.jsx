@@ -87,15 +87,9 @@ function ShoppingChecklist({ checkedItems, toggleCheck, currentMonth }) {
 
   return (
     <div className="shopping-page-content fade-in">
-      <div className="shopping-page-hero">
-        <h1>Shopping Checklist</h1>
-        <p className="shopping-page-sub">
-          Pick a month range to see items we found useful from birth through now. Mark items as purchased when done.
-        </p>
-        <p className="shop-recommendation-note" role="note">
-          <strong>Our recommendations only.</strong> This checklist reflects products and brands we have actually used—not a complete list, medical advice, or endorsement. What works for your baby may differ; ask your pediatrician when unsure.
-        </p>
-      </div>
+      <p className="shop-recommendation-note shop-recommendation-note--top" role="note">
+        <strong>Our recommendations only.</strong> This checklist reflects products and brands we have actually used—not a complete list, medical advice, or endorsement.
+      </p>
 
       <div className="shop-toolbar">
         <div className="shop-range-controls">

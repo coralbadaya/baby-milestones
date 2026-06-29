@@ -1,18 +1,10 @@
 import DetailModal from '../DetailModal';
 import ShareButton from './ShareButton';
+import RecipeMetaChips from './RecipeMetaChips';
 
 function RecipeDetailBody({ recipe }) {
   return (
     <>
-      <div className="recipe-detail-meta">
-        <span>{recipe.prepTime}</span>
-        <span>{recipe.ageRange}</span>
-      </div>
-
-      {recipe.description && (
-        <p className="recipe-detail-caption">{recipe.description}</p>
-      )}
-
       <div className="recipe-detail-section">
         <h4>Ingredients</h4>
         <ul>
@@ -41,6 +33,7 @@ function RecipeDetailBody({ recipe }) {
         <ShareButton
           title={recipe.title}
           text={`${recipe.title} — ${recipe.description || ''}`.trim()}
+          label="Share this recipe"
         />
       </div>
     </>
@@ -53,7 +46,9 @@ function RecipeDetailModal({ recipe, onClose }) {
   return (
     <DetailModal
       title={recipe.title}
-      subtitle={`${recipe.prepTime} · ${recipe.ageRange}`}
+      meta={<RecipeMetaChips prepTime={recipe.prepTime} ageRange={recipe.ageRange} />}
+      lead={recipe.description || undefined}
+      displayTitle
       onClose={onClose}
     >
       <RecipeDetailBody recipe={recipe} />

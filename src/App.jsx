@@ -3,6 +3,9 @@ import { Routes, Route, Navigate, useLocation, useNavigate, useParams } from 're
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import Baby from './pages/Baby';
+import Essentials from './pages/Essentials';
+import Premium from './pages/Premium';
 import MonthDetail from './pages/MonthDetail';
 import Dashboard from './pages/Dashboard';
 import Sources from './pages/Sources';
@@ -11,6 +14,10 @@ import Vaccination from './pages/Vaccination';
 import Travel from './pages/Travel';
 import MomCare from './pages/MomCare';
 import Community from './pages/Community';
+import Guides from './pages/Guides';
+import GuideArticle from './pages/GuideArticle';
+import Faq from './pages/Faq';
+import StaticPage from './pages/StaticPage';
 import AssistantPanel from './components/AssistantPanel';
 import { ROUTES, isCommunityTab } from './routes';
 
@@ -36,7 +43,7 @@ function MonthDetailRoute({ checkedItems, toggleCheck, getCurrentWeek }) {
       month={month}
       checkedItems={checkedItems}
       toggleCheck={toggleCheck}
-      onBack={() => navigate(ROUTES.home)}
+      onBack={() => navigate(ROUTES.baby)}
       onNavigate={(m) => navigate(ROUTES.month(m))}
       currentWeek={getCurrentWeek()}
     />
@@ -51,10 +58,6 @@ function App() {
   const [checkedItems, setCheckedItems] = useState(() => {
     const saved = localStorage.getItem('babyMilestoneChecks');
     return saved ? JSON.parse(saved) : {};
-  });
-  const [soundEnabled, setSoundEnabled] = useState(() => {
-    const saved = localStorage.getItem('babySoundEnabled');
-    return saved !== null ? JSON.parse(saved) : true;
   });
   const [vaccineScheduleType, setVaccineScheduleType] = useState(() => localStorage.getItem('babyVaccineScheduleType') || 'india');
   const [vaccineRecords, setVaccineRecords] = useState(() => {
@@ -81,10 +84,6 @@ function App() {
   }, [birthDate]);
 
   useEffect(() => {
-    localStorage.setItem('babySoundEnabled', JSON.stringify(soundEnabled));
-    window.__soundEnabled = soundEnabled;
-  }, [soundEnabled]);
-  useEffect(() => {
     localStorage.setItem('babyVaccineScheduleType', vaccineScheduleType);
   }, [vaccineScheduleType]);
   useEffect(() => {
@@ -96,10 +95,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem('babyVaccineReminderDays', JSON.stringify(vaccineReminderDays));
   }, [vaccineReminderDays]);
-
-  useEffect(() => {
-    window.__soundEnabled = soundEnabled;
-  }, []);
 
   const getCurrentMonth = () => {
     if (!birthDate) return null;
@@ -130,22 +125,16 @@ function App() {
     navigate(ROUTES.month(month));
   }, [navigate]);
 
-  const handleToggleSound = useCallback(() => {
-    setSoundEnabled((prev) => !prev);
-  }, []);
-
   const showAssistant =
     location.pathname === ROUTES.home
     || location.pathname.startsWith('/month/')
+    || location.pathname === ROUTES.baby
     || location.pathname === ROUTES.travel;
 
   return (
     <div className="app">
       <ScrollToTop />
-      <Header
-        soundEnabled={soundEnabled}
-        onToggleSound={handleToggleSound}
-      />
+      <Header />
       <main className="app-main">
         <Routes>
         <Route
@@ -161,7 +150,22 @@ function App() {
           )}
         />
         <Route
-          path="/month/:month"
+          path={ROUTES.baby}
+          element={(
+            <Baby
+              birthDate={birthDate}
+              currentMonth={getCurrentMonth()}
+              checkedItems={checkedItems}
+              onSelectMonth={handleSelectMonth}
+            />
+          )}
+        />
+        <Route
+          path={ROUTES.essentials}
+          element={<Essentials />}
+        />
+        <Route path={ROUTES.premium} element={<Premium />} />
+        <Route
           element={(
             <MonthDetailRoute
               checkedItems={checkedItems}
@@ -224,6 +228,21 @@ function App() {
           )}
         />
         <Route path={ROUTES.sources} element={<Sources />} />
+
+        <Route path={ROUTES.guides} element={<Guides />} />
+        <Route path="/guides/:slug" element={<GuideArticle />} />
+        <Route path={ROUTES.faq} element={<Faq />} />
+
+        <Route path={ROUTES.about} element={<StaticPage pageKey="about" />} />
+        <Route path={ROUTES.contact} element={<StaticPage pageKey="contact" />} />
+        <Route path={ROUTES.editorialPolicy} element={<StaticPage pageKey="editorialPolicy" />} />
+        <Route path={ROUTES.reviewers} element={<StaticPage pageKey="reviewers" />} />
+        <Route path={ROUTES.privacy} element={<StaticPage pageKey="privacy" />} />
+        <Route path={ROUTES.terms} element={<StaticPage pageKey="terms" />} />
+        <Route path={ROUTES.cookies} element={<StaticPage pageKey="cookies" />} />
+        <Route path={ROUTES.medicalDisclaimer} element={<StaticPage pageKey="medicalDisclaimer" />} />
+        <Route path={ROUTES.accessibility} element={<StaticPage pageKey="accessibility" />} />
+
         <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
         </Routes>
       </main>

@@ -15,12 +15,14 @@
 
 ## Page width and padding
 
-| Viewport | `.shopping-page` |
-|----------|------------------|
-| Mobile (&lt; 768px) | `width: 100%`, padding `16px 12px` bottom `100px` (clears mobile nav) |
-| Desktop (≥ 768px) | `max-width: 1100px`, centered, padding `24px 20px` |
+Uses shared [`.page-body`](page-layout-standardization.md) utilities on `.shopping-page`:
 
-Hero, toolbar, and disclaimer use the same horizontal padding as the grid.
+| Viewport | Layout |
+|----------|--------|
+| Mobile (≤768px) | `.page-body--wide` + `.page-body--with-mobile-nav` — horizontal `16px` (12px at ≤360px), bottom clearance for fixed nav |
+| Desktop (≥769px) | `max-width: 1100px`, horizontal `20px`, normal bottom spacing |
+
+`<PageHero>` sits **outside** `.shopping-page` (full-bleed). Checklist content is inside the centered body wrapper.
 
 ---
 

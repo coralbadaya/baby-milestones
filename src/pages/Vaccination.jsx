@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import PageHero from '../components/PageHero';
 import Icon from '../components/Icon';
 import DetailModal from '../components/DetailModal';
 import VaccineEditorModal from '../components/VaccineEditorModal';
@@ -16,6 +17,7 @@ import {
   monthToDate,
   toCsv,
 } from '../utils/vaccines';
+import { usePageMeta } from '../utils/pageMeta';
 
 const FILTERS = ['all', 'due', 'upcoming', 'overdue', 'done', 'skipped'];
 
@@ -127,6 +129,10 @@ function Vaccination({
   reminderDays,
   setReminderDays,
 }) {
+  usePageMeta({
+    title: 'Vaccination Tracker',
+    description: 'Track your baby\u2019s immunizations with India, CDC, or custom schedules, reminders, and exports.',
+  });
   const [filter, setFilter] = useState('all');
   const [editingVaccine, setEditingVaccine] = useState(null);
   const [selectedVaccineId, setSelectedVaccineId] = useState(null);
@@ -251,12 +257,16 @@ function Vaccination({
   };
 
   return (
-    <div className="vaccination-page">
-      <section className="vaccination-hero card-accent-top" style={{ '--cat-color': 'var(--baby-blue-dark)' }}>
-        <h1><Icon name="medical" size={24} /> Vaccination Tracker</h1>
-        <p>Track vaccines by schedule and timeline charts. Educational organizer only — always follow your pediatrician.</p>
-      </section>
+    <>
+      <PageHero
+        imageKey="vaccination"
+        eyebrow="Health records"
+        title="Vaccination tracker"
+        subtitle="Track schedules and reminders. Educational organizer only — always follow your pediatrician."
+        size="md"
+      />
 
+      <div className="vaccination-page page-body page-body--wide page-body--with-mobile-nav">
       <section className="vaccination-toolbar vaccination-print-hide">
         <div className="vaccination-toolbar-left">
           <VaccineScheduleSelect value={scheduleType} onChange={onScheduleTypeChange} />
@@ -353,7 +363,8 @@ function Vaccination({
           onClose={() => setEditingVaccine(null)}
         />
       )}
-    </div>
+      </div>
+    </>
   );
 }
 

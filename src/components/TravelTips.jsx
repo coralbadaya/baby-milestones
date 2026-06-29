@@ -46,24 +46,18 @@ function TravelTips({ currentMonth }) {
 
   return (
     <div className="travel-page-content fade-in">
-      <div className="travel-page-hero">
-        <h1>Travel with Baby</h1>
-        <p className="travel-page-sub">
-          Practical tips by how you travel — tailored to your baby&apos;s age. Not medical advice.
+      {currentMonth != null ? (
+        <p className="travel-age-banner" role="status">
+          Tips tailored for <strong>Month {currentMonth}</strong> (from birth date)
         </p>
-        {currentMonth != null ? (
-          <p className="travel-age-banner" role="status">
-            Tips tailored for <strong>Month {currentMonth}</strong> (from birth date)
-          </p>
-        ) : (
-          <div className="travel-set-dob">
-            <p>Set your baby&apos;s birth date on Home to unlock age-specific travel guidance.</p>
-            <button type="button" className="travel-dob-btn" onClick={() => navigate(ROUTES.home)}>
-              Go to Home
-            </button>
-          </div>
-        )}
-      </div>
+      ) : (
+        <div className="travel-set-dob">
+          <p>Set your baby&apos;s birth date on Today to unlock age-specific travel guidance.</p>
+          <button type="button" className="travel-dob-btn" onClick={() => navigate(ROUTES.home)}>
+            Go to Today
+          </button>
+        </div>
+      )}
 
       <div className="diy-filter-tabs travel-type-tabs" role="tablist" aria-label="Travel type">
         {TRAVEL_TYPES.map((id) => {

@@ -11,9 +11,13 @@
     "test": "vitest run",
     "verify:data": "node scripts/verify-milestones.mjs && node scripts/verify-mom-milestones.mjs",
     "scrape:recipes": "node scripts/scrape-instagram-recipes.mjs",
-    "download:emojis": "node scripts/download-emoji-icons.mjs"
+    "download:emojis": "node scripts/download-emoji-icons.mjs",
+    "generate:sounds": "node scripts/generate-sounds.mjs",
+    "generate:brand": "node scripts/generate-brand-assets.mjs",
+    "generate:sitemap": "node scripts/generate-sitemap.mjs"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "@supabase/supabase-js": "^2.108.2",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
@@ -28,6 +32,8 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.35.2",
     "vite": "^8.0.12",
     "vitest": "^3.2.4"
   }

@@ -73,6 +73,7 @@ function MemoryCard({ memory, onReact, onAddComment }) {
         <ShareButton
           title={memory.title}
           text={`${memory.content.slice(0, 120)}…`}
+          label="Share"
         />
       </div>
 

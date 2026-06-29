@@ -2,7 +2,10 @@ import manifest from '../data/emojiManifest.json';
 
 const IMAGE_DIR = '/images/emojis/';
 
-/** @type {Record<string, string>} emoji character → icon key */
+/**
+ * Legacy Twemoji PNG resolver — used by migration scripts and ActivityIllustration SVGs.
+ * UI chrome uses Phosphor via src/components/Icon.jsx + phosphorIconMap.js.
+ */
 const EMOJI_TO_KEY = {};
 
 /** @type {Record<string, string>} icon key → public URL */

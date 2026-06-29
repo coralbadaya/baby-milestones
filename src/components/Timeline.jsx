@@ -1,7 +1,15 @@
 import milestones from '../data/milestones';
 import { interact } from '../utils/haptics';
 
-function Timeline({ currentMonth, checkedItems, onSelectMonth }) {
+function Timeline({
+  currentMonth,
+  checkedItems,
+  onSelectMonth,
+  collapsed = false,
+  rangeStart = 1,
+  rangeEnd = 36,
+  hideHeading = false,
+}) {
   const getProgress = (month) => {
     const data = milestones.find(m => m.month === month);
     if (!data) return 0;
@@ -17,10 +25,14 @@ function Timeline({ currentMonth, checkedItems, onSelectMonth }) {
 
   return (
     <section className="timeline-section">
-      <h2>Monthly Milestones</h2>
-      <p className="timeline-subtitle">Click any month to explore milestones, activities, and tips</p>
+      {!hideHeading && (
+        <>
+          <h2>Monthly Milestones</h2>
+          <p className="timeline-subtitle">Click any month to explore milestones, activities, and tips</p>
+        </>
+      )}
       <div className="timeline-grid">
-        {milestones.map((m) => {
+        {milestones.filter((m) => !collapsed || (m.month >= rangeStart && m.month <= rangeEnd)).map((m) => {
           const progress = getProgress(m.month);
           return (
             <div

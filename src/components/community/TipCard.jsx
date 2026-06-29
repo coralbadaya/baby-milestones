@@ -71,7 +71,7 @@ function TipCard({ tip, helpfulCount = 0, onHelpful }) {
 
       {expanded && (
         <div className="tip-share-row">
-          <ShareButton title={tip.title} text={`${tip.preview} — ${tip.tagline}`} />
+          <ShareButton title={tip.title} text={`${tip.preview} — ${tip.tagline}`} label="Share this tip" />
         </div>
       )}
     </article>

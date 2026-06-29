@@ -24,32 +24,19 @@
 
 ## Audience Profile
 
-### Who They Are
+### Who They Are (2026 — Premium repositioning)
 
-| Generation | Age Range | Key Characteristics |
-|------------|-----------|---------------------|
-| Gen Z Parents | 22–29 | Digital-native, values-driven, outcome-focused, hybrid parenting style |
-| Late Millennials | 30–38 | Emotionally supportive, mental-health conscious, gentle parenting evolved |
+| Segment | Profile | Key Characteristics |
+|---------|---------|---------------------|
+| **Primary** | Affluent new mothers, tier-1 cities | London, New York, Manchester, Dubai, Abu Dhabi — educated, health-conscious, high income |
+| **Secondary** | Late millennials / early Gen Z | Digital-native, values curation over clutter, willing to pay for concierge quality |
 
-### Behavioral Insights (2026 Research)
+### Behavioral Insights
 
-**Hybrid Parenting Approach**
-- 85% of parents blend 3+ parenting styles rather than following one rigidly
-- 54% of Gen Z parents prioritize "preparing kids for the real world"
-- 62% of millennial parents focus on emotional and mental well-being
-- Only 38% of Gen Z parents use gentle parenting exclusively
-
-**Digital Behavior**
-- Prefer apps over phone calls or emails
-- 48% use TikTok daily for learning
-- Video-first content consumption
-- Expect seamless, instant experiences
-
-**Values**
-- 68% use purchasing decisions to communicate their values
-- Prioritize authenticity, sustainability, and transparency
-- Reject "perfect parent" pressure—seek realistic, supportive tools
-- Conscious of overstimulation; value "boring" time for children
+- Expect **editorial quality** — magazine, not checklist
+- Pay for **curation and sequence**, not more features
+- One-handed, low-light usage still applies (3am feeds)
+- Reject crude UI and stock baby clichés
 
 ### Usage Context (Critical for UX)
 
@@ -58,10 +45,23 @@ The primary usage state:
 - Holding a baby
 - One hand free
 - Low light (3am feeds)
-- Shaky-handed taps
-- Divided attention
 
-**Every screen must assume this context.**
+**Every screen must assume this context** — even in premium positioning.
+
+---
+
+## Quiet Luxury (shipped)
+
+Extension of warm minimalism for affluent tier-1 mothers.
+
+| Element | Spec |
+|---------|------|
+| Display type | **Fraunces** serif — `--font-display` |
+| Body type | **Switzer** — `--font-body` |
+| Heroes | `<PageHero>` with AI art-directed photography |
+| Nav | 5 items journey-ordered: Today · My Baby · My Care · Essentials · Community |
+| Spacing | Generous `--space-8` section gaps |
+| Premium | Teaser gates, invitation tone — see `docs/monetization-strategy.md` |
 
 ---
 
@@ -180,15 +180,13 @@ Move away from clinical neo-grotesks (Inter, SF Pro) toward **bouba grotesks**�
 
 | Role | Primary | Fallback |
 |------|---------|----------|
-| Display | **Switzer** | Cabinet Grotesk, system-ui |
+| Display | **Fraunces** | Georgia, serif |
 | Body | **Switzer** | Hanken Grotesk, system-ui |
 | Monospace | Geist Mono | JetBrains Mono, monospace |
 
-**Why Switzer?**
-- Warm Swiss grotesk — polished but approachable
-- Strong legibility at UI sizes
-- Low contrast, calm tone for health content
-- Free via Fontshare
+**Why Fraunces + Switzer?**
+- Fraunces: editorial warmth for headlines — quiet luxury
+- Switzer: calm UI legibility at small sizes
 
 ### Type Scale
 
@@ -217,17 +215,18 @@ Based on a 1.25 ratio with 16px base.
 
 ## Brand / Logo
 
-**Product name:** Nestmile. **Header tagline:** `for parents`. SEO title/description live in `src/constants/brand.js`.
+**Product name:** Nestbean. **Tagline:** `The art of early motherhood`. SEO title/description live in `src/constants/brand.js`. Full spec: `docs/brand-identity.md`.
 
 ### Mark
 
-**Nest + milestone path** (not emoji): shelter arc and nest bowl in `--coral-primary`; baby circle in nest (`--lavender-dark` stroke); ascending milestone dots (primary + accent fills) with a light connector path. Readable at 24–32px.
+**"N" monogram cradling a golden bean** (the baby in the nest): two terracotta (`--coral-primary`) stems + diagonal form the N; a honey-gold (`--gold-dark`) bean with a small head rests in the cradle. Legible at 16px.
 
 | Asset | Path |
 |-------|------|
-| Mark only | `public/brand/coral-mark.svg` |
-| Lockup export | `public/brand/coral-logo.svg` |
+| Master mark | `public/brand/nestbean-mark.svg` |
+| Lockup | `public/brand/nestbean-logo.svg` |
 | React | `src/components/CoralLogo.jsx` |
+| Generated icons/OG | `public/` via `npm run generate:brand` |
 
 ### Usage
 
@@ -257,14 +256,19 @@ import CoralLogo from './CoralLogo';
 
 ## Iconography & Imagery
 
-### Icon Style
+### Icon Style (shipped — Phosphor Light)
 
 | Attribute | Specification |
 |-----------|---------------|
-| Style | Rounded, friendly, 2px stroke |
-| Size | 24px default, 20px compact, 32px feature |
-| Color | Single color, inherits text color |
-| Library | Lucide Icons (recommended) or custom |
+| Library | **Phosphor Icons** (`@phosphor-icons/react`) |
+| Weight | **Light** — monoline, quiet luxury |
+| Color | `currentColor` — inherits text |
+| Component | `src/components/Icon.jsx` |
+| Map | `src/utils/phosphorIconMap.js` |
+
+**Do not** use Twemoji PNGs in UI chrome. Legacy Twemoji remains only in `ActivityIllustration` SVG embeds (migration pending).
+
+### Icon Style (legacy reference)
 
 **Icon Characteristics:**
 - Rounded corners on all terminals
@@ -890,6 +894,13 @@ Before shipping any UI change:
 |------|--------|
 | Light warm palette | Shipped — `global.css` |
 | Switzer typography | Shipped |
+| Fraunces display serif | Shipped |
+| Phosphor Light icons | Shipped — `Icon.jsx`, `phosphorIconMap.js` |
+| Soothing UI sounds (WAV) | Shipped — `public/sounds/`, always on |
+| PageHero + editorial images | Shipped — `PageHero.jsx`, `public/images/heroes/` |
+| Journey-ordered nav (5 items) | Shipped |
+| Today home dashboard | Shipped |
+| Premium scaffold | Shipped — local trial |
 | Nestmile SVG logo (`CoralLogo`) | Shipped |
 | Minimal card border (`.card-accent-top`) | Shipped |
 | Full 1px border, no top accent bar | Shipped |

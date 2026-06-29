@@ -19,6 +19,7 @@
 | `docs/mom-milestones-ui-design.md` | Mom's postpartum timeline tab (`#timeline`), read-only guidance, birth-date personalization |
 | `docs/month-detail-ui-design.md` | DIY & Care grids, detail modal |
 | `docs/vaccination-ui-design.md` | Vaccination tracker: chart-first timeline, India/CDC/custom, CRUD, reminders/export/print |
+| `docs/navigation-seo.md` | Navigation IA, top nav + Premium CTA, multi-column footer, SEO/GEO structured data, sitemap/robots |
 
 ---
 
@@ -155,9 +156,11 @@ Used on **month detail** for DIY and Care (not shopping).
 | `.content-card-grid` | 1 → 2 → 3 column responsive grid |
 | `.content-card` | Compact card with media header + body; add `.card-accent-top` |
 | `.content-card-cta` | Opens `DetailModal` |
-| `DetailModal` | Scrollable body; bottom sheet mobile; title reserves space for close |
+| `DetailModal` | Scrollable body; bottom sheet mobile; title reserves space for close. Optional `meta` (chip row), `lead` (description), `displayTitle` (Fraunces) for editorial headers (recipes). |
+| `ShareButton` | Community share row: icon-first 44px buttons (WhatsApp, X, Facebook, Copy link, native Share). Props: `label`, `compact`. See `docs/community-feature-plan.md` §5.2. |
+| `RecipeMetaChips` | Prep time + age chips for recipe modal header (`Timer` + `Baby` icons). |
 
-Spec: [`docs/month-detail-ui-design.md`](month-detail-ui-design.md).
+Spec: [`docs/month-detail-ui-design.md`](month-detail-ui-design.md). Community share/modal: [`docs/community-feature-plan.md`](community-feature-plan.md).
 
 ---
 

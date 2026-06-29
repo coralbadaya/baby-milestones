@@ -72,13 +72,6 @@ function MomCareTips({ birthDate }) {
 
   return (
     <div className="mom-care-page-content fade-in">
-      <div className="mom-care-hero">
-        <h1>Mom Care</h1>
-        <p className="mom-care-sub">
-          Your recovery matters as much as baby&apos;s milestones. Practical, evidence-based self-care.
-        </p>
-      </div>
-
       <nav className="mom-care-subnav" role="tablist" aria-label="Mom care sections">
         {MOM_CARE_PRIMARY_NAV.map((section) => (
           <button
