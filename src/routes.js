@@ -33,6 +33,17 @@ export const ROUTES = {
   cookies: '/cookies',
   medicalDisclaimer: '/medical-disclaimer',
   accessibility: '/accessibility',
+
+  // Auth & account
+  login: '/login',
+  signup: '/signup',
+  account: '/account',
+
+  // Admin (staff / admin roles)
+  admin: '/admin',
+  adminInbox: '/admin/inbox',
+  adminUsers: '/admin/users',
+  adminPromos: '/admin/promos',
 };
 
 export const COMMUNITY_TABS = ['feed', 'recipes', 'tips', 'create'];

@@ -53,6 +53,7 @@ alwaysApply: true
 - **Select:** `src/components/Select.jsx` — use for all dropdowns; spec in `docs/ui-design.md`.
 - **Footer:** `src/components/Footer.jsx` — global footer; do not duplicate per page.
 - **PremiumGate:** `src/components/PremiumGate.jsx` — premium content gating.
+- **Auth:** `src/context/AuthContext.jsx` — Supabase session + membership; see [`docs/auth-membership-admin.md`](docs/auth-membership-admin.md).
 
 ## Nav order (primary)
 

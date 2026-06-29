@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { interact } from '../utils/haptics';
 import { PREMIUM_FEATURE_COPY } from '../constants/premium';
+import { useAuth } from '../context/AuthContext';
 import { ROUTES } from '../routes';
-import { usePremium } from '../hooks/usePremium';
 import Icon from './Icon';
 
 function PremiumGate({ feature, children, compact = false }) {
-  const { isPremium, startTrial } = usePremium();
+  const { isPremium, user, startLocalTrial } = useAuth();
   const copy = PREMIUM_FEATURE_COPY[feature] || {
     title: 'Premium',
     teaser: 'Unlock the full Nestbean experience.',
@@ -27,19 +27,28 @@ function PremiumGate({ feature, children, compact = false }) {
         <p className="premium-gate__teaser">{copy.teaser}</p>
         <div className="premium-gate__actions">
           <Link
-            to={ROUTES.premium}
+            to={user ? ROUTES.account : ROUTES.signup}
             className="btn-primary premium-gate__cta"
             onClick={() => interact('tap', 'light')}
           >
-            View Premium
+            {user ? 'Upgrade access' : 'Start early access'}
           </Link>
-          <button
-            type="button"
+          {!user && (
+            <button
+              type="button"
+              className="btn-ghost premium-gate__trial"
+              onClick={() => { interact('tap', 'light'); startLocalTrial(); }}
+            >
+              Preview locally
+            </button>
+          )}
+          <Link
+            to={ROUTES.premium}
             className="btn-ghost premium-gate__trial"
-            onClick={() => { interact('tap', 'light'); startTrial(); }}
+            onClick={() => interact('tap', 'light')}
           >
-            Start free trial
-          </button>
+            Learn more
+          </Link>
         </div>
       </div>
     </div>

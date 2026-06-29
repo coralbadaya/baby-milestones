@@ -179,7 +179,7 @@ function MonthDetail({ month, checkedItems, toggleCheck, onBack, onNavigate, cur
         <p className="swipe-hint">Swipe left/right or use arrow keys to navigate</p>
       </div>
 
-      <div className="section-grid">
+      <div id="milestones" className="section-grid">
         <div className="detail-section">
           <SectionHeading icon="flexed-bicep">Physical Milestones</SectionHeading>
           {data.physical.map((item) => (

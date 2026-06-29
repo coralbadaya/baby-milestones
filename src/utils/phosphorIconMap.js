@@ -186,6 +186,7 @@ export const PHOSPHOR_ICON_MAP = {
   'book-open': BookOpen,
   info: Info,
   envelope: Envelope,
+  user: UserCircle,
   shield: ShieldCheck,
   scales: Scales,
   cookie: Cookie,

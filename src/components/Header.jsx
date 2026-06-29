@@ -1,12 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
 import { interact } from '../utils/haptics';
-import { PRIMARY_NAV, MOBILE_NAV, PREMIUM_NAV, navSectionFromPath } from '../routes';
+import { PRIMARY_NAV, MOBILE_NAV, PREMIUM_NAV, ROUTES, navSectionFromPath } from '../routes';
+import { useAuth } from '../context/AuthContext';
 import Icon from './Icon';
 import CoralLogo from './CoralLogo';
 
 function Header() {
   const { pathname } = useLocation();
   const section = navSectionFromPath(pathname);
+  const { user, loading } = useAuth();
 
   const navClass = (key) => (section === key ? 'active' : '');
 
@@ -25,6 +27,26 @@ function Header() {
                 {label}
               </Link>
             ))}
+            {!loading && (
+              user ? (
+                <Link
+                  to={ROUTES.account}
+                  className={`header-auth ${pathname === ROUTES.account ? 'active' : ''}`}
+                  onClick={onNav}
+                >
+                  <Icon name="user" size={16} />
+                  Account
+                </Link>
+              ) : (
+                <Link
+                  to={ROUTES.login}
+                  className={`header-auth ${pathname === ROUTES.login ? 'active' : ''}`}
+                  onClick={onNav}
+                >
+                  Sign in
+                </Link>
+              )
+            )}
             <Link
               to={PREMIUM_NAV.to}
               className={`header-cta ${navClass(PREMIUM_NAV.key)}`}

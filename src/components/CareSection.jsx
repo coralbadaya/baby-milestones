@@ -174,7 +174,7 @@ function ClothesCard({ clothes }) {
   );
 }
 
-function CareSection({ month }) {
+function CareSection({ month, id = 'care' }) {
   const [activeFilter, setActiveFilter] = useState('all');
   const [openKey, setOpenKey] = useState(null);
   const monthData = shoppingAndCare.find((d) => d.month === month);
@@ -204,7 +204,7 @@ function CareSection({ month }) {
   if (showClothes && clothes) visibleCount += 1;
 
   return (
-    <section className="month-section care-section-wrapper">
+    <section id={id} className="month-section care-section-wrapper">
       <div className="month-section-header">
         <h3>Baby Care</h3>
         <p className="month-section-sub">

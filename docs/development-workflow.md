@@ -170,7 +170,7 @@ Supabase is the backend. It can provide:
 - Realtime subscriptions
 - Edge functions
 
-This repo already has `@supabase/supabase-js` installed, but there is not yet a project-specific Supabase setup committed here.
+This repo includes Supabase auth, membership, contact, and admin — see [`docs/auth-membership-admin.md`](auth-membership-admin.md) and migration `supabase/migrations/20250629120000_membership_and_contact.sql`.
 
 ### Safe Supabase Rules
 

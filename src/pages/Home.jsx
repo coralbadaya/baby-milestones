@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import PageHero from '../components/PageHero';
 import TodayFocus from '../components/TodayFocus';
+import CurrentMonthPanel from '../components/CurrentMonthPanel';
+import DIYPreviewStrip from '../components/DIYPreviewStrip';
 import Timeline from '../components/Timeline';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
@@ -35,6 +37,7 @@ function Home({
   setBirthDate,
   currentMonth,
   checkedItems,
+  toggleCheck,
   onSelectMonth,
 }) {
   usePageMeta({});
@@ -67,7 +70,33 @@ function Home({
         </div>
       </PageHero>
 
-      <TodayFocus birthDate={birthDate} currentMonth={currentMonth} />
+      <TodayFocus
+        birthDate={birthDate}
+        currentMonth={currentMonth}
+        checkedItems={checkedItems}
+      />
+
+      {birthDate && currentMonth ? (
+        <>
+          <CurrentMonthPanel
+            currentMonth={currentMonth}
+            checkedItems={checkedItems}
+            toggleCheck={toggleCheck}
+            compact
+          />
+          <DIYPreviewStrip month={currentMonth} limit={2} />
+        </>
+      ) : (
+        <>
+          <CurrentMonthPanel
+            sampleMode
+            checkedItems={checkedItems}
+            toggleCheck={toggleCheck}
+            compact
+          />
+          <DIYPreviewStrip month={1} limit={2} />
+        </>
+      )}
 
       {birthDate && (
         <section className="timeline-section timeline-section--collapsed">

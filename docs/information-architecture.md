@@ -56,7 +56,10 @@ Today (what matters now)
 
 1. PageHero — developmental moment
 2. Quick links — current month, vaccination
-3. Full 36-month Timeline
+3. **CurrentMonthPanel** — checkable milestone preview for current month
+4. **DIYPreviewStrip** — horizontal DIY cards with YouTube CTAs
+5. **CarePreviewTeaser** — bath/massage guides linking to `#care`
+6. Full 36-month Timeline
 
 ### My Care (`/mom-care`)
 

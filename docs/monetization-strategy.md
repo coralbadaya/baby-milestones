@@ -32,7 +32,9 @@ Gulf markets: price in AED/USD; annual preferred.
 | Vaccination export PDF | — | Full |
 | Assistant — advanced topics | Limited | Full |
 
-Implementation: `src/components/PremiumGate.jsx` + `usePremium()` hook (localStorage until auth).
+Implementation: `src/components/PremiumGate.jsx` + `src/context/AuthContext.jsx` (Supabase membership when signed in; localStorage preview when anonymous). See [`docs/auth-membership-admin.md`](auth-membership-admin.md).
+
+Early access: no Stripe yet — signup grants 7-day trial; promo codes and founding `comp` status via admin.
 
 ---
 
@@ -58,15 +60,16 @@ Implementation: `src/components/PremiumGate.jsx` + `usePremium()` hook (localSto
 | File | Role |
 |------|------|
 | `src/constants/premium.js` | Plans, feature flags, copy |
-| `src/hooks/usePremium.js` | `isPremium`, `startTrial`, `setPremium` (local) |
+| `src/context/AuthContext.jsx` | Session, membership, promo redeem |
+| `src/hooks/usePremium.js` | Legacy wrapper → AuthContext |
 | `src/components/PremiumGate.jsx` | Wrapper with teaser overlay |
-| `src/pages/Premium.jsx` | Pricing / upgrade page |
+| `src/pages/Premium.jsx` | Early access membership page |
 
 ### Future: Stripe
 
 - `POST /api/checkout` → Stripe Checkout Session
-- Webhook → Supabase `subscriptions` table
-- Replace localStorage with session claim
+- Webhook → Supabase `memberships` status updates
+- Replace anonymous localStorage preview with sign-in prompt only
 
 ---
 

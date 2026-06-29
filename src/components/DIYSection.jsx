@@ -17,7 +17,7 @@ function DIYSection({ month }) {
     : monthData.activities.filter((a) => a.category === activeFilter);
 
   return (
-    <section className="month-section diy-section-wrapper">
+    <section id="diy" className="month-section diy-section-wrapper">
       <div className="month-section-header">
         <h3>DIY Games & Activities</h3>
         <p className="month-section-sub">

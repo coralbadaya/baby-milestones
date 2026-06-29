@@ -19,13 +19,24 @@ Three cards max, age-aware:
 
 | Card | Source | Link |
 |------|--------|------|
-| Milestone | Current month from `milestones.js` | `/month/:n` |
+| Milestones | Current month progress from `milestones.js` | `/month/:n` |
 | For you | Mom care tip or postpartum note | `/mom-care` |
-| Editorial | Static premium teaser (travel/shopping) | `/essentials` or `/premium` |
+| DIY (when birth date set) | DIY activities for current month | `/month/:n#diy` |
+| Editorial (no birth date) | Travel/shopping teaser | `/essentials` |
 
-Premium editorial card may show `<PremiumGate>` teaser.
+### 3. Current month preview (`CurrentMonthPanel.jsx`)
 
-### 3. Continue your journey (`Timeline` collapsed)
+- Shown on **Today** (compact, 3 items) and **My Baby** (full, 4 items)
+- Inline checkboxes — same `checkedItems` / `toggleCheck` as month detail
+- **Empty state:** Month 1 sample with banner to set birth date
+
+### 4. DIY preview strip (`DIYPreviewStrip.jsx`)
+
+- Horizontal scroll of compact DIY cards with **YouTube button on card face**
+- Today: 2 cards; My Baby: 4 cards
+- Footer link: `/month/:n#diy`
+
+### 5. Continue your journey (`Timeline` collapsed)
 
 - Props: `collapsed`, `rangeStart`, `rangeEnd` — show current month ±2 only
 - Footer link: **View full timeline →** `/baby`
@@ -38,7 +49,7 @@ Unchanged — floating on home.
 
 ## Empty state (no birth date)
 
-Hero subtitle invites setting birth date. Focus cards show generic welcome copy. Timeline hidden or dimmed with CTA.
+Hero subtitle invites setting birth date. Focus cards show generic welcome copy. **Month 1 sample** milestones + DIY preview shown via `CurrentMonthPanel` / `DIYPreviewStrip`. Collapsed timeline hidden until birth date set.
 
 ---
 
@@ -55,6 +66,8 @@ Hero subtitle invites setting birth date. Focus cards show generic welcome copy.
 
 - `src/pages/Home.jsx`
 - `src/components/TodayFocus.jsx`
+- `src/components/CurrentMonthPanel.jsx`
+- `src/components/DIYPreviewStrip.jsx`
 - `src/components/Timeline.jsx` — `collapsed` prop
 - `src/components/PageHero.jsx`
 

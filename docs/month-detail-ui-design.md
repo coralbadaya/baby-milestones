@@ -52,6 +52,24 @@ Care types: `careTypeConfig.js` (colors/icons per type).
 
 ---
 
+## Deep-link anchors
+
+| Id | Section |
+|----|---------|
+| `#milestones` | Physical + emotional milestone grid |
+| `#diy` | DIY Games & Activities |
+| `#care` | Baby Care |
+
+Used by `DIYPreviewStrip`, `CarePreviewTeaser`, and Today focus cards.
+
+---
+
+## DIY preview variant (`compact`)
+
+`DIYActivityCard` with `compact` prop — used in `DIYPreviewStrip` on Today and My Baby. Shows YouTube button on card face plus **Open guide** modal.
+
+---
+
 ## Shared components
 
 | Component | File |

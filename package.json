@@ -8,7 +8,10 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest run",
+    "test": "vitest run --exclude 'src/**/*.it.test.js'",
+    "test:it": "vitest run src/integration",
+    "test:all": "vitest run",
+    "seed:test-users": "node scripts/seed-test-users.mjs",
     "verify:data": "node scripts/verify-milestones.mjs && node scripts/verify-mom-milestones.mjs",
     "scrape:recipes": "node scripts/scrape-instagram-recipes.mjs",
     "download:emojis": "node scripts/download-emoji-icons.mjs",
@@ -35,6 +38,7 @@
     "png-to-ico": "^3.0.1",
     "sharp": "^0.35.2",
     "vite": "^8.0.12",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "ws": "^8.21.0"
   }
 }

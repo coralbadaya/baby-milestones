@@ -18,6 +18,15 @@ import Guides from './pages/Guides';
 import GuideArticle from './pages/GuideArticle';
 import Faq from './pages/Faq';
 import StaticPage from './pages/StaticPage';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import Account from './pages/Account';
+import Contact from './pages/Contact';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminOverview from './pages/admin/AdminOverview';
+import AdminInbox from './pages/admin/AdminInbox';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminPromos from './pages/admin/AdminPromos';
 import AssistantPanel from './components/AssistantPanel';
 import { ROUTES, isCommunityTab } from './routes';
 
@@ -145,6 +154,7 @@ function App() {
               setBirthDate={setBirthDate}
               currentMonth={getCurrentMonth()}
               checkedItems={checkedItems}
+              toggleCheck={toggleCheck}
               onSelectMonth={handleSelectMonth}
             />
           )}
@@ -156,6 +166,7 @@ function App() {
               birthDate={birthDate}
               currentMonth={getCurrentMonth()}
               checkedItems={checkedItems}
+              toggleCheck={toggleCheck}
               onSelectMonth={handleSelectMonth}
             />
           )}
@@ -166,6 +177,7 @@ function App() {
         />
         <Route path={ROUTES.premium} element={<Premium />} />
         <Route
+          path="/month/:month"
           element={(
             <MonthDetailRoute
               checkedItems={checkedItems}
@@ -234,7 +246,7 @@ function App() {
         <Route path={ROUTES.faq} element={<Faq />} />
 
         <Route path={ROUTES.about} element={<StaticPage pageKey="about" />} />
-        <Route path={ROUTES.contact} element={<StaticPage pageKey="contact" />} />
+        <Route path={ROUTES.contact} element={<Contact />} />
         <Route path={ROUTES.editorialPolicy} element={<StaticPage pageKey="editorialPolicy" />} />
         <Route path={ROUTES.reviewers} element={<StaticPage pageKey="reviewers" />} />
         <Route path={ROUTES.privacy} element={<StaticPage pageKey="privacy" />} />
@@ -242,6 +254,17 @@ function App() {
         <Route path={ROUTES.cookies} element={<StaticPage pageKey="cookies" />} />
         <Route path={ROUTES.medicalDisclaimer} element={<StaticPage pageKey="medicalDisclaimer" />} />
         <Route path={ROUTES.accessibility} element={<StaticPage pageKey="accessibility" />} />
+
+        <Route path={ROUTES.login} element={<Login />} />
+        <Route path={ROUTES.signup} element={<SignUp />} />
+        <Route path={ROUTES.account} element={<Account />} />
+
+        <Route path={ROUTES.admin} element={<AdminLayout />}>
+          <Route index element={<AdminOverview />} />
+          <Route path="inbox" element={<AdminInbox />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="promos" element={<AdminPromos />} />
+        </Route>
 
         <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
         </Routes>
