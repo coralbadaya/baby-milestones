@@ -12,7 +12,8 @@ alwaysApply: true
 1. Read [`docs/design-system-2026.md`](docs/design-system-2026.md) — **complete design system** (quiet luxury, affluent tier-1 audience).
 2. Read [`docs/ui-design.md`](docs/ui-design.md) — shared components (`Select`, tokens, patterns).
 3. Read [`docs/premium-redesign-plan.md`](docs/premium-redesign-plan.md) when changing nav, home, or premium surfaces.
-4. Read the feature design doc when one exists (e.g. [`docs/shopping-ui-design.md`](docs/shopping-ui-design.md)).
+4. Read [`docs/editorial-page-system.md`](docs/editorial-page-system.md) when changing Home visuals, section rhythm, DIY imagery, or rolling editorial patterns to other pages.
+5. Read the feature design doc when one exists (e.g. [`docs/shopping-ui-design.md`](docs/shopping-ui-design.md)).
 
 **Skills (premium UI, imagery & brand):**
 
@@ -36,6 +37,7 @@ alwaysApply: true
 | `docs/imagery-system.md` | PageHero, AI art direction, image manifest |
 | `docs/page-layout-standardization.md` | Full-bleed hero + centered body, mobile nav clearance |
 | `docs/home-redesign.md` | Today dashboard spec |
+| `docs/editorial-page-system.md` | **Editorial page system** — phased visual upgrade (Home → all routes), performance profiles |
 | `docs/monetization-strategy.md` | Premium tiers, gating, revenue |
 | `docs/ui-design.md` | Select, tokens, shared form/layout patterns |
 | `docs/shopping-ui-design.md` | Shopping checklist, cards, grid, images |

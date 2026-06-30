@@ -1,8 +1,32 @@
-import ActivityIllustration from './ActivityIllustration';
+import { useState } from 'react';
+import { getDiyImage } from '../data/diyImages';
 import DetailModal from './DetailModal';
 import { diyCategoryConfig, difficultyDots } from './diyCategoryConfig';
 import { interact } from '../utils/haptics';
 import Icon from './Icon';
+
+function DiyCardImage({ illustration }) {
+  const config = getDiyImage(illustration);
+  const [failed, setFailed] = useState(false);
+  const showPhoto = config.src && !failed;
+
+  return (
+    <div
+      className="diy-activity-media-photo"
+      style={!showPhoto ? { background: config.fallbackGradient } : { backgroundColor: config.placeholderColor }}
+    >
+      {showPhoto && (
+        <img
+          src={config.src}
+          alt={config.alt}
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(true)}
+        />
+      )}
+    </div>
+  );
+}
 
 function DIYActivityCard({ activity, onOpen, onClose, isOpen, compact = false }) {
   const cat = diyCategoryConfig[activity.category] || diyCategoryConfig.sensory;
@@ -27,7 +51,7 @@ function DIYActivityCard({ activity, onOpen, onClose, isOpen, compact = false })
       onClose={onClose}
     >
       <div className="diy-illustration-wrap">
-        <ActivityIllustration type={activity.illustration} />
+        <DiyCardImage illustration={activity.illustration} />
       </div>
       <div className="diy-section">
         <h5 className="diy-section-title"><Icon name="shopping-cart" size={16} /> What You Need</h5>
@@ -104,11 +128,11 @@ function DIYActivityCard({ activity, onOpen, onClose, isOpen, compact = false })
   return (
     <>
       <article
-        className="content-card diy-activity-card card-accent-top"
+        className="content-card diy-activity-card card-accent-top card-hover-lift"
         style={{ '--cat-color': cat.color, '--cat-bg': cat.bg }}
       >
         <div className="content-card-media diy-activity-media">
-          <ActivityIllustration type={activity.illustration} />
+          <DiyCardImage illustration={activity.illustration} />
         </div>
         <div className="content-card-body">
           <span className="diy-cat-badge" style={{ background: cat.bg, color: cat.color }}>

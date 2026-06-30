@@ -59,6 +59,7 @@
 | `docs/information-architecture.md` | Nav, routes, page hierarchy |
 | `docs/imagery-system.md` | Art direction, PageHero, AI prompts |
 | `docs/home-redesign.md` | Today dashboard spec |
+| `docs/editorial-page-system.md` | **Visual system v2** — phased editorial rhythm, DIY imagery, rollout to all pages |
 | `docs/monetization-strategy.md` | Premium tiers, paywall |
 | `docs/design-system-2026.md` | Tokens, typography, components |
 

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import PageHero from '../components/PageHero';
+import PageSection from '../components/PageSection';
 import Icon from '../components/Icon';
 import DetailModal from '../components/DetailModal';
 import VaccineEditorModal from '../components/VaccineEditorModal';
@@ -260,13 +261,14 @@ function Vaccination({
     <>
       <PageHero
         imageKey="vaccination"
+        layout="split"
         eyebrow="Health records"
         title="Vaccination tracker"
         subtitle="Track schedules and reminders. Educational organizer only — always follow your pediatrician."
         size="md"
       />
 
-      <div className="vaccination-page page-body page-body--wide page-body--with-mobile-nav">
+      <PageSection surface="white" width="wide" className="page-body--with-mobile-nav vaccination-page">
       <section className="vaccination-toolbar vaccination-print-hide">
         <div className="vaccination-toolbar-left">
           <VaccineScheduleSelect value={scheduleType} onChange={onScheduleTypeChange} />
@@ -363,7 +365,7 @@ function Vaccination({
           onClose={() => setEditingVaccine(null)}
         />
       )}
-      </div>
+      </PageSection>
     </>
   );
 }

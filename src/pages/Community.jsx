@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import PageHero from '../components/PageHero';
+import PageSection from '../components/PageSection';
 import Icon from '../components/Icon';
 import { useNavigate } from 'react-router-dom';
 import { interact } from '../utils/haptics';
@@ -72,13 +73,14 @@ function Community({ currentMonth, tab }) {
     <>
       <PageHero
         imageKey="community"
+        layout="split"
         eyebrow="Connection"
         title="Community"
         subtitle={COMMUNITY_TAGLINE}
         size="md"
       />
 
-      <div className="community-page page-body page-body--narrow page-body--with-mobile-nav">
+      <PageSection surface="sand" width="narrow" className="page-body--with-mobile-nav community-page">
         <nav className="community-tabs" role="tablist" aria-label="Community sections">
           {TABS.map((t) => (
             <button
@@ -112,7 +114,7 @@ function Community({ currentMonth, tab }) {
             />
           )}
         </div>
-      </div>
+      </PageSection>
     </>
   );
 }

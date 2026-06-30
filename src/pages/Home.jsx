@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import PageHero from '../components/PageHero';
+import PageSection from '../components/PageSection';
+import SectionHeader from '../components/SectionHeader';
 import TodayFocus from '../components/TodayFocus';
 import CurrentMonthPanel from '../components/CurrentMonthPanel';
 import DIYPreviewStrip from '../components/DIYPreviewStrip';
+import EditorialBand from '../components/EditorialBand';
 import Timeline from '../components/Timeline';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
@@ -44,11 +47,14 @@ function Home({
   const ageLine = birthDate ? formatAge(birthDate) : null;
   const rangeStart = currentMonth ? Math.max(1, currentMonth - 2) : 1;
   const rangeEnd = currentMonth ? Math.min(36, currentMonth + 2) : 5;
+  const month = birthDate && currentMonth ? currentMonth : 1;
+  const showPersonalized = Boolean(birthDate && currentMonth);
 
   return (
     <div className="home home-today">
       <PageHero
         imageKey="home"
+        layout="split"
         eyebrow={getGreeting()}
         title={ageLine || 'Welcome to Nestbean'}
         subtitle={
@@ -70,38 +76,54 @@ function Home({
         </div>
       </PageHero>
 
-      <TodayFocus
-        birthDate={birthDate}
-        currentMonth={currentMonth}
-        checkedItems={checkedItems}
-      />
+      <PageSection surface="ivory" width="wide" ariaLabelledby="today-focus-heading">
+        <SectionHeader
+          id="today-focus-heading"
+          eyebrow="Your week"
+          title="This week's focus"
+          subtitle="Milestones, recovery, and play — three calm priorities."
+        />
+        <TodayFocus
+          birthDate={birthDate}
+          currentMonth={currentMonth}
+          checkedItems={checkedItems}
+        />
+      </PageSection>
 
-      {birthDate && currentMonth ? (
-        <>
+      <PageSection surface="white" width="wide">
+        {showPersonalized ? (
           <CurrentMonthPanel
             currentMonth={currentMonth}
             checkedItems={checkedItems}
             toggleCheck={toggleCheck}
             compact
           />
-          <DIYPreviewStrip month={currentMonth} limit={2} />
-        </>
-      ) : (
-        <>
+        ) : (
           <CurrentMonthPanel
             sampleMode
             checkedItems={checkedItems}
             toggleCheck={toggleCheck}
             compact
           />
-          <DIYPreviewStrip month={1} limit={2} />
-        </>
-      )}
+        )}
+      </PageSection>
+
+      <PageSection surface="sand" width="wide" className="page-section--diy">
+        <DIYPreviewStrip month={month} limit={2} layout="stack" />
+      </PageSection>
+
+      <EditorialBand />
 
       {birthDate && (
-        <section className="timeline-section timeline-section--collapsed">
-          <h2 className="font-display">Continue your journey</h2>
-          <p className="timeline-subtitle">Your timeline around month {currentMonth || 1}</p>
+        <PageSection surface="ivory" width="wide" className="page-section--timeline">
+          <SectionHeader
+            id="timeline-collapsed-heading"
+            eyebrow="Journey"
+            title="Continue your journey"
+            subtitle={`Your timeline around month ${currentMonth || 1}.`}
+            linkTo={ROUTES.baby}
+            linkLabel="View full timeline →"
+          />
           <Timeline
             currentMonth={currentMonth}
             checkedItems={checkedItems}
@@ -111,16 +133,7 @@ function Home({
             rangeStart={rangeStart}
             rangeEnd={rangeEnd}
           />
-          <p className="timeline-collapsed-footer">
-            <Link
-              to={ROUTES.baby}
-              className="timeline-full-link"
-              onClick={() => interact('tap', 'light')}
-            >
-              View full timeline →
-            </Link>
-          </p>
-        </section>
+        </PageSection>
       )}
     </div>
   );

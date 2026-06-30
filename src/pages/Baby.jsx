@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import PageHero from '../components/PageHero';
+import PageSection from '../components/PageSection';
 import Timeline from '../components/Timeline';
 import CurrentMonthPanel from '../components/CurrentMonthPanel';
 import DIYPreviewStrip from '../components/DIYPreviewStrip';
@@ -15,22 +16,24 @@ function Baby({ birthDate, currentMonth, checkedItems, toggleCheck, onSelectMont
     description: 'Month-by-month baby milestones, DIY activities, and care from newborn to toddler.',
   });
   const onLink = () => interact('tap', 'light');
+  const month = currentMonth || 1;
 
   return (
     <>
       <PageHero
         imageKey="baby"
+        layout="split"
         eyebrow="Development"
         title="My Baby"
         subtitle="Milestones, DIY activities, and care — month by month."
       />
 
-      <div className="baby-page page-body page-body--wide page-body--with-mobile-nav">
+      <PageSection surface="ivory" width="wide" className="page-body--with-mobile-nav">
         {currentMonth && (
           <section className="hub-quick-links">
             <Link
               to={ROUTES.month(currentMonth)}
-              className="hub-quick-link card-accent-top"
+              className="hub-quick-link card-accent-top card-hover-lift"
               onClick={onLink}
             >
               <Icon name="calendar" size={20} />
@@ -41,7 +44,7 @@ function Baby({ birthDate, currentMonth, checkedItems, toggleCheck, onSelectMont
             </Link>
             <Link
               to={ROUTES.vaccination}
-              className="hub-quick-link card-accent-top"
+              className="hub-quick-link card-accent-top card-hover-lift"
               onClick={onLink}
             >
               <Icon name="medical" size={20} />
@@ -60,35 +63,39 @@ function Baby({ birthDate, currentMonth, checkedItems, toggleCheck, onSelectMont
             {' '}to highlight the current month.
           </p>
         )}
+      </PageSection>
 
+      <PageSection surface="white" width="wide">
         {currentMonth ? (
-          <>
-            <CurrentMonthPanel
-              currentMonth={currentMonth}
-              checkedItems={checkedItems}
-              toggleCheck={toggleCheck}
-            />
-            <DIYPreviewStrip month={currentMonth} limit={4} />
-            <CarePreviewTeaser month={currentMonth} />
-          </>
+          <CurrentMonthPanel
+            currentMonth={currentMonth}
+            checkedItems={checkedItems}
+            toggleCheck={toggleCheck}
+          />
         ) : (
-          <>
-            <CurrentMonthPanel
-              sampleMode
-              checkedItems={checkedItems}
-              toggleCheck={toggleCheck}
-            />
-            <DIYPreviewStrip month={1} limit={4} />
-            <CarePreviewTeaser month={1} />
-          </>
+          <CurrentMonthPanel
+            sampleMode
+            checkedItems={checkedItems}
+            toggleCheck={toggleCheck}
+          />
         )}
+      </PageSection>
 
+      <PageSection surface="sand" width="wide" className="page-section--diy">
+        <DIYPreviewStrip month={month} limit={4} layout="grid" />
+      </PageSection>
+
+      <PageSection surface="ivory" width="wide">
+        <CarePreviewTeaser month={month} />
+      </PageSection>
+
+      <PageSection surface="white" width="wide" className="page-section--timeline page-body--with-mobile-nav">
         <Timeline
           currentMonth={currentMonth}
           checkedItems={checkedItems}
           onSelectMonth={onSelectMonth}
         />
-      </div>
+      </PageSection>
     </>
   );
 }

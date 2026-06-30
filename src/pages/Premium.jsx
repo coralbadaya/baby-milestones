@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageHero from '../components/PageHero';
+import PageSection from '../components/PageSection';
+import EditorialBand from '../components/EditorialBand';
 import { interact } from '../utils/haptics';
 import { PLANS } from '../constants/premium';
 import { useAuth } from '../context/AuthContext';
@@ -58,12 +60,16 @@ function Premium() {
     <div className="premium-page">
       <PageHero
         imageKey="premium"
+        layout="split"
         eyebrow="Early Access"
         title="Quiet luxury for your first years"
         subtitle="Editorial guides, curated edits, and concierge depth — built for mothers who expect more."
         size="md"
       />
 
+      <EditorialBand tagline="The art of early motherhood" />
+
+      <PageSection surface="ivory" width="wide" className="page-body--with-mobile-nav">
       <section className="premium-pricing">
         {loading ? (
           <p className="premium-loading">Loading membership…</p>
@@ -151,6 +157,7 @@ function Premium() {
           </Link>
         </p>
       </section>
+      </PageSection>
     </div>
   );
 }

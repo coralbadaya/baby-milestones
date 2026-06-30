@@ -45,7 +45,11 @@
   --text-light: #8A8179;
   --white: #FFFFFF;
   
-  /* Surfaces */
+  /* Surfaces — editorial page system */
+  --surface-ivory: var(--cream);
+  --surface-sand: var(--sand);
+  --surface-white: var(--white);
+  --surface-ink: var(--brand-ink);
   --surface-primary: var(--cream);
   --surface-elevated: var(--white);
   --surface-card: var(--white);

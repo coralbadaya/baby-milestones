@@ -17,6 +17,7 @@
     "download:emojis": "node scripts/download-emoji-icons.mjs",
     "generate:sounds": "node scripts/generate-sounds.mjs",
     "generate:brand": "node scripts/generate-brand-assets.mjs",
+    "generate:diy": "node scripts/generate-diy-placeholders.mjs",
     "generate:sitemap": "node scripts/generate-sitemap.mjs"
   },
   "dependencies": {

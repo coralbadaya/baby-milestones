@@ -2,6 +2,8 @@
 
 > `/` is a calm **concierge**, not a 36-tile wall.
 
+**Visual system (phased):** [`docs/editorial-page-system.md`](editorial-page-system.md) — DIY editorial cards, section rhythm, performance profiles. Home is the reference page; pattern rolls out site-wide.
+
 ---
 
 ## Layout (top to bottom)
@@ -32,11 +34,15 @@ Three cards max, age-aware:
 
 ### 4. DIY preview strip (`DIYPreviewStrip.jsx`)
 
-- Horizontal scroll of compact DIY cards with **YouTube button on card face**
-- Today: 2 cards; My Baby: 4 cards
-- Footer link: `/month/:n#diy`
+- Uses `DIYEditorialCard` — split layout on Today (2 cards), grid on My Baby (4 cards)
+- Photos from `src/data/diyImages.js` keyed by `activity.illustration`
+- YouTube button on card face; sand section band via `PageSection`
 
-### 5. Continue your journey (`Timeline` collapsed)
+### 5. Editorial band (`EditorialBand.jsx`)
+
+- Ink band with brand tagline — **Home only** (one per page max)
+
+### 6. Continue your journey (`Timeline` collapsed)
 
 - Props: `collapsed`, `rangeStart`, `rangeEnd` — show current month ±2 only
 - Footer link: **View full timeline →** `/baby`
@@ -50,6 +56,22 @@ Unchanged — floating on home.
 ## Empty state (no birth date)
 
 Hero subtitle invites setting birth date. Focus cards show generic welcome copy. **Month 1 sample** milestones + DIY preview shown via `CurrentMonthPanel` / `DIYPreviewStrip`. Collapsed timeline hidden until birth date set.
+
+---
+
+## Visual rhythm (editorial system v2)
+
+Home uses `PageSection` surface bands — see [`docs/editorial-page-system.md`](editorial-page-system.md):
+
+| Section | Surface | Component |
+|---------|---------|-----------|
+| Focus | ivory | `TodayFocus` + image headers |
+| Milestones | white | `CurrentMonthPanel` |
+| DIY | sand | `DIYPreviewStrip` |
+| Brand | ink | `EditorialBand` |
+| Timeline | ivory | collapsed `Timeline` |
+
+Hero: `PageHero` with `layout="split"` on desktop.
 
 ---
 
@@ -69,7 +91,12 @@ Hero subtitle invites setting birth date. Focus cards show generic welcome copy.
 - `src/components/CurrentMonthPanel.jsx`
 - `src/components/DIYPreviewStrip.jsx`
 - `src/components/Timeline.jsx` — `collapsed` prop
-- `src/components/PageHero.jsx`
+- `src/components/DIYEditorialCard.jsx`
+- `src/components/PageSection.jsx`
+- `src/components/SectionHeader.jsx`
+- `src/components/EditorialBand.jsx`
+- `src/data/diyImages.js`, `src/data/focusImages.js`
+- `src/styles/editorial-system.css`
 
 ---
 

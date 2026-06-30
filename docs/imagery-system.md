@@ -43,6 +43,27 @@ public/images/heroes/
 
 Manifest: `src/data/pageImages.js`
 
+Each hero entry may include `objectPosition` and `splitSafe` notes for split-layout crops.
+
+### DIY archetype images
+
+```
+public/images/diy/
+  {illustration-key}.jpg   — e.g. tummy_time.jpg, peekaboo.jpg
+```
+
+Manifest: `src/data/diyImages.js` — keyed by `activity.illustration` from `diyActivities.js`.
+
+Generate placeholders: `npm run generate:diy` (hero crops + category tints). Replace with AI art using:
+
+```
+Editorial baby activity: [ACTIVITY NAME]. Hands-only or minimal home setting,
+warm natural light, desaturated warm tones, magazine editorial, candid not staged.
+Horizontal 4:3, no text, no logos, no stock baby clichés.
+```
+
+Focus card headers: `src/data/focusImages.js` (reuses hero photography).
+
 ---
 
 ## `<PageHero>` component
@@ -57,7 +78,9 @@ Manifest: `src/data/pageImages.js`
 | `subtitle` | string | Optional supporting line |
 | `children` | node | Optional slot (e.g. birth date form) |
 | `size` | `'lg' \| 'md'` | Hero height variant |
-| `overlay` | `'dark' \| 'light'` | Scrim for text contrast |
+| `layout` | `'stack' \| 'split'` | Split: copy + image side-by-side on desktop (≥769px) |
+| `overlay` | `'dark' \| 'light'` | Scrim for text contrast (stack / mobile split) |
+| `eager` | boolean | `loading="eager"` + `fetchpriority="high"` for LCP |
 
 ### Placement
 
