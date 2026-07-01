@@ -1,6 +1,7 @@
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import AuthForm, { AuthPageShell, AuthSwitchLink } from '../components/auth/AuthForm';
-import { useAuth } from '../context/AuthContext';
+import { isEmailVerified, useAuth } from '../context/AuthContext';
+import { isEmailNotConfirmedError } from '../utils/auth';
 import { usePageMeta } from '../utils/pageMeta';
 import { ROUTES } from '../routes';
 
@@ -11,11 +12,24 @@ function Login() {
   const location = useLocation();
   const from = location.state?.from || ROUTES.account;
 
-  if (user) return <Navigate to={from} replace />;
+  if (user && isEmailVerified(user)) {
+    return <Navigate to={from} replace />;
+  }
+  if (user && !isEmailVerified(user)) {
+    return <Navigate to={ROUTES.verifyEmail} state={{ email: user.email }} replace />;
+  }
 
   const handleSubmit = async ({ email, password }) => {
-    await signIn({ email, password });
-    navigate(from, { replace: true });
+    try {
+      await signIn({ email, password });
+      navigate(from, { replace: true });
+    } catch (err) {
+      if (isEmailNotConfirmedError(err)) {
+        navigate(ROUTES.verifyEmail, { replace: true, state: { email } });
+        return;
+      }
+      throw err;
+    }
   };
 
   return (

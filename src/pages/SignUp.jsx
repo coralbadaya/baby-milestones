@@ -1,6 +1,6 @@
 import { Navigate, useNavigate } from 'react-router-dom';
 import AuthForm, { AuthPageShell, AuthSwitchLink } from '../components/auth/AuthForm';
-import { useAuth } from '../context/AuthContext';
+import { isEmailVerified, useAuth } from '../context/AuthContext';
 import { usePageMeta } from '../utils/pageMeta';
 import { ROUTES } from '../routes';
 
@@ -12,17 +12,26 @@ function SignUp() {
   const { signUp, user } = useAuth();
   const navigate = useNavigate();
 
-  if (user) return <Navigate to={ROUTES.account} replace />;
+  if (user && isEmailVerified(user)) {
+    return <Navigate to={ROUTES.account} replace />;
+  }
+  if (user && !isEmailVerified(user)) {
+    return <Navigate to={ROUTES.verifyEmail} state={{ email: user.email }} replace />;
+  }
 
   const handleSubmit = async ({ email, password, displayName }) => {
-    await signUp({ email, password, displayName: displayName || undefined });
-    navigate(ROUTES.account, { replace: true });
+    const { session } = await signUp({ email, password, displayName: displayName || undefined });
+    if (session) {
+      navigate(ROUTES.account, { replace: true });
+    } else {
+      navigate(ROUTES.verifyEmail, { replace: true, state: { email } });
+    }
   };
 
   return (
     <AuthPageShell
       title="Create your account"
-      intro="Start with a complimentary 7-day Premium preview. No card required during early access."
+      intro="We’ll send a verification code to your email. Start with a complimentary 7-day Premium preview — no card required during early access."
       footer={<AuthSwitchLink mode="signup" />}
     >
       <AuthForm mode="signup" onSubmit={handleSubmit} />

@@ -34,7 +34,7 @@ Gulf markets: price in AED/USD; annual preferred.
 
 Implementation: `src/components/PremiumGate.jsx` + `src/context/AuthContext.jsx` (Supabase membership when signed in; localStorage preview when anonymous). See [`docs/auth-membership-admin.md`](auth-membership-admin.md).
 
-Early access: no Stripe yet — signup grants 7-day trial; promo codes and founding `comp` status via admin.
+Early access: no Stripe yet — signup requires **verified email (OTP)**; after verify, 7-day trial via signup trigger; promo codes and founding `comp` status via admin.
 
 ---
 

@@ -20,6 +20,7 @@ import Faq from './pages/Faq';
 import StaticPage from './pages/StaticPage';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import VerifyEmail from './pages/VerifyEmail';
 import Account from './pages/Account';
 import Contact from './pages/Contact';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -257,6 +258,7 @@ function App() {
 
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signup} element={<SignUp />} />
+        <Route path={ROUTES.verifyEmail} element={<VerifyEmail />} />
         <Route path={ROUTES.account} element={<Account />} />
 
         <Route path={ROUTES.admin} element={<AdminLayout />}>

@@ -44,18 +44,51 @@ update public.profiles set role = 'admin' where id = (
 
 | File | Role |
 |------|------|
-| `src/context/AuthContext.jsx` | Session, profile, membership, promo redeem |
+| `src/context/AuthContext.jsx` | Session, profile, membership, promo redeem, OTP verify/resend |
+| `src/utils/auth.js` | `isEmailVerified`, `isEmailNotConfirmedError` |
 | `src/utils/membership.js` | `isPremiumActive`, labels, expiry |
 | `src/utils/supabaseClient.js` | Supabase client |
-| `src/components/auth/RequireAuth.jsx` | Redirect to login |
+| `src/components/auth/RequireAuth.jsx` | Redirect to login; unverified → verify email |
+| `src/components/auth/OtpVerifyForm.jsx` | 6-digit OTP entry + resend |
 | `src/components/auth/RequireRole.jsx` | Staff/admin guard |
 | `src/pages/admin/*` | Admin center (overview, inbox, users, promos) |
 
-Routes: `/login`, `/signup`, `/account`, `/admin`, `/admin/inbox`, `/admin/users`, `/admin/promos`.
+Routes: `/login`, `/signup`, `/verify-email`, `/account`, `/admin`, `/admin/inbox`, `/admin/users`, `/admin/promos`.
+
+## Email verification (OTP)
+
+Signup uses **email + password** with mandatory **6-digit OTP** before the user receives a session.
+
+### Flow
+
+1. User submits `/signup` → `auth.signUp()` → Supabase sends OTP email
+2. If no session (confirm email enabled) → redirect to `/verify-email` with email in route state
+3. User enters OTP → `auth.verifyOtp({ type: 'signup' })` → session established → `/account`
+4. Login before verify → error → redirect to `/verify-email` with resend option
+5. `RequireAuth` redirects unverified users to `/verify-email`
+
+After verification, `handle_new_user` has already created profile + **7-day Premium trial** (trigger runs on auth user insert at signup).
+
+### Supabase dashboard (required)
+
+Configure in **Authentication** for your project:
+
+1. **Providers → Email**
+   - Enable **Confirm email**
+   - Use **OTP** (6-digit code) for signup confirmation
+2. **URL configuration**
+   - **Site URL**: production origin (e.g. `https://nestbean.com`)
+   - **Redirect URLs**: include `http://localhost:5173/**` for local dev
+3. **Email templates**
+   - Customize **Confirm signup** copy for Nestbean brand
+4. **SMTP** (production)
+   - Configure a custom sender; Supabase default mail is fine for dev only
+
+If **Confirm email** is disabled locally, signup may return a session immediately and skip `/verify-email` — enable confirm email in the linked project to test the full flow.
 
 ## Membership model (early access)
 
-- **Signup** → 7-day `trial` via `handle_new_user` trigger
+- **Signup** → email OTP required → then 7-day `trial` via `handle_new_user` trigger
 - **Promo codes** → `redeem_promo_code` RPC (`FOUNDING30` seeded)
 - **Anonymous** → optional local preview via `localStorage` (`nestmilePremium`)
 - **Signed-in** → Supabase membership is source of truth

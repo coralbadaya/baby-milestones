@@ -3,8 +3,11 @@ import { supabase } from '../utils/supabaseClient';
 import { isPremiumActive } from '../utils/membership';
 import { readLocalPremium } from '../utils/localPremium';
 import { PREMIUM_STORAGE_KEY, PLANS } from '../constants/premium';
+import { isEmailVerified } from '../utils/auth';
 
 const AuthContext = createContext(null);
+
+export { isEmailVerified };
 
 async function fetchProfile(userId) {
   const { data, error } = await supabase
@@ -97,6 +100,25 @@ export function AuthProvider({ children }) {
     return data;
   }, []);
 
+  const verifyEmailOtp = useCallback(async ({ email, token }) => {
+    const { data, error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: 'signup',
+    });
+    if (error) throw error;
+    return data;
+  }, []);
+
+  const resendSignupOtp = useCallback(async (email) => {
+    const { data, error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+    });
+    if (error) throw error;
+    return data;
+  }, []);
+
   const signOut = useCallback(async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
@@ -152,6 +174,8 @@ export function AuthProvider({ children }) {
     isStaff,
     signUp,
     signIn,
+    verifyEmailOtp,
+    resendSignupOtp,
     signOut,
     updateDisplayName,
     redeemPromoCode,
@@ -159,7 +183,8 @@ export function AuthProvider({ children }) {
     startLocalTrial,
   }), [
     session, profile, membership, loading, profileLoading, isPremium, isAdmin, isStaff,
-    signUp, signIn, signOut, updateDisplayName, redeemPromoCode, refreshProfile, startLocalTrial,
+    signUp, signIn, verifyEmailOtp, resendSignupOtp, signOut,
+    updateDisplayName, redeemPromoCode, refreshProfile, startLocalTrial,
   ]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

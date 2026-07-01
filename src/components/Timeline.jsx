@@ -54,10 +54,16 @@ function TimelineCarousel({
   };
 
   const scrollToMonth = useCallback((month, behavior = 'smooth') => {
+    const track = trackRef.current;
     const el = cardRefs.current.get(month);
-    if (el) {
-      el.scrollIntoView({ inline: 'center', block: 'nearest', behavior });
-    }
+    if (!track || !el) return;
+
+    const targetLeft = el.offsetLeft - (track.clientWidth - el.offsetWidth) / 2;
+    const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+    track.scrollTo({
+      left: Math.max(0, Math.min(targetLeft, maxScroll)),
+      behavior,
+    });
     setActiveMonth(month);
   }, []);
 

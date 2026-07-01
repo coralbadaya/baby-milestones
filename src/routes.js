@@ -37,6 +37,7 @@ export const ROUTES = {
   // Auth & account
   login: '/login',
   signup: '/signup',
+  verifyEmail: '/verify-email',
   account: '/account',
 
   // Admin (staff / admin roles)
