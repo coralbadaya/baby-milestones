@@ -46,6 +46,7 @@ function TravelTips({ currentMonth }) {
 
   return (
     <div className="travel-page-content fade-in">
+      <div className="editorial-band-inline editorial-band-inline--mist">
       {currentMonth != null ? (
         <p className="travel-age-banner" role="status">
           Tips tailored for <strong>Month {currentMonth}</strong> (from birth date)
@@ -83,7 +84,9 @@ function TravelTips({ currentMonth }) {
           );
         })}
       </div>
+      </div>
 
+      <div className="editorial-band-inline editorial-band-inline--white">
       {tips && (
         <article
           id={`travel-panel-${activeType}`}
@@ -128,6 +131,7 @@ function TravelTips({ currentMonth }) {
           </button>
         </footer>
       )}
+      </div>
     </div>
   );
 }

@@ -1,0 +1,7 @@
+# Supabase local config — edge functions for newsletter delivery
+
+[functions.newsletter-send-test]
+verify_jwt = true
+
+[functions.newsletter-process-queue]
+verify_jwt = false

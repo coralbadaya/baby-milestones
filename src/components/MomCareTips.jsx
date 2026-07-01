@@ -72,7 +72,8 @@ function MomCareTips({ birthDate }) {
 
   return (
     <div className="mom-care-page-content fade-in">
-      <nav className="mom-care-subnav" role="tablist" aria-label="Mom care sections">
+      <div className="editorial-band-inline editorial-band-inline--ivory">
+        <nav className="mom-care-subnav" role="tablist" aria-label="Mom care sections">
         {MOM_CARE_PRIMARY_NAV.map((section) => (
           <button
             key={section.id}
@@ -124,7 +125,9 @@ function MomCareTips({ birthDate }) {
       {primaryMeta && (
         <p className="mom-care-category-desc">{primaryMeta.description}</p>
       )}
+      </div>
 
+      <div className="editorial-band-inline editorial-band-inline--white">
       {isTimeline ? (
         <MomMilestonesPanel birthDate={birthDate} />
       ) : tips && (
@@ -168,6 +171,7 @@ function MomCareTips({ birthDate }) {
           </nav>
         </article>
       )}
+      </div>
     </div>
   );
 }

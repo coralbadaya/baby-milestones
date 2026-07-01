@@ -2,6 +2,7 @@
 export const ROUTES = {
   home: '/',
   baby: '/baby',
+  babyMoments: '/baby#moments',
   essentials: '/essentials',
   premium: '/premium',
   month: (n) => `/month/${n}`,
@@ -45,6 +46,9 @@ export const ROUTES = {
   adminInbox: '/admin/inbox',
   adminUsers: '/admin/users',
   adminPromos: '/admin/promos',
+  adminDiy: '/admin/diy',
+  adminNewsletter: '/admin/newsletter',
+  newsletterUnsubscribe: '/newsletter/unsubscribe',
 };
 
 export const COMMUNITY_TABS = ['feed', 'recipes', 'tips', 'create'];

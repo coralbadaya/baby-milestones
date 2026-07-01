@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import { getDiyImage } from '../data/diyImages';
+import { useDiyImagesContext } from '../context/DiyImagesContext';
 import DetailModal from './DetailModal';
 import { diyCategoryConfig, difficultyDots } from './diyCategoryConfig';
 import { interact } from '../utils/haptics';
 import Icon from './Icon';
 import ActivityIllustration from './ActivityIllustration';
 
-function DiyEditorialImage({ illustration, variant = 'split', loading = 'lazy' }) {
-  const config = getDiyImage(illustration);
+function DiyEditorialImage({ activity, variant = 'split', loading = 'lazy' }) {
+  const { overrides } = useDiyImagesContext();
+  const config = getDiyImage(
+    { activityId: activity.id, illustration: activity.illustration, category: activity.category },
+    overrides,
+  );
   const [failed, setFailed] = useState(false);
   const showPhoto = config.src && !failed;
 
@@ -94,7 +99,7 @@ function DIYEditorialCard({
         </div>
       </div>
       <button type="button" className="diy-video-btn" onClick={openVideo}>
-        <Icon name="play" size={14} className="yt-icon" />
+        <Icon name="youtube" size={18} className="yt-icon" />
         Watch How-To Videos on YouTube
       </button>
     </DetailModal>
@@ -125,7 +130,7 @@ function DIYEditorialCard({
           Open guide
         </button>
         <button type="button" className="diy-preview-card__video" onClick={openVideo}>
-          <Icon name="play" size={14} />
+          <Icon name="youtube" size={16} className="yt-icon-brand" />
           YouTube
         </button>
       </div>
@@ -140,12 +145,12 @@ function DIYEditorialCard({
       >
         {variant === 'split' ? (
           <>
-            <DiyEditorialImage illustration={activity.illustration} variant="split" loading={imageLoading} />
+            <DiyEditorialImage activity={activity} variant="split" loading={imageLoading} />
             {body}
           </>
         ) : (
           <>
-            <DiyEditorialImage illustration={activity.illustration} variant="stack" loading={imageLoading} />
+            <DiyEditorialImage activity={activity} variant="stack" loading={imageLoading} />
             {body}
           </>
         )}

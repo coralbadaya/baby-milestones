@@ -37,7 +37,8 @@
 | 3 | Home Today dashboard | ✅ |
 | 4 | Hub pages (My Baby, Essentials) | ✅ |
 | 5 | Premium scaffold (gating, pricing UI) | ✅ |
-| 6 | Stripe / auth integration | Planned |
+| 6 | Supabase auth + email OTP signup | ✅ |
+| 6b | Stripe checkout + webhooks | Planned |
 | 7 | Personalization (name, city, concierge copy) | Planned |
 | 8 | Nanny concierge module | Future |
 
@@ -61,6 +62,7 @@
 | `docs/home-redesign.md` | Today dashboard spec |
 | `docs/editorial-page-system.md` | **Visual system v2** — phased editorial rhythm, DIY imagery, rollout to all pages |
 | `docs/monetization-strategy.md` | Premium tiers, paywall |
+| `docs/auth-membership-admin.md` | Supabase auth, OTP signup, membership, admin |
 | `docs/design-system-2026.md` | Tokens, typography, components |
 
 ---
@@ -74,6 +76,7 @@
 | Hub pages | `src/pages/Baby.jsx`, `src/pages/Essentials.jsx` |
 | Nav | `src/components/Header.jsx`, `src/routes.js` |
 | Premium | `src/constants/premium.js`, `src/hooks/usePremium.js`, `src/components/PremiumGate.jsx`, `src/pages/Premium.jsx` |
+| Auth | `src/context/AuthContext.jsx`, `src/pages/Login.jsx`, `SignUp.jsx`, `VerifyEmail.jsx`, `src/components/auth/*` — see `docs/auth-membership-admin.md` |
 | Hero assets | `public/images/heroes/*.jpg` |
 
 ---

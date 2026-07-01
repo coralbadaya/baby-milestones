@@ -18,7 +18,7 @@ function MomCare({ birthDate }) {
         subtitle="Postpartum timeline, self-care, and gentle guidance — because you matter too."
         size="md"
       />
-      <PageSection surface="ivory" width="wide" className="page-body--with-mobile-nav mom-care-page">
+      <PageSection surface="lavender" width="wide" className="mom-care-page page-body--with-mobile-nav">
         <MomCareTips birthDate={birthDate} />
       </PageSection>
     </>

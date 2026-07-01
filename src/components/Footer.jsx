@@ -3,20 +3,36 @@ import { Link } from 'react-router-dom';
 import Icon from './Icon';
 import CoralLogo from './CoralLogo';
 import { interact } from '../utils/haptics';
+import { subscribeFooter } from '../utils/newsletterAdmin';
 import { ROUTES, FOOTER_SECTIONS } from '../routes';
 import { BRAND_NAME, SOCIAL_LINKS } from '../constants/brand';
 
 function NewsletterSignup() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    const trimmed = email.trim();
+    if (!trimmed) return;
     interact('tap', 'light');
-    // No backend yet — capture intent locally so the field clears and confirms.
-    setSubmitted(true);
-    setEmail('');
+    setLoading(true);
+    try {
+      const result = await subscribeFooter(trimmed);
+      setSubmitted(true);
+      setEmail('');
+      setMessage(
+        result?.already_subscribed
+          ? "You're already on the list — thank you."
+          : "Thank you — you're on the list.",
+      );
+    } catch {
+      setMessage('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -26,7 +42,7 @@ function NewsletterSignup() {
       </label>
       {submitted ? (
         <p className="site-footer-newsletter-thanks" role="status">
-          <Icon name="check" size={16} /> Thank you — you&apos;re on the list.
+          <Icon name="check" size={16} /> {message || "Thank you — you're on the list."}
         </p>
       ) : (
         <div className="site-footer-newsletter-row">
@@ -41,8 +57,8 @@ function NewsletterSignup() {
             className="site-footer-newsletter-input"
             aria-label="Email address"
           />
-          <button type="submit" className="site-footer-newsletter-btn">
-            Subscribe
+          <button type="submit" className="site-footer-newsletter-btn" disabled={loading}>
+            {loading ? '…' : 'Subscribe'}
           </button>
         </div>
       )}

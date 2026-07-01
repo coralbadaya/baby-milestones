@@ -69,7 +69,7 @@ function Premium() {
 
       <EditorialBand tagline="The art of early motherhood" />
 
-      <PageSection surface="ivory" width="wide" className="page-body--with-mobile-nav">
+      <PageSection surface="white" width="wide" className="page-body--with-mobile-nav">
       <section className="premium-pricing">
         {loading ? (
           <p className="premium-loading">Loading membership…</p>

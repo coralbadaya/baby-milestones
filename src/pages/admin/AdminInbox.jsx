@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import Select from '../../components/Select';
+import { contactSubjectLabel } from '../../constants/contactSubjects';
 import { supabase } from '../../utils/supabaseClient';
 import { interact } from '../../utils/haptics';
 
@@ -13,10 +14,13 @@ const STATUS_OPTIONS = [
 function AdminInbox() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all');
 
   const load = useCallback(async () => {
     setLoading(true);
+    setError(null);
+
     let q = supabase
       .from('contact_submissions')
       .select('*')
@@ -25,8 +29,13 @@ function AdminInbox() {
 
     if (filter !== 'all') q = q.eq('status', filter);
 
-    const { data, error } = await q;
-    if (!error) setRows(data || []);
+    const { data, error: fetchError } = await q;
+    if (fetchError) {
+      setError(fetchError.message);
+      setRows([]);
+    } else {
+      setRows(data || []);
+    }
     setLoading(false);
   }, [filter]);
 
@@ -34,13 +43,24 @@ function AdminInbox() {
 
   const updateRow = async (id, patch) => {
     interact('tap', 'light');
-    const { error } = await supabase.from('contact_submissions').update(patch).eq('id', id);
-    if (!error) load();
+    const { error: updateError } = await supabase
+      .from('contact_submissions')
+      .update(patch)
+      .eq('id', id);
+    if (updateError) {
+      setError(updateError.message);
+      return;
+    }
+    load();
   };
 
   return (
     <div className="admin-page">
       <h1 className="font-display">Inbox</h1>
+      <p className="admin-intro">
+        Contact form submissions from users and visitors. New messages appear at the top.
+      </p>
+
       <div className="admin-toolbar">
         <Select
           id="inbox-filter"
@@ -54,10 +74,12 @@ function AdminInbox() {
         <button type="button" className="btn-ghost" onClick={load}>Refresh</button>
       </div>
 
+      {error && <p className="admin-error" role="alert">{error}</p>}
+
       {loading ? (
         <p className="admin-loading">Loading messages…</p>
       ) : rows.length === 0 ? (
-        <p className="admin-empty">No messages.</p>
+        <p className="admin-empty">No messages{filter !== 'all' ? ` with status “${filter}”` : ''}.</p>
       ) : (
         <div className="admin-table-wrap">
           <table className="admin-table">
@@ -72,14 +94,19 @@ function AdminInbox() {
             </thead>
             <tbody>
               {rows.map((row) => (
-                <tr key={row.id}>
-                  <td>{new Date(row.created_at).toLocaleString()}</td>
-                  <td>
-                    <strong>{row.name || '—'}</strong>
-                    <br />
-                    <a href={`mailto:${row.email}`}>{row.email}</a>
+                <tr key={row.id} className={row.status === 'new' ? 'admin-row--highlight' : undefined}>
+                  <td className="admin-cell-date">
+                    <time dateTime={row.created_at}>
+                      {new Date(row.created_at).toLocaleString()}
+                    </time>
                   </td>
-                  <td>{row.subject}</td>
+                  <td className="admin-cell-from">
+                    <strong>{row.name?.trim() || '—'}</strong>
+                    <a href={`mailto:${row.email}`} className="admin-cell-email">{row.email}</a>
+                  </td>
+                  <td>
+                    <span className="admin-subject">{contactSubjectLabel(row.subject)}</span>
+                  </td>
                   <td>
                     <Select
                       id={`status-${row.id}`}
@@ -89,7 +116,7 @@ function AdminInbox() {
                     />
                   </td>
                   <td className="admin-cell-message">
-                    <p>{row.message}</p>
+                    <p className="admin-message-body">{row.message}</p>
                     <textarea
                       className="admin-notes"
                       placeholder="Admin notes"

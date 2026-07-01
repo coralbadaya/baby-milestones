@@ -55,7 +55,7 @@ function Essentials() {
         subtitle="Shopping and travel — practical, curated, calm."
       />
 
-      <PageSection surface="sand" width="wide" className="page-body--with-mobile-nav">
+      <PageSection surface="sand" width="wide">
         <SectionHeader
           id="essentials-hub-heading"
           eyebrow="Curated for you"
@@ -88,6 +88,12 @@ function Essentials() {
             );
           })}
         </section>
+      </PageSection>
+
+      <PageSection surface="ivory" width="wide" className="page-body--with-mobile-nav">
+        <p className="essentials-footer-note">
+          Calm, curated essentials — shopping edits, travel guidance, and vaccination tracking in one place.
+        </p>
       </PageSection>
     </div>
   );

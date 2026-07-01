@@ -164,6 +164,24 @@ Spec: [`docs/month-detail-ui-design.md`](month-detail-ui-design.md). Community s
 
 ---
 
+## Auth forms (`Login`, `SignUp`, `VerifyEmail`)
+
+Shared shell: `AuthPageShell`, `AuthForm` in `src/components/auth/AuthForm.jsx`. OTP step: `OtpVerifyForm.jsx`.
+
+| Class | Purpose |
+|-------|---------|
+| `.auth-page` | Centered column, max-width 28rem |
+| `.auth-card` | Card with `.card-accent-top` |
+| `.auth-form` | Vertical field stack |
+| `.auth-field` | Label + input |
+| `.auth-error` | Inline error with warning icon |
+| `.auth-otp-input` | Centered 6-digit code (tabular nums, letter-spacing) |
+| `.auth-resend-btn` | Text button for OTP resend (60s cooldown in component) |
+
+Signup sends email OTP before session; unverified users redirect to `/verify-email`. Full flow: [`docs/auth-membership-admin.md`](auth-membership-admin.md).
+
+---
+
 ## Workflow for agents and contributors
 
 1. **Plan** — Check `docs/ui-design.md` + feature design doc.

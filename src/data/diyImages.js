@@ -1,8 +1,9 @@
 /**
- * DIY activity imagery — keyed by `activity.illustration` archetype.
- * See docs/imagery-system.md and docs/editorial-page-system.md
+ * DIY activity imagery — per-activity Supabase overrides + illustration fallbacks.
+ * See docs/diy-images-admin.md and docs/imagery-system.md
  */
 import diyActivities from './diyActivities';
+import { diyImageManifest, diyActivityImages } from './diyImageManifest';
 
 const CATEGORY_FALLBACK = {
   sensory: {
@@ -35,41 +36,113 @@ diyActivities.forEach((month) => {
   });
 });
 
-function humanizeIllustration(key) {
-  return key.replace(/_/g, ' ');
+function gradientFromManifest(entry) {
+  return `linear-gradient(145deg, ${entry.gradientFrom} 0%, ${entry.gradientTo} 100%)`;
 }
 
-/** @type {Record<string, { src: string, alt: string, fallbackGradient: string, placeholderColor: string }>} */
+/** @type {Record<string, { src: string, alt: string, fallbackGradient: string, placeholderColor: string, prompt?: string }>} */
 export const diyImages = Object.fromEntries(
-  Object.keys(illustrationCategories).map((key) => {
-    const category = illustrationCategories[key];
-    const fallback = CATEGORY_FALLBACK[category] || CATEGORY_FALLBACK.sensory;
-    return [
-      key,
-      {
-        src: `/images/diy/${key}.jpg`,
-        alt: `Editorial photo for ${humanizeIllustration(key)} baby activity`,
-        fallbackGradient: fallback.fallbackGradient,
-        placeholderColor: fallback.placeholderColor,
-      },
-    ];
-  }),
+  Object.entries(diyImageManifest).map(([key, entry]) => [
+    key,
+    {
+      src: `/images/diy/${key}.jpg`,
+      alt: entry.alt,
+      prompt: entry.prompt,
+      fallbackGradient: gradientFromManifest(entry),
+      placeholderColor: entry.gradientFrom,
+    },
+  ]),
 );
 
 /**
- * @param {string} illustrationKey
- * @returns {{ src: string, alt: string, fallbackGradient: string, placeholderColor: string }}
+ * @typedef {Object} DiyImageConfig
+ * @property {string} src
+ * @property {string} alt
+ * @property {string} fallbackGradient
+ * @property {string} placeholderColor
+ * @property {string} [prompt]
+ * @property {'override'|'bundled'|'gradient'} source
  */
-export function getDiyImage(illustrationKey) {
-  if (diyImages[illustrationKey]) return diyImages[illustrationKey];
-  const category = illustrationCategories[illustrationKey] || 'sensory';
-  const fallback = CATEGORY_FALLBACK[category];
+
+/**
+ * @typedef {Object} DiyImageOverride
+ * @property {string} src
+ * @property {string} alt
+ * @property {string} [storagePath]
+ */
+
+/**
+ * Resolve DIY image for an activity.
+ * Order: Supabase override → bundled illustration JPG → category gradient.
+ *
+ * @param {{ activityId?: string, illustration?: string, category?: string }} params
+ * @param {Record<string, DiyImageOverride>} [overrides]
+ * @returns {DiyImageConfig}
+ */
+export function getDiyImage({ activityId, illustration, category }, overrides = {}) {
+  const resolvedCategory = category
+    || (illustration && illustrationCategories[illustration])
+    || 'sensory';
+  const fallback = CATEGORY_FALLBACK[resolvedCategory] || CATEGORY_FALLBACK.sensory;
+  const activityMeta = activityId ? diyActivityImages[activityId] : null;
+  const defaultAlt = activityMeta?.alt
+    || (illustration && diyImages[illustration]?.alt)
+    || `Baby activity: ${(illustration || activityId || 'activity').replace(/_/g, ' ')}`;
+
+  if (activityId && overrides[activityId]?.src) {
+    return {
+      src: overrides[activityId].src,
+      alt: overrides[activityId].alt || defaultAlt,
+      fallbackGradient: fallback.fallbackGradient,
+      placeholderColor: fallback.placeholderColor,
+      prompt: activityMeta?.prompt,
+      source: 'override',
+    };
+  }
+
+  if (illustration && diyImages[illustration]) {
+    return {
+      ...diyImages[illustration],
+      alt: defaultAlt,
+      source: 'bundled',
+    };
+  }
+
+  const humanized = (illustration || activityId || 'activity').replace(/_/g, ' ');
   return {
     src: '',
-    alt: `Baby activity: ${humanizeIllustration(illustrationKey)}`,
+    alt: `Baby activity: ${humanized}`,
     fallbackGradient: fallback.fallbackGradient,
     placeholderColor: fallback.placeholderColor,
+    prompt: activityMeta?.prompt,
+    source: 'gradient',
   };
 }
 
-export { illustrationCategories };
+/**
+ * Build public URL map from diy_activity_images rows.
+ * @param {Array<{ activity_id: string, storage_path: string, alt_text: string }>} rows
+ * @param {string} supabaseUrl
+ * @returns {Record<string, DiyImageOverride>}
+ */
+export function buildDiyImageOverrides(rows, supabaseUrl) {
+  if (!supabaseUrl || !rows?.length) return {};
+  const base = supabaseUrl.replace(/\/$/, '');
+  return Object.fromEntries(
+    rows.map((row) => [
+      row.activity_id,
+      {
+        src: `${base}/storage/v1/object/public/diy-images/${row.storage_path}`,
+        alt: row.alt_text,
+        storagePath: row.storage_path,
+      },
+    ]),
+  );
+}
+
+/** Back-compat: illustration-only lookup */
+export function getDiyImageByIllustration(illustrationKey, overrides = {}) {
+  return getDiyImage({ illustration: illustrationKey }, overrides);
+}
+
+export { illustrationCategories, diyActivityImages };

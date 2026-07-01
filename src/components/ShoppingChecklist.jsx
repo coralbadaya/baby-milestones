@@ -87,6 +87,7 @@ function ShoppingChecklist({ checkedItems, toggleCheck, currentMonth }) {
 
   return (
     <div className="shopping-page-content fade-in">
+      <div className="editorial-band-inline editorial-band-inline--sand">
       <p className="shop-recommendation-note shop-recommendation-note--top" role="note">
         <strong>Our recommendations only.</strong> This checklist reflects products and brands we have actually used—not a complete list, medical advice, or endorsement.
       </p>
@@ -122,7 +123,9 @@ function ShoppingChecklist({ checkedItems, toggleCheck, currentMonth }) {
           <span className="shop-progress-text">{purchased} / {total} purchased</span>
         </div>
       </div>
+      </div>
 
+      <div className="editorial-band-inline editorial-band-inline--white">
       {total === 0 ? (
         <p className="shop-empty">No shopping items in this range. Try widening the month range.</p>
       ) : (
@@ -132,6 +135,7 @@ function ShoppingChecklist({ checkedItems, toggleCheck, currentMonth }) {
           {renderGroup('For parents', list.forParents)}
         </div>
       )}
+      </div>
     </div>
   );
 }

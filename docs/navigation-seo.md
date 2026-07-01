@@ -11,7 +11,7 @@ Information architecture, navigation chrome, and SEO/GEO infrastructure for Nest
 ## Information architecture
 
 ```
-Top nav (lean):   Today · My Baby · My Care · Essentials · Community · Guides   [Premium CTA]
+Top nav (lean):   Today · My Baby · My Care · Essentials · Community · Guides · Sign in/Account · [Premium CTA]
 Mobile bottom bar: Today · Baby · Care · Essentials · Community   (Guides/Premium live elsewhere)
 
 Footer (4 columns):
@@ -30,8 +30,7 @@ Footer (4 columns):
 ## Data model — `src/routes.js`
 
 - `ROUTES` — all paths (incl. `guides`, `guide(slug)`, `faq`, `about`, `contact`,
-  `editorialPolicy`, `reviewers`, `privacy`, `terms`, `cookies`, `medicalDisclaimer`,
-  `accessibility`).
+  `login`, `signup`, `verifyEmail`, `account`, `admin`, legal/trust routes).
 - `PRIMARY_NAV` — desktop top-nav items (includes `guides`). **Premium is NOT here.**
 - `MOBILE_NAV` — `PRIMARY_NAV` minus `guides` (bottom bar stays at 5 for ergonomics).
 - `PREMIUM_NAV` — single object rendered as the distinct CTA button.
@@ -40,8 +39,9 @@ Footer (4 columns):
 
 ## Components
 
-- **`Header.jsx`** — renders `PRIMARY_NAV` links + a `.header-cta` Premium pill.
+- **`Header.jsx`** — renders `PRIMARY_NAV` links + Sign in/Account + a `.header-cta` Premium pill.
   On mobile, `.header-nav` is hidden; `.mobile-nav` renders `MOBILE_NAV`.
+  Desktop link chrome: subtle hover tint, active = inset underline (not solid pill); Premium alone stays filled.
 - **`Footer.jsx`** — renders `FOOTER_SECTIONS` columns + a bottom bar with
   `SOCIAL_LINKS`, a local-only newsletter capture, disclaimer, and copyright.
 - **`ContentPage.jsx`** — renders structured legal/company pages from
@@ -50,7 +50,7 @@ Footer (4 columns):
 
 ### Key CSS classes (`global.css`)
 
-`.header-cta` · `.site-footer-columns` · `.site-footer-col` · `.site-footer-heading` ·
+`.header-cta` · `.header-nav` (quiet hover/active on journey links) · `.site-footer-columns` · `.site-footer-col` · `.site-footer-heading` ·
 `.site-footer-newsletter*` · `.site-footer-bottom` · `.site-footer-social` ·
 `.content-page*` · `.guides-grid` · `.guide-card*` · `.guide-article` · `.faq-*`
 
@@ -93,3 +93,5 @@ prerendering (e.g. a prerender plugin or meta-framework migration). The static t
 - Footer is **data-driven** — add links via `FOOTER_SECTIONS`, never hard-code `<Link>`s.
 - After adding a page/guide: add it to `FOOTER_SECTIONS`/nav as appropriate and run
   `npm run generate:sitemap`.
+- **Auth routes** (`/login`, `/signup`, `/verify-email`, `/account`, `/admin/*`) are
+  intentionally omitted from the sitemap — account flows, not SEO landing pages.

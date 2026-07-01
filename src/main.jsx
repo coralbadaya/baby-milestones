@@ -5,12 +5,15 @@ import './styles/global.css';
 import './styles/editorial-system.css';
 import App from './App.jsx';
 import { AuthProvider } from './context/AuthContext';
+import { DiyImagesProvider } from './context/DiyImagesContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <DiyImagesProvider>
+          <App />
+        </DiyImagesProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>,

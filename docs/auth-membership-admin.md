@@ -2,6 +2,29 @@
 
 Nestbean uses Supabase for accounts, early-access membership, contact submissions, and the admin center.
 
+## Local login (quick reference)
+
+Seed test users first:
+
+```bash
+npm run seed:test-users
+```
+
+Sign in at **http://localhost:5173/login** (local dev).
+
+| Role | Email | Password |
+|------|-------|----------|
+| User | `nestbean-test-user@mailinator.com` | `NestbeanTestUser1!` |
+| Admin | `nestbean-test-admin@mailinator.com` | `NestbeanTestAdmin1!` |
+
+- Seeded users are pre-verified (no OTP at login).
+- Admin console: **http://localhost:5173/admin**
+- Promo code for testing: **`FOUNDING30`**
+- Requires `VITE_SUPABASE_URL` + `SUPABASE_SECRET_KEY` in `.env` before seeding.
+- Override credentials via `SUPABASE_TEST_*` env vars (see [Test credentials](#test-credentials-default) below).
+
+Beginner setup guide: [`docs/development-workflow.md`](development-workflow.md#login-details-local-dev).
+
 ## Environment
 
 Copy `.env.example` to `.env` and set:
@@ -22,6 +45,11 @@ Tables:
 | `promo_codes` | Admin-managed access codes |
 | `promo_redemptions` | One redemption per user per code |
 | `contact_submissions` | Contact form inbox |
+| `diy_activity_images` | Per-activity DIY card image metadata (180 rows) |
+| `newsletter_subscribers` | Footer signups + manual list; tokenized unsubscribe |
+| `newsletter_templates` | Reusable email starting points (3 system seeds) |
+| `newsletter_campaigns` | Draft / scheduled / sent campaigns |
+| `newsletter_sends` | Per-recipient send audit log |
 
 Apply locally or to remote:
 
@@ -29,6 +57,10 @@ Apply locally or to remote:
 supabase link --project-ref YOUR_REF
 supabase db push
 ```
+
+Migration `20250629130000_fix_rls_and_contact_insert.sql` fixes **RLS recursion** on `is_staff()` / `is_admin()` (stack depth errors) and reaffirms **anonymous contact form inserts**.
+
+Migration `20250701150000_contact_submit_rpc.sql` adds `submit_contact_form()` RPC — used by `/contact` so submissions succeed without anon SELECT on `contact_submissions`.
 
 ### Bootstrap first admin
 
@@ -51,9 +83,19 @@ update public.profiles set role = 'admin' where id = (
 | `src/components/auth/RequireAuth.jsx` | Redirect to login; unverified → verify email |
 | `src/components/auth/OtpVerifyForm.jsx` | 6-digit OTP entry + resend |
 | `src/components/auth/RequireRole.jsx` | Staff/admin guard |
-| `src/pages/admin/*` | Admin center (overview, inbox, users, promos) |
+| `src/pages/Login.jsx`, `SignUp.jsx`, `VerifyEmail.jsx` | Auth pages |
+| `src/pages/admin/*` | Admin center (overview, inbox, users, promos, newsletter, DIY images) |
 
-Routes: `/login`, `/signup`, `/verify-email`, `/account`, `/admin`, `/admin/inbox`, `/admin/users`, `/admin/promos`.
+Routes: `/login`, `/signup`, `/verify-email`, `/account`, `/admin`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/newsletter`, `/admin/diy`, `/newsletter/unsubscribe`.
+
+### Admin UI
+
+- Professional ops portal spec: [`docs/admin-portal-design.md`](admin-portal-design.md) — dark sidebar shell, theme tokens, component patterns.
+- Phased implementation plan: [`docs/admin-portal-plan.md`](admin-portal-plan.md) — tasks, acceptance criteria, status by phase.
+- Implementation skill + copy-paste prompt: [`.cursor/skills/admin-portal/SKILL.md`](../.cursor/skills/admin-portal/SKILL.md).
+- Current shell: full-width layout in `AdminLayout.jsx`; styles migrating to `src/styles/admin-portal.css`.
+- Main content panel is elevated white; tables use muted headers and highlight **new** inbox rows.
+- Contact subjects display human-readable labels (shared with `/contact` form).
 
 ## Email verification (OTP)
 
@@ -101,14 +143,41 @@ No Stripe yet — Premium page frames **Early Access Membership**, not a broken 
 - Users read own membership; staff read all; admin upsert memberships
 - Anyone can insert contact; staff read/update inbox
 - Promo CRUD admin-only; redeem via RPC
+- DIY activity images: public read; admin CRUD + storage write on `diy-images` bucket
+- Newsletter: public subscribe/unsubscribe RPCs; staff read subscribers/campaigns; admin CRUD campaigns/templates/subscribers
+
+## Newsletter delivery
+
+Migration: `supabase/migrations/20250701140000_newsletter.sql`
+
+Edge functions (deploy after `supabase db push`):
+
+| Function | Purpose |
+|----------|---------|
+| `newsletter-send-test` | Admin sample send to own inbox (JWT required) |
+| `newsletter-process-queue` | Batch send scheduled campaigns (cron / service role) |
+
+Supabase secrets (Dashboard → Edge Functions → Secrets):
+
+- `RESEND_API_KEY` — transactional email
+- `NEWSLETTER_FROM` — e.g. `hello@nestbean.app`
+- `NEWSLETTER_REPLY_TO` — optional reply-to
+- `SITE_URL` — e.g. `https://nestbean.app`
+- `NEWSLETTER_CRON_SECRET` — shared secret for scheduled invocations
+
+**Cron (production):** invoke `newsletter-process-queue` every minute with header `x-cron-secret: YOUR_SECRET` (Supabase Cron or external scheduler).
+
+Footer signup calls `subscribe_newsletter` RPC. Unsubscribe: `/newsletter/unsubscribe?token=UUID`.
+
+See [`docs/newsletter-admin.md`](newsletter-admin.md) for admin UI tabs and workflow.
 
 ## Admin roles
 
 | Role | Access |
 |------|--------|
 | `user` | Account, redeem codes |
-| `support` | Admin inbox (read/update contact) |
-| `admin` | Full admin: users, promos, memberships |
+| `support` | Admin inbox (read/update contact), newsletter read-only |
+| `admin` | Full admin: users, promos, memberships, newsletter, DIY activity images (`/admin/diy`) |
 
 ## Testing
 
@@ -120,7 +189,18 @@ Pure logic (no network):
 npm test
 ```
 
-Covers `src/utils/membership.test.js`, `src/utils/localPremium.test.js`.
+Covers `src/utils/membership.test.js`, `src/utils/localPremium.test.js`, `src/utils/auth.test.js`.
+
+### Manual OTP signup test
+
+Requires **Confirm email** + **OTP** enabled in Supabase (see above):
+
+1. Open `/signup` with a real inbox (not seeded test users)
+2. Submit email + password → redirect to `/verify-email`
+3. Enter the 6-digit code from email → `/account` with trial membership
+4. Sign out; try `/login` before verifying a new account → redirect to `/verify-email`
+
+Seeded test users skip OTP (`email_confirm: true` in `scripts/seed-test-users.mjs`).
 
 ### Integration tests
 

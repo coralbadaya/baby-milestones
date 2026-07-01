@@ -1,22 +1,59 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
+import SectionHeader from '../components/SectionHeader';
 import Timeline from '../components/Timeline';
 import CurrentMonthPanel from '../components/CurrentMonthPanel';
 import DIYPreviewStrip from '../components/DIYPreviewStrip';
 import CarePreviewTeaser from '../components/CarePreviewTeaser';
+import FirstsJournal from '../components/firsts/FirstsJournal';
+import FirstMomentCapture from '../components/firsts/FirstMomentCapture';
 import Icon from '../components/Icon';
 import { interact } from '../utils/haptics';
 import { ROUTES } from '../routes';
 import { usePageMeta } from '../utils/pageMeta';
 
-function Baby({ birthDate, currentMonth, checkedItems, toggleCheck, onSelectMonth }) {
+function Baby({
+  birthDate,
+  currentMonth,
+  checkedItems,
+  toggleCheck,
+  onSelectMonth,
+  firstMoments = {},
+  onFirstMediaSelect,
+  onFirstNoteSave,
+  onFirstRemove,
+}) {
   usePageMeta({
     title: 'My Baby',
     description: 'Month-by-month baby milestones, DIY activities, and care from newborn to toddler.',
   });
+  const location = useLocation();
   const onLink = () => interact('tap', 'light');
   const month = currentMonth || 1;
+
+  const [detailFirstId, setDetailFirstId] = useState(null);
+  const [captureError, setCaptureError] = useState(null);
+
+  useEffect(() => {
+    if (location.hash === '#moments') {
+      requestAnimationFrame(() => {
+        document.getElementById('moments')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }, [location.hash]);
+
+  const handleSelectFile = useCallback(async (firstId, file) => {
+    try {
+      setCaptureError(null);
+      await onFirstMediaSelect(firstId, file);
+      setDetailFirstId(firstId);
+    } catch (err) {
+      setCaptureError(err.message || 'Could not save media');
+      interact('tap', 'error');
+    }
+  }, [onFirstMediaSelect]);
 
   return (
     <>
@@ -85,8 +122,22 @@ function Baby({ birthDate, currentMonth, checkedItems, toggleCheck, onSelectMont
         <DIYPreviewStrip month={month} limit={4} layout="grid" />
       </PageSection>
 
-      <PageSection surface="ivory" width="wide">
+      <PageSection surface="lavender" width="wide">
         <CarePreviewTeaser month={month} />
+      </PageSection>
+
+      <PageSection surface="ivory" width="wide" id="moments" className="page-section--firsts-journal">
+        <SectionHeader
+          id="firsts-journal-heading"
+          eyebrow="Memories"
+          title="Life firsts journal"
+          subtitle="Seventeen moments worth a photograph — your private baby book."
+        />
+        <FirstsJournal
+          firstMoments={firstMoments}
+          onSelectFile={handleSelectFile}
+          onOpenDetail={setDetailFirstId}
+        />
       </PageSection>
 
       <PageSection surface="white" width="wide" className="page-section--timeline page-body--with-mobile-nav">
@@ -96,6 +147,17 @@ function Baby({ birthDate, currentMonth, checkedItems, toggleCheck, onSelectMont
           onSelectMonth={onSelectMonth}
         />
       </PageSection>
+
+      {detailFirstId && (
+        <FirstMomentCapture
+          firstId={detailFirstId}
+          moment={firstMoments[detailFirstId]}
+          onSaveNote={onFirstNoteSave}
+          onRemove={onFirstRemove}
+          onClose={() => { setDetailFirstId(null); setCaptureError(null); }}
+          error={captureError}
+        />
+      )}
     </>
   );
 }

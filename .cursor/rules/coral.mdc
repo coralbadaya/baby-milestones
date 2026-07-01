@@ -5,6 +5,8 @@ alwaysApply: true
 
 # Nestmile
 
+**Constitution:** [`docs/doctrine-summary.md`](docs/doctrine-summary.md) (one page) · [`docs/doctrine.md`](docs/doctrine.md) (full).
+
 ## Design docs (required for UI work)
 
 **Before** implementing or changing UI, layouts, or shared components:
@@ -30,6 +32,9 @@ alwaysApply: true
 
 | Doc | Scope |
 |-----|--------|
+| `docs/doctrine.md` | **Project constitution** — mission, pillars, trust, engineering & design non‑negotiables |
+| `docs/doctrine-summary.md` | **Onboarding one-pager** — pillars, rules, commands, doc map |
+| `memory.md` | **Living reference** — file map, localStorage, assistant KB, routes |
 | `docs/design-system-2026.md` | **Master design system** — audience, colors, typography, quiet luxury |
 | `docs/brand-identity.md` | **Brand** — Nestbean logo, palette, asset pipeline, SEO |
 | `docs/premium-redesign-plan.md` | **Premium repositioning** — phases, metrics, file map |
@@ -45,9 +50,16 @@ alwaysApply: true
 | `docs/mom-care-ui-design.md` | Mom Care page, self-care tabs, tip cards |
 | `docs/mom-milestones-ui-design.md` | Mom postpartum timeline (`/mom-care#timeline`) |
 | `docs/month-detail-ui-design.md` | DIY & Care grids, detail modal on month page |
+| `docs/diy-images-admin.md` | **DIY images** — per-activity admin config, Supabase Storage, fallbacks |
+| `docs/newsletter-admin.md` | **Newsletter** — admin compose, templates, schedule send, subscribers |
+| `docs/first-moments-ui-design.md` | Life firsts photo journal — carousel (Today) + journal (My Baby) |
 | `docs/vaccination-ui-design.md` | Vaccination tracker |
 | `docs/community-feature-plan.md` | Community feature — phased plan |
 | `docs/navigation-seo.md` | Navigation, footer & SEO — IA, top nav + Premium CTA, footer columns, structured data, sitemap/robots |
+| `docs/development-workflow.md` | **Beginner workflow** — Git, Vercel, Supabase, local dev, **login credentials** |
+| `docs/auth-membership-admin.md` | **Auth** — Supabase login, OTP signup, membership, admin, test users |
+| `docs/admin-portal-design.md` | **Admin portal** — staff console layout, theme tokens, component patterns |
+| `docs/admin-portal-plan.md` | **Admin portal plan** — phased implementation roadmap, tasks, acceptance criteria |
 
 ## UI components
 
@@ -55,7 +67,7 @@ alwaysApply: true
 - **Select:** `src/components/Select.jsx` — use for all dropdowns; spec in `docs/ui-design.md`.
 - **Footer:** `src/components/Footer.jsx` — global footer; do not duplicate per page.
 - **PremiumGate:** `src/components/PremiumGate.jsx` — premium content gating.
-- **Auth:** `src/context/AuthContext.jsx` — Supabase session + membership; see [`docs/auth-membership-admin.md`](docs/auth-membership-admin.md).
+- **Auth:** `AuthForm`, `OtpVerifyForm`, `RequireAuth`, `RequireRole` in `src/components/auth/`; session in `src/context/AuthContext.jsx`. Signup requires email OTP — see [`docs/auth-membership-admin.md`](docs/auth-membership-admin.md).
 
 ## Nav order (primary)
 

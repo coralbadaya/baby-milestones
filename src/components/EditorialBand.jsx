@@ -4,6 +4,7 @@ function EditorialBand({ tagline = BRAND_TAGLINE, className = '' }) {
   return (
     <aside
       className={`editorial-band ${className}`.trim()}
+      data-scroll-surface="ink"
       aria-label="Brand moment"
     >
       <div className="editorial-band__inner page-body">

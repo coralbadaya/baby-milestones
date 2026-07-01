@@ -1,7 +1,6 @@
 /**
- * Generate editorial DIY archetype placeholders from hero crops + category tints.
- * Run: node scripts/generate-diy-placeholders.mjs
- * Replace with AI art per docs/imagery-system.md when ready.
+ * @deprecated Use scripts/generate-diy-images.mjs (activity-specific, no gray wash).
+ * Legacy hero-crop placeholders — kept for reference only.
  */
 import fs from 'fs';
 import path from 'path';

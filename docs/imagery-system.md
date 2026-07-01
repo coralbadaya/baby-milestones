@@ -45,22 +45,56 @@ Manifest: `src/data/pageImages.js`
 
 Each hero entry may include `objectPosition` and `splitSafe` notes for split-layout crops.
 
-### DIY archetype images
+### DIY activity images
+
+**Bundled fallbacks (65 illustration archetypes):**
 
 ```
 public/images/diy/
   {illustration-key}.jpg   — e.g. tummy_time.jpg, peekaboo.jpg
 ```
 
-Manifest: `src/data/diyImages.js` — keyed by `activity.illustration` from `diyActivities.js`.
-
-Generate placeholders: `npm run generate:diy` (hero crops + category tints). Replace with AI art using:
+**Per-activity overrides (180 activities):**
 
 ```
-Editorial baby activity: [ACTIVITY NAME]. Hands-only or minimal home setting,
-warm natural light, desaturated warm tones, magazine editorial, candid not staged.
-Horizontal 4:3, no text, no logos, no stock baby clichés.
+Supabase Storage: diy-images/activities/{activityId}.jpg
+Table: diy_activity_images (admin-managed)
 ```
+
+**Manifests:**
+- `src/data/diyImageManifest.js` — `diyImageManifest` (65 keys) + `diyActivityImages` (180 activities); run `npm run build:diy-manifest`
+- `src/data/diyImages.js` — `getDiyImage({ activityId, illustration, category }, overrides)`
+
+**Admin:** `/admin/diy` — see [`docs/diy-images-admin.md`](diy-images-admin.md)
+
+**Resolution order:** Supabase override → bundled illustration JPG → category gradient.
+
+**Generate bundled editorial images:**
+
+```bash
+npm run build:diy-manifest        # after diyActivities.js changes
+npm run generate:diy              # SVG editorial renders → public/images/diy/
+npm run verify:diy-images         # CI — all 65 illustration keys
+npm run verify:diy-activity-images # CI — 180 activity manifest entries
+npm run seed:diy-activity-images  # bootstrap Supabase from bundled JPGs (service role)
+```
+
+**Upgrade to AI art** (preferred for visible cards):
+
+1. `npm run generate:diy-ai-batch 0 10` — print prompts for batch 0
+2. Generate with Cursor GenerateImage using each prompt
+3. Save to `public/images/diy/{key}.jpg`
+4. `npm run verify:diy-images`
+
+Prompt template (also stored per key in manifest):
+
+```
+Editorial baby activity: [ACTIVITY NAME]. Scene shows [materials].
+Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones,
+magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.
+```
+
+Legacy hero-crop placeholders (deprecated — gray wash): `npm run generate:diy-legacy`
 
 Focus card headers: `src/data/focusImages.js` (reuses hero photography).
 
@@ -135,4 +169,4 @@ Until then, ship `.jpg` in `public/images/heroes/`.
 
 ---
 
-*Last updated: June 2026*
+*Last updated: July 2026*

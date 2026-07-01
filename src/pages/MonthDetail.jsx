@@ -5,6 +5,7 @@ import { interact, sounds } from '../utils/haptics';
 import { useSwipe } from '../utils/gestures';
 import DIYSection from '../components/DIYSection';
 import CareSection from '../components/CareSection';
+import PageSection from '../components/PageSection';
 import Icon from '../components/Icon';
 import { usePageMeta } from '../utils/pageMeta';
 
@@ -150,6 +151,7 @@ function MonthDetail({ month, checkedItems, toggleCheck, onBack, onNavigate, cur
         </div>
       )}
 
+      <PageSection surface="white" width="wide" reveal={false} className="month-detail-section">
       <div className="month-header">
         <button className="back-btn" onClick={() => { interact('tap', 'light'); onBack(); }}>
           ← Back to Timeline
@@ -305,9 +307,13 @@ function MonthDetail({ month, checkedItems, toggleCheck, onBack, onNavigate, cur
           </ul>
         </div>
       </div>
+      </PageSection>
 
+      <PageSection surface="sand" width="wide" reveal={false} className="month-detail-section">
       <DIYSection month={month} />
+      </PageSection>
 
+      <PageSection surface="ivory" width="wide" reveal={false} className="month-detail-section page-body--with-mobile-nav">
       <CareSection month={month} />
 
       <div className="weekly-tips">
@@ -339,6 +345,7 @@ function MonthDetail({ month, checkedItems, toggleCheck, onBack, onNavigate, cur
           ))}
         </div>
       </div>
+      </PageSection>
     </div>
   );
 }

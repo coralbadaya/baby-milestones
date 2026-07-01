@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useRef, useState, useCallback } from 'react';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import SectionHeader from '../components/SectionHeader';
@@ -7,6 +7,10 @@ import CurrentMonthPanel from '../components/CurrentMonthPanel';
 import DIYPreviewStrip from '../components/DIYPreviewStrip';
 import EditorialBand from '../components/EditorialBand';
 import Timeline from '../components/Timeline';
+import FirstsCarousel from '../components/firsts/FirstsCarousel';
+import FirstMomentCapture from '../components/firsts/FirstMomentCapture';
+import { getSuggestedFirst } from '../data/firsts';
+import useScrollSurface from '../hooks/useScrollSurface';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
@@ -42,16 +46,37 @@ function Home({
   checkedItems,
   toggleCheck,
   onSelectMonth,
+  firstMoments = {},
+  onFirstMediaSelect,
+  onFirstNoteSave,
+  onFirstRemove,
 }) {
   usePageMeta({});
+  const [detailFirstId, setDetailFirstId] = useState(null);
+  const [captureError, setCaptureError] = useState(null);
+
+  const handleSelectFile = useCallback(async (firstId, file) => {
+    try {
+      setCaptureError(null);
+      await onFirstMediaSelect(firstId, file);
+      setDetailFirstId(firstId);
+    } catch (err) {
+      setCaptureError(err.message || 'Could not save media');
+      interact('tap', 'error');
+    }
+  }, [onFirstMediaSelect]);
+
+  const suggestedId = getSuggestedFirst(currentMonth, firstMoments);
   const ageLine = birthDate ? formatAge(birthDate) : null;
   const rangeStart = currentMonth ? Math.max(1, currentMonth - 2) : 1;
   const rangeEnd = currentMonth ? Math.min(36, currentMonth + 2) : 5;
   const month = birthDate && currentMonth ? currentMonth : 1;
   const showPersonalized = Boolean(birthDate && currentMonth);
+  const homeRef = useRef(null);
+  useScrollSurface(homeRef, { defaultSurface: 'primary', observeKey: birthDate });
 
   return (
-    <div className="home home-today">
+    <div ref={homeRef} className="home home-today">
       <PageHero
         imageKey="home"
         layout="split"
@@ -76,7 +101,7 @@ function Home({
         </div>
       </PageHero>
 
-      <PageSection surface="ivory" width="wide" ariaLabelledby="today-focus-heading">
+      <PageSection surface="ivory" width="wide" ariaLabelledby="today-focus-heading" blendEdges>
         <SectionHeader
           id="today-focus-heading"
           eyebrow="Your week"
@@ -90,7 +115,7 @@ function Home({
         />
       </PageSection>
 
-      <PageSection surface="white" width="wide">
+      <PageSection surface="white" width="wide" blendEdges>
         {showPersonalized ? (
           <CurrentMonthPanel
             currentMonth={currentMonth}
@@ -108,14 +133,33 @@ function Home({
         )}
       </PageSection>
 
-      <PageSection surface="sand" width="wide" className="page-section--diy">
+      <PageSection surface="sand" width="wide" className="page-section--diy" blendEdges>
         <DIYPreviewStrip month={month} limit={2} layout="stack" />
       </PageSection>
 
       <EditorialBand />
 
       {birthDate && (
-        <PageSection surface="ivory" width="wide" className="page-section--timeline">
+        <PageSection surface="sand" width="wide" className="page-section--firsts" blendEdges>
+          <SectionHeader
+            id="life-firsts-heading"
+            eyebrow="Memories"
+            title="Life firsts"
+            subtitle="Capture the moments you'll want to remember."
+            linkTo={ROUTES.babyMoments}
+            linkLabel="View all firsts →"
+          />
+          <FirstsCarousel
+            firstMoments={firstMoments}
+            suggestedId={suggestedId}
+            onSelectFile={handleSelectFile}
+            onOpenDetail={setDetailFirstId}
+          />
+        </PageSection>
+      )}
+
+      {birthDate && (
+        <PageSection surface="ivory" width="wide" className="page-section--timeline" blendEdges>
           <SectionHeader
             id="timeline-collapsed-heading"
             eyebrow="Journey"
@@ -135,6 +179,17 @@ function Home({
             rangeEnd={rangeEnd}
           />
         </PageSection>
+      )}
+
+      {detailFirstId && (
+        <FirstMomentCapture
+          firstId={detailFirstId}
+          moment={firstMoments[detailFirstId]}
+          onSaveNote={onFirstNoteSave}
+          onRemove={onFirstRemove}
+          onClose={() => { setDetailFirstId(null); setCaptureError(null); }}
+          error={captureError}
+        />
       )}
     </div>
   );

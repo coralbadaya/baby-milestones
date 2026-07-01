@@ -26,14 +26,17 @@ function Guides() {
         size="md"
       />
 
-      <PageSection surface="ivory" width="wide" className="page-body--with-mobile-nav">
+      <PageSection surface="ivory" width="wide">
         <SectionHeader
           id="guides-list-heading"
           eyebrow="Library"
           title="Curated reading"
           subtitle="Reviewed against trusted medical guidance — calm, never alarmist."
         />
-        <div className="guides-grid">
+      </PageSection>
+
+      <PageSection surface="white" width="wide" className="page-body--with-mobile-nav">
+        <div className="guides-grid" aria-labelledby="guides-list-heading">
           {guides.map((guide) => (
             <Link
               key={guide.slug}

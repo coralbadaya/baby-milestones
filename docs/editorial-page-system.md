@@ -37,7 +37,7 @@ These apply to **every page** that adopts this system:
 1. **One hero, many rhythms** — Full-bleed `PageHero` opens the page; body alternates surface tones so scroll has pace.
 2. **Photography earns its place** — Every image is art-directed (see [`docs/imagery-system.md`](imagery-system.md)); no stock baby clichés.
 3. **Split over stack (when editorial)** — Feature content (DIY, guides, product edits) uses **image + copy** split layouts on desktop; single column on mobile.
-4. **Quiet luxury motion** — Hover lift, progress transitions, optional section fade-in. No parallax, no scroll-jacking. Respect `prefers-reduced-motion`.
+4. **Quiet luxury motion** — Hover lift, progress transitions, optional section fade-in, **scroll-synced surface on Home** (`useScrollSurface`). No parallax, no scroll-jacking. Respect `prefers-reduced-motion`.
 5. **Exhaustion-aware** — Touch targets ≥ 44px; one-handed CTAs; no extra taps for core actions (milestone check, YouTube link).
 6. **Free core, premium curation** — Milestone tracking and DIY previews stay **free and visible**; photos enhance, they do not gate.
 
@@ -57,6 +57,8 @@ Every editorial page follows this skeleton. Home is the reference implementation
 ├─────────────────────────────────────────┤
 │  Section C — surface: white / card      │  ← Data panels (milestones, timeline)
 ├─────────────────────────────────────────┤
+│  Section C2 — life firsts (optional)    │  ← Photo journal — first-moments-ui-design.md
+├─────────────────────────────────────────┤
 │  Section D — surface: ink (optional)    │  ← Max one dark band per page — brand moment
 ├─────────────────────────────────────────┤
 │  Section E — surface: ivory             │  ← Secondary content / footer link
@@ -67,7 +69,36 @@ Every editorial page follows this skeleton. Home is the reference implementation
 
 - `PageHero` = direct child of route, outside `max-width`
 - Body sections use `.page-body` + width modifier (`--wide` / `--narrow`)
-- New: `.page-section` + surface modifiers (`.page-section--sand`, `--white`, `--ink`)
+- New: `.page-section` + surface modifiers (`.page-section--sand`, `--white`, `--lavender`, `--mist`, `--ink`)
+- Home only: `data-scroll-surface` on bands + `useScrollSurface` on `.home-today` — parent background tracks the band at viewport center; bands transparent on Home. Editorial ink quote band is excluded (keeps its own fill). Section fade-in disabled on Home. Other routes keep per-section fills until opted in.
+
+### Scroll-synced surface (Home reference)
+
+| Piece | Path |
+|-------|------|
+| Hook | `src/hooks/useScrollSurface.js` |
+| Token map | `src/utils/scrollSurfaces.js` |
+| Bands | `PageSection` (`data-scroll-surface`, optional `blendEdges`), `EditorialBand` (`data-scroll-surface="ink"`) |
+| CSS | `.home-today` in `editorial-system.css`; `--motion-surface`, `--surface-blend-height` in `global.css` |
+
+---
+
+### Per-route section rhythm (shipped)
+
+| Route | Bands (top → bottom) |
+|-------|----------------------|
+| `/` Home | ivory → white → sand → ink (EditorialBand) → ivory |
+| `/baby` | ivory → white → sand → lavender → white |
+| `/mom-care` | lavender (ivory nav band + white content via inline bands) |
+| `/essentials` | sand → ivory |
+| `/shopping` | sand → white (inline bands) |
+| `/travel` | mist → white (inline bands) |
+| `/vaccination` | ivory → white |
+| `/community` | sand (tabs) → white (feed) |
+| `/guides`, `/premium` | ivory → white |
+| `/month/:n` | white → sand (DIY) → ivory (care + tips) |
+
+Cards on tinted bands use white backgrounds + `--shadow-card` for elevation.
 
 ---
 
@@ -82,17 +113,15 @@ Every editorial page follows this skeleton. Home is the reference implementation
 | `DIYPreviewStrip` | Horizontal strip → uses `DIYEditorialCard` on Home | 1 |
 | `EditorialBand` | **New** — optional ink scrim + tagline / quote | 3 |
 | `SectionHeader` | **New** — Fraunces title + eyebrow + optional “View all →” | 2 |
-| `diyImages` manifest | **New** — `src/data/diyImages.js` keyed by `illustration` archetype | 1 |
+| `diyImages` manifest | `src/data/diyImages.js` — per-activity lookup via `activity.id` + illustration fallbacks | 1 |
 
-**Image tiers (scope control):**
+**Image tiers:**
 
-| Tier | Scope | Count | Reuse |
-|------|-------|-------|-------|
+| Tier | Scope | Count | Status |
+|------|-------|-------|--------|
 | **A** | Visible on Home / hub previews | 2–4 per visit | Current month only |
-| **B** | Archetype library | ~20–30 keys | All months sharing same `illustration` |
-| **C** | Per-activity unique | Deferred | Only if Tier B insufficient |
-
-**Start with Tier B** — do not generate 180 unique images upfront.
+| **B** | Archetype library (bundled fallbacks) | 65 keys | Shipped in `public/images/diy/` |
+| **C** | Per-activity unique | 180 activities | **Admin-configurable** — see [`docs/diy-images-admin.md`](diy-images-admin.md) |
 
 ---
 
@@ -139,10 +168,12 @@ DIY is the highest-impact gap. Parents decide in **under 2 seconds** whether an 
 **Scope:**
 
 - Introduce `.page-section` wrapper with surface tokens:
-  - `--surface-ivory` (default page bg)
-  - `--surface-sand` (warm alternate — DIY band)
+  - `--surface-ivory` (default page bg — `#FCF8F2`)
+  - `--surface-sand` (warm alternate — `#EFE3D4`, cream-dark)
   - `--surface-white` (elevated panels)
-  - `--surface-ink` (reserved for Phase 3)
+  - `--surface-lavender` (My Care / wellness — `#F3EEF8`)
+  - `--surface-mist` (Travel / cool accent — `#EEF5FF`)
+  - `--surface-ink` (reserved for EditorialBand — max one per page)
 - Wrap Home sections: `TodayFocus` → ivory; `DIYPreviewStrip` → sand; `CurrentMonthPanel` → white card on ivory; timeline → ivory
 - Add `SectionHeader` — Fraunces H2, uppercase eyebrow, optional footer link
 - Increase vertical rhythm: `--space-10` / `--space-12` between major sections on desktop
@@ -175,7 +206,7 @@ Affluent users perceive quality through **rhythm and restraint**, not more widge
 **Scope:**
 
 - Wire `DIYEditorialCard` or image-top variant into `DIYSection` on month detail (replace or supplement `ActivityIllustration` for grid cards)
-- My Baby: sand band for DIY strip (4 cards), white band for full `CurrentMonthPanel`
+- My Baby: sand band for DIY strip (4 cards), ivory band for **FirstsJournal** (`#moments`), white band for full timeline
 - Optional: one `EditorialBand` (ink) on Home only — brand tagline *“The art of early motherhood.”* — **max one per page**
 - Essentials hub: apply section rhythm to shopping/travel/vaccination teaser cards (image headers from existing heroes or category thumbs)
 
@@ -342,7 +373,7 @@ Phase 6  Remaining routes                   → Care, Essentials, Community, gui
 
 **Explicitly deferred:**
 
-- 180 unique per-activity AI images (Tier C)
+- Automated bulk AI generation from admin UI
 - Parallax, scroll-triggered animations, video backgrounds
 - Multiple ink bands per page
 - Pinterest / scraped imagery

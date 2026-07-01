@@ -28,7 +28,12 @@ import AdminOverview from './pages/admin/AdminOverview';
 import AdminInbox from './pages/admin/AdminInbox';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminPromos from './pages/admin/AdminPromos';
+import AdminDiyImages from './pages/admin/AdminDiyImages';
+import AdminNewsletter from './pages/admin/AdminNewsletter';
+import NewsletterUnsubscribe from './pages/NewsletterUnsubscribe';
 import AssistantPanel from './components/AssistantPanel';
+import { useFirstMoments } from './hooks/useFirstMoments';
+import { interact } from './utils/haptics';
 import { ROUTES, isCommunityTab } from './routes';
 
 function ScrollToTop() {
@@ -82,6 +87,25 @@ function App() {
     const saved = localStorage.getItem('babyVaccineReminderDays');
     return saved ? JSON.parse(saved) : 7;
   });
+
+  const {
+    firstMoments,
+    saveMedia: saveFirstMedia,
+    updateNote: updateFirstNote,
+    removeMedia: removeFirstMedia,
+  } = useFirstMoments();
+
+  const handleFirstMediaSelect = useCallback(async (firstId, file) => {
+    await saveFirstMedia(firstId, file);
+    interact('check', 'success');
+  }, [saveFirstMedia]);
+
+  const firstMomentsProps = {
+    firstMoments,
+    onFirstMediaSelect: handleFirstMediaSelect,
+    onFirstNoteSave: updateFirstNote,
+    onFirstRemove: removeFirstMedia,
+  };
 
   useEffect(() => {
     localStorage.setItem('babyMilestoneChecks', JSON.stringify(checkedItems));
@@ -157,6 +181,7 @@ function App() {
               checkedItems={checkedItems}
               toggleCheck={toggleCheck}
               onSelectMonth={handleSelectMonth}
+              {...firstMomentsProps}
             />
           )}
         />
@@ -169,6 +194,7 @@ function App() {
               checkedItems={checkedItems}
               toggleCheck={toggleCheck}
               onSelectMonth={handleSelectMonth}
+              {...firstMomentsProps}
             />
           )}
         />
@@ -248,6 +274,7 @@ function App() {
 
         <Route path={ROUTES.about} element={<StaticPage pageKey="about" />} />
         <Route path={ROUTES.contact} element={<Contact />} />
+        <Route path={ROUTES.newsletterUnsubscribe} element={<NewsletterUnsubscribe />} />
         <Route path={ROUTES.editorialPolicy} element={<StaticPage pageKey="editorialPolicy" />} />
         <Route path={ROUTES.reviewers} element={<StaticPage pageKey="reviewers" />} />
         <Route path={ROUTES.privacy} element={<StaticPage pageKey="privacy" />} />
@@ -266,6 +293,8 @@ function App() {
           <Route path="inbox" element={<AdminInbox />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="promos" element={<AdminPromos />} />
+          <Route path="diy" element={<AdminDiyImages />} />
+          <Route path="newsletter" element={<AdminNewsletter />} />
         </Route>
 
         <Route path="*" element={<Navigate to={ROUTES.home} replace />} />

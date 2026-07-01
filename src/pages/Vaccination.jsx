@@ -268,7 +268,7 @@ function Vaccination({
         size="md"
       />
 
-      <PageSection surface="white" width="wide" className="page-body--with-mobile-nav vaccination-page">
+      <PageSection surface="ivory" width="wide" className="vaccination-page">
       <section className="vaccination-toolbar vaccination-print-hide">
         <div className="vaccination-toolbar-left">
           <VaccineScheduleSelect value={scheduleType} onChange={onScheduleTypeChange} />
@@ -331,7 +331,9 @@ function Vaccination({
           ))}
         </div>
       </section>
+      </PageSection>
 
+      <PageSection surface="white" width="wide" className="page-body--with-mobile-nav vaccination-page">
       {timelineItems.length === 0 ? (
         <p className="month-section-empty">No vaccines match this filter.</p>
       ) : (

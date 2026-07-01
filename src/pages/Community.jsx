@@ -80,7 +80,7 @@ function Community({ currentMonth, tab }) {
         size="md"
       />
 
-      <PageSection surface="sand" width="narrow" className="page-body--with-mobile-nav community-page">
+      <PageSection surface="sand" width="narrow" className="community-page">
         <nav className="community-tabs" role="tablist" aria-label="Community sections">
           {TABS.map((t) => (
             <button
@@ -96,7 +96,9 @@ function Community({ currentMonth, tab }) {
             </button>
           ))}
         </nav>
+      </PageSection>
 
+      <PageSection surface="white" width="narrow" className="page-body--with-mobile-nav community-page">
         <div className="community-panel" role="tabpanel">
           {tab === 'feed' && (
             <MemoryFeed

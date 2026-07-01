@@ -2,6 +2,8 @@
 
 This guide explains how to work on Nestmile as a first-time website developer. Keep it open while you build features.
 
+**New to the project?** Read [`doctrine-summary.md`](doctrine-summary.md) first (one page) — mission, pillars, and non‑negotiables.
+
 ## Big Picture
 
 This project is a React website built with Vite.
@@ -172,6 +174,32 @@ Supabase is the backend. It can provide:
 
 This repo includes Supabase auth, membership, contact, and admin — see [`docs/auth-membership-admin.md`](auth-membership-admin.md) and migration `supabase/migrations/20250629120000_membership_and_contact.sql`.
 
+**Signup flow:** email + password → 6-digit OTP at `/verify-email` → session + 7-day Premium trial. Enable **Confirm email** and **OTP** in the Supabase dashboard before testing (documented in auth-membership-admin.md). Seeded test users bypass OTP for integration tests.
+
+### Login details (local dev)
+
+Use these **after** seeding test users into your Supabase project:
+
+```bash
+npm run seed:test-users
+```
+
+Requires `VITE_SUPABASE_URL` and `SUPABASE_SECRET_KEY` in `.env` (see [auth-membership-admin.md](auth-membership-admin.md)).
+
+| Role | Email | Password | Where to sign in |
+|------|-------|----------|------------------|
+| **User** (Premium trial) | `nestbean-test-user@mailinator.com` | `NestbeanTestUser1!` | [http://localhost:5173/login](http://localhost:5173/login) |
+| **Admin** (staff console) | `nestbean-test-admin@mailinator.com` | `NestbeanTestAdmin1!` | Same login → then [http://localhost:5173/admin](http://localhost:5173/admin) |
+
+**Notes:**
+
+- Seeded users are **pre-verified** — no OTP step at login.
+- Override emails/passwords with `SUPABASE_TEST_USER_EMAIL`, `SUPABASE_TEST_USER_PASSWORD`, `SUPABASE_TEST_ADMIN_EMAIL`, and `SUPABASE_TEST_ADMIN_PASSWORD` in `.env`.
+- Manual promo-code testing: **`FOUNDING30`** (see auth doc).
+- For a fresh signup + OTP test, use a real inbox at `/signup` — not the seeded accounts above.
+
+Full auth, membership, and admin details: [`docs/auth-membership-admin.md`](auth-membership-admin.md).
+
 ### Safe Supabase Rules
 
 Never put secret keys in frontend code.
@@ -274,8 +302,11 @@ For UI changes, also check:
 - loading states
 - error states
 
-For Supabase changes, also check:
+For Supabase auth changes, also check:
 
+- signup → OTP email → verify → account access
+- login before email verified → redirect to `/verify-email`
+- resend OTP cooldown and error states
 - logged-out behavior
 - logged-in behavior
 - permissions for another user

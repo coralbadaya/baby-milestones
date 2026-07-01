@@ -18,7 +18,7 @@ function Travel({ currentMonth }) {
         subtitle="Age-aware tips for flights, road trips, and long-haul — London to Dubai and beyond."
         size="md"
       />
-      <PageSection surface="ivory" width="wide" className="page-body--with-mobile-nav travel-page">
+      <PageSection surface="mist" width="wide" className="page-body--with-mobile-nav travel-page">
         <TravelTips currentMonth={currentMonth} />
       </PageSection>
     </>

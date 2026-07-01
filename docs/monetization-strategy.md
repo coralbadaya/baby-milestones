@@ -60,10 +60,12 @@ Early access: no Stripe yet — signup requires **verified email (OTP)**; after 
 | File | Role |
 |------|------|
 | `src/constants/premium.js` | Plans, feature flags, copy |
-| `src/context/AuthContext.jsx` | Session, membership, promo redeem |
+| `src/context/AuthContext.jsx` | Session, membership, OTP verify/resend, promo redeem |
+| `src/utils/auth.js` | `isEmailVerified`, `isEmailNotConfirmedError` |
 | `src/hooks/usePremium.js` | Legacy wrapper → AuthContext |
 | `src/components/PremiumGate.jsx` | Wrapper with teaser overlay |
 | `src/pages/Premium.jsx` | Early access membership page |
+| `src/pages/VerifyEmail.jsx` | Post-signup OTP verification |
 
 ### Future: Stripe
 

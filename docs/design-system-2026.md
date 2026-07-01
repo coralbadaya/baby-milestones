@@ -59,7 +59,7 @@ Extension of warm minimalism for affluent tier-1 mothers.
 | Display type | **Fraunces** serif — `--font-display` |
 | Body type | **Switzer** — `--font-body` |
 | Heroes | `<PageHero>` with AI art-directed photography |
-| Nav | 5 items journey-ordered: Today · My Baby · My Care · Essentials · Community |
+| Nav | 6 journey links (desktop): Today · My Baby · My Care · Essentials · Community · Guides; mobile bottom bar: 5 items (no Guides) |
 | Spacing | Generous `--space-8` section gaps |
 | Premium | Teaser gates, invitation tone — see `docs/monetization-strategy.md` |
 
@@ -251,6 +251,19 @@ import CoralLogo from './CoralLogo';
 | Use `CoralLogo` for brand | Use `Icon name="baby"` as logo |
 | Min size 24px for mark | Heavy gradients or 3D effects |
 | Keep clear space ~8px around mark | Storks, pacifiers, stock baby clipart |
+
+### Header navigation (desktop, shipped)
+
+Journey links + Sign in/Account use **quiet luxury** chrome — not filled pills.
+
+| State | Treatment |
+|-------|-----------|
+| Default | `--text-secondary`, transparent background |
+| Hover | Light sand tint (`color-mix` ~35%), `--text-primary` |
+| Active | Subtle peach tint (~25%) + **2px inset underline** in `--coral-primary` |
+| Premium CTA | Only filled accent — `.header-cta` coral pill, unchanged |
+
+CSS: `.header-nav a:not(.header-cta)` in `global.css` — padding `--space-1` × `--space-2`, radius `--radius-xs` (8px). Mobile `.mobile-nav`: color-only active (no pill).
 
 ---
 
@@ -608,6 +621,7 @@ Motion is a **design token**, not polish. Every animation communicates meaning, 
 | `--motion-instant` | 100ms | ease-out | Button feedback, hover |
 | `--motion-fast` | 150ms | ease-out | Toggles, small state changes |
 | `--motion-normal` | 250ms | ease-out | Cards, panels |
+| `--motion-surface` | 400ms | ease-out | Home scroll-synced background |
 | `--motion-slow` | 400ms | ease-in-out | Page transitions, modals |
 
 ### Spring Physics
@@ -898,7 +912,7 @@ Before shipping any UI change:
 | Phosphor Light icons | Shipped — `Icon.jsx`, `phosphorIconMap.js` |
 | Soothing UI sounds (WAV) | Shipped — `public/sounds/`, always on |
 | PageHero + editorial images | Shipped — `PageHero.jsx`, `public/images/heroes/` |
-| Journey-ordered nav (5 items) | Shipped |
+| Journey-ordered nav (6 desktop / 5 mobile) | Shipped |
 | Today home dashboard | Shipped |
 | Premium scaffold | Shipped — local trial |
 | Nestmile SVG logo (`CoralLogo`) | Shipped |

@@ -36,20 +36,15 @@ describeIt('Supabase contact (integration)', () => {
   it('allows anonymous contact form insert', async () => {
     if (!schemaReady) return;
     const unique = `it-${Date.now()}@nestbean.test`;
-    const { data, error } = await anonClient
-      .from('contact_submissions')
-      .insert({
-        email: unique,
-        name: 'IT Test',
-        subject: 'feedback',
-        message: 'Integration test message — safe to archive.',
-      })
-      .select('id, status')
-      .single();
+    const { data, error } = await anonClient.rpc('submit_contact_form', {
+      p_email: unique,
+      p_name: 'IT Test',
+      p_subject: 'feedback',
+      p_message: 'Integration test message — safe to archive.',
+    });
 
     expect(error).toBeNull();
-    expect(data?.status).toBe('new');
-    expect(data?.id).toBeTruthy();
+    expect(data).toBeTruthy();
   });
 });
 

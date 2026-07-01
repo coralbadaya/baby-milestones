@@ -36,7 +36,7 @@ Same breakpoints as shopping (`content-card-grid`):
 ## DIY Games & Activities
 
 - Filter tabs unchanged (category pills)
-- Card: `DIYActivityCard` — `.content-card.card-accent-top`, SVG banner, category badge, duration, difficulty dots, 2 material chips + “+N”, first benefit as preview
+- Card: `DIYActivityCard` — `.content-card.card-accent-top`, editorial photo (per-activity override or illustration fallback), category badge, duration, difficulty dots, 2 material chips + “+N”, first benefit as preview
 - CTA: **Open guide** → `DetailModal` with full content + YouTube button
 
 ---

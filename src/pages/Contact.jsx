@@ -8,13 +8,7 @@ import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
 import { ROUTES } from '../routes';
 import { CONTACT_EMAIL } from '../constants/brand';
-
-const SUBJECT_OPTIONS = [
-  { value: 'general', label: 'General enquiry' },
-  { value: 'feedback', label: 'Feedback' },
-  { value: 'press', label: 'Press' },
-  { value: 'partnership', label: 'Partnership' },
-];
+import { CONTACT_SUBJECT_OPTIONS } from '../constants/contactSubjects';
 
 function Contact() {
   usePageMeta({
@@ -41,12 +35,12 @@ function Contact() {
     interact('tap', 'light');
 
     try {
-      const { error: insertError } = await supabase.from('contact_submissions').insert({
-        name: name.trim() || null,
-        email: email.trim(),
-        subject,
-        message: message.trim(),
-        user_id: user?.id ?? null,
+      const { error: insertError } = await supabase.rpc('submit_contact_form', {
+        p_email: email.trim(),
+        p_name: name.trim() || null,
+        p_subject: subject,
+        p_message: message.trim(),
+        p_user_id: user?.id ?? null,
       });
 
       if (insertError) throw insertError;
@@ -120,7 +114,7 @@ function Contact() {
               id="contact-subject"
               value={subject}
               onChange={setSubject}
-              options={SUBJECT_OPTIONS}
+              options={CONTACT_SUBJECT_OPTIONS}
             />
           </div>
 
