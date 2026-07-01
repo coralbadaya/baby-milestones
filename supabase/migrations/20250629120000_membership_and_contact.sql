@@ -1,7 +1,19 @@
 -- Nestbean: profiles, memberships, promo codes, contact submissions, RBAC helpers
 
 -- ---------------------------------------------------------------------------
--- Helpers
+-- profiles (table first — helpers below reference this relation)
+-- ---------------------------------------------------------------------------
+
+create table if not exists public.profiles (
+  id uuid primary key references auth.users (id) on delete cascade,
+  display_name text,
+  role text not null default 'user' check (role in ('user', 'support', 'admin')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+-- ---------------------------------------------------------------------------
+-- RBAC helpers (after profiles exists)
 -- ---------------------------------------------------------------------------
 
 create or replace function public.is_admin()
@@ -29,18 +41,6 @@ as $$
     where id = auth.uid() and role in ('admin', 'support')
   );
 $$;
-
--- ---------------------------------------------------------------------------
--- profiles
--- ---------------------------------------------------------------------------
-
-create table if not exists public.profiles (
-  id uuid primary key references auth.users (id) on delete cascade,
-  display_name text,
-  role text not null default 'user' check (role in ('user', 'support', 'admin')),
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
 
 alter table public.profiles enable row level security;
 

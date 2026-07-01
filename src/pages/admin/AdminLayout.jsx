@@ -2,6 +2,7 @@ import { NavLink, Outlet, Link } from 'react-router-dom';
 import RequireRole from '../../components/auth/RequireRole';
 import { ROUTES } from '../../routes';
 import { interact } from '../../utils/haptics';
+import { usePageMeta } from '../../utils/pageMeta';
 
 const ADMIN_NAV = [
   { to: ROUTES.admin, label: 'Overview', end: true },
@@ -11,6 +12,11 @@ const ADMIN_NAV = [
 ];
 
 function AdminLayoutInner() {
+  usePageMeta({
+    title: 'Admin',
+    description: 'Nestbean admin center — inbox, users, and promo codes.',
+  });
+
   return (
     <div className="admin-layout fade-in">
       <aside className="admin-sidebar">

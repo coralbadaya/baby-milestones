@@ -144,7 +144,11 @@ function AccountContent() {
       {(isAdmin || isStaff) && (
         <section className="account-card">
           <h2>Team</h2>
-          <Link to={ROUTES.admin} className="btn-primary account-admin-link">
+          <Link
+            to={ROUTES.admin}
+            className="btn-primary account-admin-link"
+            onClick={() => interact('tap', 'light')}
+          >
             Open admin center
           </Link>
         </section>

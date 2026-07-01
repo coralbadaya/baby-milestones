@@ -31,17 +31,24 @@ export function AuthProvider({ children }) {
   const [profile, setProfile] = useState(null);
   const [membership, setMembership] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(false);
   const [localPremiumTick, setLocalPremiumTick] = useState(0);
 
   const refreshProfile = useCallback(async (userId) => {
     if (!userId) {
       setProfile(null);
       setMembership(null);
+      setProfileLoading(false);
       return;
     }
-    const [p, m] = await Promise.all([fetchProfile(userId), fetchMembership(userId)]);
-    setProfile(p);
-    setMembership(m);
+    setProfileLoading(true);
+    try {
+      const [p, m] = await Promise.all([fetchProfile(userId), fetchMembership(userId)]);
+      setProfile(p);
+      setMembership(m);
+    } finally {
+      setProfileLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -64,6 +71,7 @@ export function AuthProvider({ children }) {
       } else {
         setProfile(null);
         setMembership(null);
+        setProfileLoading(false);
       }
     });
 
@@ -138,6 +146,7 @@ export function AuthProvider({ children }) {
     profile,
     membership,
     loading,
+    profileLoading,
     isPremium,
     isAdmin,
     isStaff,
@@ -149,7 +158,7 @@ export function AuthProvider({ children }) {
     refreshProfile,
     startLocalTrial,
   }), [
-    session, profile, membership, loading, isPremium, isAdmin, isStaff,
+    session, profile, membership, loading, profileLoading, isPremium, isAdmin, isStaff,
     signUp, signIn, signOut, updateDisplayName, redeemPromoCode, refreshProfile, startLocalTrial,
   ]);
 

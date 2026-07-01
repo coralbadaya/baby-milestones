@@ -129,6 +129,7 @@ function Home({
             checkedItems={checkedItems}
             onSelectMonth={onSelectMonth}
             collapsed
+            variant="carousel"
             hideHeading
             rangeStart={rangeStart}
             rangeEnd={rangeEnd}

@@ -42,9 +42,11 @@ Three cards max, age-aware:
 
 - Ink band with brand tagline — **Home only** (one per page max)
 
-### 6. Continue your journey (`Timeline` collapsed)
+### 6. Continue your journey (`Timeline` carousel)
 
-- Props: `collapsed`, `rangeStart`, `rangeEnd` — show current month ±2 only
+- Props: `collapsed`, `variant="carousel"`, `rangeStart`, `rangeEnd` — show current month ±2 only
+- Horizontal carousel: prev/next arrows, dot indicators, auto-centers on current month
+- Swipe on mobile; keyboard left/right when track is focused
 - Footer link: **View full timeline →** `/baby`
 
 ### 4. Assistant panel
@@ -69,7 +71,7 @@ Home uses `PageSection` surface bands — see [`docs/editorial-page-system.md`](
 | Milestones | white | `CurrentMonthPanel` |
 | DIY | sand | `DIYPreviewStrip` |
 | Brand | ink | `EditorialBand` |
-| Timeline | ivory | collapsed `Timeline` |
+| Timeline | ivory | carousel `Timeline` (`variant="carousel"`) |
 
 Hero: `PageHero` with `layout="split"` on desktop.
 
@@ -81,6 +83,7 @@ Hero: `PageHero` with `layout="split"` on desktop.
 - `.today-focus` — 3-column grid (1 col mobile)
 - `.today-focus-card` — `.card-accent-top`, minimal border
 - `.timeline-collapsed-footer` — centered link to `/baby`
+- `.timeline-carousel` — horizontal month carousel (arrows, dots, scroll-snap)
 
 ---
 
@@ -90,7 +93,7 @@ Hero: `PageHero` with `layout="split"` on desktop.
 - `src/components/TodayFocus.jsx`
 - `src/components/CurrentMonthPanel.jsx`
 - `src/components/DIYPreviewStrip.jsx`
-- `src/components/Timeline.jsx` — `collapsed` prop
+- `src/components/Timeline.jsx` — `collapsed` prop, `variant="carousel"` for Home
 - `src/components/DIYEditorialCard.jsx`
 - `src/components/PageSection.jsx`
 - `src/components/SectionHeader.jsx`

@@ -6,9 +6,9 @@ import { ROUTES } from '../../routes';
  * @param {{ children: import('react').ReactNode, role?: 'admin'|'staff' }} props
  */
 function RequireRole({ children, role = 'admin' }) {
-  const { user, loading, isAdmin, isStaff } = useAuth();
+  const { user, loading, profileLoading, isAdmin, isStaff } = useAuth();
 
-  if (loading) {
+  if (loading || (user && profileLoading)) {
     return <div className="auth-loading">Loading…</div>;
   }
 
