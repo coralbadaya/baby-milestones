@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
  * Admin page title block — breadcrumb, heading, description, optional action slot.
  * @param {{
  *   title: string,
- *   description?: string,
+ *   description?: string | import('react').ReactNode,
  *   breadcrumb?: string | { label: string, to?: string }[],
  *   action?: import('react').ReactNode,
  * }} props

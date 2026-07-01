@@ -30,6 +30,7 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminPromos from './pages/admin/AdminPromos';
 import AdminDiyImages from './pages/admin/AdminDiyImages';
 import AdminNewsletter from './pages/admin/AdminNewsletter';
+import AdminCommunity from './pages/admin/AdminCommunity';
 import NewsletterUnsubscribe from './pages/NewsletterUnsubscribe';
 import AssistantPanel from './components/AssistantPanel';
 import { useFirstMoments } from './hooks/useFirstMoments';
@@ -159,17 +160,21 @@ function App() {
     navigate(ROUTES.month(month));
   }, [navigate]);
 
+  const isAdminRoute = location.pathname.startsWith('/admin');
   const showAssistant =
-    location.pathname === ROUTES.home
-    || location.pathname.startsWith('/month/')
-    || location.pathname === ROUTES.baby
-    || location.pathname === ROUTES.travel;
+    !isAdminRoute
+    && (
+      location.pathname === ROUTES.home
+      || location.pathname.startsWith('/month/')
+      || location.pathname === ROUTES.baby
+      || location.pathname === ROUTES.travel
+    );
 
   return (
     <div className="app">
       <ScrollToTop />
-      <Header />
-      <main className="app-main">
+      {!isAdminRoute && <Header />}
+      <main className={`app-main${isAdminRoute ? ' app-main--admin' : ''}`}>
         <Routes>
         <Route
           path={ROUTES.home}
@@ -295,12 +300,13 @@ function App() {
           <Route path="promos" element={<AdminPromos />} />
           <Route path="diy" element={<AdminDiyImages />} />
           <Route path="newsletter" element={<AdminNewsletter />} />
+          <Route path="community" element={<AdminCommunity />} />
         </Route>
 
         <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
         </Routes>
       </main>
-      <Footer />
+      {!isAdminRoute && <Footer />}
       {showAssistant && (
         <AssistantPanel
           currentMonth={getCurrentMonth()}

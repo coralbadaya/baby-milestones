@@ -1,4 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { supabase } from '../utils/supabaseClient';
+import { rowToMemory } from '../utils/community';
 
 const STORAGE_KEY = 'coral_memories';
 
@@ -36,7 +39,11 @@ const SEED_MEMORIES = [
   },
 ];
 
-function loadMemories() {
+function isUuid(id) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+}
+
+function loadLocalMemories() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
@@ -64,20 +71,157 @@ function createMemoryRecord(memory) {
   };
 }
 
+async function fetchPublishedMemories() {
+  const { data: rows, error } = await supabase
+    .from('community_memories')
+    .select('*')
+    .eq('status', 'published')
+    .order('created_at', { ascending: false });
+
+  if (error || !rows?.length) return [];
+
+  const ids = rows.map((r) => r.id);
+  const { data: commentRows } = await supabase
+    .from('community_memory_comments')
+    .select('*')
+    .in('memory_id', ids)
+    .order('created_at');
+
+  /** @type {Record<string, import('../types/community').MemoryComment[]>} */
+  const byMemory = {};
+  for (const comment of commentRows || []) {
+    if (!byMemory[comment.memory_id]) byMemory[comment.memory_id] = [];
+    byMemory[comment.memory_id].push({
+      id: comment.id,
+      text: comment.text,
+      author: comment.author_name,
+      timestamp: comment.created_at,
+    });
+  }
+
+  return rows.map((row) => {
+    const memory = rowToMemory(
+      { ...row, id: row.legacy_id || row.id },
+      byMemory[row.id] || [],
+    );
+    memory._dbId = row.id;
+    memory._fromSupabase = true;
+    return memory;
+  });
+}
+
+function mergeMemories(remote, local) {
+  const remoteLegacyIds = new Set(
+    remote.map((m) => m.id).filter((id) => id.startsWith('memory-seed-')),
+  );
+  const localOnly = local.filter((m) => !remoteLegacyIds.has(m.id));
+  const combined = [...remote, ...localOnly];
+  return combined.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
+}
+
 export function useMemories() {
-  const [memories, setMemories] = useState(loadMemories);
+  const { user, profile } = useAuth();
+  const [memories, setMemories] = useState(loadLocalMemories);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(memories));
+    let cancelled = false;
+
+    async function load() {
+      const remote = await fetchPublishedMemories();
+      if (!cancelled) {
+        if (remote.length) {
+          setMemories(mergeMemories(remote, loadLocalMemories()));
+        }
+        setLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    const localOnly = memories.filter((m) => !m._fromSupabase);
+    if (localOnly.length) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(localOnly));
+    }
   }, [memories]);
 
   /** @param {Omit<import('../types/community').Memory, 'id' | 'createdAt' | 'reactions' | 'comments'> & { tags?: string[] }} memory */
-  const addMemory = useCallback((memory) => {
+  const addMemory = useCallback(async (memory) => {
+    if (user?.id) {
+      setSubmitStatus(null);
+      const { error } = await supabase.from('community_memories').insert({
+        type: memory.type,
+        title: memory.title,
+        content: memory.content,
+        baby_age: memory.babyAge ?? null,
+        tags: memory.tags ?? [],
+        author_id: user.id,
+        author_name: profile?.display_name || user.email?.split('@')[0] || 'Member',
+        status: 'pending',
+      });
+
+      if (error) {
+        setSubmitStatus({ type: 'error', message: error.message });
+        return { ok: false };
+      }
+
+      setSubmitStatus({
+        type: 'pending',
+        message: 'Thanks! Your post is pending review and will appear in the feed once approved.',
+      });
+      return { ok: true, pending: true };
+    }
+
     setMemories((prev) => [createMemoryRecord(memory), ...prev]);
-  }, []);
+    setSubmitStatus(null);
+    return { ok: true, pending: false };
+  }, [user, profile]);
 
   /** @param {string} memoryId @param {string} text @param {string} [author] */
-  const addComment = useCallback((memoryId, text, author = 'You') => {
+  const addComment = useCallback(async (memoryId, text, author = 'You') => {
+    const target = memories.find((m) => m.id === memoryId);
+    if (target?._fromSupabase && target._dbId && user?.id) {
+      const { data, error } = await supabase
+        .from('community_memory_comments')
+        .insert({
+          memory_id: target._dbId,
+          text,
+          author_name: author,
+        })
+        .select()
+        .single();
+
+      if (!error && data) {
+        setMemories((prev) =>
+          prev.map((m) =>
+            m.id === memoryId
+              ? {
+                  ...m,
+                  comments: [
+                    ...m.comments,
+                    {
+                      id: data.id,
+                      text: data.text,
+                      author: data.author_name,
+                      timestamp: data.created_at,
+                    },
+                  ],
+                }
+              : m,
+          ),
+        );
+      }
+      return;
+    }
+
     setMemories((prev) =>
       prev.map((m) =>
         m.id === memoryId
@@ -93,13 +237,23 @@ export function useMemories() {
                 },
               ],
             }
-          : m
-      )
+          : m,
+      ),
     );
-  }, []);
+  }, [memories, user]);
 
   /** @param {string} memoryId @param {'heart' | 'celebrate' | 'support'} reactionType */
-  const reactToMemory = useCallback((memoryId, reactionType) => {
+  const reactToMemory = useCallback(async (memoryId, reactionType) => {
+    const target = memories.find((m) => m.id === memoryId);
+    const dbId = target?._dbId || (isUuid(memoryId) ? memoryId : null);
+
+    if (dbId) {
+      await supabase.rpc('react_to_community_memory', {
+        p_memory_id: dbId,
+        p_reaction: reactionType,
+      });
+    }
+
     setMemories((prev) =>
       prev.map((m) =>
         m.id === memoryId
@@ -110,14 +264,31 @@ export function useMemories() {
                 [reactionType]: m.reactions[reactionType] + 1,
               },
             }
-          : m
-      )
+          : m,
+      ),
     );
-  }, []);
+  }, [memories]);
 
   const deleteMemory = useCallback((memoryId) => {
-    setMemories((prev) => prev.filter((m) => m.id !== memoryId));
+    setMemories((prev) => prev.filter((m) => m.id !== memoryId && !m._fromSupabase));
   }, []);
 
-  return { memories, addMemory, addComment, reactToMemory, deleteMemory };
+  const refreshMemories = useCallback(async () => {
+    const remote = await fetchPublishedMemories();
+    if (remote.length) {
+      setMemories(mergeMemories(remote, loadLocalMemories()));
+    }
+  }, []);
+
+  return {
+    memories,
+    loading,
+    addMemory,
+    addComment,
+    reactToMemory,
+    deleteMemory,
+    submitStatus,
+    refreshMemories,
+    clearSubmitStatus: () => setSubmitStatus(null),
+  };
 }

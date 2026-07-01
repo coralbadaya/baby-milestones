@@ -2,7 +2,7 @@
 
 > Professional staff console for `/admin/*` — operational, data-first, visually distinct from the consumer app.
 
-**Status:** Phase 1 complete · Phases 2–4 planned  
+**Status:** Phases 1–4 complete  
 **Design spec:** [`admin-portal-design.md`](admin-portal-design.md) — layout, `--admin-*` tokens, component patterns  
 **Implementation skill:** [`.cursor/skills/admin-portal/SKILL.md`](../.cursor/skills/admin-portal/SKILL.md)  
 **Auth & roles:** [`auth-membership-admin.md`](auth-membership-admin.md)  
@@ -15,9 +15,9 @@
 | Phase | Scope | Status |
 |-------|-------|--------|
 | 1 | Shell and theme | **Complete** |
-| 2 | Shared components | Planned |
-| 3 | Page refactors | Planned |
-| 4 | Polish and ops | Planned |
+| 2 | Shared components | **Complete** |
+| 3 | Page refactors | **Complete** |
+| 4 | Polish and ops | **Complete** |
 
 ---
 
@@ -25,10 +25,10 @@
 
 | Area | Today | Target |
 |------|-------|--------|
-| Layout | Lavender wash, text-only sidebar in `AdminLayout.jsx` | Dark sidebar + top bar + drawer (mobile) — **Phase 1 shipped** |
-| Styles | `admin-*` in `global.css` (~7128+) | `src/styles/admin-portal.css` — **Phase 1 shipped** |
-| Components | Inline per page | `src/components/admin/*` shared primitives |
-| Typography | Fraunces sidebar title | Switzer-only ops UI |
+| Layout | Dark sidebar + top bar + drawer (mobile) in `AdminLayout.jsx` | **Shipped** |
+| Styles | `src/styles/admin-portal.css` | **Shipped** |
+| Components | `src/components/admin/*` shared primitives | **Shipped** |
+| Typography | Switzer-only ops UI via `AdminPageHeader` | **Shipped** |
 
 **Admin pages** (`src/pages/admin/`):
 
@@ -98,31 +98,31 @@
 
 ### 2.1 Surfaces and chrome
 
-- [ ] `AdminPanel.jsx` — white elevated content surface (tables, forms, stat grids)
-- [ ] `AdminPageHeader.jsx` — finalize and export (from Phase 1)
+- [x] `AdminPanel.jsx` — white elevated content surface (tables, forms, stat grids)
+- [x] `AdminPageHeader.jsx` — finalize and export (from Phase 1)
 
 ### 2.2 Data display
 
-- [ ] `AdminStatCard.jsx` — metric value + label; optional `to` link
-- [ ] `AdminDataTable.jsx` — wrapper with sticky header, row hover, optional `highlightRow` prop for inbox `new` rows
-- [ ] `AdminBadge.jsx` — status pills mapping design doc colors (new, active, trial, warning, error, neutral)
+- [x] `AdminStatCard.jsx` — metric value + label; optional `to` link
+- [x] `AdminDataTable.jsx` — wrapper with sticky header, row hover, optional `highlightRow` prop for inbox `new` rows
+- [x] `AdminBadge.jsx` — status pills mapping design doc colors (new, active, trial, warning, error, neutral)
 
 ### 2.3 States and toolbar
 
-- [ ] `AdminToolbar.jsx` — left slot (filters/search), right slot (ghost Refresh + primary action)
-- [ ] `AdminEmpty.jsx` — centered message + optional secondary action
-- [ ] `AdminLoading.jsx` — consistent loading copy or skeleton placeholder hook
+- [x] `AdminToolbar.jsx` — left slot (filters/search), right slot (ghost Refresh + primary action)
+- [x] `AdminEmpty.jsx` — centered message + optional secondary action
+- [x] `AdminLoading.jsx` — consistent loading copy or skeleton placeholder hook
 
 ### 2.4 Adoption
 
-- [ ] Refactor `AdminOverview.jsx` to use `AdminPanel`, `AdminStatCard`
-- [ ] Refactor `AdminInbox.jsx` to use `AdminPageHeader`, `AdminToolbar`, `AdminDataTable`, `AdminBadge`
+- [x] Refactor `AdminOverview.jsx` to use `AdminPanel`, `AdminStatCard`
+- [x] Refactor `AdminInbox.jsx` to use `AdminPageHeader`, `AdminToolbar`, `AdminDataTable`, `AdminBadge`
 
 **Acceptance criteria:**
 
-- [ ] Overview and Inbox use shared components exclusively for chrome (not ad-hoc divs)
-- [ ] Badge colors match status table in `admin-portal-design.md`
-- [ ] Inbox `new` rows: left accent + highlight background via `AdminDataTable`
+- [x] Overview and Inbox use shared components exclusively for chrome (not ad-hoc divs)
+- [x] Badge colors match status table in `admin-portal-design.md`
+- [x] Inbox `new` rows: left accent + highlight background via `AdminDataTable`
 
 ---
 
@@ -132,70 +132,70 @@
 
 ### 3.1 Overview (`AdminOverview.jsx`)
 
-- [ ] Completed in Phases 1–2; verify stat cards link to Inbox, Promos, DIY routes
+- [x] Completed in Phases 1–2; verify stat cards link to Inbox, Promos, DIY routes
 - [ ] Optional: recent activity strip (future — out of scope unless data exists)
 
 **Acceptance criteria:**
 
-- [ ] Stat grid responsive `minmax(180px, 1fr)`; clickable cards have hover lift
+- [x] Stat grid responsive `minmax(180px, 1fr)`; clickable cards have hover lift
 
 ### 3.2 Inbox (`AdminInbox.jsx`)
 
-- [ ] `AdminPageHeader` with description + Refresh in toolbar
-- [ ] Status filter via shared `Select.jsx`
-- [ ] `AdminDataTable` with subject labels from `contactSubjectLabel`
-- [ ] Mobile: card list per message (date, from, subject, status) or sticky-first-column scroll
+- [x] `AdminPageHeader` with description + Refresh in toolbar
+- [x] Status filter via shared `Select.jsx`
+- [x] `AdminDataTable` with subject labels from `contactSubjectLabel`
+- [x] Mobile: card list per message (date, from, subject, status) or sticky-first-column scroll
 
 **Acceptance criteria:**
 
-- [ ] Can filter by status, update row status, refresh without full page reload
-- [ ] New messages visually distinct from read/archived
+- [x] Can filter by status, update row status, refresh without full page reload
+- [x] New messages visually distinct from read/archived
 
 ### 3.3 Users (`AdminUsers.jsx`)
 
-- [ ] `AdminPageHeader` + search input in `AdminToolbar`
-- [ ] Table: display name, email, role, membership status, created date
-- [ ] Role/membership edits admin-only (`isAdmin` guard — existing logic preserved)
-- [ ] Mobile: stacked user cards
+- [x] `AdminPageHeader` + search input in `AdminToolbar`
+- [x] Table: display name, email, role, membership status, created date
+- [x] Role/membership edits admin-only (`isAdmin` guard — existing logic preserved)
+- [x] Mobile: stacked user cards
 
 **Acceptance criteria:**
 
-- [ ] Search filters client-side or server-side (match current behavior)
-- [ ] Non-admin staff see read-only table
+- [x] Search filters client-side or server-side (match current behavior)
+- [x] Non-admin staff see read-only table
 
 ### 3.4 Promo codes (`AdminPromos.jsx`)
 
-- [ ] Inline create form inside `AdminPanel`
-- [ ] Table: code, type, uses, expiry, active flag
-- [ ] Primary action: Create code
+- [x] Inline create form inside `AdminPanel`
+- [x] Table: code, type, uses, expiry, active flag
+- [x] Primary action: Create code
 
 **Acceptance criteria:**
 
-- [ ] Create + list promos without leaving page
-- [ ] Mono font for code column
+- [x] Create + list promos without leaving page
+- [x] Mono font for code column
 
 ### 3.5 Newsletter (`AdminNewsletter.jsx`)
 
-- [ ] Restyle tab bar (Campaigns · Compose · Templates · Subscribers) with admin tab tokens
-- [ ] Compose + preview panels inside `AdminPanel`
-- [ ] Modal polish for schedule/send confirmations
-- [ ] Feature workflow: [`newsletter-admin.md`](newsletter-admin.md)
+- [x] Restyle tab bar (Campaigns · Compose · Templates · Subscribers) with admin tab tokens
+- [x] Compose + preview panels inside `AdminPanel`
+- [x] Modal polish for schedule/send confirmations
+- [x] Feature workflow: [`newsletter-admin.md`](newsletter-admin.md)
 
 **Acceptance criteria:**
 
-- [ ] All four tabs functional; admin-only write actions gated
-- [ ] Preview iframe and mobile/desktop preview frames styled consistently
+- [x] All four tabs functional; admin-only write actions gated
+- [x] Preview iframe and mobile/desktop preview frames styled consistently
 
 ### 3.6 DIY images (`AdminDiyImages.jsx`)
 
-- [ ] Thumbnail grid in `AdminPanel`
-- [ ] Upload UX + pagination toolbar
-- [ ] Feature workflow: [`diy-images-admin.md`](diy-images-admin.md)
+- [x] Thumbnail grid in `AdminPanel`
+- [x] Upload UX + pagination toolbar
+- [x] Feature workflow: [`diy-images-admin.md`](diy-images-admin.md)
 
 **Acceptance criteria:**
 
-- [ ] Admin-only route hidden from support nav
-- [ ] Image upload and prompt expand still work after restyle
+- [x] Admin-only route hidden from support nav
+- [x] Image upload and prompt expand still work after restyle
 
 ---
 
@@ -205,29 +205,29 @@
 
 ### 4.1 Live data in chrome
 
-- [ ] Inbox sidebar badge: count from `contact_submissions` where `status = 'new'`
-- [ ] Badge updates after inbox status change (refetch or optimistic decrement)
+- [x] Inbox sidebar badge: count from `contact_submissions` where `status = 'new'`
+- [x] Badge updates after inbox status change (refetch or optimistic decrement)
 
 ### 4.2 Loading and motion
 
-- [ ] Loading skeletons for stat cards and table rows
-- [ ] Respect `prefers-reduced-motion` on drawer and nav transitions
+- [x] Loading skeletons for stat cards and table rows
+- [x] Respect `prefers-reduced-motion` on drawer and nav transitions
 
 ### 4.3 Accessibility and keyboard
 
-- [ ] Skip link: "Skip to admin content" as first focusable in shell
-- [ ] Esc closes mobile drawer and modals (audit newsletter + DIY modals)
-- [ ] `aria-current="page"` on active nav item
+- [x] Skip link: "Skip to admin content" as first focusable in shell
+- [x] Esc closes mobile drawer and modals (audit newsletter + DIY modals)
+- [x] `aria-current="page"` on active nav item
 
 ### 4.4 Tablet (optional)
 
-- [ ] Icon rail sidebar (64px) at 769–1023px with tooltips; expand on toggle
+- [ ] Icon rail sidebar (64px) at 769–1023px with tooltips; expand on toggle *(skipped — out of scope)*
 
 **Acceptance criteria:**
 
-- [ ] Inbox badge reflects live count after seed + new contact submission
-- [ ] Keyboard-only navigation through sidebar and primary inbox actions
-- [ ] No consumer-app Fraunces or editorial sand bands visible in admin shell
+- [x] Inbox badge reflects live count after seed + new contact submission
+- [x] Keyboard-only navigation through sidebar and primary inbox actions
+- [x] No consumer-app Fraunces or editorial sand bands visible in admin shell
 
 ---
 
@@ -248,9 +248,11 @@
 | Skill + Phase 1 prompt | `.cursor/skills/admin-portal/SKILL.md` |
 | Layout | `src/pages/admin/AdminLayout.jsx` |
 | Pages | `src/pages/admin/Admin*.jsx` |
-| Shared components | `src/components/admin/*` — `AdminPageHeader.jsx` (Phase 1); primitives Phase 2 |
+| Shared components | `src/components/admin/*` |
 | Styles | `src/styles/admin-portal.css` |
 | Icons | `src/components/Icon.jsx`, `src/utils/phosphorIconMap.js` |
+| Inbox badge event | `src/utils/adminEvents.js` |
+| Esc hook | `src/hooks/useEscToClose.js` |
 
 ---
 
@@ -290,4 +292,4 @@ Credentials: [`development-workflow.md#login-details-local-dev`](development-wor
 
 ---
 
-*Last updated: admin portal phased plan v1 — Phase 1 complete.*
+*Last updated: admin portal phased plan v1 — Phases 1–4 complete (shared components, page refactors, polish).*

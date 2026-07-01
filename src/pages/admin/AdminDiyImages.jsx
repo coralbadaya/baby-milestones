@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import AdminEmpty from '../../components/admin/AdminEmpty';
+import AdminLoading from '../../components/admin/AdminLoading';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
+import AdminPanel from '../../components/admin/AdminPanel';
+import AdminToolbar from '../../components/admin/AdminToolbar';
 import Select from '../../components/Select';
 import { useAuth } from '../../context/AuthContext';
 import { diyActivityImages, diyActivityIds } from '../../data/diyImageManifest';
@@ -194,56 +199,57 @@ function AdminDiyImages() {
 
   return (
     <div className="admin-page">
-      <h1 className="font-display">DIY activity images</h1>
-      <p className="admin-intro">
-        {customCount} of {totalCount} activities have custom images. Others use bundled illustration fallbacks.
-      </p>
+      <AdminPageHeader
+        title="DIY activity images"
+        description={`${customCount} of ${totalCount} activities have custom images. Others use bundled illustration fallbacks.`}
+        breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'DIY images' }]}
+      />
 
       {error && <p className="admin-error" role="alert">{error}</p>}
 
-      <div className="admin-form-grid admin-diy-filters">
-        <label className="admin-field">
-          <span>Search</span>
-          <input
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Name, id, or illustration key"
-          />
-        </label>
-        <label className="admin-field">
-          <span>Month</span>
-          <Select
-            value={monthFilter}
-            onChange={setMonthFilter}
-            options={MONTH_OPTIONS}
-            ariaLabel="Filter by month"
-          />
-        </label>
-        <label className="admin-field">
-          <span>Category</span>
-          <Select
-            value={categoryFilter}
-            onChange={setCategoryFilter}
-            options={CATEGORY_OPTIONS}
-            ariaLabel="Filter by category"
-          />
-        </label>
-      </div>
+      <AdminToolbar
+        left={(
+          <>
+            <input
+              type="search"
+              className="admin-search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Name, id, or illustration key"
+              aria-label="Search activities"
+            />
+            <Select
+              value={monthFilter}
+              onChange={setMonthFilter}
+              options={MONTH_OPTIONS}
+              ariaLabel="Filter by month"
+            />
+            <Select
+              value={categoryFilter}
+              onChange={setCategoryFilter}
+              options={CATEGORY_OPTIONS}
+              ariaLabel="Filter by category"
+            />
+          </>
+        )}
+        onRefresh={load}
+      />
 
       {loading ? (
-        <p className="admin-loading">Loading DIY images…</p>
+        <AdminLoading variant="table" message="Loading DIY images…" />
+      ) : pageIds.length === 0 ? (
+        <AdminEmpty message="No activities match your filters." />
       ) : (
-        <>
+        <AdminPanel padding={false}>
           <div className="admin-table-wrap">
             <table className="admin-table admin-diy-table">
               <thead>
                 <tr>
-                  <th>Preview</th>
-                  <th>Activity</th>
-                  <th>Illustration</th>
-                  <th>Source</th>
-                  <th>Actions</th>
+                  <th scope="col">Preview</th>
+                  <th scope="col">Activity</th>
+                  <th scope="col">Illustration</th>
+                  <th scope="col">Source</th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -275,7 +281,7 @@ function AdminDiyImages() {
                         <strong>{meta.name}</strong>
                         <div className="admin-muted">{activityId} · Month {meta.month}</div>
                       </td>
-                      <td><code>{meta.illustration}</code></td>
+                      <td><code className="admin-mono">{meta.illustration}</code></td>
                       <td>{row?.source || 'bundled fallback'}</td>
                       <td>
                         <div className="admin-diy-actions">
@@ -316,7 +322,7 @@ function AdminDiyImages() {
                           )}
                         </div>
                         {isExpanded && (
-                          <div className="admin-diy-expand card-accent-top">
+                          <div className="admin-diy-expand">
                             <label className="admin-field">
                               <span>Alt text</span>
                               <input
@@ -387,7 +393,7 @@ function AdminDiyImages() {
               Next
             </button>
           </div>
-        </>
+        </AdminPanel>
       )}
     </div>
   );

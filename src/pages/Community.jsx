@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
+import SectionHeader from '../components/SectionHeader';
 import Icon from '../components/Icon';
 import { useNavigate } from 'react-router-dom';
 import { interact } from '../utils/haptics';
@@ -8,18 +9,18 @@ import { COMMUNITY_TAGLINE } from '../constants/brand';
 import { applyPageMeta, resetPageMeta } from '../utils/pageMeta';
 import { ROUTES } from '../routes';
 import { useMemories } from '../hooks/useMemories';
-import { recipes } from '../data/recipes';
-import { parentingTips } from '../data/parentingTips';
+import { useCommunityRecipes } from '../hooks/useCommunityRecipes';
+import { useCommunityTips } from '../hooks/useCommunityTips';
 import MemoryFeed from '../components/community/MemoryFeed';
 import RecipeFeed from '../components/community/RecipeFeed';
 import TipsFeed from '../components/community/TipsFeed';
 import CreateMemory from '../components/community/CreateMemory';
 
 const TABS = [
-  { id: 'feed', label: 'Feed', icon: "speech-bubble" },
-  { id: 'recipes', label: 'Recipes', icon: "baby-bottle" },
-  { id: 'tips', label: 'Tips', icon: "light-bulb" },
-  { id: 'create', label: 'Create', icon: "sparkles" },
+  { id: 'feed', label: 'Feed', icon: 'speech-bubble' },
+  { id: 'recipes', label: 'Recipes', icon: 'baby-bottle' },
+  { id: 'tips', label: 'Tips', icon: 'light-bulb' },
+  { id: 'create', label: 'Create', icon: 'sparkles' },
 ];
 
 function formatBabyAge(currentMonth) {
@@ -48,7 +49,17 @@ const TAB_META = {
 
 function Community({ currentMonth, tab }) {
   const navigate = useNavigate();
-  const { memories, addMemory, addComment, reactToMemory } = useMemories();
+  const {
+    memories,
+    loading: memoriesLoading,
+    addMemory,
+    addComment,
+    reactToMemory,
+    submitStatus,
+    clearSubmitStatus,
+  } = useMemories();
+  const { recipes, loading: recipesLoading } = useCommunityRecipes();
+  const { tips, loading: tipsLoading } = useCommunityTips();
 
   useEffect(() => {
     const meta = TAB_META[tab] || TAB_META.feed;
@@ -59,18 +70,28 @@ function Community({ currentMonth, tab }) {
     return resetPageMeta;
   }, [tab]);
 
+  useEffect(() => {
+    if (tab !== 'create') clearSubmitStatus();
+  }, [tab, clearSubmitStatus]);
+
   const handleTab = useCallback((id) => {
     interact('tap', 'selection');
     navigate(ROUTES.communityTab(id));
   }, [navigate]);
 
-  const handleCreate = useCallback((memory) => {
-    addMemory(memory);
-    navigate(ROUTES.communityTab('feed'));
+  const handleCreate = useCallback(async (memory) => {
+    const result = await addMemory(memory);
+    if (result?.pending) {
+      navigate(ROUTES.communityTab('create'));
+      return;
+    }
+    if (result?.ok) {
+      navigate(ROUTES.communityTab('feed'));
+    }
   }, [addMemory, navigate]);
 
   return (
-    <>
+    <div className="community-page-wrap">
       <PageHero
         imageKey="community"
         layout="split"
@@ -80,8 +101,13 @@ function Community({ currentMonth, tab }) {
         size="md"
       />
 
-      <PageSection surface="sand" width="narrow" className="community-page">
-        <nav className="community-tabs" role="tablist" aria-label="Community sections">
+      <PageSection surface="sand" width="narrow">
+        <SectionHeader
+          eyebrow="Nestbean Community"
+          title={TAB_META[tab]?.title || 'Community'}
+          subtitle={TAB_META[tab]?.description}
+        />
+        <nav className="community-tabs community-tabs--editorial" role="tablist" aria-label="Community sections">
           {TABS.map((t) => (
             <button
               key={t.id}
@@ -98,26 +124,52 @@ function Community({ currentMonth, tab }) {
         </nav>
       </PageSection>
 
-      <PageSection surface="white" width="narrow" className="page-body--with-mobile-nav community-page">
-        <div className="community-panel" role="tabpanel">
+      <PageSection surface="white" width="narrow" className="page-body--with-mobile-nav">
+        <div className="community-panel community-panel--editorial" role="tabpanel">
           {tab === 'feed' && (
-            <MemoryFeed
-              memories={memories}
-              onReact={reactToMemory}
-              onAddComment={addComment}
-            />
+            memoriesLoading ? (
+              <p className="community-loading">Loading feed…</p>
+            ) : (
+              <MemoryFeed
+                memories={memories}
+                onReact={reactToMemory}
+                onAddComment={addComment}
+              />
+            )
           )}
-          {tab === 'recipes' && <RecipeFeed recipes={recipes} />}
-          {tab === 'tips' && <TipsFeed tips={parentingTips} />}
+          {tab === 'recipes' && (
+            recipesLoading ? (
+              <p className="community-loading">Loading recipes…</p>
+            ) : (
+              <RecipeFeed recipes={recipes} />
+            )
+          )}
+          {tab === 'tips' && (
+            tipsLoading ? (
+              <p className="community-loading">Loading tips…</p>
+            ) : (
+              <TipsFeed tips={tips} />
+            )
+          )}
           {tab === 'create' && (
-            <CreateMemory
-              onSubmit={handleCreate}
-              defaultBabyAge={formatBabyAge(currentMonth)}
-            />
+            <>
+              {submitStatus?.type === 'pending' && (
+                <p className="community-notice community-notice--success" role="status">
+                  {submitStatus.message}
+                </p>
+              )}
+              {submitStatus?.type === 'error' && (
+                <p className="community-form-error" role="alert">{submitStatus.message}</p>
+              )}
+              <CreateMemory
+                onSubmit={handleCreate}
+                defaultBabyAge={formatBabyAge(currentMonth)}
+              />
+            </>
           )}
         </div>
       </PageSection>
-    </>
+    </div>
   );
 }
 

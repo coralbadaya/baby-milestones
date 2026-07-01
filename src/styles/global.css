@@ -5159,6 +5159,39 @@ a {
   margin-top: var(--space-2);
 }
 
+.community-page-wrap {
+  width: 100%;
+}
+
+.community-tabs--editorial {
+  margin-bottom: 0;
+}
+
+.community-panel--editorial {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.community-loading {
+  text-align: center;
+  padding: var(--space-8);
+  color: var(--text-light);
+  font-size: var(--text-sm);
+}
+
+.community-notice {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.community-notice--success {
+  background: var(--mint);
+  color: var(--mint-dark);
+  border: 1px solid color-mix(in srgb, var(--mint-dark) 20%, transparent);
+}
+
 /* Recipe detail modal body */
 .recipe-detail-section {
   margin-bottom: var(--space-4);

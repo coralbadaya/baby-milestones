@@ -2,8 +2,17 @@ import {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Navigate, useBlocker } from 'react-router-dom';
+import AdminBadge from '../../components/admin/AdminBadge';
+import AdminDataTable from '../../components/admin/AdminDataTable';
+import AdminEmpty from '../../components/admin/AdminEmpty';
+import AdminLoading from '../../components/admin/AdminLoading';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
+import AdminPanel from '../../components/admin/AdminPanel';
+import AdminStatCard from '../../components/admin/AdminStatCard';
+import AdminToolbar from '../../components/admin/AdminToolbar';
 import Select from '../../components/Select';
 import { useAuth } from '../../context/AuthContext';
+import { useEscToClose } from '../../hooks/useEscToClose';
 import { ROUTES } from '../../routes';
 import { interact } from '../../utils/haptics';
 import {
@@ -58,8 +67,32 @@ const emptyCampaign = {
   status: 'draft',
 };
 
+const CAMPAIGN_COLUMNS = [
+  { key: 'name', header: 'Name' },
+  { key: 'status', header: 'Status' },
+  { key: 'subject', header: 'Subject' },
+  { key: 'scheduled', header: 'Scheduled / sent', className: 'admin-cell-date' },
+  { key: 'recipients', header: 'Recipients' },
+  { key: 'actions', header: 'Actions' },
+];
+
+const TEMPLATE_COLUMNS = [
+  { key: 'name', header: 'Name' },
+  { key: 'slug', header: 'Slug' },
+  { key: 'subject', header: 'Subject' },
+  { key: 'system', header: 'System' },
+  { key: 'actions', header: 'Actions' },
+];
+
+const SUBSCRIBER_COLUMNS = [
+  { key: 'email', header: 'Email' },
+  { key: 'status', header: 'Status' },
+  { key: 'source', header: 'Source' },
+  { key: 'subscribed', header: 'Subscribed', className: 'admin-cell-date' },
+];
+
 function StatusBadge({ status }) {
-  return <span className={`admin-badge admin-badge--${status}`}>{campaignStatusLabel(status)}</span>;
+  return <AdminBadge variant={status}>{campaignStatusLabel(status)}</AdminBadge>;
 }
 
 function formatDateTime(iso) {
@@ -340,16 +373,31 @@ function AdminNewsletter() {
 
   const readOnly = !isAdmin;
 
+  useEscToClose(scheduleOpen, () => setScheduleOpen(false));
+  useEscToClose(saveTemplateOpen, () => setSaveTemplateOpen(false));
+  useEscToClose(!!templateEdit, () => setTemplateEdit(null));
+  useEscToClose(!!statsCampaign, () => { setStatsCampaign(null); setStats(null); });
+
   return (
     <div className="admin-page">
-      <h1 className="font-display">Newsletter</h1>
-      <p className="admin-intro">
-        Compose editorial emails, save drafts, send samples, and schedule delivery to
-        {' '}
-        <strong>{activeCount}</strong>
-        {' '}
-        active subscribers.
-      </p>
+      <AdminPageHeader
+        title="Newsletter"
+        description={(
+          <>
+            Compose editorial emails, save drafts, send samples, and schedule delivery to
+            {' '}
+            <strong>{activeCount}</strong>
+            {' '}
+            active subscribers.
+          </>
+        )}
+        breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'Newsletter' }]}
+        action={!readOnly ? (
+          <button type="button" className="btn-primary" onClick={() => openCompose(null)}>
+            New campaign
+          </button>
+        ) : null}
+      />
 
       <div className="admin-tabs" role="tablist">
         {TABS.map(({ id, label }) => (
@@ -377,74 +425,71 @@ function AdminNewsletter() {
 
       {tab === 'campaigns' && (
         <>
-          <div className="admin-toolbar">
-            <Select
-              id="campaign-filter"
-              value={campaignFilter}
-              onChange={setCampaignFilter}
-              options={CAMPAIGN_FILTERS}
-            />
-            {!readOnly && (
-              <button type="button" className="btn-primary" onClick={() => openCompose(null)}>
-                New campaign
-              </button>
+          <AdminToolbar
+            left={(
+              <Select
+                id="campaign-filter"
+                value={campaignFilter}
+                onChange={setCampaignFilter}
+                options={CAMPAIGN_FILTERS}
+              />
             )}
-            <button type="button" className="btn-ghost" onClick={loadAll}>Refresh</button>
-          </div>
+            onRefresh={loadAll}
+          />
 
           {loading ? (
-            <p className="admin-loading">Loading campaigns…</p>
+            <AdminLoading variant="table" message="Loading campaigns…" />
           ) : filteredCampaigns.length === 0 ? (
-            <p className="admin-empty">No campaigns yet — start from a template.</p>
+            <AdminEmpty message="No campaigns yet — start from a template." />
           ) : (
-            <div className="admin-table-wrap">
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Subject</th>
-                    <th>Scheduled / sent</th>
-                    <th>Recipients</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredCampaigns.map((row) => (
-                    <tr key={row.id}>
-                      <td><strong>{row.name}</strong></td>
-                      <td><StatusBadge status={row.status} /></td>
-                      <td>{row.subject || '—'}</td>
-                      <td className="admin-cell-date">
-                        {row.sent_at ? formatDateTime(row.sent_at) : formatDateTime(row.scheduled_at)}
-                      </td>
-                      <td>{row.recipient_count || '—'}</td>
-                      <td className="admin-actions">
-                        {!readOnly && canEditCampaign(row.status) && (
-                          <button type="button" className="btn-ghost" onClick={() => openCompose(row)}>Edit</button>
-                        )}
-                        {!readOnly && (
-                          <button type="button" className="btn-ghost" onClick={() => handleDuplicate(row)}>Duplicate</button>
-                        )}
-                        {!readOnly && row.status === 'scheduled' && (
-                          <button type="button" className="btn-ghost" onClick={() => handleCancelSchedule(row)}>Cancel</button>
-                        )}
-                        {row.status === 'sent' || row.status === 'sending' ? (
-                          <button type="button" className="btn-ghost" onClick={() => viewStats(row)}>Stats</button>
-                        ) : null}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <AdminPanel padding={false}>
+              <AdminDataTable
+                columns={CAMPAIGN_COLUMNS}
+                rows={filteredCampaigns}
+                rowKey={(row) => row.id}
+                renderCell={(row, col) => {
+                  switch (col.key) {
+                    case 'name':
+                      return <strong>{row.name}</strong>;
+                    case 'status':
+                      return <StatusBadge status={row.status} />;
+                    case 'subject':
+                      return row.subject || '—';
+                    case 'scheduled':
+                      return row.sent_at ? formatDateTime(row.sent_at) : formatDateTime(row.scheduled_at);
+                    case 'recipients':
+                      return row.recipient_count || '—';
+                    case 'actions':
+                      return (
+                        <div className="admin-actions">
+                          {!readOnly && canEditCampaign(row.status) && (
+                            <button type="button" className="btn-ghost" onClick={() => openCompose(row)}>Edit</button>
+                          )}
+                          {!readOnly && (
+                            <button type="button" className="btn-ghost" onClick={() => handleDuplicate(row)}>Duplicate</button>
+                          )}
+                          {!readOnly && row.status === 'scheduled' && (
+                            <button type="button" className="btn-ghost" onClick={() => handleCancelSchedule(row)}>Cancel</button>
+                          )}
+                          {row.status === 'sent' || row.status === 'sending' ? (
+                            <button type="button" className="btn-ghost" onClick={() => viewStats(row)}>Stats</button>
+                          ) : null}
+                        </div>
+                      );
+                    default:
+                      return null;
+                  }
+                }}
+              />
+            </AdminPanel>
           )}
         </>
       )}
 
       {tab === 'compose' && !readOnly && (
-        <div className="admin-newsletter-compose">
-          <div className="admin-newsletter-editor">
+        <AdminPanel padding={false}>
+          <div className="admin-newsletter-compose">
+            <div className="admin-newsletter-editor admin-panel">
             <div className="admin-toolbar">
               <Select
                 id="template-picker"
@@ -537,7 +582,7 @@ function AdminNewsletter() {
             {dirty && <p className="admin-muted">Unsaved changes — auto-saves every 30s.</p>}
           </div>
 
-          <div className="admin-newsletter-preview">
+          <div className="admin-newsletter-preview admin-panel">
             <div className="admin-toolbar">
               <span className="admin-muted">Preview</span>
               <button
@@ -567,6 +612,7 @@ function AdminNewsletter() {
             </div>
           </div>
         </div>
+        </AdminPanel>
       )}
 
       {tab === 'compose' && readOnly && (
@@ -576,67 +622,70 @@ function AdminNewsletter() {
       {tab === 'templates' && !readOnly && (
         <>
           {loading ? (
-            <p className="admin-loading">Loading templates…</p>
+            <AdminLoading variant="table" message="Loading templates…" />
+          ) : templates.length === 0 ? (
+            <AdminEmpty message="No templates yet." />
           ) : (
-            <div className="admin-table-wrap">
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Slug</th>
-                    <th>Subject</th>
-                    <th>System</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {templates.map((row) => (
-                    <tr key={row.id}>
-                      <td><strong>{row.name}</strong></td>
-                      <td>{row.slug}</td>
-                      <td>{row.subject}</td>
-                      <td>{row.is_system ? 'Yes' : 'No'}</td>
-                      <td className="admin-actions">
-                        <button
-                          type="button"
-                          className="btn-ghost"
-                          onClick={() => {
-                            openCompose({
-                              ...emptyCampaign,
-                              name: `${row.name} campaign`,
-                              template_id: row.id,
-                              subject: row.subject,
-                              preview_text: row.preview_text,
-                              body_html: row.body_html,
-                              body_text: row.body_text,
-                            });
-                          }}
-                        >
-                          Use
-                        </button>
-                        {!row.is_system && (
-                          <>
-                            <button type="button" className="btn-ghost" onClick={() => setTemplateEdit(row)}>Edit</button>
-                            <button
-                              type="button"
-                              className="btn-ghost admin-muted"
-                              onClick={async () => {
-                                if (window.confirm('Delete this template?')) {
-                                  await deleteTemplate(row.id);
-                                  await loadAll();
-                                }
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <AdminPanel padding={false}>
+              <AdminDataTable
+                columns={TEMPLATE_COLUMNS}
+                rows={templates}
+                rowKey={(row) => row.id}
+                renderCell={(row, col) => {
+                  switch (col.key) {
+                    case 'name':
+                      return <strong>{row.name}</strong>;
+                    case 'slug':
+                      return row.slug;
+                    case 'subject':
+                      return row.subject;
+                    case 'system':
+                      return row.is_system ? 'Yes' : 'No';
+                    case 'actions':
+                      return (
+                        <div className="admin-actions">
+                          <button
+                            type="button"
+                            className="btn-ghost"
+                            onClick={() => {
+                              openCompose({
+                                ...emptyCampaign,
+                                name: `${row.name} campaign`,
+                                template_id: row.id,
+                                subject: row.subject,
+                                preview_text: row.preview_text,
+                                body_html: row.body_html,
+                                body_text: row.body_text,
+                              });
+                            }}
+                          >
+                            Use
+                          </button>
+                          {!row.is_system && (
+                            <>
+                              <button type="button" className="btn-ghost" onClick={() => setTemplateEdit(row)}>Edit</button>
+                              <button
+                                type="button"
+                                className="btn-ghost admin-muted"
+                                onClick={async () => {
+                                  if (window.confirm('Delete this template?')) {
+                                    await deleteTemplate(row.id);
+                                    await loadAll();
+                                  }
+                                }}
+                              >
+                                Delete
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      );
+                    default:
+                      return null;
+                  }
+                }}
+              />
+            </AdminPanel>
           )}
         </>
       )}
@@ -647,66 +696,65 @@ function AdminNewsletter() {
 
       {tab === 'subscribers' && (
         <>
-          <div className="admin-stat-grid admin-stat-grid--inline">
-            <div className="admin-stat-card">
-              <span className="admin-stat-value">{activeCount}</span>
-              <span className="admin-stat-label">Active subscribers</span>
+          <AdminPanel>
+            <div className="admin-stat-grid admin-stat-grid--inline">
+              <AdminStatCard value={activeCount} label="Active subscribers" />
+              <AdminStatCard value={subscribers.length} label="Total records" />
             </div>
-            <div className="admin-stat-card">
-              <span className="admin-stat-value">{subscribers.length}</span>
-              <span className="admin-stat-label">Total records</span>
-            </div>
-          </div>
+          </AdminPanel>
 
           {!readOnly && (
-            <form className="admin-form admin-form--inline card-accent-top" onSubmit={handleAddSubscriber}>
-              <div className="auth-field">
-                <label htmlFor="manual-email">Add subscriber</label>
-                <input
-                  id="manual-email"
-                  type="email"
-                  value={manualEmail}
-                  onChange={(e) => setManualEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  required
-                />
-              </div>
-              <button type="submit" className="btn-primary">Add</button>
-            </form>
+            <AdminPanel className="admin-form admin-form--inline">
+              <form onSubmit={handleAddSubscriber}>
+                <div className="auth-field">
+                  <label htmlFor="manual-email">Add subscriber</label>
+                  <input
+                    id="manual-email"
+                    type="email"
+                    value={manualEmail}
+                    onChange={(e) => setManualEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+                <button type="submit" className="btn-primary">Add</button>
+              </form>
+            </AdminPanel>
           )}
 
-          <div className="admin-toolbar">
-            {isAdmin && (
+          <AdminToolbar
+            left={isAdmin ? (
               <button type="button" className="btn-ghost" onClick={exportCsv}>Export CSV</button>
-            )}
-            <button type="button" className="btn-ghost" onClick={loadAll}>Refresh</button>
-          </div>
+            ) : null}
+            onRefresh={loadAll}
+          />
 
           {loading ? (
-            <p className="admin-loading">Loading subscribers…</p>
+            <AdminLoading variant="table" message="Loading subscribers…" />
+          ) : subscribers.length === 0 ? (
+            <AdminEmpty message="No subscribers yet." />
           ) : (
-            <div className="admin-table-wrap">
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Source</th>
-                    <th>Subscribed</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {subscribers.map((row) => (
-                    <tr key={row.id}>
-                      <td>{row.email}</td>
-                      <td>{row.status}</td>
-                      <td>{row.source}</td>
-                      <td className="admin-cell-date">{formatDateTime(row.subscribed_at)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <AdminPanel padding={false}>
+              <AdminDataTable
+                columns={SUBSCRIBER_COLUMNS}
+                rows={subscribers}
+                rowKey={(row) => row.id}
+                renderCell={(row, col) => {
+                  switch (col.key) {
+                    case 'email':
+                      return row.email;
+                    case 'status':
+                      return <AdminBadge variant={row.status === 'active' ? 'active' : 'neutral'}>{row.status}</AdminBadge>;
+                    case 'source':
+                      return row.source;
+                    case 'subscribed':
+                      return formatDateTime(row.subscribed_at);
+                    default:
+                      return null;
+                  }
+                }}
+              />
+            </AdminPanel>
           )}
         </>
       )}

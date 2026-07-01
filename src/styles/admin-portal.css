@@ -1,6 +1,27 @@
 /* Nestbean Admin Portal — operational staff console (see docs/admin-portal-design.md) */
 
+.admin-skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 500;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--admin-sidebar-bg);
+  color: var(--admin-sidebar-active-text);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.admin-skip-link:focus {
+  top: var(--space-2);
+  outline: 2px solid var(--admin-sidebar-accent);
+  outline-offset: 2px;
+}
+
 .admin-shell {
+  position: relative;
   /* Surfaces */
   --admin-canvas: #F0F1F4;
   --admin-sidebar-bg: #2B2622;
@@ -361,6 +382,16 @@
   padding: var(--space-6);
 }
 
+.admin-panel--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.admin-panel--flush .admin-table-wrap {
+  border: none;
+  border-radius: 0;
+}
+
 .admin-page h1 {
   margin: 0 0 var(--space-2);
   font-family: var(--font-body);
@@ -433,7 +464,20 @@ a.admin-stat-card:hover {
   flex-wrap: wrap;
   gap: var(--space-3);
   align-items: center;
+  justify-content: space-between;
   margin-bottom: var(--space-5);
+}
+
+.admin-toolbar-left,
+.admin-toolbar-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.admin-toolbar-right {
+  margin-left: auto;
 }
 
 /* ── Tables ── */
@@ -443,6 +487,12 @@ a.admin-stat-card:hover {
   border: 1px solid var(--admin-border);
   border-radius: var(--radius-md);
   background: var(--admin-panel);
+}
+
+.admin-table-wrap .admin-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .admin-table {
@@ -521,7 +571,6 @@ a.admin-stat-card:hover {
 /* ── Forms ── */
 
 .admin-form {
-  padding: var(--space-6);
   margin-bottom: var(--space-8);
 }
 
@@ -565,6 +614,122 @@ a.admin-stat-card:hover {
 .admin-loading,
 .admin-empty {
   color: var(--admin-text-muted);
+}
+
+.admin-empty-state {
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+}
+
+.admin-empty-action {
+  margin-top: var(--space-4);
+}
+
+/* ── Mobile card list (tables → cards at ≤768px) ── */
+
+.admin-card-list {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .admin-table-wrap--mobile-cards {
+    display: none;
+  }
+
+  .admin-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .admin-card-list-item {
+    padding: var(--space-4);
+    background: var(--admin-panel);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--admin-shadow-panel);
+  }
+
+  .admin-card-list-item.admin-row--highlight {
+    border-left: 3px solid var(--admin-sidebar-accent);
+    background: #FFFBF5;
+  }
+
+  .admin-card-row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--admin-border);
+    font-size: var(--text-sm);
+  }
+
+  .admin-card-row:last-child {
+    border-bottom: none;
+  }
+
+  .admin-card-label {
+    flex-shrink: 0;
+    font-weight: 600;
+    color: var(--admin-text-muted);
+    font-size: var(--text-xs);
+  }
+
+  .admin-card-value {
+    text-align: right;
+    min-width: 0;
+    word-break: break-word;
+  }
+}
+
+/* ── Loading skeletons ── */
+
+@keyframes admin-skeleton-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.85; }
+}
+
+.admin-skeleton {
+  display: block;
+  border-radius: var(--radius-sm);
+  background: var(--admin-panel-muted);
+  animation: admin-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-skeleton {
+    animation: none;
+    opacity: 0.65;
+  }
+}
+
+.admin-skeleton-stat {
+  pointer-events: none;
+}
+
+.admin-skeleton--value {
+  height: 1.75rem;
+  width: 3rem;
+  margin-bottom: var(--space-2);
+}
+
+.admin-skeleton--label {
+  height: 0.875rem;
+  width: 70%;
+}
+
+.admin-skeleton-table {
+  padding: var(--space-4);
+}
+
+.admin-skeleton--thead {
+  height: 2.5rem;
+  margin-bottom: var(--space-3);
+}
+
+.admin-skeleton--row {
+  height: 3rem;
+  margin-bottom: var(--space-2);
 }
 
 .admin-muted {
@@ -641,7 +806,9 @@ a.admin-stat-card:hover {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  margin-top: var(--space-6);
+  margin-top: 0;
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--admin-border);
 }
 
 /* ── Newsletter admin ── */
@@ -686,13 +853,20 @@ a.admin-stat-card:hover {
   text-transform: capitalize;
   background: var(--admin-badge-neutral-bg);
   color: var(--admin-badge-neutral-text);
+  white-space: nowrap;
 }
 
+.admin-badge--new { background: var(--admin-badge-new-bg); color: var(--admin-badge-new-text); }
 .admin-badge--draft { background: var(--admin-badge-neutral-bg); color: var(--admin-badge-neutral-text); }
+.admin-badge--active { background: var(--admin-badge-active-bg); color: var(--admin-badge-active-text); }
+.admin-badge--sent { background: var(--admin-badge-active-bg); color: var(--admin-badge-active-text); }
+.admin-badge--trial { background: var(--admin-badge-trial-bg); color: var(--admin-badge-trial-text); }
 .admin-badge--scheduled { background: var(--admin-badge-trial-bg); color: var(--admin-badge-trial-text); }
 .admin-badge--sending { background: var(--admin-badge-warning-bg); color: var(--admin-badge-warning-text); }
-.admin-badge--sent { background: var(--admin-badge-active-bg); color: var(--admin-badge-active-text); }
+.admin-badge--warning { background: var(--admin-badge-warning-bg); color: var(--admin-badge-warning-text); }
+.admin-badge--error { background: var(--admin-badge-error-bg); color: var(--admin-badge-error-text); }
 .admin-badge--cancelled { background: var(--admin-badge-error-bg); color: var(--admin-badge-error-text); }
+.admin-badge--neutral { background: var(--admin-badge-neutral-bg); color: var(--admin-badge-neutral-text); }
 
 .admin-notice {
   color: var(--admin-text-secondary);
@@ -810,4 +984,10 @@ a.admin-stat-card:hover {
 .admin-stats-list {
   margin: 0 0 var(--space-4);
   padding-left: var(--space-5);
+}
+
+/* Full-width admin shell — no consumer layout constraints */
+.app-main--admin {
+  padding: 0;
+  max-width: none;
 }

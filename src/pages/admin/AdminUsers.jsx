@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
+import AdminDataTable from '../../components/admin/AdminDataTable';
+import AdminEmpty from '../../components/admin/AdminEmpty';
+import AdminLoading from '../../components/admin/AdminLoading';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
+import AdminPanel from '../../components/admin/AdminPanel';
+import AdminToolbar from '../../components/admin/AdminToolbar';
 import Select from '../../components/Select';
 import { useAuth } from '../../context/AuthContext';
+import { ROUTES } from '../../routes';
 import { supabase } from '../../utils/supabaseClient';
 import { interact } from '../../utils/haptics';
 
@@ -16,6 +23,14 @@ const STATUS_OPTIONS = [
   { value: 'active', label: 'Active' },
   { value: 'comp', label: 'Founding (comp)' },
   { value: 'expired', label: 'Expired' },
+];
+
+const USER_COLUMNS = [
+  { key: 'name', header: 'Name' },
+  { key: 'id', header: 'User ID' },
+  { key: 'role', header: 'Role' },
+  { key: 'membership', header: 'Membership' },
+  { key: 'joined', header: 'Joined' },
 ];
 
 function AdminUsers() {
@@ -78,69 +93,101 @@ function AdminUsers() {
     load();
   };
 
+  const renderCell = (row, col) => {
+    switch (col.key) {
+      case 'name':
+        return row.display_name || '—';
+      case 'id':
+        return <span className="admin-mono">{row.id.slice(0, 8)}…</span>;
+      case 'role':
+        return isAdmin ? (
+          <Select
+            id={`role-${row.id}`}
+            value={row.role}
+            onChange={(v) => updateRole(row.id, v)}
+            options={ROLE_OPTIONS}
+          />
+        ) : (
+          row.role
+        );
+      case 'membership':
+        return isAdmin ? (
+          <Select
+            id={`mem-${row.id}`}
+            value={row.membership?.status || 'free'}
+            onChange={(v) => updateMembership(row.id, v)}
+            options={STATUS_OPTIONS}
+          />
+        ) : (
+          row.membership?.status || 'free'
+        );
+      case 'joined':
+        return new Date(row.created_at).toLocaleDateString();
+      default:
+        return null;
+    }
+  };
+
+  const mobileCard = (row) => (
+    <>
+      <div className="admin-card-row">
+        <span className="admin-card-label">Name</span>
+        <span className="admin-card-value">{row.display_name || '—'}</span>
+      </div>
+      <div className="admin-card-row">
+        <span className="admin-card-label">User ID</span>
+        <span className="admin-card-value admin-mono">{row.id.slice(0, 8)}…</span>
+      </div>
+      <div className="admin-card-row">
+        <span className="admin-card-label">Role</span>
+        <span className="admin-card-value">{renderCell(row, { key: 'role' })}</span>
+      </div>
+      <div className="admin-card-row">
+        <span className="admin-card-label">Membership</span>
+        <span className="admin-card-value">{renderCell(row, { key: 'membership' })}</span>
+      </div>
+      <div className="admin-card-row">
+        <span className="admin-card-label">Joined</span>
+        <span className="admin-card-value">{new Date(row.created_at).toLocaleDateString()}</span>
+      </div>
+    </>
+  );
+
   return (
     <div className="admin-page">
-      <h1 className="font-display">Users</h1>
-      <div className="admin-toolbar">
-        <input
-          type="search"
-          className="admin-search"
-          placeholder="Search by name or ID"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button type="button" className="btn-ghost" onClick={load}>Refresh</button>
-      </div>
+      <AdminPageHeader
+        title="Users"
+        description="Search profiles, roles, and membership status."
+        breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'Users' }]}
+      />
+
+      <AdminToolbar
+        left={(
+          <input
+            type="search"
+            className="admin-search"
+            placeholder="Search by name or ID"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        )}
+        onRefresh={load}
+      />
 
       {loading ? (
-        <p className="admin-loading">Loading users…</p>
+        <AdminLoading variant="table" message="Loading users…" />
+      ) : filtered.length === 0 ? (
+        <AdminEmpty message={query.trim() ? 'No users match your search.' : 'No users found.'} />
       ) : (
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>User ID</th>
-                <th>Role</th>
-                <th>Membership</th>
-                <th>Joined</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((row) => (
-                <tr key={row.id}>
-                  <td>{row.display_name || '—'}</td>
-                  <td className="admin-mono">{row.id.slice(0, 8)}…</td>
-                  <td>
-                    {isAdmin ? (
-                      <Select
-                        id={`role-${row.id}`}
-                        value={row.role}
-                        onChange={(v) => updateRole(row.id, v)}
-                        options={ROLE_OPTIONS}
-                      />
-                    ) : (
-                      row.role
-                    )}
-                  </td>
-                  <td>
-                    {isAdmin ? (
-                      <Select
-                        id={`mem-${row.id}`}
-                        value={row.membership?.status || 'free'}
-                        onChange={(v) => updateMembership(row.id, v)}
-                        options={STATUS_OPTIONS}
-                      />
-                    ) : (
-                      row.membership?.status || 'free'
-                    )}
-                  </td>
-                  <td>{new Date(row.created_at).toLocaleDateString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <AdminPanel padding={false}>
+          <AdminDataTable
+            columns={USER_COLUMNS}
+            rows={filtered}
+            rowKey={(row) => row.id}
+            renderCell={renderCell}
+            mobileCard={mobileCard}
+          />
+        </AdminPanel>
       )}
     </div>
   );

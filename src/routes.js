@@ -48,6 +48,7 @@ export const ROUTES = {
   adminPromos: '/admin/promos',
   adminDiy: '/admin/diy',
   adminNewsletter: '/admin/newsletter',
+  adminCommunity: '/admin/community',
   newsletterUnsubscribe: '/newsletter/unsubscribe',
 };
 

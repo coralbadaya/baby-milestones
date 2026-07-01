@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import AdminLoading from '../../components/admin/AdminLoading';
 import AdminPageHeader from '../../components/admin/AdminPageHeader';
+import AdminPanel from '../../components/admin/AdminPanel';
+import AdminStatCard from '../../components/admin/AdminStatCard';
 import { supabase } from '../../utils/supabaseClient';
 import { ROUTES } from '../../routes';
 
@@ -11,16 +13,18 @@ function AdminOverview() {
     trials: 0,
     promoCodes: 0,
     diyImages: 0,
+    pendingCommunity: 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
-      const [contacts, memberships, promos, diyImages] = await Promise.all([
+      const [contacts, memberships, promos, diyImages, communityPending] = await Promise.all([
         supabase.from('contact_submissions').select('id', { count: 'exact', head: true }).eq('status', 'new'),
         supabase.from('memberships').select('status'),
         supabase.from('promo_codes').select('id', { count: 'exact', head: true }).eq('active', true),
         supabase.from('diy_activity_images').select('activity_id', { count: 'exact', head: true }),
+        supabase.from('community_memories').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
       ]);
 
       const rows = memberships.data || [];
@@ -30,13 +34,12 @@ function AdminOverview() {
         trials: rows.filter((r) => r.status === 'trial').length,
         promoCodes: promos.count ?? 0,
         diyImages: diyImages.count ?? 0,
+        pendingCommunity: communityPending.count ?? 0,
       });
       setLoading(false);
     }
     load();
   }, []);
-
-  if (loading) return <p className="admin-loading">Loading overview…</p>;
 
   return (
     <div className="admin-page">
@@ -46,30 +49,42 @@ function AdminOverview() {
         breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'Overview' }]}
       />
 
-      <div className="admin-panel">
-        <div className="admin-stat-grid">
-          <Link to={ROUTES.adminInbox} className="admin-stat-card">
-            <span className="admin-stat-value">{stats.newContacts}</span>
-            <span className="admin-stat-label">New contact messages</span>
-          </Link>
-          <div className="admin-stat-card">
-            <span className="admin-stat-value">{stats.activePremium}</span>
-            <span className="admin-stat-label">Active / founding members</span>
+      <AdminPanel>
+        {loading ? (
+          <AdminLoading variant="stat-grid" cols={6} message="Loading overview…" />
+        ) : (
+          <div className="admin-stat-grid">
+            <AdminStatCard
+              value={stats.newContacts}
+              label="New contact messages"
+              to={ROUTES.adminInbox}
+            />
+            <AdminStatCard
+              value={stats.activePremium}
+              label="Active / founding members"
+            />
+            <AdminStatCard
+              value={stats.trials}
+              label="Trials in progress"
+            />
+            <AdminStatCard
+              value={stats.promoCodes}
+              label="Active promo codes"
+              to={ROUTES.adminPromos}
+            />
+            <AdminStatCard
+              value={stats.diyImages}
+              label="DIY images configured"
+              to={ROUTES.adminDiy}
+            />
+            <AdminStatCard
+              value={stats.pendingCommunity}
+              label="Community posts pending"
+              to={ROUTES.adminCommunity}
+            />
           </div>
-          <div className="admin-stat-card">
-            <span className="admin-stat-value">{stats.trials}</span>
-            <span className="admin-stat-label">Trials in progress</span>
-          </div>
-          <Link to={ROUTES.adminPromos} className="admin-stat-card">
-            <span className="admin-stat-value">{stats.promoCodes}</span>
-            <span className="admin-stat-label">Active promo codes</span>
-          </Link>
-          <Link to={ROUTES.adminDiy} className="admin-stat-card">
-            <span className="admin-stat-value">{stats.diyImages}</span>
-            <span className="admin-stat-label">DIY images configured</span>
-          </Link>
-        </div>
-      </div>
+        )}
+      </AdminPanel>
     </div>
   );
 }
