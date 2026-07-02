@@ -1,57 +1,86 @@
 # Monetization Strategy
 
-> Revenue model for affluent tier-1 new mothers. **Scaffold shipped**; Stripe integration planned.
+> **Nestbean Basic** = recording habit (free forever). **Nestbean Plus** = magic rendering + editorial perks. Stripe checkout in progress.
 
 ---
 
 ## Positioning
 
-Nestmile Premium is **curation and concierge**, not more checkboxes. Free tier = tracking; paid = editorial guides, expert framing, commerce edits, and AI depth.
+Layered model: AI baby book is the primary conversion hook; editorial concierge perks stay bundled in Plus.
+
+- **Basic:** Unlimited milestone tracking — never gate the habit loop
+- **Plus:** Stories, flip-book, voice, HD photos, export, print discount, viewer seats + existing editorial gates
+
+See [`docs/ai-baby-book-plan.md`](ai-baby-book-plan.md) for feature specs.
 
 ---
 
 ## Tiers
 
-| Tier | Price (indicative) | Includes |
+| Tier | Price (USD anchor) | Includes |
 |------|-------------------|----------|
-| **Free** | £0 | Milestone tracking, mom care tips, vaccination tracker, community browse |
-| **Premium** | £14.99/mo or £119/yr | Weekly editorial digest, premium travel/shopping edits, concierge assistant depth, export/print bundles |
-| **Premium+** (future) | £29.99/mo | Expert Q&A slots, nanny directory (Phase 8), city-specific guides |
+| **Basic** | $0 | Milestone tracking + captions, 2 photos/mo, 1 AI story ever, 3 voice notes, flip-book preview |
+| **Plus** | $7.99/mo or **$49.99/yr** | Unlimited stories, 3D flip-book, HD photos, voice notes, 4K export, print discount, 2 viewer seats, editorial perks |
+| **First Year Bundle** | $79.99 | Annual Plus + linen hardcover ($99 value) — hero SKU |
+| **Gift subscription** | $59.99 one-time | Gift the baby's first year — grandparents |
 
-Gulf markets: price in AED/USD; annual preferred.
+**Regional display:** `src/utils/premiumPricing.js` — USD default; GBP and INR variants in `PREMIUM_CURRENCIES`.
 
 ---
 
-## Gating rules (scaffold)
+## Gating rules
 
-| Feature | Free | Premium |
-|---------|------|---------|
-| Today focus — editorial card | Teaser | Full |
-| Travel — long-haul guides | Teaser | Full |
-| Shopping — premium brand edit | Teaser | Full |
-| Vaccination export PDF | — | Full |
-| Assistant — advanced topics | Limited | Full |
+| Feature | Basic | Plus |
+|---------|-------|------|
+| Milestone tracking + captions | Full | Full |
+| Monthly album photos | 2/mo, 2D | Unlimited HD |
+| AI stories | 1 ever | Unlimited |
+| Voice notes | 3 × 30s | Unlimited |
+| Flip-book | 2D preview + watermark | Full 3D, all themes |
+| 4K export | — | Full |
+| Print | Full price | 20% off + free shipping |
+| Viewer seats | — | 2 |
+| Editorial / travel / shopping / assistant / vaccination export | Teaser | Full |
 
-Implementation: `src/components/PremiumGate.jsx` + `src/context/AuthContext.jsx` (Supabase membership when signed in; localStorage preview when anonymous). See [`docs/auth-membership-admin.md`](auth-membership-admin.md).
+Implementation: `src/utils/entitlements.js`, `PremiumGate`, `AuthContext` + Supabase `usage_entitlements`.
 
-Early access: no Stripe yet — signup requires **verified email (OTP)**; after verify, 7-day trial via signup trigger; promo codes and founding `comp` status via admin.
+---
+
+## Trial
+
+- **No trial on signup.** Users start Basic.
+- **7-day trial on annual only**, triggered immediately after first AI story generation.
+- Monthly plan: no free trial.
 
 ---
 
 ## Revenue streams
 
-1. **Subscriptions** — Primary (Premium / Premium+)
-2. **Affiliate commerce** — Essentials shopping edits (high AOV brands)
-3. **Partnerships** — Pediatric wellness, postpartum care, luxury travel (future)
-4. **Nanny concierge** — Referral / listing fees (Phase 8)
+1. **Subscriptions** — Plus monthly / annual / bundle / gift
+2. **Print** — POD partner (Peecho/RPI); bundle LTV driver
+3. **Affiliate commerce** — Essentials shopping edits (Plus)
+4. **Partnerships** — Future
 
 ---
 
 ## Paywall UX
 
-- Never block core health tracking or emergency guidance
-- Teaser + blur on premium editorial; CTA → `/premium`
-- Tone: invitation, not punishment — *"Unlock the full guide"*
+- Never block milestone tracking or emergency/medical guidance
+- Emotional-preview paywall after first story (annual trial offer)
+- Tone: invitation — *"Turn this month into a page in their story"*
+
+---
+
+## KPI targets (day 90)
+
+| KPI | Target |
+|-----|--------|
+| Organic sessions/mo | 15k |
+| Landing → signup | 8% |
+| Signup → paid | 5% |
+| Blended CAC | under $8 vs $50–95 LTV |
+
+Events: `story_generated`, `trial_started`, `guide_cta_click`, `install_banner_click` in `src/utils/analytics.js`.
 
 ---
 
@@ -59,20 +88,15 @@ Early access: no Stripe yet — signup requires **verified email (OTP)**; after 
 
 | File | Role |
 |------|------|
-| `src/constants/premium.js` | Plans, feature flags, copy |
-| `src/context/AuthContext.jsx` | Session, membership, OTP verify/resend, promo redeem |
-| `src/utils/auth.js` | `isEmailVerified`, `isEmailNotConfirmedError` |
-| `src/hooks/usePremium.js` | Legacy wrapper → AuthContext |
-| `src/components/PremiumGate.jsx` | Wrapper with teaser overlay |
-| `src/pages/Premium.jsx` | Early access membership page |
-| `src/pages/VerifyEmail.jsx` | Post-signup OTP verification |
-
-### Future: Stripe
-
-- `POST /api/checkout` → Stripe Checkout Session
-- Webhook → Supabase `memberships` status updates
-- Replace anonymous localStorage preview with sign-in prompt only
+| `src/constants/premium.js` | Plans, limits, feature flags, Stripe keys |
+| `src/utils/premiumPricing.js` | Currency detection + formatting |
+| `src/utils/entitlements.js` | Quota checks |
+| `src/hooks/useEntitlements.js` | React hook |
+| `src/context/AuthContext.jsx` | Session, membership, usage fetch |
+| `src/components/PremiumGate.jsx` | Teaser overlay |
+| `src/pages/Premium.jsx` | Basic vs Plus comparison, annual-first |
+| `api/checkout.js` / `api/stripe-webhook.js` | Stripe integration |
 
 ---
 
-*Last updated: June 2026*
+*Last updated: July 2026*

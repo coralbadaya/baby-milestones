@@ -122,7 +122,6 @@ function AdminPromos() {
       <AdminPageHeader
         title="Promo codes"
         description="Create and manage promotional codes for trials and founding access."
-        breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'Promo codes' }]}
       />
 
       <AdminPanel className="admin-form">

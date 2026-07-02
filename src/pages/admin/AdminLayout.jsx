@@ -17,9 +17,14 @@ const ADMIN_NAV = [
   { to: ROUTES.adminUsers, label: 'Users', icon: 'users' },
   { to: ROUTES.adminPromos, label: 'Promo codes', icon: 'ticket' },
   { to: ROUTES.adminNewsletter, label: 'Newsletter', icon: 'paper-plane' },
-  { to: ROUTES.adminCommunity, label: 'Community', icon: 'users' },
-  { to: ROUTES.adminDiy, label: 'DIY images', icon: 'image', adminOnly: true },
+  { to: ROUTES.adminCommunity, label: 'Community', icon: 'speech-bubble' },
+  { to: ROUTES.adminDiy, label: 'DIY activities', icon: 'image', adminOnly: true },
 ];
+
+function userInitial(email) {
+  if (!email) return '?';
+  return email.charAt(0).toUpperCase();
+}
 
 function AdminLayoutInner() {
   const { isAdmin, user, signOut } = useAuth();
@@ -30,7 +35,8 @@ function AdminLayoutInner() {
 
   usePageMeta({
     title: 'Admin',
-    description: 'Nestbean admin center — inbox, users, promo codes, newsletter, community, and DIY images.',
+    description: 'Nestbean staff console — inbox, users, promo codes, newsletter, community, and DIY images.',
+    robots: 'noindex, nofollow',
   });
 
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
@@ -56,6 +62,11 @@ function AdminLayoutInner() {
   }, [fetchInboxCount]);
 
   useEffect(() => {
+    document.body.classList.add('body--admin');
+    return () => document.body.classList.remove('body--admin');
+  }, []);
+
+  useEffect(() => {
     document.body.style.overflow = drawerOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
@@ -76,85 +87,104 @@ function AdminLayoutInner() {
     closeDrawer();
   };
 
+  const sidebar = (
+    <>
+      <div className="admin-sidebar-brand">
+        <Link to={ROUTES.admin} className="admin-sidebar-logo" onClick={handleNavClick}>
+          <CoralLogo variant="lockup" size={26} tagline={null} />
+        </Link>
+        <p className="admin-sidebar-tagline">Staff console</p>
+      </div>
+
+      <p className="admin-nav-label">Operations</p>
+      <nav className="admin-nav" aria-label="Admin">
+        {navItems.map(({ to, label, end, icon, badgeKey }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={end}
+            className={({ isActive }) =>
+              `admin-nav-item${isActive ? ' admin-nav-item--active' : ''}`
+            }
+            onClick={handleNavClick}
+          >
+            <Icon name={icon} size={20} />
+            <span>{label}</span>
+            {badgeKey === 'inbox' && inboxCount > 0 ? (
+              <span className="admin-nav-badge" aria-label={`${inboxCount} new messages`}>
+                {inboxCount}
+              </span>
+            ) : null}
+          </NavLink>
+        ))}
+      </nav>
+
+      <div className="admin-sidebar-foot">
+        <div className="admin-user-card">
+          <span className="admin-user-avatar" aria-hidden="true">
+            {userInitial(user?.email)}
+          </span>
+          <div className="admin-user-meta">
+            <span className={`admin-role-pill${isAdmin ? ' admin-role-pill--admin' : ''}`}>
+              {isAdmin ? 'Admin' : 'Staff'}
+            </span>
+            {user?.email ? (
+              <span className="admin-user-email" title={user.email}>
+                {user.email}
+              </span>
+            ) : null}
+          </div>
+        </div>
+        <button type="button" className="admin-sidebar-signout" onClick={handleSignOut}>
+          <Icon name="sign-out" size={18} />
+          Sign out
+        </button>
+        <Link to={ROUTES.home} className="admin-sidebar-exit" onClick={handleNavClick}>
+          <Icon name="caret-left" size={16} />
+          View public site
+        </Link>
+      </div>
+    </>
+  );
+
   return (
     <div className="admin-shell">
       <a href="#admin-content" className="admin-skip-link">
         Skip to admin content
       </a>
 
-      <header className="admin-topbar">
+      <header className="admin-mobile-bar">
         <button
           type="button"
           className="admin-menu-toggle"
-          aria-label={drawerOpen ? 'Close admin menu' : 'Open admin menu'}
+          aria-label={drawerOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={drawerOpen}
           aria-controls="admin-sidebar"
           onClick={() => setDrawerOpen((open) => !open)}
         >
           <Icon name="list" size={22} />
         </button>
-
-        <div className="admin-topbar-brand">
-          <CoralLogo variant="mark" size={28} />
-          <span className="admin-topbar-label">Admin</span>
-        </div>
-
-        <div className="admin-topbar-spacer" aria-hidden="true" />
-
-        <span className={`admin-role-pill${isAdmin ? ' admin-role-pill--admin' : ''}`}>
+        <span className="admin-mobile-bar-title">Staff console</span>
+        <span className={`admin-role-pill admin-role-pill--compact${isAdmin ? ' admin-role-pill--admin' : ''}`}>
           {isAdmin ? 'Admin' : 'Staff'}
         </span>
-
-        {user?.email ? (
-          <span className="admin-topbar-email" title={user.email}>
-            {user.email}
-          </span>
-        ) : null}
-
-        <button type="button" className="admin-topbar-signout" onClick={handleSignOut}>
-          Sign out
-        </button>
       </header>
 
       {drawerOpen ? (
         <button
           type="button"
           className="admin-drawer-backdrop"
-          aria-label="Close admin menu"
+          aria-label="Close menu"
           onClick={closeDrawer}
         />
       ) : null}
 
-      <div className="admin-layout">
+      <div className="admin-frame">
         <aside
           id="admin-sidebar"
           className={`admin-sidebar${drawerOpen ? ' admin-sidebar--open' : ''}`}
         >
-          <nav className="admin-nav" aria-label="Admin">
-            {navItems.map(({ to, label, end, icon, badgeKey }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={end}
-                className={({ isActive }) =>
-                  `admin-nav-item${isActive ? ' admin-nav-item--active' : ''}`
-                }
-                onClick={handleNavClick}
-              >
-                <Icon name={icon} size={20} />
-                <span>{label}</span>
-                {badgeKey === 'inbox' && inboxCount > 0 ? (
-                  <span className="admin-nav-badge" aria-label={`${inboxCount} new messages`}>
-                    {inboxCount}
-                  </span>
-                ) : null}
-              </NavLink>
-            ))}
-          </nav>
-
-          <Link to={ROUTES.account} className="admin-back" onClick={handleNavClick}>
-            ← Back to app
-          </Link>
+          {sidebar}
         </aside>
 
         <main className="admin-main" id="admin-content" tabIndex={-1}>

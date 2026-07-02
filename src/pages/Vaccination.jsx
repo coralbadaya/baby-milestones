@@ -3,6 +3,8 @@ import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import Icon from '../components/Icon';
 import DetailModal from '../components/DetailModal';
+import PremiumGate from '../components/PremiumGate';
+import { PREMIUM_FEATURES } from '../constants/premium';
 import VaccineEditorModal from '../components/VaccineEditorModal';
 import VaccineScheduleSelect from '../components/VaccineScheduleSelect';
 import VaccineStatusDonutChart from '../components/VaccineStatusDonutChart';
@@ -292,10 +294,14 @@ function Vaccination({
           )}
         </div>
         <div className="vaccination-tools-right">
-          <button type="button" className="content-card-cta secondary" onClick={exportCsv}>Export CSV</button>
-          <button type="button" className="content-card-cta secondary" onClick={exportJson}>Export JSON</button>
-          <button type="button" className="content-card-cta secondary" onClick={() => importRef.current?.click()}>Import JSON</button>
-          <button type="button" className="content-card-cta secondary" onClick={() => window.print()}>Print</button>
+          <PremiumGate feature={PREMIUM_FEATURES.vaccinationExport} compact>
+            <>
+              <button type="button" className="content-card-cta secondary" onClick={exportCsv}>Export CSV</button>
+              <button type="button" className="content-card-cta secondary" onClick={exportJson}>Export JSON</button>
+              <button type="button" className="content-card-cta secondary" onClick={() => importRef.current?.click()}>Import JSON</button>
+              <button type="button" className="content-card-cta secondary" onClick={() => window.print()}>Print</button>
+            </>
+          </PremiumGate>
           <input
             ref={importRef}
             type="file"

@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import diyActivities from '../data/diyActivities';
 import DIYEditorialCard from './DIYEditorialCard';
 import SectionHeader from './SectionHeader';
 import { ROUTES } from '../routes';
+import { useDiyActivitiesContext } from '../context/DiyActivitiesContext';
 
 function DIYPreviewStrip({ month, limit = 3, layout = 'stack' }) {
   const [openId, setOpenId] = useState(null);
-  const monthData = diyActivities.find((d) => d.month === month);
+  const { activitiesByMonth } = useDiyActivitiesContext();
+  const monthData = activitiesByMonth.find((d) => d.month === month);
   if (!monthData?.activities?.length) return null;
 
   const activities = monthData.activities.slice(0, limit);
@@ -18,7 +19,7 @@ function DIYPreviewStrip({ month, limit = 3, layout = 'stack' }) {
         id={`diy-preview-heading-${month}`}
         eyebrow="Hands-on play"
         title="DIY activities"
-        subtitle={`Curated ideas for month ${month} — open a guide or watch on YouTube.`}
+        subtitle={`Curated ideas for month ${month} — open a guide for step-by-step play.`}
         linkTo={`${ROUTES.month(month)}#diy`}
         linkLabel={`All for month ${month} →`}
       />

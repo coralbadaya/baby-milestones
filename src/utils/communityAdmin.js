@@ -1,5 +1,5 @@
 import { supabase } from './supabaseClient';
-import { recipeToRow, tipToRow } from './community';
+import { memoryPatchToRow, recipeToRow, tipToRow } from './community';
 
 export async function fetchCommunityStats() {
   const [recipes, tips, pendingMemories, publishedMemories] = await Promise.all([
@@ -107,12 +107,40 @@ export async function updateTipFlags(id, patch) {
 export async function fetchAdminMemories(status = 'all') {
   let query = supabase
     .from('community_memories')
-    .select('*')
+    .select('*, community_memory_comments(count)')
     .order('created_at', { ascending: false });
   if (status !== 'all') query = query.eq('status', status);
   const { data, error } = await query;
   if (error) throw error;
-  return data || [];
+  return (data || []).map((row) => ({
+    ...row,
+    comment_count: row.community_memory_comments?.[0]?.count ?? 0,
+  }));
+}
+
+export async function fetchAdminMemory(id) {
+  const { data, error } = await supabase
+    .from('community_memories')
+    .select('*')
+    .eq('id', id)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * @param {string} id
+ * @param {Parameters<typeof memoryPatchToRow>[0]} patch
+ */
+export async function updateMemory(id, patch) {
+  const { data, error } = await supabase
+    .from('community_memories')
+    .update(memoryPatchToRow(patch))
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
 }
 
 export async function fetchMemoryComments(memoryId) {
@@ -149,5 +177,36 @@ export async function updateMemoryFeatured(id, featured) {
 
 export async function deleteMemory(id) {
   const { error } = await supabase.from('community_memories').delete().eq('id', id);
+  if (error) throw error;
+}
+
+export async function deleteMemoryComment(id) {
+  const { error } = await supabase.from('community_memory_comments').delete().eq('id', id);
+  if (error) throw error;
+}
+
+/**
+ * @param {string} id
+ * @param {{ text?: string, author_name?: string }} patch
+ */
+export async function updateMemoryComment(id, patch) {
+  const { data, error } = await supabase
+    .from('community_memory_comments')
+    .update({
+      ...(patch.text !== undefined ? { text: patch.text } : {}),
+      ...(patch.author_name !== undefined ? { author_name: patch.author_name } : {}),
+    })
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function approveAllPendingMemories() {
+  const { error } = await supabase
+    .from('community_memories')
+    .update({ status: 'published', updated_at: new Date().toISOString() })
+    .eq('status', 'pending');
   if (error) throw error;
 }

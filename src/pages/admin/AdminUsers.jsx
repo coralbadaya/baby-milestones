@@ -158,7 +158,6 @@ function AdminUsers() {
       <AdminPageHeader
         title="Users"
         description="Search profiles, roles, and membership status."
-        breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'Users' }]}
       />
 
       <AdminToolbar

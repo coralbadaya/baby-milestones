@@ -1,0 +1,105 @@
+/** Original "in the spirit of" folk tale templates — no licensed retellings */
+
+export const FOLK_TALE_TEMPLATES = [
+  {
+    id: 'moonJourney',
+    title: 'Journey to the Moon',
+    openingByLanguage: {
+      en: 'Long ago, when the moon was closer, a little one looked up and wondered…',
+      hi: 'बहुत पुराने समय में, जब chanda mama और भी पास थे, एक छोटे बच्चे ने ऊपर देखा…',
+      es: 'Hace mucho tiempo, cuando la luna llena brillaba más cerca, un pequeño miró al cielo…',
+      ta: 'பழங்காலத்தில், chandiran மிக அருகில் இருந்தபோது, ஒரு kutty மேலே நோக்கியது…',
+      te: 'Chala kaalam mundu, chandamama inka daggaraga undagaa, oka bujjigadu pai chusadu…',
+      bn: 'Onek purono dine, chander alo ar o kache chhilo, ekta khoka upore takiye chhilo…',
+      ar: 'In ancient nights, when qamar shone nearer, a little one gazed upward…',
+      zh: '很久以前，当 yueliang 更近的时候，一个小宝贝抬头望…',
+      pt: 'Há muito tempo, quando a lua cheia estava mais perto, um pequenino olhou para cima…',
+      fr: 'Il y a longtemps, quand la pleine lune était plus proche, un petit regarda le ciel…',
+      de: 'Vor langer Zeit, als der Vollmond näher war, schaute ein Kleines nach oben…',
+      ja: 'Mukashi mukashi, mangetsu ga motto chikaku ni atta koro, chiisana akachan ga…',
+    },
+    beatStructure: ['call_to_adventure', 'gentle_obstacle', 'moon_gift', 'return_to_nest'],
+  },
+  {
+    id: 'braveLittleOne',
+    title: 'The Brave Little One',
+    openingByLanguage: {
+      en: 'In every village, in every home, there lives a brave little one who learns by trying…',
+      hi: 'Har ghar mein, har gaon mein, ek bahadur bachcha rehta hai jo koshish karke seekhta hai…',
+      es: 'En cada hogar, en cada pueblo, vive un pequeño valiente que aprende intentando…',
+      ta: 'Ella veetilum, oru brave kutty irukku, try pannitu learn pannum…',
+      te: 'Prati intlo, oka brave bujjigadu undi, prayatnam chesi nerchukuntadu…',
+      bn: 'Proti barite, ekta shoktishali khoka thake je chesta kore shikhe…',
+      ar: 'In every home, a brave little habibi learns by trying…',
+      zh: '在每个家里，都有一个勇敢的小 baobei 在尝试中学习…',
+      pt: 'Em cada lar, vive um pequenino corajoso que aprende tentando…',
+      fr: 'Dans chaque maison, un petit courageux apprend en essayant…',
+      de: 'In jedem Zuhause lebt ein mutiges Kleines, das durch Probieren lernt…',
+      ja: 'Doko no ie ni mo, yuukan na akachan ga try shite manabu…',
+    },
+    beatStructure: ['small_fear', 'kind_helper', 'courage_found', 'celebration'],
+  },
+  {
+    id: 'riverCrossing',
+    title: 'Crossing the Gentle River',
+    openingByLanguage: {
+      en: 'Beyond the meadow flowed a gentle river, and on its bank stood a little one ready for adventure…',
+      hi: 'Bagiche ke paar ek shaant nadi behti thi, aur kinare par ek chhota bachcha khada tha…',
+      es: 'Más allá del prado corría un río suave, y en la orilla esperaba un pequeño aventurero…',
+      ta: 'Meadow kku apparam oru gentle river odi, adhuve oru kutty waiting…',
+      te: 'Meadow daati oka gentle river undi, daani daggaralo oka bujjigadu wait chestunnadu…',
+      bn: 'Baganer opare ekta nadi chhilo, ar kinare ekta khoka adventure er jonno ready…',
+      ar: 'Beyond the meadow, a gentle river flowed, and a little one waited on its bank…',
+      zh: '在草地的那边，一条温柔的河流流过，一个小宝贝在岸边等待…',
+      pt: 'Além do prado corria um rio suave, e na margem um pequenino esperava…',
+      fr: 'Au-delà du pré coulait une rivière douce, et sur la rive un petit attendait…',
+      de: 'Jenseits der Wiese floss ein sanfter Fluss, und am Ufer wartete ein Kleines…',
+      ja: 'Meadow no mukou ni yasashii kawa ga nagare, akachan ga matte ita…',
+    },
+    beatStructure: ['river_call', 'stepping_stones', 'friend_on_other_side', 'warm_return'],
+  },
+  {
+    id: 'starGift',
+    title: 'The Star\'s Gift',
+    openingByLanguage: {
+      en: 'One twilight evening, a star descended just low enough to whisper a gift to a sleeping little one…',
+      hi: 'Ek shaam ko, ek sitara itna neeche aaya ki ek soye hue bachche ko tohfa de saka…',
+      es: 'Una tarde crepuscular, una estrellita bajó lo suficiente para susurrar un regalo…',
+      ta: 'Oru twilight evening, oru star irangi oru sleeping kutty ku gift sonnadu…',
+      te: 'Oka twilight evening, oka star kindaki vachi oka sleeping bujjigadu ki gift ichindi…',
+      bn: 'Ekta twilight evening, ekta star namlo ekta ghumono khoka ke gift dilo…',
+      ar: 'One twilight evening, a najm came close to whisper a gift…',
+      zh: '一个黄昏，一颗 xingxing 低低地飞来，给熟睡的小宝贝一份礼物…',
+      pt: 'Num crepúsculo, uma estrelinha desceu para sussurrar um presente…',
+      fr: 'Un soir crépusculaire, une petite étoile descendit pour murmurer un cadeau…',
+      de: 'An einem Dämmerabend kam ein Sternchen nah genug, um ein Geschenk zu flüstern…',
+      ja: 'Twilight no yoru, hoshi ga chikaku kite akachan ni gift wo…',
+    },
+    beatStructure: ['twilight_arrival', 'star_whisper', 'gift_revealed', 'morning_glow'],
+  },
+  {
+    id: 'sleepingForest',
+    title: 'The Sleeping Forest',
+    openingByLanguage: {
+      en: 'When the forest grows quiet and every leaf rests, a little one drifts into the sweetest dream…',
+      hi: 'Jab jungle shaant ho jata hai aur har patta so jata hai, ek chhota bachcha sapne mein kho jata hai…',
+      es: 'Cuando el bosque calla y cada hoja descansa, un pequeño se adormece en el sueño más dulce…',
+      ta: 'Forest quiet aagum pothu, oru kutty inimaiyana kanavil lay aagum…',
+      te: 'Forest quiet ga unnapudu, oka bujjigadu sweetest dream lo potadu…',
+      bn: 'Jungle jokhon shanto hoy, ekta khoka shobcheye misti shwapne chole jay…',
+      ar: 'When the forest sleeps, a little habibi drifts into the sweetest dream…',
+      zh: '当森林安静下来，小 baobei 进入最温柔的梦乡…',
+      pt: 'Quando a floresta silencia, um pequenino adormece no sonho mais doce…',
+      fr: 'Quand la forêt s\'endort, un petit glisse dans le plus doux des rêves…',
+      de: 'Wenn der Wald still wird, gleitet ein Kleines in den süßesten Traum…',
+      ja: 'Forest ga shizuka ni naru to, akachan wa yasashii yume ni…',
+    },
+    beatStructure: ['forest_lull', 'dream_path', 'gentle_creature', 'morning_light'],
+  },
+];
+
+export function getFolkTaleTemplate(id) {
+  return FOLK_TALE_TEMPLATES.find((t) => t.id === id) ?? FOLK_TALE_TEMPLATES[0];
+}
+
+export default FOLK_TALE_TEMPLATES;

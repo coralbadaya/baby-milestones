@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nestmile — v2 Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#0a0712;font-family:'Manrope',system-ui,sans-serif;}
+  @keyframes twinkle{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.25)}}
+  @keyframes drift{0%{transform:translate(0,0)}50%{transform:translate(18px,-22px)}100%{transform:translate(0,0)}}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  @keyframes breathe{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:.85;transform:scale(1.09)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pageTurn{0%{transform:rotateY(0);box-shadow:-2px 0 16px rgba(0,0,0,.2)}100%{transform:rotateY(-172deg);box-shadow:-40px 0 50px rgba(0,0,0,.45)}}
+  @keyframes wave{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+  @keyframes orbSpin{0%{transform:rotateY(0)}100%{transform:rotateY(360deg)}}
+  .ns-scroll::-webkit-scrollbar{width:0;height:0;}
+  .ns-scroll{scrollbar-width:none;}
+  .phone{position:relative;width:390px;height:844px;border-radius:54px;overflow:hidden;
+    box-shadow:0 50px 120px -30px rgba(0,0,0,.85),0 0 0 11px #0c0a14,0 0 0 13px #2a2535;
+    --bg:#160E2E;--bg2:#241845;--accent:#FFC97A;--accent2:#FF7BA9;--accent3:#9B7BE8;--glow:rgba(155,123,232,.55);
+    --ink:#FBF4EA;--muted:rgba(251,244,234,.6);--card:rgba(255,255,255,.055);--line:rgba(255,255,255,.12);
+    background:var(--bg);color:var(--ink);}
+  .phone.t1{--bg:#2A1320;--bg2:#4A1E33;--accent:#FFD18A;--accent2:#FF9D8A;--accent3:#F1789F;--glow:rgba(255,157,138,.5);}
+  .phone.t2{--bg:#0C1F2B;--bg2:#123246;--accent:#7FE5C8;--accent2:#6FB8FF;--accent3:#A78BFA;--glow:rgba(111,184,255,.5);}
+  .screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;z-index:10;}
+  .panel{display:none;padding:60px 22px 120px;animation:fadeUp .45s ease both;}
+  .panel.on{display:block;}
+  .eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:700;}
+  h1.disp{font-family:'Newsreader',serif;font-weight:500;letter-spacing:-.4px;margin:4px 0 6px;}
+  .sub{font-size:13.5px;color:var(--muted);line-height:1.55;margin:0 0 16px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;}
+  .chip{flex-shrink:0;border-radius:999px;padding:9px 15px;cursor:pointer;font-family:inherit;font-weight:700;font-size:12.5px;
+    color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line);}
+  .chip.sel{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1a0f22;border-color:transparent;}
+  .cta{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:18px;padding:16px;
+    color:#1a0f22;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 16px 34px -12px var(--accent2);}
+  .ghost{width:100%;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;color:var(--ink);
+    font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;}
+  .navbtn{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;padding:5px 0;}
+  .plusTag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.6px;padding:2px 7px;border-radius:999px;
+    background:linear-gradient(135deg,var(--accent3),var(--accent2));color:#1a0f22;vertical-align:middle;margin-left:6px;}
+  .placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;
+    background:repeating-linear-gradient(45deg,rgba(255,255,255,.04),rgba(255,255,255,.04) 8px,transparent 8px,transparent 16px);
+    color:rgba(251,244,234,.4);font-size:11px;letter-spacing:1px;font-weight:700;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 0;background:radial-gradient(120% 90% at 50% 0%, #1a1230 0%, #0a0712 70%);">
+<div class="phone" id="phone">
+
+  <!-- atmosphere -->
+  <div style="position:absolute;inset:0;background:radial-gradient(130% 80% at 50% -5%, var(--bg2) 0%, var(--bg) 55%);pointer-events:none;"></div>
+  <div style="position:absolute;top:-60px;left:-50px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 70%);filter:blur(8px);animation:breathe 7s ease-in-out infinite;pointer-events:none;"></div>
+  <div style="position:absolute;bottom:120px;right:-70px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,var(--accent2),transparent 70%);opacity:.35;filter:blur(10px);animation:drift 13s ease-in-out infinite;pointer-events:none;"></div>
+  <div style="position:absolute;top:90px;left:40px;width:3px;height:3px;border-radius:50%;background:#fff;box-shadow:0 0 6px #fff;animation:twinkle 3s ease-in-out infinite;"></div>
+  <div style="position:absolute;top:160px;right:60px;width:2px;height:2px;border-radius:50%;background:#fff;box-shadow:0 0 5px #fff;animation:twinkle 4s ease-in-out infinite .8s;"></div>
+  <div style="position:absolute;top:330px;left:70px;width:2px;height:2px;border-radius:50%;background:#fff;box-shadow:0 0 5px #fff;animation:twinkle 3.4s ease-in-out infinite .4s;"></div>
+  <div style="position:absolute;top:240px;right:120px;width:3px;height:3px;border-radius:50%;background:#fff;box-shadow:0 0 6px #fff;animation:twinkle 5s ease-in-out infinite 1.2s;"></div>
+
+  <!-- status bar -->
+  <div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:16px 30px 0;z-index:40;font-size:14px;font-weight:600;pointer-events:none;">
+    <span>9:41</span><span style="font-size:10px;letter-spacing:1px;opacity:.85;">●●● ▮</span>
+  </div>
+
+  <!-- theme dots -->
+  <div style="position:absolute;top:56px;right:20px;z-index:46;display:flex;gap:7px;align-items:center;background:rgba(0,0,0,.28);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:6px 9px;">
+    <button onclick="setTheme(0)" id="td0" title="Twilight" style="width:15px;height:15px;border-radius:50%;border:2px solid #fff;background:#9B7BE8;cursor:pointer;padding:0;"></button>
+    <button onclick="setTheme(1)" id="td1" title="Dawn" style="width:15px;height:15px;border-radius:50%;border:2px solid transparent;background:#FF9D8A;cursor:pointer;padding:0;"></button>
+    <button onclick="setTheme(2)" id="td2" title="Dreamsea" style="width:15px;height:15px;border-radius:50%;border:2px solid transparent;background:#6FB8FF;cursor:pointer;padding:0;"></button>
+  </div>
+
+  <div class="screen ns-scroll" id="scr">
+
+    <!-- ============ HOME ============ -->
+    <div class="panel on" id="p-home">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4px;">
+        <div>
+          <div class="eyebrow">Memory Lane</div>
+          <h1 class="disp" style="font-size:29px;">Aria's first year</h1>
+        </div>
+        <div style="text-align:right;font-size:11px;color:var(--muted);line-height:1.5;">7 months old<br><span style="color:var(--accent3);font-weight:700;">7 memories</span></div>
+      </div>
+
+      <!-- smart reminder -->
+      <div class="card" style="margin:16px 0 14px;padding:13px 16px;display:flex;align-items:center;gap:12px;border-color:var(--accent3);">
+        <div style="font-size:20px;animation:floaty 4s ease-in-out infinite;">🔔</div>
+        <div style="flex:1;font-size:12.5px;line-height:1.45;color:var(--muted);"><span style="color:var(--ink);font-weight:700;">Aria turns 8 months on Tuesday.</span> Add this chapter before the moment slips by.</div>
+        <button class="chip sel" style="padding:8px 13px;" onclick="go('book')">Add</button>
+      </div>
+
+      <!-- 3D album hero -->
+      <div onclick="go('book')" style="position:relative;border-radius:24px;overflow:hidden;padding:20px;cursor:pointer;background:linear-gradient(135deg,rgba(155,123,232,.34),rgba(255,123,169,.2));border:1px solid var(--line);box-shadow:0 22px 50px -22px var(--glow);margin-bottom:14px;">
+        <div style="position:absolute;top:-30px;right:-20px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 70%);filter:blur(4px);animation:breathe 6s ease-in-out infinite;"></div>
+        <div style="position:relative;display:flex;align-items:center;gap:16px;">
+          <div style="width:66px;height:84px;border-radius:8px;flex-shrink:0;background:linear-gradient(160deg,var(--accent),var(--accent2));box-shadow:0 10px 24px -6px var(--accent2),inset -6px 0 12px rgba(0,0,0,.25);transform:rotate(-6deg) perspective(300px) rotateY(-14deg);position:relative;">
+            <div style="position:absolute;left:5px;top:6px;bottom:6px;width:3px;border-radius:2px;background:rgba(0,0,0,.18);"></div>
+          </div>
+          <div style="flex:1;">
+            <div class="eyebrow" style="font-size:11px;">Your 3D Album</div>
+            <div style="font-family:'Newsreader',serif;font-size:20px;margin:3px 0 5px;">A year you can hold</div>
+            <div style="font-size:12px;color:var(--muted);">Tap to open · 7 of 12 pages glowing</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- what's new row -->
+      <div style="font-size:13px;color:var(--muted);font-weight:600;margin:4px 4px 10px;">New in Nestmile</div>
+      <div class="ns-scroll" style="display:flex;gap:11px;overflow-x:auto;margin:0 -22px 18px;padding:2px 22px 6px;">
+        <div class="card" onclick="go('story')" style="flex-shrink:0;width:158px;padding:15px 14px;cursor:pointer;">
+          <div style="font-size:22px;">🗣️</div>
+          <div style="font-weight:800;font-size:13.5px;margin-top:8px;">Stories in your language</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45;">Bedtime tales in हिन्दी, Español & 10 more — told in your own voice.</div>
+        </div>
+        <div class="card" onclick="go('ideas')" style="flex-shrink:0;width:158px;padding:15px 14px;cursor:pointer;">
+          <div style="font-size:22px;">💡</div>
+          <div style="font-weight:800;font-size:13.5px;margin-top:8px;">AI book ideas</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45;">One tap turns your camera roll into 10 keepsake concepts.</div>
+        </div>
+        <div class="card" onclick="go('family')" style="flex-shrink:0;width:158px;padding:15px 14px;cursor:pointer;">
+          <div style="font-size:22px;">💌</div>
+          <div style="font-weight:800;font-size:13.5px;margin-top:8px;">Time capsule</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45;">Record a letter today. Aria opens it at eighteen.</div>
+        </div>
+      </div>
+
+      <!-- month list (condensed) -->
+      <div style="font-size:13px;color:var(--muted);font-weight:600;margin:0 4px 12px;">Tap a month to add this chapter</div>
+      <div id="monthList" style="display:flex;flex-direction:column;gap:14px;"></div>
+    </div>
+
+    <!-- ============ STORY STUDIO ============ -->
+    <div class="panel" id="p-story">
+      <div class="eyebrow">Story Studio</div>
+      <h1 class="disp" style="font-size:29px;">Who will Aria become?</h1>
+      <p class="sub">Pick a dream, pick a language — and tonight the story is told the way <em>your</em> childhood stories were told.</p>
+
+      <!-- scene picker -->
+      <div class="ns-scroll" style="display:flex;gap:9px;overflow-x:auto;margin:0 -22px 6px;padding:0 22px 8px;" id="sceneRow"></div>
+
+      <!-- LANGUAGE — the signature -->
+      <div style="margin:14px 0 4px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent3);font-weight:700;">Told in your language</div>
+      <div class="ns-scroll" style="display:flex;gap:8px;overflow-x:auto;margin:8px -22px 4px;padding:0 22px 6px;" id="langRow"></div>
+      <div style="font-size:11px;color:var(--muted);margin:2px 4px 0;">Not translated — retold. Each language keeps its own moon, its own lullaby.</div>
+
+      <!-- voice mode -->
+      <div class="card" style="margin-top:14px;padding:14px 15px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-weight:800;font-size:13.5px;">Narration voice</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;" id="voiceHint">Warm storyteller voice</div>
+          </div>
+          <div style="display:flex;gap:7px;">
+            <button class="chip sel" id="v0" onclick="setVoice(0)">Storyteller</button>
+            <button class="chip" id="v1" onclick="setVoice(1)">Your voice<span class="plusTag">PLUS</span></button>
+          </div>
+        </div>
+        <div id="voiceRec" style="display:none;margin-top:13px;padding-top:13px;border-top:1px solid var(--line);">
+          <div style="display:flex;align-items:center;gap:11px;">
+            <div onclick="toggleRec()" id="recBtn" style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent2),var(--accent3));cursor:pointer;flex-shrink:0;">
+              <div id="recDot" style="width:12px;height:12px;border-radius:50%;background:#fff;"></div>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:12.5px;font-weight:700;" id="recLabel">Read 60 seconds, once.</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:1px;">Every story after that plays in your voice — in any language.</div>
+            </div>
+            <div id="waves" style="display:none;gap:3px;align-items:center;height:22px;">
+              <div style="width:3px;height:100%;border-radius:2px;background:var(--accent2);animation:wave .7s ease-in-out infinite;"></div>
+              <div style="width:3px;height:100%;border-radius:2px;background:var(--accent);animation:wave .7s ease-in-out infinite .15s;"></div>
+              <div style="width:3px;height:100%;border-radius:2px;background:var(--accent3);animation:wave .7s ease-in-out infinite .3s;"></div>
+              <div style="width:3px;height:100%;border-radius:2px;background:var(--accent2);animation:wave .7s ease-in-out infinite .45s;"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:12px;">
+            <button class="chip" style="flex:1;text-align:center;">+ Invite Nani to record hers</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- folk tale toggle -->
+      <div class="card" style="margin-top:11px;padding:14px 15px;display:flex;align-items:center;gap:12px;">
+        <div style="font-size:22px;">🌕</div>
+        <div style="flex:1;">
+          <div style="font-weight:800;font-size:13.5px;">Folk-tale mode</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4;" id="folkHint">Aria stars in the tale you grew up hearing.</div>
+        </div>
+        <button class="chip" id="folkBtn" onclick="toggleFolk()">Off</button>
+      </div>
+
+      <!-- storyboard -->
+      <div id="storyPanels" style="display:flex;flex-direction:column;gap:14px;margin-top:16px;"></div>
+
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <button class="ghost" style="flex:1;font-size:13.5px;" id="playBtn" onclick="toggleNarrate()">▶ Read it aloud</button>
+        <button class="cta" style="flex:1;font-size:13.5px;padding:15px;" onclick="go('book')">Add to the book</button>
+      </div>
+    </div>
+
+    <!-- ============ IDEAS ============ -->
+    <div class="panel" id="p-ideas">
+      <div class="eyebrow">Idea Studio</div>
+      <h1 class="disp" style="font-size:29px;">Books hiding in your camera roll</h1>
+      <p class="sub">Nestmile studied Aria's 214 photos. Each idea below is one tap from a finished keepsake — layout, cleanup and captions handled.</p>
+      <div id="ideaList" style="display:flex;flex-direction:column;gap:13px;"></div>
+    </div>
+
+    <!-- ============ 3D BOOK ============ -->
+    <div class="panel" id="p-book" style="display:flex;flex-direction:column;min-height:844px;">
+      <div style="text-align:center;">
+        <div class="eyebrow">The 3D Keepsake</div>
+        <h1 class="disp" style="font-size:27px;">Aria's year, in your hands</h1>
+      </div>
+
+      <!-- style selector -->
+      <div style="display:flex;gap:8px;margin:14px 0 6px;">
+        <button class="chip sel" style="flex:1;text-align:center;" id="bs0" onclick="setBookStyle(0)">📖 Parallax</button>
+        <button class="chip" style="flex:1;text-align:center;" id="bs1" onclick="setBookStyle(1)">✂️ Pop-up</button>
+        <button class="chip" style="flex:1;text-align:center;" id="bs2" onclick="setBookStyle(2)">🔮 Snow-globe</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:4px;" id="bookStyleHint">Photos separate into floating depth layers as pages turn.</div>
+
+      <!-- the OPEN book -->
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;perspective:1700px;margin:6px 0;min-height:290px;" id="bookStage">
+        <div id="bookWrap" style="position:relative;display:flex;transform:rotateX(11deg);transform-style:preserve-3d;animation:floaty 8s ease-in-out infinite;filter:drop-shadow(0 38px 46px rgba(0,0,0,.6)) drop-shadow(0 0 50px var(--glow));">
+          <div style="position:absolute;left:-5px;right:-5px;top:6px;bottom:-7px;background:repeating-linear-gradient(0deg,#f5ead8,#f5ead8 1px,#d9cbb0 1px,#d9cbb0 2px);border-radius:5px;transform:translateZ(-6px);box-shadow:0 10px 20px rgba(0,0,0,.4);"></div>
+          <div id="pageL" style="position:relative;width:150px;height:212px;border-radius:9px 2px 2px 9px;overflow:hidden;box-shadow:inset -22px 0 32px -16px rgba(0,0,0,.75);border:1px solid var(--line);">
+            <div class="placeholder">photo</div>
+            <div id="depthFg" style="position:absolute;left:14px;bottom:34px;width:44px;height:58px;border-radius:40% 40% 46% 46%/55% 55% 45% 45%;background:linear-gradient(160deg,var(--accent),var(--accent2));box-shadow:0 10px 22px -4px rgba(0,0,0,.5);animation:floaty 5s ease-in-out infinite;"></div>
+            <div style="position:absolute;left:0;right:0;bottom:0;padding:20px 12px 9px;background:linear-gradient(transparent,rgba(8,5,18,.8));font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);font-weight:700;" id="albumTag">Month 6</div>
+          </div>
+          <div style="width:7px;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(255,255,255,.1) 50%,rgba(0,0,0,.55));"></div>
+          <div style="position:relative;width:150px;height:212px;border-radius:2px 9px 9px 2px;overflow:hidden;background:linear-gradient(135deg,#241b40,#160e2e);box-shadow:inset 22px 0 32px -16px rgba(0,0,0,.55);border:1px solid var(--line);padding:20px 15px;display:flex;flex-direction:column;">
+            <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent3);font-weight:700;" id="chapTag">Chapter 6</div>
+            <div style="font-family:'Newsreader',serif;font-size:18px;margin-top:7px;line-height:1.15;" id="chapTitle">Tastes of everything</div>
+            <div style="font-family:'Newsreader',serif;font-style:italic;font-size:13.5px;line-height:1.5;color:var(--muted);margin-top:9px;flex:1;" id="chapCap">"Avocado: a love story."</div>
+            <div style="font-size:10.5px;color:var(--accent);font-weight:700;letter-spacing:.3px;" id="chapMile">✦ Starts solids</div>
+          </div>
+          <div id="turnPage" style="display:none;position:absolute;left:calc(50% + 3px);top:0;width:150px;height:212px;transform-origin:left center;background:linear-gradient(120deg,#2c2150,#1a1230);border-radius:2px 9px 9px 2px;border:1px solid var(--line);backface-visibility:hidden;z-index:5;"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:8px;">
+        <button onclick="turn(-1)" style="width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--line);color:var(--ink);font-size:20px;cursor:pointer;font-family:inherit;line-height:1;">‹</button>
+        <div style="font-size:12px;color:var(--muted);min-width:96px;text-align:center;" id="spreadLabel">Spread 6 of 12</div>
+        <button onclick="turn(1)" style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#1a0f22;font-size:20px;cursor:pointer;font-family:inherit;line-height:1;font-weight:800;">›</button>
+      </div>
+
+      <button class="cta" onclick="go('family')">Order the printed book · from $29 →</button>
+      <button class="ghost" style="margin-top:10px;">Download interactive 3D album</button>
+    </div>
+
+    <!-- ============ FAMILY ============ -->
+    <div class="panel" id="p-family">
+      <div class="eyebrow">Family Circle</div>
+      <h1 class="disp" style="font-size:29px;">The people who love her most</h1>
+      <p class="sub">Grandparents watch the album grow, leave voice blessings, and gift the printed year — no posting to the whole internet required.</p>
+
+      <div class="card" style="padding:16px;">
+        <div style="display:flex;align-items:center;gap:-8px;">
+          <div style="display:flex;">
+            <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(140deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid var(--bg);">👵</div>
+            <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(140deg,var(--accent2),var(--accent3));display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid var(--bg);margin-left:-10px;">👴</div>
+            <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(140deg,var(--accent3),var(--accent));display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid var(--bg);margin-left:-10px;">👩</div>
+            <div style="width:44px;height:44px;border-radius:50%;border:1.5px dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);margin-left:-10px;background:var(--bg);">+</div>
+          </div>
+          <div style="flex:1;margin-left:14px;">
+            <div style="font-weight:800;font-size:13.5px;">3 in Aria's circle</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">Nani viewed the album 14 times this week.</div>
+          </div>
+        </div>
+        <div style="margin-top:13px;padding:12px 13px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line);display:flex;align-items:center;gap:11px;">
+          <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent3));display:flex;align-items:center;justify-content:center;flex-shrink:0;"><div style="width:0;height:0;border-left:9px solid #fff;border-top:6px solid transparent;border-bottom:6px solid transparent;margin-left:2px;"></div></div>
+          <div style="flex:1;">
+            <div style="font-size:12.5px;font-weight:700;">A blessing from Nani <span style="color:var(--muted);font-weight:600;">· 0:41</span></div>
+            <div style="font-family:'Newsreader',serif;font-style:italic;font-size:12.5px;color:var(--muted);margin-top:2px;">"मेरी गुड़िया, हमेशा हँसती रहो…"</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- time capsule -->
+      <div style="margin:20px 0 10px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent3);font-weight:700;">Time capsule <span class="plusTag">PLUS</span></div>
+      <div class="card" style="position:relative;overflow:hidden;padding:18px 16px;">
+        <div style="position:absolute;top:-40px;right:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 70%);filter:blur(6px);animation:breathe 6s ease-in-out infinite;"></div>
+        <div style="position:relative;display:flex;gap:14px;align-items:center;">
+          <div style="width:58px;height:58px;border-radius:16px;background:linear-gradient(140deg,var(--accent),var(--accent2),var(--accent3));display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;animation:floaty 6s ease-in-out infinite;">✉️</div>
+          <div style="flex:1;">
+            <div style="font-family:'Newsreader',serif;font-size:18px;">A letter for 2044</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-top:3px;">Write or record it now. It stays sealed — in the app and as a closed page in the printed book — until Aria turns 18.</div>
+          </div>
+        </div>
+        <div style="position:relative;display:flex;gap:9px;margin-top:14px;">
+          <button class="chip" style="flex:1;text-align:center;">✍️ Write it</button>
+          <button class="chip sel" style="flex:1;text-align:center;">🎙 Record it</button>
+        </div>
+        <div style="position:relative;font-size:11px;color:var(--muted);margin-top:10px;text-align:center;">2 letters sealed · from Mumma & Nani</div>
+      </div>
+
+      <!-- print + gifting -->
+      <div style="margin:20px 0 10px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent3);font-weight:700;">Keepsake Press</div>
+      <div style="display:flex;gap:10px;">
+        <button class="card" style="flex:1;text-align:left;padding:15px 14px;cursor:pointer;font-family:inherit;color:var(--ink);">
+          <div style="font-weight:800;font-size:14px;">Softcover</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4;">20 pages · matte</div>
+          <div style="font-family:'Newsreader',serif;font-size:20px;margin-top:8px;color:var(--accent);">$29</div>
+        </button>
+        <button class="card" style="flex:1;text-align:left;padding:15px 14px;cursor:pointer;font-family:inherit;color:var(--ink);border-color:var(--accent);background:linear-gradient(135deg,rgba(255,201,122,.14),rgba(255,123,169,.09));">
+          <div style="font-weight:800;font-size:14px;">Linen hardcover</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4;">24 pages · foil title · sealed letter page</div>
+          <div style="font-family:'Newsreader',serif;font-size:20px;margin-top:8px;color:var(--accent);">$49</div>
+        </button>
+      </div>
+      <button class="cta" style="margin-top:14px;">🎁 Gift Aria's first year · $59.99</button>
+      <div style="text-align:center;font-size:11px;color:var(--muted);margin-top:10px;">Grandparents pay once. You keep every memory. <span style="color:var(--accent3);font-weight:700;">Nestmile+ $7.99/mo or $49.99/yr</span></div>
+    </div>
+
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <div style="position:absolute;bottom:0;left:0;right:0;z-index:42;padding:10px 18px 16px;background:linear-gradient(transparent,rgba(8,5,18,.9) 38%);">
+    <div style="display:flex;align-items:center;justify-content:space-around;background:rgba(20,14,40,.82);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:24px;padding:9px 6px;box-shadow:0 14px 34px -14px rgba(0,0,0,.7);" id="nav"></div>
+    <div style="width:120px;height:4px;border-radius:3px;background:rgba(255,255,255,.35);margin:9px auto 0;"></div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const S = { screen:'home', theme:0, scene:0, lang:0, voice:0, recording:false, folk:false, narrating:false, page:5, bookStyle:0, turning:false };
+const N = 'Aria';
+
+const NAV = [
+  {id:'home', icon:'🏠', label:'Memories'},
+  {id:'story', icon:'🗣️', label:'Stories'},
+  {id:'ideas', icon:'💡', label:'Ideas'},
+  {id:'book', icon:'📖', label:'3D Book'},
+  {id:'family', icon:'💞', label:'Family'},
+];
+
+const LANGS = [
+  {code:'en', label:'English'},
+  {code:'hi', label:'हिन्दी'},
+  {code:'es', label:'Español'},
+  {code:'more', label:'+ 9 more'},
+];
+
+const SCENES = [
+  { emoji:'🚀', title:'Astronaut', sub:'Among the stars' },
+  { emoji:'🎨', title:'Artist', sub:'Painter of worlds' },
+  { emoji:'🌿', title:'Explorer', sub:'Wild & curious' },
+  { emoji:'🎻', title:'Musician', sub:'Maker of melodies' },
+];
+
+// Lines per scene per language. Not literal translations — retold with local imagery.
+const LINES = {
+  en: [
+    ['One quiet night, {N} looked up and the stars looked back.','“Buckle up,” whispered the little captain, and the rocket hummed awake.','Past the moon, past the rings, {N} waved at planets no one had named yet.'],
+    ['{N} dipped a brush and the whole grey wall began to bloom.','Every color had a feeling, and {N} knew them all by name.','By morning, the city woke up inside a painting — {N}’s painting.'],
+    ['With a map drawn in crayon, {N} set off where the path got green.','A fox bowed, a river giggled, and {N} learned the language of leaves.','At the top of the hill, the whole wide world said hello to {N}.'],
+    ['{N} found a song hiding inside an old wooden violin.','One note, then a thousand — the room filled up with light.','When {N} took a bow, even the moon asked for an encore.'],
+  ],
+  hi: [
+    ['एक शांत रात, {N} ने ऊपर देखा — और चंदा मामा ने मुस्कुरा कर वापस देखा।','“चलो उड़ें,” नन्ही कप्तान ने कहा, और रॉकेट गुनगुनाने लगा।','चाँद के पार, तारों के पार — {N} ने उन ग्रहों को हाथ हिलाया जिनके नाम अभी रखे ही नहीं गए।'],
+    ['{N} ने रंगों में उँगली डुबोई, और सूनी दीवार पर फूल खिल उठे।','हर रंग की अपनी कहानी थी, और {N} सबकी सहेली थी।','सुबह हुई तो पूरा शहर एक तस्वीर के अंदर जागा — {N} की तस्वीर में।'],
+    ['क्रेयॉन से बना नक्शा लेकर, {N} वहाँ चली जहाँ रास्ता हरा हो गया।','एक लोमड़ी ने सलाम किया, नदी खिलखिलाई, और {N} ने पत्तों की बोली सीख ली।','पहाड़ी की चोटी पर, पूरी दुनिया ने {N} को नमस्ते कहा।'],
+    ['एक पुरानी वायलिन के अंदर {N} को एक गीत छिपा मिला।','एक सुर, फिर हज़ार — कमरा रोशनी से भर गया।','जब {N} ने झुक कर सलाम किया, तो चाँद ने भी कहा — एक बार और!'],
+  ],
+  es: [
+    ['Una noche tranquila, {N} miró hacia arriba y la luna llena le devolvió la mirada.','—Abróchate el cinturón —susurró la pequeña capitana, y el cohete despertó cantando.','Más allá de la luna, {N} saludó a planetas que nadie había nombrado todavía.'],
+    ['{N} mojó un pincel y toda la pared gris empezó a florecer.','Cada color guardaba un sentimiento, y {N} los conocía a todos por su nombre.','Al amanecer, la ciudad despertó dentro de una pintura — la pintura de {N}.'],
+    ['Con un mapa de crayones, {N} partió por donde el camino se volvía verde.','Un zorro hizo una reverencia, un río soltó una risita, y {N} aprendió el idioma de las hojas.','En lo alto de la colina, el mundo entero le dijo hola a {N}.'],
+    ['{N} encontró una canción escondida dentro de un viejo violín.','Una nota, luego mil — la habitación se llenó de luz.','Cuando {N} hizo su reverencia, hasta la luna pidió otra más.'],
+  ],
+};
+
+// Folk-tale openings per language (universal tales, local telling)
+const FOLK = {
+  en: ['Once upon a time — as your Grandma began it — there lived a brave little one named {N}.','The old moon leaned down, the way it does in every telling, and whispered {N}’s name.','And they lived, as all the best stories go, happily — with one more adventure tomorrow.'],
+  hi: ['एक समय की बात है — जैसे नानी सुनाया करती थीं — एक बहादुर सी गुड़िया थी, जिसका नाम था {N}।','चंदा मामा नीचे झुके, जैसे हर कहानी में झुकते हैं, और धीरे से {N} का नाम पुकारा।','और फिर, जैसे हर अच्छी कहानी में होता है — सब खुशी-खुशी रहने लगे, और कल एक नई कहानी।'],
+  es: ['Había una vez — como empezaba tu abuela — una pequeña valiente llamada {N}.','La vieja luna se inclinó, como en todos los cuentos, y susurró el nombre de {N}.','Y vivieron, como en las mejores historias, felices — con una aventura más para mañana.'],
+};
+
+const SCENE_BGS = ['radial-gradient(120% 90% at 70% 10%,#3a2c6e,#160e2e)','radial-gradient(120% 90% at 30% 20%,#6e3a5a,#2a1320)','radial-gradient(120% 90% at 50% 15%,#2e6e5a,#0c1f2b)'];
+const SWATCHES = ['linear-gradient(150deg,#3a2a5e,#6d4a82)','linear-gradient(150deg,#5e3a52,#a3617f)','linear-gradient(150deg,#2e4a66,#5f86a8)','linear-gradient(150deg,#4a3a6e,#8f6fb0)','linear-gradient(150deg,#664a3a,#b08a5f)','linear-gradient(150deg,#3a5e4a,#5fa37f)'];
+
+const MONTHS = [
+  { title:'Hello, world', milestone:'Lifts head briefly', caption:'The day everything changed.' },
+  { title:'First smiles', milestone:'Coos & gurgles', caption:'You smiled, and we melted.' },
+  { title:'Reaching out', milestone:'Holds head steady', caption:'Tiny hands, big discoveries.' },
+  { title:'Rolls & giggles', milestone:'Rolls over', caption:'The giggle that started it all.' },
+  { title:'Sitting pretty', milestone:'Sits with support', caption:'Front-row seat to the world.' },
+  { title:'Tastes of everything', milestone:'Starts solids', caption:'Avocado: a love story.' },
+  { title:'On the move', milestone:'Crawls', caption:'No corner is safe now.' },
+  { title:'Pull to stand', milestone:'Pulls to stand', caption:'Reaching higher every day.' },
+  { title:'First words', milestone:'Says first word', caption:'And then they said our name.' },
+  { title:'Cruising', milestone:'Cruises furniture', caption:'One hand, then no hands.' },
+  { title:'Almost walking', milestone:'Stands alone', caption:'The bravest little steps.' },
+  { title:'Happy birthday', milestone:'First steps & a candle', caption:'One year of you. Forever for us.' },
+];
+
+const IDEAS = [
+  { emoji:'🪑', title:'Same-spot series', sub:'Aria in the grey armchair, months 1–7. AI aligns each frame so the book animates her growing.', tag:'7 photos found' },
+  { emoji:'🤲', title:'Little hands, little feet', sub:'A spread of only hands and feet — AI crops, arranges, and adds one line of verse.', tag:'11 photos found' },
+  { emoji:'🪞', title:'Then & now mirror', sub:'Your baby photo beside hers, same age, same pose. Nani will cry. That is the point.', tag:'Add 1 photo of you' },
+  { emoji:'🌙', title:'Twelve dreams', sub:'Every sleeping photo, clustered into one quiet night-sky spread.', tag:'9 photos found' },
+  { emoji:'🥑', title:'First tastes', sub:'The solids-era mess, backgrounds cleaned, joy kept.', tag:'6 photos found' },
+  { emoji:'✉️', title:'Letter to you at 18', sub:'Write or record it now — printed as a sealed page inside the hardcover.', tag:'Time capsule' },
+  { emoji:'✨', title:'Family constellation', sub:'Everyone who loves her, drawn as a star map on the endpaper.', tag:'From Family Circle' },
+  { emoji:'🪔', title:'Festival firsts', sub:'First Diwali, detected from October photos, laid out with diya-light borders.', tag:'Auto-detected' },
+  { emoji:'🚀', title:'Growth rocket', sub:'Her weight and height plotted as a rocket trail climbing through the pages.', tag:'From milestones' },
+  { emoji:'🔤', title:'Alphabet of you', sub:'A is for Avocado face, B is for Bath time — AI picks the 26 photos.', tag:'One tap' },
+];
+
+const BOOK_STYLES = [
+  'Photos separate into floating depth layers as pages turn.',
+  'Cut-paper scenes rise off the page like a pop-up book.',
+  'Each month lives inside a glass orb you can spin.',
+];
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+function go(id){
+  S.screen = id;
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  $('p-'+id).classList.add('on');
+  $('scr').scrollTop = 0;
+  renderNav();
+}
+
+function setTheme(i){
+  S.theme = i;
+  const ph = $('phone');
+  ph.className = 'phone' + (i? ' t'+i : '');
+  [0,1,2].forEach(j=> $('td'+j).style.borderColor = j===i?'#fff':'transparent');
+}
+
+function renderNav(){
+  $('nav').innerHTML = NAV.map(n=>{
+    const on = S.screen===n.id;
+    return `<button class="navbtn" onclick="go('${n.id}')">
+      <div style="font-size:18px;filter:${on?'none':'grayscale(.4) opacity(.7)'};">${n.icon}</div>
+      <div style="font-size:9.5px;font-weight:700;letter-spacing:.3px;color:${on?'var(--accent)':'rgba(251,244,234,.55)'};">${n.label}</div>
+    </button>`;
+  }).join('');
+}
+
+function renderMonths(){
+  $('monthList').innerHTML = MONTHS.map((m,i)=>`
+    <div onclick="openMonth(${i})" style="position:relative;border-radius:20px;overflow:hidden;cursor:pointer;border:1px solid var(--line);background:var(--card);display:flex;min-height:104px;">
+      <div style="position:relative;width:118px;flex-shrink:0;overflow:hidden;background:${SWATCHES[i%SWATCHES.length]};">
+        <div class="placeholder">photo</div>
+        <div style="position:absolute;left:8px;top:8px;background:rgba(0,0,0,.42);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:999px;padding:3px 9px;font-size:10px;font-weight:800;letter-spacing:.5px;">Month ${i+1}</div>
+      </div>
+      <div style="flex:1;padding:14px 15px;display:flex;flex-direction:column;justify-content:center;">
+        <div style="font-family:'Newsreader',serif;font-size:18px;font-weight:500;line-height:1.2;">${m.title}</div>
+        <div style="font-size:12.5px;font-style:italic;color:var(--muted);line-height:1.45;margin-top:5px;font-family:'Newsreader',serif;">"${m.caption}"</div>
+        <div style="font-size:10.5px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:var(--accent);margin-top:8px;">Tap to open →</div>
+      </div>
+    </div>`).join('');
+}
+
+function openMonth(i){ S.page = i; renderBook(); go('book'); }
+
+function renderScenes(){
+  $('sceneRow').innerHTML = SCENES.map((s,i)=>{
+    const on = i===S.scene;
+    return `<button onclick="setScene(${i})" style="flex-shrink:0;border-radius:16px;padding:13px 15px;min-width:118px;text-align:left;cursor:pointer;font-family:inherit;color:var(--ink);
+      border:1px solid ${on?'var(--accent)':'var(--line)'};background:${on?'linear-gradient(135deg,rgba(255,201,122,.2),rgba(255,123,169,.13))':'rgba(255,255,255,.05)'};">
+      <div style="font-size:22px;">${s.emoji}</div>
+      <div style="font-weight:800;font-size:13.5px;margin-top:6px;">${s.title}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px;">${s.sub}</div>
+    </button>`;
+  }).join('');
+}
+function setScene(i){ S.scene=i; renderScenes(); renderStory(); }
+
+function renderLangs(){
+  $('langRow').innerHTML = LANGS.map((l,i)=>{
+    if(l.code==='more') return `<button class="chip" onclick="alert('Coming to the picker: Tamil, Telugu, Bengali, Arabic, Mandarin, Portuguese, French, German, Japanese')">${l.label}</button>`;
+    return `<button class="chip ${i===S.lang?'sel':''}" onclick="setLang(${i})">${l.label}</button>`;
+  }).join('');
+}
+function setLang(i){ S.lang=i; renderLangs(); renderStory(); }
+
+function setVoice(i){
+  S.voice=i;
+  $('v0').className='chip'+(i===0?' sel':'');
+  $('v1').className='chip'+(i===1?' sel':'');
+  $('v1').innerHTML = 'Your voice'+(i===1?'':'<span class="plusTag">PLUS</span>');
+  $('voiceRec').style.display = i===1?'block':'none';
+  $('voiceHint').textContent = i===1 ? 'Cloned from one 60-second recording' : 'Warm storyteller voice';
+}
+
+function toggleRec(){
+  S.recording = !S.recording;
+  $('recDot').style.borderRadius = S.recording ? '3px' : '50%';
+  $('recBtn').style.boxShadow = S.recording ? '0 0 0 6px rgba(255,123,169,.3)' : 'none';
+  $('recLabel').textContent = S.recording ? 'Recording… 0:04' : 'Read 60 seconds, once.';
+  $('waves').style.display = S.recording ? 'flex' : 'none';
+}
+
+function toggleFolk(){
+  S.folk = !S.folk;
+  $('folkBtn').className = 'chip'+(S.folk?' sel':'');
+  $('folkBtn').textContent = S.folk?'On':'Off';
+  renderStory();
+}
+
+function toggleNarrate(){
+  S.narrating = !S.narrating;
+  const who = S.voice===1 ? 'your voice' : 'storyteller';
+  $('playBtn').innerHTML = S.narrating ? '❚❚ Narrating in '+who+'…' : '▶ Read it aloud';
+}
+
+function renderStory(){
+  const code = LANGS[S.lang].code;
+  const lines = S.folk ? FOLK[code] : LINES[code][S.scene];
+  $('folkHint').textContent = S.folk
+    ? 'Tonight: the tale of the old moon — as it is told where you grew up.'
+    : N + ' stars in the tale you grew up hearing.';
+  $('storyPanels').innerHTML = lines.map((l,i)=>`
+    <div style="border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--card);box-shadow:0 16px 40px -22px var(--glow);">
+      <div style="position:relative;height:150px;background:${SCENE_BGS[i%SCENE_BGS.length]};overflow:hidden;">
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.25),transparent 50%);mix-blend-mode:soft-light;"></div>
+        <div style="position:absolute;left:18px;bottom:40px;width:44px;height:58px;border-radius:40% 40% 46% 46%/55% 55% 45% 45%;background:linear-gradient(160deg,var(--accent),var(--accent2));box-shadow:0 8px 20px -4px rgba(0,0,0,.4);animation:floaty 5s ease-in-out infinite;"></div>
+        <div style="position:absolute;top:14px;left:16px;background:rgba(0,0,0,.4);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:10px;font-weight:800;letter-spacing:.5px;">PAGE ${i+1}</div>
+        <div style="position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(transparent,rgba(8,5,18,.7));"></div>
+      </div>
+      <div style="padding:14px 16px;">
+        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:16px;line-height:1.55;">"${l.split('{N}').join(N)}"</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderIdeas(){
+  $('ideaList').innerHTML = IDEAS.map((it,i)=>`
+    <div class="card" style="padding:15px 16px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;">
+      <div style="width:46px;height:46px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;background:${SWATCHES[i%SWATCHES.length]};box-shadow:0 10px 22px -10px var(--glow);">${it.emoji}</div>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <div style="font-family:'Newsreader',serif;font-size:17px;">${it.title}</div>
+          <div style="font-size:9.5px;font-weight:800;letter-spacing:.5px;color:var(--accent3);text-transform:uppercase;white-space:nowrap;">${it.tag}</div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-top:4px;">${it.sub}</div>
+        <div style="font-size:10.5px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:var(--accent);margin-top:8px;">Make this book →</div>
+      </div>
+    </div>`).join('');
+}
+
+function setBookStyle(i){
+  S.bookStyle=i;
+  [0,1,2].forEach(j=> $('bs'+j).className = 'chip'+(j===i?' sel':''));
+  $('bookStyleHint').textContent = BOOK_STYLES[i];
+  const fg = $('depthFg');
+  if(i===0){ fg.style.borderRadius='40% 40% 46% 46%/55% 55% 45% 45%'; fg.style.animation='floaty 5s ease-in-out infinite'; }
+  if(i===1){ fg.style.borderRadius='4px'; fg.style.animation='floaty 3.5s ease-in-out infinite'; }
+  if(i===2){ fg.style.borderRadius='50%'; fg.style.animation='orbSpin 7s linear infinite'; }
+}
+
+function renderBook(){
+  const m = MONTHS[S.page];
+  $('albumTag').textContent = 'Month '+(S.page+1);
+  $('chapTag').textContent = 'Chapter '+(S.page+1);
+  $('chapTitle').textContent = m.title;
+  $('chapCap').textContent = '"'+m.caption+'"';
+  $('chapMile').textContent = '✦ '+m.milestone;
+  $('pageL').style.background = SWATCHES[S.page%SWATCHES.length];
+  $('spreadLabel').textContent = 'Spread '+(S.page+1)+' of 12';
+}
+
+function turn(d){
+  if(S.turning) return;
+  S.turning = true;
+  const tp = $('turnPage');
+  tp.style.display='block';
+  tp.style.animation='pageTurn .62s ease-in forwards';
+  setTimeout(()=>{ S.page=(S.page+d+12)%12; renderBook(); }, 60);
+  setTimeout(()=>{ tp.style.display='none'; tp.style.animation='none'; S.turning=false; }, 640);
+}
+
+renderNav(); renderMonths(); renderScenes(); renderLangs(); renderStory(); renderIdeas(); renderBook();
+</script>
+</body>
+</html>

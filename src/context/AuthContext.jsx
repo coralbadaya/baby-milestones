@@ -151,12 +151,13 @@ export function AuthProvider({ children }) {
   }, [session, localPremiumTick]);
 
   const isPremium = session?.user ? serverPremium : localPremium;
+  const isPlus = isPremium;
 
   const startLocalTrial = useCallback(() => {
     const ends = new Date();
-    ends.setDate(ends.getDate() + PLANS.premium.trialDays);
+    ends.setDate(ends.getDate() + PLANS.plus.trialDays);
     localStorage.setItem(PREMIUM_STORAGE_KEY, JSON.stringify({
-      tier: 'premium',
+      tier: 'plus',
       trialEndsAt: ends.toISOString(),
     }));
     setLocalPremiumTick((t) => t + 1);
@@ -170,6 +171,7 @@ export function AuthProvider({ children }) {
     loading,
     profileLoading,
     isPremium,
+    isPlus,
     isAdmin,
     isStaff,
     signUp,
@@ -182,7 +184,7 @@ export function AuthProvider({ children }) {
     refreshProfile,
     startLocalTrial,
   }), [
-    session, profile, membership, loading, profileLoading, isPremium, isAdmin, isStaff,
+    session, profile, membership, loading, profileLoading, isPremium, isPlus, isAdmin, isStaff,
     signUp, signIn, verifyEmailOtp, resendSignupOtp, signOut,
     updateDisplayName, redeemPromoCode, refreshProfile, startLocalTrial,
   ]);

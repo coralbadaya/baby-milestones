@@ -1,7 +1,6 @@
 import {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
-import { Navigate, useBlocker } from 'react-router-dom';
 import AdminBadge from '../../components/admin/AdminBadge';
 import AdminDataTable from '../../components/admin/AdminDataTable';
 import AdminEmpty from '../../components/admin/AdminEmpty';
@@ -13,7 +12,6 @@ import AdminToolbar from '../../components/admin/AdminToolbar';
 import Select from '../../components/Select';
 import { useAuth } from '../../context/AuthContext';
 import { useEscToClose } from '../../hooks/useEscToClose';
-import { ROUTES } from '../../routes';
 import { interact } from '../../utils/haptics';
 import {
   htmlToPlainText,
@@ -154,6 +152,12 @@ function AdminNewsletter() {
 
   useEffect(() => { loadAll(); }, [loadAll]);
 
+  useEffect(() => {
+    if (!isAdmin && (tab === 'compose' || tab === 'templates')) {
+      setTab('campaigns');
+    }
+  }, [isAdmin, tab]);
+
   const filteredCampaigns = useMemo(() => {
     if (campaignFilter === 'all') return campaigns;
     return campaigns.filter((c) => c.status === campaignFilter);
@@ -167,19 +171,15 @@ function AdminNewsletter() {
     [compose.subject, compose.body_html],
   );
 
-  const blocker = useBlocker(
-    ({ currentLocation, nextLocation }) =>
-      dirty && currentLocation.pathname !== nextLocation.pathname,
-  );
-
   useEffect(() => {
-    if (blocker.state === 'blocked') {
-      // eslint-disable-next-line no-alert
-      const ok = window.confirm('You have unsaved changes. Leave anyway?');
-      if (ok) blocker.proceed();
-      else blocker.reset();
-    }
-  }, [blocker]);
+    if (!dirty) return undefined;
+    const onBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  }, [dirty]);
 
   const markDirty = (next) => {
     setCompose(next);
@@ -391,7 +391,6 @@ function AdminNewsletter() {
             active subscribers.
           </>
         )}
-        breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'Newsletter' }]}
         action={!readOnly ? (
           <button type="button" className="btn-primary" onClick={() => openCompose(null)}>
             New campaign
@@ -615,10 +614,6 @@ function AdminNewsletter() {
         </AdminPanel>
       )}
 
-      {tab === 'compose' && readOnly && (
-        <Navigate to={ROUTES.adminNewsletter} replace />
-      )}
-
       {tab === 'templates' && !readOnly && (
         <>
           {loading ? (
@@ -688,10 +683,6 @@ function AdminNewsletter() {
             </AdminPanel>
           )}
         </>
-      )}
-
-      {tab === 'templates' && readOnly && (
-        <Navigate to={ROUTES.adminNewsletter} replace />
       )}
 
       {tab === 'subscribers' && (

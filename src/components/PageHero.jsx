@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { NESTBEAN_WATERMARK_SRC } from '../constants/brandAssets';
 import { pageImages } from '../data/pageImages';
+import ImageWithFallback from './ImageWithFallback';
+
+const PRELOAD_ID = 'page-hero-preload';
 
 function PageHero({
   imageKey,
@@ -12,24 +16,42 @@ function PageHero({
   eager = false,
   layout = 'stack',
   imagePosition = 'right',
+  className = '',
 }) {
   const config = pageImages[imageKey] || pageImages.home;
-  const [imgFailed, setImgFailed] = useState(false);
-  const showImage = config.src && !imgFailed;
   const isSplit = layout === 'split';
 
-  const imageEl = showImage ? (
-    <img
-      className="page-hero__image"
+  useEffect(() => {
+    if (!eager || !config.src) return undefined;
+
+    let link = document.getElementById(PRELOAD_ID);
+    if (!link) {
+      link = document.createElement('link');
+      link.id = PRELOAD_ID;
+      link.rel = 'preload';
+      link.as = 'image';
+      document.head.appendChild(link);
+    }
+    link.href = config.src;
+
+    return () => {
+      link?.remove();
+    };
+  }, [eager, config.src]);
+
+  const imageEl = (
+    <ImageWithFallback
+      className="page-hero__image-wrap"
+      imgClassName="page-hero__image"
       src={config.src}
+      watermarkSrc={NESTBEAN_WATERMARK_SRC}
       alt={config.alt || ''}
+      fallbackGradient={config.fallbackGradient}
       loading={eager ? 'eager' : 'lazy'}
-      decoding="async"
       fetchPriority={eager ? 'high' : 'auto'}
-      style={config.objectPosition ? { objectPosition: config.objectPosition } : undefined}
-      onError={() => setImgFailed(true)}
+      imgStyle={config.objectPosition ? { objectPosition: config.objectPosition } : undefined}
     />
-  ) : null;
+  );
 
   const content = (
     <div className="page-hero__content">
@@ -43,8 +65,7 @@ function PageHero({
   if (isSplit) {
     return (
       <section
-        className={`page-hero page-hero--split page-hero--${size} page-hero--overlay-${overlay} page-hero--image-${imagePosition}`}
-        style={!showImage ? { background: config.fallbackGradient } : undefined}
+        className={`page-hero page-hero--split page-hero--${size} page-hero--overlay-${overlay} page-hero--image-${imagePosition} ${className}`.trim()}
       >
         <div className="page-hero__split">
           <div className="page-hero__split-copy">
@@ -60,10 +81,7 @@ function PageHero({
   }
 
   return (
-    <section
-      className={`page-hero page-hero--${size} page-hero--overlay-${overlay}`}
-      style={!showImage ? { background: config.fallbackGradient } : undefined}
-    >
+    <section className={`page-hero page-hero--${size} page-hero--overlay-${overlay} ${className}`.trim()}>
       {imageEl}
       <div className="page-hero__scrim" aria-hidden="true" />
       {content}

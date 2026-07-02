@@ -5,18 +5,26 @@ import { formatPostpartumAge } from '../utils/momMilestones';
 import { interact } from '../utils/haptics';
 import { ROUTES } from '../routes';
 import Icon from './Icon';
+import PremiumGate from './PremiumGate';
+import { PREMIUM_FEATURES } from '../constants/premium';
+
+import ImageWithFallback from './ImageWithFallback';
+import { NESTBEAN_WATERMARK_SRC } from '../constants/brandAssets';
 
 function FocusCardImage({ imageKey }) {
   const config = focusImages[imageKey];
-  if (!config?.src) return null;
+  if (!config) return null;
 
   return (
-    <div
+    <ImageWithFallback
       className="today-focus-card__image"
-      style={{ background: config.fallbackGradient }}
-    >
-      <img src={config.src} alt="" loading="lazy" decoding="async" />
-    </div>
+      imgClassName="today-focus-card__image-img"
+      src={config.src}
+      watermarkSrc={NESTBEAN_WATERMARK_SRC}
+      alt=""
+      fallbackGradient={config.fallbackGradient}
+      loading="lazy"
+    />
   );
 }
 
@@ -98,22 +106,24 @@ function TodayFocus({ birthDate, currentMonth, checkedItems }) {
             </div>
           </Link>
         ) : (
-          <Link
-            to={ROUTES.essentials}
-            className="today-focus-card card-accent-top card-hover-lift today-focus-card--with-image today-focus-card--editorial"
-            onClick={onLink}
-            style={{ '--cat-color': 'var(--coral-primary-dark)', '--cat-bg': 'var(--coral-primary-light)' }}
-          >
-            <FocusCardImage imageKey="editorial" />
-            <div className="today-focus-card__body">
-              <Icon name="luggage" size={22} />
-              <span className="today-focus-card__label">Editorial</span>
-              <span className="today-focus-card__title">Travel-ready at any age</span>
-              <span className="today-focus-card__meta">
-                Long-haul tips for London, Dubai, and New York — curated for your month.
-              </span>
-            </div>
-          </Link>
+          <PremiumGate feature={PREMIUM_FEATURES.editorialFocus} compact>
+            <Link
+              to={ROUTES.essentials}
+              className="today-focus-card card-accent-top card-hover-lift today-focus-card--with-image today-focus-card--editorial"
+              onClick={onLink}
+              style={{ '--cat-color': 'var(--coral-primary-dark)', '--cat-bg': 'var(--coral-primary-light)' }}
+            >
+              <FocusCardImage imageKey="editorial" />
+              <div className="today-focus-card__body">
+                <Icon name="luggage" size={22} />
+                <span className="today-focus-card__label">Editorial</span>
+                <span className="today-focus-card__title">Travel-ready at any age</span>
+                <span className="today-focus-card__meta">
+                  Long-haul tips for London, Dubai, and New York — curated for your month.
+                </span>
+              </div>
+            </Link>
+          </PremiumGate>
         )}
       </div>
     </div>

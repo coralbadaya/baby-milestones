@@ -134,6 +134,7 @@ import {
   FacebookLogo,
   XLogo,
   ShareNetwork,
+  SignOut,
 } from '@phosphor-icons/react';
 
 /** @type {Record<string, import('@phosphor-icons/react').Icon>} */
@@ -202,6 +203,7 @@ export const PHOSPHOR_ICON_MAP = {
   'paper-plane': PaperPlaneTilt,
   image: Image,
   list: List,
+  'sign-out': SignOut,
   user: UserCircle,
   shield: ShieldCheck,
   scales: Scales,

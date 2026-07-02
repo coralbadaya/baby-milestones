@@ -8,8 +8,8 @@ import Icon from './Icon';
 function PremiumGate({ feature, children, compact = false }) {
   const { isPremium, user, startLocalTrial } = useAuth();
   const copy = PREMIUM_FEATURE_COPY[feature] || {
-    title: 'Premium',
-    teaser: 'Unlock the full Nestbean experience.',
+    title: 'Nestbean Plus',
+    teaser: 'Unlock the full AI baby book experience.',
   };
 
   if (isPremium) {
@@ -27,11 +27,11 @@ function PremiumGate({ feature, children, compact = false }) {
         <p className="premium-gate__teaser">{copy.teaser}</p>
         <div className="premium-gate__actions">
           <Link
-            to={user ? ROUTES.account : ROUTES.signup}
+            to={user ? ROUTES.premium : ROUTES.signup}
             className="btn-primary premium-gate__cta"
             onClick={() => interact('tap', 'light')}
           >
-            {user ? 'Upgrade access' : 'Start early access'}
+            {user ? 'Upgrade to Plus' : 'Start free'}
           </Link>
           {!user && (
             <button
@@ -39,7 +39,7 @@ function PremiumGate({ feature, children, compact = false }) {
               className="btn-ghost premium-gate__trial"
               onClick={() => { interact('tap', 'light'); startLocalTrial(); }}
             >
-              Preview locally
+              Preview Plus locally
             </button>
           )}
           <Link
@@ -47,7 +47,7 @@ function PremiumGate({ feature, children, compact = false }) {
             className="btn-ghost premium-gate__trial"
             onClick={() => interact('tap', 'light')}
           >
-            Learn more
+            Compare Basic vs Plus
           </Link>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { useRef, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import SectionHeader from '../components/SectionHeader';
@@ -6,14 +7,24 @@ import TodayFocus from '../components/TodayFocus';
 import CurrentMonthPanel from '../components/CurrentMonthPanel';
 import DIYPreviewStrip from '../components/DIYPreviewStrip';
 import EditorialBand from '../components/EditorialBand';
+import ConversionBand from '../components/ConversionBand';
+import WelcomeHero from '../components/WelcomeHero';
 import Timeline from '../components/Timeline';
 import FirstsCarousel from '../components/firsts/FirstsCarousel';
 import FirstMomentCapture from '../components/firsts/FirstMomentCapture';
 import { getSuggestedFirst } from '../data/firsts';
+import { PLANS } from '../constants/premium';
+import { useAuth } from '../context/AuthContext';
 import useScrollSurface from '../hooks/useScrollSurface';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
+
+const WELCOME_META = {
+  title: 'Week-by-Week Baby Guides',
+  description:
+    'Week-by-week guides, milestones, and routines for your baby\'s first year. Create a free account or preview Nestbean without signing up.',
+};
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -51,7 +62,13 @@ function Home({
   onFirstNoteSave,
   onFirstRemove,
 }) {
-  usePageMeta({});
+  const { user, loading, startLocalTrial } = useAuth();
+  const isWelcomeMode = !loading && !user && !birthDate;
+  const showLoggedOutBands = !loading && !user;
+  const showLoggedOutHeroCtas = showLoggedOutBands;
+
+  usePageMeta(isWelcomeMode ? WELCOME_META : {});
+
   const [detailFirstId, setDetailFirstId] = useState(null);
   const [captureError, setCaptureError] = useState(null);
 
@@ -66,6 +83,11 @@ function Home({
     }
   }, [onFirstMediaSelect]);
 
+  const onLocalPreview = () => {
+    interact('tap', 'light');
+    startLocalTrial();
+  };
+
   const suggestedId = getSuggestedFirst(currentMonth, firstMoments);
   const ageLine = birthDate ? formatAge(birthDate) : null;
   const rangeStart = currentMonth ? Math.max(1, currentMonth - 2) : 1;
@@ -75,31 +97,59 @@ function Home({
   const homeRef = useRef(null);
   useScrollSurface(homeRef, { defaultSurface: 'primary', observeKey: birthDate });
 
+  const heroEyebrow = isWelcomeMode ? 'For new mothers' : getGreeting();
+  const heroTitle = isWelcomeMode ? 'Nestbean' : (ageLine || 'Welcome to Nestbean');
+  const heroSubtitle = isWelcomeMode
+    ? 'Week-by-week guides, milestones, and routines for your baby\'s first year.'
+    : (ageLine
+      ? "Here's what matters this week."
+      : 'Set your baby\'s birth date to personalize your journey.');
+
   return (
-    <div ref={homeRef} className="home home-today">
+    <div ref={homeRef} className={`home home-today${isWelcomeMode ? ' home-today--welcome' : ''}`}>
+      {isWelcomeMode ? (
+        <WelcomeHero
+          birthDate={birthDate}
+          setBirthDate={setBirthDate}
+          onLocalPreview={onLocalPreview}
+        />
+      ) : (
       <PageHero
         imageKey="home"
         layout="split"
-        eyebrow={getGreeting()}
-        title={ageLine || 'Welcome to Nestbean'}
-        subtitle={
-          ageLine
-            ? "Here's what matters this week."
-            : 'Set your baby\'s birth date to personalize your journey.'
-        }
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        subtitle={heroSubtitle}
         eager
       >
-        <div className="birth-date-form birth-date-form--hero">
-          <label htmlFor="birthdate">Baby&apos;s birth date</label>
-          <input
-            type="date"
-            id="birthdate"
-            value={birthDate}
-            onChange={(e) => setBirthDate(e.target.value)}
-            max={new Date().toISOString().split('T')[0]}
-          />
-        </div>
+          <div className="welcome-hero__actions">
+            <div className="birth-date-form birth-date-form--hero">
+              <label htmlFor="birthdate">Baby&apos;s birth date</label>
+              <input
+                type="date"
+                id="birthdate"
+                value={birthDate}
+                onChange={(e) => setBirthDate(e.target.value)}
+                max={new Date().toISOString().split('T')[0]}
+              />
+            </div>
+            {showLoggedOutHeroCtas && (
+              <>
+                <Link
+                  to={ROUTES.signup}
+                  className="btn-primary welcome-hero__cta"
+                  onClick={() => interact('tap', 'light')}
+                >
+                  Create free account
+                </Link>
+                <button type="button" className="btn-ghost welcome-hero__cta" onClick={onLocalPreview}>
+                  Preview without an account
+                </button>
+              </>
+            )}
+          </div>
       </PageHero>
+      )}
 
       <PageSection surface="ivory" width="wide" ariaLabelledby="today-focus-heading" blendEdges>
         <SectionHeader
@@ -113,6 +163,15 @@ function Home({
           currentMonth={currentMonth}
           checkedItems={checkedItems}
         />
+        {showLoggedOutBands && !isWelcomeMode && (
+          <ConversionBand
+            text="Save your progress across devices — milestones, memories, and routines in one place."
+            primaryLabel="Create free account"
+            primaryTo={ROUTES.signup}
+            secondaryLabel="Explore Premium"
+            secondaryTo={ROUTES.premium}
+          />
+        )}
       </PageSection>
 
       <PageSection surface="white" width="wide" blendEdges>
@@ -131,13 +190,38 @@ function Home({
             compact
           />
         )}
+        {isWelcomeMode && (
+          <p className="welcome-sample-note">
+            Sample content below — enter birth date or create an account to personalize.
+          </p>
+        )}
       </PageSection>
 
       <PageSection surface="sand" width="wide" className="page-section--diy" blendEdges>
         <DIYPreviewStrip month={month} limit={2} layout="stack" />
+        {showLoggedOutBands && !isWelcomeMode && (
+          <ConversionBand
+            text="Unlock all months of hands-on play guides — tailored to your baby's age."
+            primaryLabel="Create free account"
+            primaryTo={ROUTES.signup}
+            secondaryLabel="Preview locally"
+            onSecondaryClick={onLocalPreview}
+          />
+        )}
       </PageSection>
 
-      <EditorialBand />
+      <EditorialBand>
+        {showLoggedOutBands && (
+          <ConversionBand
+            className="conversion-band--on-ink"
+            text={`Start your ${PLANS.premium.trialDays}-day Premium preview — no card required during early access.`}
+            primaryLabel="Create free account"
+            primaryTo={ROUTES.signup}
+            secondaryLabel="Preview without an account"
+            onSecondaryClick={onLocalPreview}
+          />
+        )}
+      </EditorialBand>
 
       {birthDate && (
         <PageSection surface="sand" width="wide" className="page-section--firsts" blendEdges>

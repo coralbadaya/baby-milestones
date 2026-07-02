@@ -11,7 +11,7 @@ Information architecture, navigation chrome, and SEO/GEO infrastructure for Nest
 ## Information architecture
 
 ```
-Top nav (lean):   Today · My Baby · My Care · Essentials · Community · Guides · Sign in/Account · [Premium CTA]
+Top nav (lean):   Today · My Baby · My Care · Essentials · Community · Guides · Sign up · Sign in/Account · [Premium CTA]
 Mobile bottom bar: Today · Baby · Care · Essentials · Community   (Guides/Premium live elsewhere)
 
 Footer (4 columns):
@@ -39,7 +39,7 @@ Footer (4 columns):
 
 ## Components
 
-- **`Header.jsx`** — renders `PRIMARY_NAV` links + Sign in/Account + a `.header-cta` Premium pill.
+- **`Header.jsx`** — renders `PRIMARY_NAV` links + Sign up / Sign in (logged out) or Account + a `.header-cta` Premium pill.
   On mobile, `.header-nav` is hidden; `.mobile-nav` renders `MOBILE_NAV`.
   Desktop link chrome: subtle hover tint, active = inset underline (not solid pill); Premium alone stays filled.
 - **`Footer.jsx`** — renders `FOOTER_SECTIONS` columns + a bottom bar with
@@ -64,9 +64,11 @@ Footer (4 columns):
 
 ## SEO / GEO infrastructure
 
-- **Per-page meta:** every page calls `usePageMeta({ title, description })`
-  (`src/utils/pageMeta.js`), which sets title, description, OG/Twitter tags, and a
-  `<link rel="canonical">`.
+- **Per-page meta:** every page calls `usePageMeta({ title, description, robots? })`
+  (`src/utils/pageMeta.js`), which sets title, description, OG/Twitter tags (incl.
+  `og:site_name`, `og:image:width/height`, `og:locale`, `twitter:site`), and a
+  `<link rel="canonical">`. Optional `robots: 'noindex, nofollow'` on `/admin/*`.
+- **Home welcome meta:** logged-out empty state sets conversion-focused title/description.
 - **Static base meta + JSON-LD:** `index.html` carries the default tags and a static
   `@graph` (Organization, WebSite, WebApplication) — kept static so non-JS crawlers
   read it. Do **not** duplicate Organization/WebSite from React.
@@ -78,6 +80,16 @@ Footer (4 columns):
 - **Crawl files:** `public/robots.txt` + `public/sitemap.xml`. Regenerate the sitemap
   with `npm run generate:sitemap` (`scripts/generate-sitemap.mjs`) after adding routes
   or guides.
+- **Analytics (GA4):** optional `VITE_GA_MEASUREMENT_ID` in `.env.local` / Vercel.
+  Implemented in `src/utils/analytics.js` + `src/components/Analytics.jsx` (SPA page
+  views on route change; `/admin/*` excluded). **Consent:** `CookieConsentBanner` +
+  `CookieConsentContext` gate GA until the user accepts; choice stored in
+  `localStorage` (`nestbean-cookie-consent`). Footer link **Cookie preferences** reopens
+  the banner. Align copy with [Cookie Policy](legalContent) before production EU/UK traffic.
+
+### Prerender (SEO routes)
+
+Run `npm run build:seo` after adding guides or the milestone card tool. This writes static HTML stubs under `dist/guides/*` and `dist/tools/milestone-cards/` for crawlers that do not execute JS. See `scripts/prerender-seo.mjs`.
 
 ### Known limitation (Phase 2)
 

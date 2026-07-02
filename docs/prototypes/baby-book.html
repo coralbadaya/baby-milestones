@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nestbean Baby Book — Prototype</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Newsreader:ital,wght@0,500;1,500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: linear-gradient(165deg, #1a1432 0%, #2d1f4e 35%, #1e1638 70%, #0f0a1a 100%);
+      --glass: rgba(255,255,255,0.06);
+      --border: rgba(201,162,75,0.25);
+      --glow: rgba(201,162,75,0.35);
+      --text: #f5f0eb;
+      --muted: rgba(245,240,235,0.65);
+      --accent: #c9a24b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Manrope, system-ui, sans-serif;
+    }
+    canvas#stars { position: fixed; inset: 0; pointer-events: none; }
+    .wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 1rem 1rem 5rem; }
+    h1, h2, .story { font-family: Newsreader, Georgia, serif; font-style: italic; font-weight: 500; }
+    .glass {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      box-shadow: 0 0 24px var(--glow);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .tabbar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      display: flex; justify-content: space-around;
+      background: rgba(15,10,26,0.92);
+      border-top: 1px solid var(--border);
+      padding: 0.5rem;
+    }
+    .tabbar button {
+      background: none; border: none; color: var(--muted);
+      font-family: inherit; font-size: 0.65rem; cursor: pointer;
+    }
+    .tabbar button.active { color: var(--accent); }
+    .pill { padding: 0.35rem 0.85rem; border-radius: 999px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted); cursor: pointer; margin: 0.25rem; font-family: inherit; }
+    .pill.active { background: rgba(201,162,75,0.15); border-color: var(--accent); color: var(--accent); }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .book-float { width: 160px; height: 200px; margin: 1rem auto; border-radius: 0.5rem;
+      background: linear-gradient(135deg,#3d2f5c,#2a1f42); border: 1px solid var(--border);
+      animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0) rotateY(-8deg)} 50%{transform:translateY(-8px) rotateY(8deg)} }
+    .idea-card { text-align: left; width: 100%; cursor: pointer; color: inherit; font-family: inherit; }
+    .meta { color: var(--accent); font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <h1 style="text-align:center">Baby Book</h1>
+
+    <div id="home" class="panel active">
+      <div class="glass">
+        <h2 style="margin:0 0 0.5rem;font-size:1.1rem">Monthly chapter</h2>
+        <p style="color:var(--muted);font-size:0.9rem">Aria turns 7 months Tuesday — add this chapter.</p>
+      </div>
+      <p style="color:var(--muted)">New in Nestbean: language stories, 10 AI ideas, 3D book, Family Circle.</p>
+    </div>
+
+    <div id="stories" class="panel">
+      <h2>Stories — In Your Voice</h2>
+      <div class="glass">
+        <p style="color:var(--muted);font-size:0.85rem">Tap a language — culturally adapted, not translated.</p>
+        <div id="lang-pills"></div>
+        <p id="story-text" class="story" style="font-size:1.1rem;line-height:1.6"></p>
+      </div>
+      <div class="glass">
+        <strong>Your voice</strong>
+        <p style="color:var(--muted);font-size:0.85rem">60s recording → AI narrates every story. Invite Nani to record hers.</p>
+      </div>
+    </div>
+
+    <div id="ideas" class="panel">
+      <h2>AI Photo Book Ideas</h2>
+      <div class="glass idea-card"><h2 style="font-size:1rem;margin:0">Same-spot series</h2><p class="meta">7 photos found</p></div>
+      <div class="glass idea-card"><h2 style="font-size:1rem;margin:0">Sleep gallery</h2><p class="meta">Auto-detected · 12 photos found</p></div>
+      <div class="glass idea-card"><h2 style="font-size:1rem;margin:0">Letter to you at 18</h2><p class="meta">Write yours</p></div>
+    </div>
+
+    <div id="book" class="panel">
+      <h2>3D Book</h2>
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem">
+        <button class="pill active" data-style="parallax">Parallax</button>
+        <button class="pill" data-style="popup">Pop-up</button>
+        <button class="pill" data-style="snowglobe">Snow-globe</button>
+      </div>
+      <div class="book-float" id="book-mock"></div>
+    </div>
+
+    <div id="family" class="panel">
+      <h2>Family</h2>
+      <div class="glass" style="text-align:center">
+        <div style="font-size:2rem">🔒</div>
+        <h2 style="font-size:1rem;margin:0.5rem 0">Letter for 2044</h2>
+        <p style="color:var(--muted);font-size:0.85rem">Sealed until age 18</p>
+      </div>
+      <div class="glass">
+        <p class="story">Nani's blessing (Hindi): "Meri pyaari, hamesha muskurati raho…"</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tabbar" aria-label="Sections">
+    <button type="button" class="active" data-tab="home">Home</button>
+    <button type="button" data-tab="stories">Stories</button>
+    <button type="button" data-tab="ideas">Ideas</button>
+    <button type="button" data-tab="book">3D Book</button>
+    <button type="button" data-tab="family">Family</button>
+  </nav>
+
+  <script>
+    const stories = {
+      en: 'Tonight, under the full moon, little Aria discovered a secret lullaby in every glimmer.',
+      hi: 'Aaj raat, chanda mama ke neeche, chhoti Aria ne dekha ki har chamak mein ek lori chhupi hai.',
+      es: 'Esta noche, bajo la luna llena, la pequeña Aria descubrió una nana en cada destello.',
+    };
+    const langs = [
+      { code: 'en', label: 'English' },
+      { code: 'hi', label: 'हिन्दी' },
+      { code: 'es', label: 'Español' },
+    ];
+    let activeLang = 'en';
+    const pills = document.getElementById('lang-pills');
+    const storyEl = document.getElementById('story-text');
+    langs.forEach(({ code, label }) => {
+      const b = document.createElement('button');
+      b.className = 'pill' + (code === activeLang ? ' active' : '');
+      b.textContent = label;
+      b.onclick = () => {
+        activeLang = code;
+        storyEl.textContent = stories[code];
+        pills.querySelectorAll('.pill').forEach((p, i) => p.classList.toggle('active', langs[i].code === code));
+      };
+      pills.appendChild(b);
+    });
+    storyEl.textContent = stories.en;
+
+    document.querySelectorAll('.tabbar button').forEach((btn) => {
+      btn.onclick = () => {
+        document.querySelectorAll('.tabbar button').forEach((b) => b.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach((p) => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      };
+    });
+
+    document.querySelectorAll('[data-style]').forEach((btn) => {
+      btn.onclick = () => {
+        document.querySelectorAll('[data-style]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const mock = document.getElementById('book-mock');
+        mock.style.borderRadius = btn.dataset.style === 'snowglobe' ? '50%' : '0.5rem';
+      };
+    });
+
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resize() {
+      canvas.width = innerWidth; canvas.height = innerHeight;
+      stars = Array.from({ length: 100 }, () => ({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        r: Math.random() * 1.5 + 0.3, p: Math.random() * 6.28, s: Math.random() * 0.02,
+      }));
+    }
+    function draw(t) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach((s) => {
+        const a = 0.3 + 0.5 * (0.5 + 0.5 * Math.sin(t * s.s + s.p));
+        ctx.fillStyle = `rgba(245,240,235,${a})`;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.28); ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    resize(); addEventListener('resize', resize); requestAnimationFrame(draw);
+  </script>
+</body>
+</html>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import AdminLoading from '../../components/admin/AdminLoading';
 import AdminPageHeader from '../../components/admin/AdminPageHeader';
-import AdminPanel from '../../components/admin/AdminPanel';
 import AdminStatCard from '../../components/admin/AdminStatCard';
 import { supabase } from '../../utils/supabaseClient';
 import { ROUTES } from '../../routes';
@@ -43,48 +42,42 @@ function AdminOverview() {
 
   return (
     <div className="admin-page">
-      <AdminPageHeader
-        title="Overview"
-        description="Nestbean admin control center"
-        breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'Overview' }]}
-      />
+      <AdminPageHeader title="Overview" />
 
-      <AdminPanel>
-        {loading ? (
-          <AdminLoading variant="stat-grid" cols={6} message="Loading overview…" />
-        ) : (
-          <div className="admin-stat-grid">
-            <AdminStatCard
-              value={stats.newContacts}
-              label="New contact messages"
-              to={ROUTES.adminInbox}
-            />
-            <AdminStatCard
-              value={stats.activePremium}
-              label="Active / founding members"
-            />
-            <AdminStatCard
-              value={stats.trials}
-              label="Trials in progress"
-            />
-            <AdminStatCard
-              value={stats.promoCodes}
-              label="Active promo codes"
-              to={ROUTES.adminPromos}
-            />
-            <AdminStatCard
-              value={stats.diyImages}
-              label="DIY images configured"
-              to={ROUTES.adminDiy}
-            />
-            <AdminStatCard
-              value={stats.pendingCommunity}
-              label="Community posts pending"
-              to={ROUTES.adminCommunity}
-            />
-          </div>
-        )}
-      </AdminPanel>
+      {loading ? (
+        <AdminLoading variant="stat-grid" cols={6} message="Loading overview…" />
+      ) : (
+        <div className="admin-stat-grid admin-stat-grid--flat">
+          <AdminStatCard
+            value={stats.newContacts}
+            label="New messages"
+            to={ROUTES.adminInbox}
+          />
+          <AdminStatCard
+            value={stats.activePremium}
+            label="Active members"
+          />
+          <AdminStatCard
+            value={stats.trials}
+            label="Trials"
+          />
+          <AdminStatCard
+            value={stats.promoCodes}
+            label="Promo codes"
+            to={ROUTES.adminPromos}
+          />
+          <AdminStatCard
+            value={stats.diyImages}
+            label="DIY images"
+            to={ROUTES.adminDiy}
+          />
+          <AdminStatCard
+            value={stats.pendingCommunity}
+            label="Pending posts"
+            to={ROUTES.adminCommunity}
+          />
+        </div>
+      )}
     </div>
   );
 }

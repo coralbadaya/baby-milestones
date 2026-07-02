@@ -10,6 +10,53 @@ export function diyStoragePath(activityId, ext = 'jpg') {
 }
 
 /**
+ * @param {import('@supabase/supabase-js').SupabaseClient} supabase
+ */
+export async function fetchAllDiyImageRows(supabase) {
+  const { data, error } = await supabase
+    .from('diy_activity_images')
+    .select('*')
+    .order('updated_at', { ascending: false });
+  if (error) throw error;
+  return data || [];
+}
+
+/**
+ * @param {import('@supabase/supabase-js').SupabaseClient} supabase
+ * @param {string} activityId
+ */
+export async function fetchDiyImageRow(supabase, activityId) {
+  const { data, error } = await supabase
+    .from('diy_activity_images')
+    .select('*')
+    .eq('activity_id', activityId)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * @param {import('@supabase/supabase-js').SupabaseClient} supabase
+ * @param {string} activityId
+ * @param {string} altText
+ * @param {string} [userId]
+ */
+export async function updateDiyImageAlt(supabase, activityId, altText, userId) {
+  const { data, error } = await supabase
+    .from('diy_activity_images')
+    .update({
+      alt_text: altText,
+      updated_by: userId || null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('activity_id', activityId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+/**
  * @param {File} file
  * @returns {{ ok: true, ext: string } | { ok: false, error: string }}
  */

@@ -209,7 +209,8 @@ export const PAGES = {
       {
         heading: 'Managing cookies',
         paragraphs: [
-          'You can control or delete cookies through your browser settings. Disabling some storage may affect functionality such as saving your data between visits.',
+          'When analytics is enabled, we ask for your consent before loading Google Analytics (including for visitors in the EU and UK). You can accept analytics cookies or continue with essential storage only.',
+          'You can change your choice anytime via Cookie preferences in the footer. You can also control or delete cookies through your browser settings. Disabling some storage may affect functionality such as saving your data between visits.',
         ],
       },
     ],

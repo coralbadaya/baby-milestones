@@ -18,6 +18,8 @@ function AdminDataTable({
   highlightRow,
   mobileCard,
   className = '',
+  onRowClick,
+  selectedRowKey,
 }) {
   return (
     <>
@@ -50,11 +52,25 @@ function AdminDataTable({
           </thead>
           <tbody>
             {rows.map((row) => {
+              const key = rowKey(row);
               const highlighted = highlightRow?.(row);
+              const selected = selectedRowKey != null && key === selectedRowKey;
               return (
                 <tr
-                  key={rowKey(row)}
-                  className={highlighted ? 'admin-row--highlight' : undefined}
+                  key={key}
+                  className={[
+                    highlighted ? 'admin-row--highlight' : '',
+                    onRowClick ? 'admin-table-row--clickable' : '',
+                    selected ? 'admin-table-row--selected' : '',
+                  ].filter(Boolean).join(' ') || undefined}
+                  onClick={onRowClick ? () => onRowClick(row) : undefined}
+                  tabIndex={onRowClick ? 0 : undefined}
+                  onKeyDown={onRowClick ? (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onRowClick(row);
+                    }
+                  } : undefined}
                 >
                   {columns.map((col) => (
                     <td key={col.key} className={col.className}>

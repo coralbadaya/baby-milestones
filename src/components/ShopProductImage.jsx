@@ -1,39 +1,35 @@
-import { useState } from 'react';
+import ImageWithFallback from './ImageWithFallback';
+import { NESTBEAN_WATERMARK_SRC } from '../constants/brandAssets';
 import { categoryConfig, SHOP_IMAGE_FALLBACK_CATEGORY } from './shopCategoryConfig';
-import Icon from './Icon';
 
 function ShopProductImage({ item, size = 'md' }) {
-  const [failed, setFailed] = useState(false);
   const catKey = item.category || SHOP_IMAGE_FALLBACK_CATEGORY;
   const cat = categoryConfig[catKey] || categoryConfig[SHOP_IMAGE_FALLBACK_CATEGORY];
-  const showImage = item.image && !failed;
   const isBanner = size === 'banner';
 
-  if (showImage) {
+  if (item.image) {
     return (
-      <div
+      <ImageWithFallback
         className={`shop-product-thumb shop-product-thumb--${size}${isBanner ? ' shop-product-thumb--has-img' : ''}`}
-        aria-hidden="true"
-      >
-        <img
-          src={item.image}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          onError={() => setFailed(true)}
-        />
-      </div>
+        imgClassName="shop-product-thumb__img"
+        src={item.image}
+        watermarkSrc={NESTBEAN_WATERMARK_SRC}
+        alt=""
+        fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #FCF8F2 100%)`}
+        loading="lazy"
+      />
     );
   }
 
   return (
-    <div
-      className={`shop-product-thumb shop-product-thumb--fallback shop-product-thumb--${size}`}
-      style={{ background: cat.bg, color: cat.color }}
-      aria-hidden="true"
-    >
-      <Icon name={cat.icon} size={28} className="shop-product-thumb-icon" />
-    </div>
+    <ImageWithFallback
+      className={`shop-product-thumb shop-product-thumb--${size}${isBanner ? ' shop-product-thumb--has-img' : ''}`}
+      imgClassName="shop-product-thumb__img"
+      watermarkSrc={NESTBEAN_WATERMARK_SRC}
+      alt=""
+      fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #FCF8F2 100%)`}
+      loading="lazy"
+    />
   );
 }
 

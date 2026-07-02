@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from './Icon';
 import CoralLogo from './CoralLogo';
+import { useCookieConsent } from '../context/CookieConsentContext';
 import { interact } from '../utils/haptics';
 import { subscribeFooter } from '../utils/newsletterAdmin';
 import { ROUTES, FOOTER_SECTIONS } from '../routes';
@@ -68,6 +69,7 @@ function NewsletterSignup() {
 
 function Footer() {
   const year = new Date().getFullYear();
+  const { analyticsConfigured, openPreferences } = useCookieConsent();
 
   return (
     <footer className="site-footer">
@@ -123,6 +125,18 @@ function Footer() {
             <p className="site-footer-disclaimer">
               Educational information only. Always consult your pediatrician for health decisions.
             </p>
+            {analyticsConfigured ? (
+              <button
+                type="button"
+                className="site-footer-cookie-btn"
+                onClick={() => {
+                  interact('tap', 'light');
+                  openPreferences();
+                }}
+              >
+                Cookie preferences
+              </button>
+            ) : null}
             <p className="site-footer-copy">&copy; {year} {BRAND_NAME}</p>
           </div>
         </div>

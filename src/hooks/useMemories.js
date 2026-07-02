@@ -2,8 +2,15 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../utils/supabaseClient';
 import { rowToMemory } from '../utils/community';
+import {
+  COMMUNITY_MEMORIES_STORAGE_KEY,
+  createCommunityMemoryRecord,
+  isCommunityMemoryUuid,
+  mergeCommunityMemories,
+  localOnlyMemories,
+} from '../utils/communityMemories';
 
-const STORAGE_KEY = 'coral_memories';
+const STORAGE_KEY = COMMUNITY_MEMORIES_STORAGE_KEY;
 
 /** @type {import('../types/community').Memory[]} */
 const SEED_MEMORIES = [
@@ -39,10 +46,6 @@ const SEED_MEMORIES = [
   },
 ];
 
-function isUuid(id) {
-  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
-}
-
 function loadLocalMemories() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -54,21 +57,6 @@ function loadLocalMemories() {
     /* use seed */
   }
   return SEED_MEMORIES;
-}
-
-/**
- * @param {Partial<import('../types/community').Memory>} memory
- * @returns {import('../types/community').Memory}
- */
-function createMemoryRecord(memory) {
-  return {
-    id: `memory-${Date.now()}`,
-    createdAt: new Date().toISOString(),
-    reactions: { heart: 0, celebrate: 0, support: 0 },
-    comments: [],
-    tags: [],
-    ...memory,
-  };
 }
 
 async function fetchPublishedMemories() {
@@ -110,17 +98,6 @@ async function fetchPublishedMemories() {
   });
 }
 
-function mergeMemories(remote, local) {
-  const remoteLegacyIds = new Set(
-    remote.map((m) => m.id).filter((id) => id.startsWith('memory-seed-')),
-  );
-  const localOnly = local.filter((m) => !remoteLegacyIds.has(m.id));
-  const combined = [...remote, ...localOnly];
-  return combined.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-  );
-}
-
 export function useMemories() {
   const { user, profile } = useAuth();
   const [memories, setMemories] = useState(loadLocalMemories);
@@ -134,7 +111,7 @@ export function useMemories() {
       const remote = await fetchPublishedMemories();
       if (!cancelled) {
         if (remote.length) {
-          setMemories(mergeMemories(remote, loadLocalMemories()));
+          setMemories(mergeCommunityMemories(remote, loadLocalMemories()));
         }
         setLoading(false);
       }
@@ -147,7 +124,7 @@ export function useMemories() {
   }, []);
 
   useEffect(() => {
-    const localOnly = memories.filter((m) => !m._fromSupabase);
+    const localOnly = localOnlyMemories(memories);
     if (localOnly.length) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(localOnly));
     }
@@ -180,7 +157,7 @@ export function useMemories() {
       return { ok: true, pending: true };
     }
 
-    setMemories((prev) => [createMemoryRecord(memory), ...prev]);
+    setMemories((prev) => [createCommunityMemoryRecord(memory), ...prev]);
     setSubmitStatus(null);
     return { ok: true, pending: false };
   }, [user, profile]);
@@ -245,7 +222,7 @@ export function useMemories() {
   /** @param {string} memoryId @param {'heart' | 'celebrate' | 'support'} reactionType */
   const reactToMemory = useCallback(async (memoryId, reactionType) => {
     const target = memories.find((m) => m.id === memoryId);
-    const dbId = target?._dbId || (isUuid(memoryId) ? memoryId : null);
+    const dbId = target?._dbId || (isCommunityMemoryUuid(memoryId) ? memoryId : null);
 
     if (dbId) {
       await supabase.rpc('react_to_community_memory', {
@@ -276,7 +253,7 @@ export function useMemories() {
   const refreshMemories = useCallback(async () => {
     const remote = await fetchPublishedMemories();
     if (remote.length) {
-      setMemories(mergeMemories(remote, loadLocalMemories()));
+      setMemories(mergeCommunityMemories(remote, loadLocalMemories()));
     }
   }, []);
 

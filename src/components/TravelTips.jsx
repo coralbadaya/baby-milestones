@@ -6,6 +6,7 @@ import { getShoppingListForRange } from '../data/shoppingAndCare';
 import { interact } from '../utils/haptics';
 import { ROUTES } from '../routes';
 import Icon from './Icon';
+import TravelLongHaulGuides from './TravelLongHaulGuides';
 
 const DEFAULT_TRAVEL_TYPE = 'car';
 
@@ -32,7 +33,7 @@ function TravelTips({ currentMonth }) {
   };
 
   const tips = useMemo(
-    () => (currentMonth != null ? getTravelTips(currentMonth, activeType) : null),
+    () => getTravelTips(currentMonth, activeType),
     [currentMonth, activeType]
   );
 
@@ -117,7 +118,13 @@ function TravelTips({ currentMonth }) {
           </p>
         </article>
       )}
+      </div>
 
+      <div className="editorial-band-inline editorial-band-inline--sand">
+        <TravelLongHaulGuides currentMonth={currentMonth} />
+      </div>
+
+      <div className="editorial-band-inline editorial-band-inline--white">
       {currentMonth != null && travelGear.length > 0 && (
         <footer className="travel-gear-footer">
           <h3>Travel gear we use (Months 1–{currentMonth})</h3>

@@ -43,16 +43,16 @@ describe('membershipLabel', () => {
     expect(membershipLabel({ status: 'comp' })).toBe('Founding Member');
   });
 
-  it('labels active trial as Premium Trial', () => {
-    expect(membershipLabel({ status: 'trial', trial_ends_at: future() })).toBe('Premium Trial');
+  it('labels active trial as Plus Trial', () => {
+    expect(membershipLabel({ status: 'trial', trial_ends_at: future() })).toBe('Plus Trial');
   });
 
-  it('labels expired trial as Free', () => {
-    expect(membershipLabel({ status: 'trial', trial_ends_at: past() })).toBe('Free');
+  it('labels expired trial as Basic', () => {
+    expect(membershipLabel({ status: 'trial', trial_ends_at: past() })).toBe('Basic');
   });
 
-  it('returns Free for null', () => {
-    expect(membershipLabel(null)).toBe('Free');
+  it('returns Basic for null', () => {
+    expect(membershipLabel(null)).toBe('Basic');
   });
 });
 

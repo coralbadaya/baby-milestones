@@ -6,10 +6,10 @@ export const BRAND_TAGLINE = 'The art of early motherhood';
 /** Short tagline for compact placements (e.g. header lockup). */
 export const BRAND_TAGLINE_SHORT = 'early motherhood';
 
-export const SEO_DEFAULT_TITLE = `${BRAND_NAME} — The Art of Early Motherhood`;
+export const SEO_DEFAULT_TITLE = `${BRAND_NAME} — AI Baby Book & Milestones`;
 
 export const SEO_DEFAULT_DESCRIPTION =
-  'Curated baby milestones, postpartum care, and concierge guides for the modern mother. Considered care for your first years.';
+  'Free milestone tracking forever. Turn photos into AI stories and an interactive flip-book with Nestbean Plus — the modern AI baby book.';
 
 /** Canonical site URL for OG tags (update when production domain is live). */
 export const SITE_URL = 'https://nestbean.app';

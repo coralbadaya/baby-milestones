@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import AdminBadge from '../../components/admin/AdminBadge';
 import AdminDataTable from '../../components/admin/AdminDataTable';
 import AdminEmpty from '../../components/admin/AdminEmpty';
 import AdminLoading from '../../components/admin/AdminLoading';
@@ -7,7 +8,6 @@ import AdminPanel from '../../components/admin/AdminPanel';
 import AdminToolbar from '../../components/admin/AdminToolbar';
 import Select from '../../components/Select';
 import { contactSubjectLabel } from '../../constants/contactSubjects';
-import { ROUTES } from '../../routes';
 import { dispatchAdminInboxUpdated } from '../../utils/adminEvents';
 import { supabase } from '../../utils/supabaseClient';
 import { interact } from '../../utils/haptics';
@@ -24,7 +24,6 @@ const INBOX_COLUMNS = [
   { key: 'from', header: 'From', className: 'admin-cell-from' },
   { key: 'subject', header: 'Subject' },
   { key: 'status', header: 'Status' },
-  { key: 'message', header: 'Message', className: 'admin-cell-message' },
 ];
 
 function AdminInbox() {
@@ -32,6 +31,7 @@ function AdminInbox() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [selected, setSelected] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -57,6 +57,12 @@ function AdminInbox() {
 
   useEffect(() => { load(); }, [load]);
 
+  useEffect(() => {
+    if (selected && !rows.some((row) => row.id === selected.id)) {
+      setSelected(null);
+    }
+  }, [rows, selected]);
+
   const updateRow = async (id, patch) => {
     interact('tap', 'light');
     const { error: updateError } = await supabase
@@ -68,24 +74,9 @@ function AdminInbox() {
       return;
     }
     dispatchAdminInboxUpdated();
+    setSelected((current) => (current?.id === id ? { ...current, ...patch } : current));
     load();
   };
-
-  const renderMessageCell = (row) => (
-    <>
-      <p className="admin-message-body">{row.message}</p>
-      <textarea
-        className="admin-notes"
-        placeholder="Admin notes"
-        defaultValue={row.admin_notes || ''}
-        onBlur={(e) => {
-          if (e.target.value !== (row.admin_notes || '')) {
-            updateRow(row.id, { admin_notes: e.target.value });
-          }
-        }}
-      />
-    </>
-  );
 
   const renderCell = (row, col) => {
     switch (col.key) {
@@ -99,74 +90,38 @@ function AdminInbox() {
         return (
           <>
             <strong>{row.name?.trim() || '—'}</strong>
-            <a href={`mailto:${row.email}`} className="admin-cell-email">{row.email}</a>
+            <span className="admin-cell-email">{row.email}</span>
           </>
         );
       case 'subject':
         return <span className="admin-subject">{contactSubjectLabel(row.subject)}</span>;
       case 'status':
-        return (
-          <Select
-            id={`status-${row.id}`}
-            value={row.status}
-            onChange={(v) => updateRow(row.id, { status: v })}
-            options={STATUS_OPTIONS}
-          />
-        );
-      case 'message':
-        return renderMessageCell(row);
+        return <AdminBadge variant={row.status}>{row.status}</AdminBadge>;
       default:
         return null;
     }
   };
 
   const mobileCard = (row) => (
-    <>
-      <div className="admin-card-row">
-        <span className="admin-card-label">Date</span>
-        <span className="admin-card-value">
-          <time dateTime={row.created_at}>
-            {new Date(row.created_at).toLocaleString()}
-          </time>
-        </span>
+    <button
+      type="button"
+      className="admin-inbox-mobile-row"
+      onClick={() => setSelected(row)}
+    >
+      <div className="admin-inbox-mobile-row-head">
+        <AdminBadge variant={row.status}>{row.status}</AdminBadge>
+        <time dateTime={row.created_at} className="admin-cell-date">
+          {new Date(row.created_at).toLocaleDateString()}
+        </time>
       </div>
-      <div className="admin-card-row">
-        <span className="admin-card-label">From</span>
-        <span className="admin-card-value">
-          <strong>{row.name?.trim() || '—'}</strong>
-          <br />
-          <a href={`mailto:${row.email}`}>{row.email}</a>
-        </span>
-      </div>
-      <div className="admin-card-row">
-        <span className="admin-card-label">Subject</span>
-        <span className="admin-card-value">{contactSubjectLabel(row.subject)}</span>
-      </div>
-      <div className="admin-card-row">
-        <span className="admin-card-label">Status</span>
-        <span className="admin-card-value">
-          <Select
-            id={`status-mobile-${row.id}`}
-            value={row.status}
-            onChange={(v) => updateRow(row.id, { status: v })}
-            options={STATUS_OPTIONS}
-          />
-        </span>
-      </div>
-      <div className="admin-card-row">
-        <span className="admin-card-label">Message</span>
-        <span className="admin-card-value">{renderMessageCell(row)}</span>
-      </div>
-    </>
+      <span className="admin-subject">{contactSubjectLabel(row.subject)}</span>
+      <span className="admin-inbox-mobile-from">{row.name?.trim() || row.email}</span>
+    </button>
   );
 
   return (
     <div className="admin-page">
-      <AdminPageHeader
-        title="Inbox"
-        description="Contact form submissions from users and visitors. New messages appear at the top."
-        breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'Inbox' }]}
-      />
+      <AdminPageHeader title="Inbox" />
 
       <AdminToolbar
         left={(
@@ -190,16 +145,88 @@ function AdminInbox() {
       ) : rows.length === 0 ? (
         <AdminEmpty message={`No messages${filter !== 'all' ? ` with status “${filter}”` : ''}.`} />
       ) : (
-        <AdminPanel padding={false}>
-          <AdminDataTable
-            columns={INBOX_COLUMNS}
-            rows={rows}
-            rowKey={(row) => row.id}
-            renderCell={renderCell}
-            highlightRow={(row) => row.status === 'new'}
-            mobileCard={mobileCard}
-          />
-        </AdminPanel>
+        <div className={`admin-master-detail${selected ? ' admin-master-detail--open' : ''}`}>
+          <div className="admin-master-detail-list">
+            <AdminPanel padding={false}>
+              <AdminDataTable
+                columns={INBOX_COLUMNS}
+                rows={rows}
+                rowKey={(row) => row.id}
+                renderCell={renderCell}
+                highlightRow={(row) => row.status === 'new'}
+                onRowClick={setSelected}
+                selectedRowKey={selected?.id}
+                mobileCard={mobileCard}
+              />
+            </AdminPanel>
+          </div>
+
+          {selected ? (
+            <aside className="admin-detail-panel" aria-label="Message detail">
+              <div className="admin-detail-panel-head">
+                <h2 className="admin-detail-panel-title">{contactSubjectLabel(selected.subject)}</h2>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--ghost admin-detail-panel-close"
+                  onClick={() => setSelected(null)}
+                >
+                  Close
+                </button>
+              </div>
+
+              <dl className="admin-detail-meta">
+                <div>
+                  <dt>From</dt>
+                  <dd>
+                    <strong>{selected.name?.trim() || '—'}</strong>
+                    <a href={`mailto:${selected.email}`} className="admin-cell-email">{selected.email}</a>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Received</dt>
+                  <dd>
+                    <time dateTime={selected.created_at}>
+                      {new Date(selected.created_at).toLocaleString()}
+                    </time>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>
+                    <Select
+                      id={`status-detail-${selected.id}`}
+                      value={selected.status}
+                      onChange={(v) => updateRow(selected.id, { status: v })}
+                      options={STATUS_OPTIONS}
+                    />
+                  </dd>
+                </div>
+              </dl>
+
+              <div className="admin-detail-section">
+                <h3 className="admin-detail-section-title">Message</h3>
+                <p className="admin-message-body">{selected.message}</p>
+              </div>
+
+              <div className="admin-detail-section">
+                <label className="admin-detail-section-title" htmlFor={`notes-${selected.id}`}>
+                  Admin notes
+                </label>
+                <textarea
+                  id={`notes-${selected.id}`}
+                  className="admin-notes"
+                  placeholder="Internal notes (not sent to user)"
+                  defaultValue={selected.admin_notes || ''}
+                  onBlur={(e) => {
+                    if (e.target.value !== (selected.admin_notes || '')) {
+                      updateRow(selected.id, { admin_notes: e.target.value });
+                    }
+                  }}
+                />
+              </div>
+            </aside>
+          ) : null}
+        </div>
       )}
     </div>
   );

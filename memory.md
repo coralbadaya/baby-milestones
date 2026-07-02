@@ -12,7 +12,7 @@ Last updated: July 2026
 |---|---|
 | **Name** | Nestbean — *The art of early motherhood* |
 | **Audience** | Affluent new mothers, tier‑1 cities; babies 0–36 months |
-| **Positioning** | Quiet-luxury editorial companion — sequence, calm, trust |
+| **Positioning** | Quiet-luxury editorial + **AI baby book** (Basic free / Plus magic) |
 | **Stack** | React 19 · Vite 8 · Vitest · Supabase · Vercel |
 
 ### Journey nav (primary)
@@ -43,7 +43,7 @@ Routes source of truth: `src/routes.js` · IA spec: `docs/information-architectu
 | Baby health | Educational only; emergencies → pediatrician / local emergency number |
 | Mom / postpartum | Educational only; emergencies → obstetrician / local emergency number |
 | Assistant | Every response includes `MEDICAL_DISCLAIMER`; never diagnose |
-| Premium | Invitation tone; never paywall core tracking or emergency guidance |
+| Premium | Invitation tone; **Basic** = free tracking; **Plus** = stories, flip-book, editorial |
 | UI dropdowns | Use `src/components/Select.jsx` — no raw `<select>` |
 | Brand copy | `src/constants/brand.js` — user-facing name is **Nestbean** |
 | Legacy names | Repo/CSS may say `coral` / `Nestmile` — do not rename casually |
@@ -55,6 +55,7 @@ Routes source of truth: `src/routes.js` · IA spec: `docs/information-architectu
 | Key | Purpose |
 |-----|---------|
 | `babyBirthDate` | Baby DOB (ISO date string) |
+| `babyName` | Optional baby display name for stories & baby book copy |
 | `babyMilestoneChecks` | `{ [milestoneId]: boolean }` |
 | `babyVaccineScheduleType` | `india` \| `cdc` \| custom default |
 | `babyVaccineRecords` | Vaccination completion records |
@@ -130,7 +131,9 @@ Travel types: `car`, `air`, `train`, `dayOuting`, `hotel` — parsed in `assista
 |------|-----------|
 | Auth | `src/context/AuthContext.jsx`, `src/pages/Login.jsx`, `SignUp.jsx`, `VerifyEmail.jsx`, `Account.jsx` |
 | Guards | `src/components/auth/RequireAuth.jsx`, `RequireRole.jsx`, `OtpVerifyForm.jsx` |
-| Premium | `src/pages/Premium.jsx`, `src/components/PremiumGate.jsx`, `src/constants/premium.js` |
+| Premium / Plus | `src/pages/Premium.jsx`, `PremiumGate`, `src/constants/premium.js`, `src/utils/entitlements.js` |
+| AI baby book | `src/components/book/*`, `src/hooks/useMonthlyAlbum.js`, `useBabyStories.js`, `useVoiceNotes.js` |
+| Stripe | `api/checkout.js`, `api/stripe-webhook.js`, `src/utils/stripeCheckout.js` |
 | Admin | `src/pages/admin/*`, `docs/auth-membership-admin.md`, `docs/admin-portal-design.md` |
 
 Admin routes: `/admin`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/diy`, `/admin/newsletter`

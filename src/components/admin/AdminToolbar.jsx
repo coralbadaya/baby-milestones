@@ -24,7 +24,7 @@ function AdminToolbar({
       <div className="admin-toolbar-right">
         {right}
         {onRefresh ? (
-          <button type="button" className="btn-ghost" onClick={onRefresh}>
+          <button type="button" className="admin-btn admin-btn--ghost" onClick={onRefresh}>
             {refreshLabel}
           </button>
         ) : null}

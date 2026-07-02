@@ -3,8 +3,15 @@ export const ROUTES = {
   home: '/',
   baby: '/baby',
   babyMoments: '/baby#moments',
+  babyBook: '/baby/book',
+  babyBookTab: (tab) => `/baby/book/${tab}`,
+  voiceInvite: (token) => `/book/voice-invite/${token}`,
+  babyAlbum: '/baby#album',
+  babyStory: '/baby#story',
   essentials: '/essentials',
   premium: '/premium',
+  storyPreview: (token) => `/story/preview/${token}`,
+  milestoneCardsTool: '/tools/milestone-cards',
   month: (n) => `/month/${n}`,
   shopping: '/shopping',
   vaccination: '/vaccination',
@@ -47,8 +54,10 @@ export const ROUTES = {
   adminUsers: '/admin/users',
   adminPromos: '/admin/promos',
   adminDiy: '/admin/diy',
+  adminDiyImage: (activityId) => `/admin/diy/${activityId}`,
   adminNewsletter: '/admin/newsletter',
   adminCommunity: '/admin/community',
+  adminCommunityPost: (id) => `/admin/community/posts/${id}`,
   newsletterUnsubscribe: '/newsletter/unsubscribe',
 };
 
@@ -75,7 +84,7 @@ export const PRIMARY_NAV = [
 export const MOBILE_NAV = PRIMARY_NAV.filter((item) => item.key !== 'guides');
 
 /** Premium upsell — rendered as a distinct CTA button, not a plain nav link. */
-export const PREMIUM_NAV = { key: 'premium', to: ROUTES.premium, label: 'Premium', icon: 'sparkles' };
+export const PREMIUM_NAV = { key: 'premium', to: ROUTES.premium, label: 'Plus', icon: 'sparkles' };
 
 /**
  * Grouped footer columns (data-driven). E-E-A-T / trust surface for a YMYL site.
@@ -98,6 +107,9 @@ export const FOOTER_SECTIONS = [
     heading: 'Learn',
     links: [
       { to: ROUTES.guides, label: 'Guides & Articles' },
+      { to: ROUTES.milestoneCardsTool, label: 'Milestone Cards' },
+      { to: ROUTES.guide('best-baby-book-apps-2026'), label: 'Best Baby Book Apps' },
+      { to: ROUTES.guide('nestbean-vs-qeepsake'), label: 'Nestbean vs Qeepsake' },
       { to: ROUTES.baby, label: 'Milestones by Month' },
       { to: ROUTES.vaccination, label: 'Vaccination Schedule' },
       { to: ROUTES.faq, label: 'FAQ' },
@@ -132,6 +144,7 @@ export function navSectionFromPath(pathname) {
   if (pathname.startsWith('/month/') || pathname.startsWith('/baby') || pathname.startsWith('/vaccination')) {
     return 'baby';
   }
+  if (pathname.startsWith('/book/voice-invite')) return 'baby';
   if (pathname.startsWith('/mom-care')) return 'momCare';
   if (pathname.startsWith('/essentials') || pathname.startsWith('/shopping') || pathname.startsWith('/travel')) {
     return 'essentials';

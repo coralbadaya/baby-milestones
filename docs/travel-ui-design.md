@@ -64,6 +64,42 @@ Sections per card: **Packing**, **During the trip**, **Safety**, **When to call 
 
 ---
 
+## Long-haul city guides (Plus)
+
+**Implementation:** [`TravelLongHaulGuides.jsx`](../src/components/TravelLongHaulGuides.jsx), [`longHaulCities.js`](../src/data/longHaulCities.js), styles in `global.css`.
+
+Sand editorial band below the main tip card (`.editorial-band-inline--sand`).
+
+### Layout
+
+```
+SectionHeader (eyebrow: Nestbean Plus)
+City pills (London · Dubai · New York)
+Split card
+  ├── .travel-longhaul__media (gradient placeholder)
+  └── .travel-longhaul__body
+        ├── title + tagline + flight note (always visible)
+        └── detail sections OR compact PremiumGate
+```
+
+| Class | Notes |
+|-------|-------|
+| `.travel-longhaul` | Section wrapper |
+| `.travel-longhaul__city-tabs` | Extends `.diy-filter-tabs`; horizontal scroll on mobile |
+| `.travel-longhaul__card` | Split layout desktop; stack mobile; `card-accent-top` |
+| `.travel-longhaul__gate-target` | Compact gate wrapper for Basic users (detail only) |
+
+### Gating
+
+- **Plus:** full placeholder sections (Packing · In flight · On arrival)
+- **Basic:** city media + teaser copy visible; `PremiumGate compact` on bullet sections only
+
+City accent tokens: London `#6B7B8C`, Dubai `#C9A24B`, New York `#8B6B61`.
+
+**Content:** placeholder bullets shared across cities until a future content pass.
+
+---
+
 ## Travel gear footer
 
 - `.travel-gear-footer` — cream panel

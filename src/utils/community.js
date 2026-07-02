@@ -132,3 +132,30 @@ export function memoryStatusLabel(status) {
   };
   return labels[status] || status;
 }
+
+/**
+ * @param {Partial<{
+ *   type: string,
+ *   title: string,
+ *   content: string,
+ *   baby_age: string | null,
+ *   tags: string[],
+ *   status: string,
+ *   featured: boolean,
+ *   author_name: string | null,
+ * }>} patch
+ * @returns {Record<string, unknown>}
+ */
+export function memoryPatchToRow(patch) {
+  /** @type {Record<string, unknown>} */
+  const row = { updated_at: new Date().toISOString() };
+  if (patch.type !== undefined) row.type = patch.type;
+  if (patch.title !== undefined) row.title = patch.title;
+  if (patch.content !== undefined) row.content = patch.content;
+  if (patch.baby_age !== undefined) row.baby_age = patch.baby_age || null;
+  if (patch.tags !== undefined) row.tags = patch.tags;
+  if (patch.status !== undefined) row.status = patch.status;
+  if (patch.featured !== undefined) row.featured = patch.featured;
+  if (patch.author_name !== undefined) row.author_name = patch.author_name || null;
+  return row;
+}

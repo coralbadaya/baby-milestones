@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import AdminBadge from '../../components/admin/AdminBadge';
+import AdminDataTable from '../../components/admin/AdminDataTable';
 import AdminEmpty from '../../components/admin/AdminEmpty';
 import AdminLoading from '../../components/admin/AdminLoading';
 import AdminPageHeader from '../../components/admin/AdminPageHeader';
@@ -12,15 +14,10 @@ import { getDiyImage } from '../../data/diyImages';
 import { ROUTES } from '../../routes';
 import { supabase } from '../../utils/supabaseClient';
 import {
-  fetchDiyImageFromUrl,
-  prepareDiyImageFile,
+  fetchAllDiyImageRows,
   publicDiyImageUrl,
-  resetDiyActivityImage,
-  uploadDiyImageBlob,
-  upsertDiyImageRow,
-  validateDiyImageUrl,
 } from '../../utils/diyImageAdmin';
-import { interact } from '../../utils/haptics';
+import { fetchAllDiyContentRows } from '../../utils/diyActivityAdmin';
 
 const PAGE_SIZE = 20;
 
@@ -41,39 +38,64 @@ const MONTH_OPTIONS = [
   })),
 ];
 
+const TABLE_COLUMNS = [
+  { key: 'preview', header: 'Preview', className: 'admin-cell-narrow' },
+  { key: 'activity', header: 'Activity' },
+  { key: 'illustration', header: 'Illustration', className: 'admin-cell-narrow' },
+  { key: 'source', header: 'Overrides', className: 'admin-cell-narrow' },
+  { key: 'actions', header: '', className: 'admin-cell-actions' },
+];
+
+function buildReturnQuery({ search, monthFilter, categoryFilter, page }) {
+  const params = new URLSearchParams();
+  if (search.trim()) params.set('search', search.trim());
+  if (monthFilter) params.set('month', monthFilter);
+  if (categoryFilter) params.set('category', categoryFilter);
+  if (page > 0) params.set('page', String(page));
+  return params.toString();
+}
+
 function AdminDiyImages() {
-  const { isAdmin, user } = useAuth();
-  const [rows, setRows] = useState([]);
+  const { isAdmin } = useAuth();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const [imageRows, setImageRows] = useState([]);
+  const [contentRows, setContentRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState('');
-  const [monthFilter, setMonthFilter] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('');
-  const [page, setPage] = useState(0);
-  const [expandedId, setExpandedId] = useState(null);
-  const [urlInput, setUrlInput] = useState('');
-  const [altInput, setAltInput] = useState('');
-  const [busyId, setBusyId] = useState(null);
+  const [search, setSearch] = useState(searchParams.get('search') || '');
+  const [monthFilter, setMonthFilter] = useState(searchParams.get('month') || '');
+  const [categoryFilter, setCategoryFilter] = useState(searchParams.get('category') || '');
+  const [page, setPage] = useState(Number(searchParams.get('page') || 0));
 
   const load = useCallback(async () => {
     setLoading(true);
-    const { data, error: fetchError } = await supabase
-      .from('diy_activity_images')
-      .select('*')
-      .order('updated_at', { ascending: false });
-    if (fetchError) setError(fetchError.message);
-    else {
+    try {
+      const [images, content] = await Promise.all([
+        fetchAllDiyImageRows(supabase),
+        fetchAllDiyContentRows(supabase),
+      ]);
+      setImageRows(images);
+      setContentRows(content);
       setError(null);
-      setRows(data || []);
+    } catch (fetchError) {
+      setError(fetchError.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => { load(); }, [load]);
 
-  const rowByActivityId = useMemo(
-    () => Object.fromEntries(rows.map((row) => [row.activity_id, row])),
-    [rows],
+  const imageByActivityId = useMemo(
+    () => Object.fromEntries(imageRows.map((row) => [row.activity_id, row])),
+    [imageRows],
+  );
+
+  const contentByActivityId = useMemo(
+    () => Object.fromEntries(contentRows.map((row) => [row.activity_id, row])),
+    [contentRows],
   );
 
   const filteredIds = useMemo(() => {
@@ -92,120 +114,103 @@ function AdminDiyImages() {
   }, [search, monthFilter, categoryFilter]);
 
   const pageCount = Math.max(1, Math.ceil(filteredIds.length / PAGE_SIZE));
-  const pageIds = filteredIds.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+  const safePage = Math.min(page, pageCount - 1);
+  const pageIds = filteredIds.slice(safePage * PAGE_SIZE, safePage * PAGE_SIZE + PAGE_SIZE);
 
   useEffect(() => {
     setPage(0);
   }, [search, monthFilter, categoryFilter]);
 
+  const returnQuery = buildReturnQuery({
+    search,
+    monthFilter,
+    categoryFilter,
+    page: safePage,
+  });
+
+  const openActivity = (activityId) => {
+    const qs = returnQuery ? `?return=${encodeURIComponent(returnQuery)}` : '';
+    navigate(`${ROUTES.adminDiyImage(activityId)}${qs}`);
+  };
+
   if (!isAdmin) {
     return <Navigate to={ROUTES.admin} replace />;
   }
 
-  const handleUpload = async (activityId, file) => {
-    if (!file) return;
-    setBusyId(activityId);
-    setError(null);
-    interact('tap', 'light');
-
-    try {
-      const meta = diyActivityImages[activityId];
-      const { blob, ext, contentType } = await prepareDiyImageFile(file);
-      const storagePath = await uploadDiyImageBlob(supabase, activityId, blob, contentType, ext);
-      await upsertDiyImageRow(supabase, activityId, storagePath, {
-        altText: altInput.trim() || meta.alt,
-        source: 'upload',
-        userId: user?.id,
-      });
-      setAltInput('');
-      await load();
-    } catch (err) {
-      setError(err.message || 'Upload failed');
-    } finally {
-      setBusyId(null);
-    }
-  };
-
-  const handleUrlImport = async (activityId) => {
-    setBusyId(activityId);
-    setError(null);
-    interact('tap', 'light');
-
-    try {
-      const check = validateDiyImageUrl(urlInput);
-      if (!check.ok) throw new Error(check.error);
-
-      const meta = diyActivityImages[activityId];
-      const { blob, contentType, ext } = await fetchDiyImageFromUrl(urlInput);
-      const storagePath = await uploadDiyImageBlob(supabase, activityId, blob, contentType, ext);
-      await upsertDiyImageRow(supabase, activityId, storagePath, {
-        altText: altInput.trim() || meta.alt,
-        source: 'url_import',
-        userId: user?.id,
-      });
-      setUrlInput('');
-      setAltInput('');
-      await load();
-    } catch (err) {
-      setError(err.message || 'Import failed');
-    } finally {
-      setBusyId(null);
-    }
-  };
-
-  const handleReset = async (activityId) => {
-    setBusyId(activityId);
-    setError(null);
-    interact('tap', 'light');
-
-    try {
-      const row = rowByActivityId[activityId];
-      await resetDiyActivityImage(supabase, activityId, row?.storage_path);
-      await load();
-    } catch (err) {
-      setError(err.message || 'Reset failed');
-    } finally {
-      setBusyId(null);
-    }
-  };
-
-  const handleAltSave = async (activityId) => {
-    const row = rowByActivityId[activityId];
-    if (!row) return;
-    setBusyId(activityId);
-    setError(null);
-
-    try {
-      const { error: updateError } = await supabase
-        .from('diy_activity_images')
-        .update({
-          alt_text: altInput.trim() || diyActivityImages[activityId].alt,
-          updated_by: user?.id,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('activity_id', activityId);
-      if (updateError) throw updateError;
-      setAltInput('');
-      await load();
-    } catch (err) {
-      setError(err.message || 'Could not save alt text');
-    } finally {
-      setBusyId(null);
-    }
-  };
-
-  const customCount = rows.length;
+  const customImageCount = imageRows.length;
+  const customContentCount = contentRows.length;
   const totalCount = diyActivityIds.length;
 
+  const renderCell = (activityId, col) => {
+    const meta = diyActivityImages[activityId];
+    const imageRow = imageByActivityId[activityId];
+    const contentRow = contentByActivityId[activityId];
+    const preview = imageRow
+      ? publicDiyImageUrl(imageRow.storage_path)
+      : getDiyImage({
+        activityId,
+        illustration: meta.illustration,
+        category: meta.category,
+      }).src;
+
+    switch (col.key) {
+      case 'preview':
+        return (
+          <div className="admin-diy-thumb">
+            {preview ? (
+              <img src={preview} alt="" loading="lazy" decoding="async" />
+            ) : (
+              <span className="admin-diy-thumb-empty">—</span>
+            )}
+          </div>
+        );
+      case 'activity':
+        return (
+          <>
+            <strong className="admin-cell-title">{meta.name}</strong>
+            <span className="admin-cell-sub">
+              {activityId}
+              {' · Month '}
+              {meta.month}
+            </span>
+          </>
+        );
+      case 'illustration':
+        return <code className="admin-mono">{meta.illustration}</code>;
+      case 'source':
+        return (
+          <span className="admin-flag-group">
+            {contentRow ? <AdminBadge variant="active">Content</AdminBadge> : null}
+            {imageRow ? <AdminBadge variant="trial">Image</AdminBadge> : null}
+            {!contentRow && !imageRow ? <span className="admin-muted">Bundled</span> : null}
+          </span>
+        );
+      case 'actions':
+        return (
+          <Link
+            to={`${ROUTES.adminDiyImage(activityId)}${returnQuery ? `?return=${encodeURIComponent(returnQuery)}` : ''}`}
+            className="admin-btn admin-btn--primary admin-btn--sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            Edit
+          </Link>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="admin-page">
+    <div className="admin-page admin-diy-page">
       <AdminPageHeader
-        title="DIY activity images"
-        description={`${customCount} of ${totalCount} activities have custom images. Others use bundled illustration fallbacks.`}
-        breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'DIY images' }]}
+        title="DIY activities"
+        description={`${customContentCount} with custom content · ${customImageCount} with custom images · ${totalCount} total. Open an activity to edit copy, steps, materials, and images.`}
+        breadcrumb={[{ label: 'Admin', to: ROUTES.admin }, { label: 'DIY activities' }]}
       />
 
-      {error && <p className="admin-error" role="alert">{error}</p>}
+      {error ? (
+        <div className="admin-banner admin-banner--error" role="alert">{error}</div>
+      ) : null}
 
       <AdminToolbar
         left={(
@@ -241,153 +246,30 @@ function AdminDiyImages() {
         <AdminEmpty message="No activities match your filters." />
       ) : (
         <AdminPanel padding={false}>
-          <div className="admin-table-wrap">
-            <table className="admin-table admin-diy-table">
-              <thead>
-                <tr>
-                  <th scope="col">Preview</th>
-                  <th scope="col">Activity</th>
-                  <th scope="col">Illustration</th>
-                  <th scope="col">Source</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pageIds.map((activityId) => {
-                  const meta = diyActivityImages[activityId];
-                  const row = rowByActivityId[activityId];
-                  const preview = row
-                    ? publicDiyImageUrl(row.storage_path)
-                    : getDiyImage({
-                      activityId,
-                      illustration: meta.illustration,
-                      category: meta.category,
-                    }).src;
-                  const isExpanded = expandedId === activityId;
-                  const isBusy = busyId === activityId;
-
-                  return (
-                    <tr key={activityId}>
-                      <td>
-                        <div className="admin-diy-thumb">
-                          {preview ? (
-                            <img src={preview} alt="" loading="lazy" decoding="async" />
-                          ) : (
-                            <span className="admin-diy-thumb-empty">—</span>
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        <strong>{meta.name}</strong>
-                        <div className="admin-muted">{activityId} · Month {meta.month}</div>
-                      </td>
-                      <td><code className="admin-mono">{meta.illustration}</code></td>
-                      <td>{row?.source || 'bundled fallback'}</td>
-                      <td>
-                        <div className="admin-diy-actions">
-                          <label className="btn-ghost admin-diy-upload">
-                            {isBusy ? 'Working…' : 'Upload'}
-                            <input
-                              type="file"
-                              accept="image/jpeg,image/webp,image/png"
-                              hidden
-                              disabled={isBusy}
-                              onChange={(e) => {
-                                handleUpload(activityId, e.target.files?.[0]);
-                                e.target.value = '';
-                              }}
-                            />
-                          </label>
-                          <button
-                            type="button"
-                            className="btn-ghost"
-                            disabled={isBusy}
-                            onClick={() => {
-                              setExpandedId(isExpanded ? null : activityId);
-                              setAltInput(row?.alt_text || meta.alt);
-                              setUrlInput('');
-                            }}
-                          >
-                            {isExpanded ? 'Close' : 'More'}
-                          </button>
-                          {row && (
-                            <button
-                              type="button"
-                              className="btn-ghost admin-muted"
-                              disabled={isBusy}
-                              onClick={() => handleReset(activityId)}
-                            >
-                              Reset
-                            </button>
-                          )}
-                        </div>
-                        {isExpanded && (
-                          <div className="admin-diy-expand">
-                            <label className="admin-field">
-                              <span>Alt text</span>
-                              <input
-                                type="text"
-                                value={altInput}
-                                onChange={(e) => setAltInput(e.target.value)}
-                              />
-                            </label>
-                            {row && (
-                              <button
-                                type="button"
-                                className="btn-ghost"
-                                disabled={isBusy}
-                                onClick={() => handleAltSave(activityId)}
-                              >
-                                Save alt
-                              </button>
-                            )}
-                            <label className="admin-field">
-                              <span>Import from URL</span>
-                              <input
-                                type="url"
-                                value={urlInput}
-                                onChange={(e) => setUrlInput(e.target.value)}
-                                placeholder="https://…"
-                              />
-                            </label>
-                            <button
-                              type="button"
-                              className="btn-primary"
-                              disabled={isBusy || !urlInput.trim()}
-                              onClick={() => handleUrlImport(activityId)}
-                            >
-                              Import URL
-                            </button>
-                            <details className="admin-diy-prompt">
-                              <summary>AI prompt</summary>
-                              <p>{meta.prompt}</p>
-                            </details>
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <AdminDataTable
+            columns={TABLE_COLUMNS}
+            rows={pageIds}
+            rowKey={(id) => id}
+            renderCell={renderCell}
+            onRowClick={openActivity}
+          />
 
           <div className="admin-diy-pagination">
             <button
               type="button"
-              className="btn-ghost"
-              disabled={page === 0}
-              onClick={() => setPage((p) => p - 1)}
+              className="admin-btn admin-btn--ghost"
+              disabled={safePage === 0}
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
             >
               Previous
             </button>
             <span className="admin-muted">
-              Page {page + 1} of {pageCount} ({filteredIds.length} activities)
+              Page {safePage + 1} of {pageCount} ({filteredIds.length} activities)
             </span>
             <button
               type="button"
-              className="btn-ghost"
-              disabled={page >= pageCount - 1}
+              className="admin-btn admin-btn--ghost"
+              disabled={safePage >= pageCount - 1}
               onClick={() => setPage((p) => p + 1)}
             >
               Next

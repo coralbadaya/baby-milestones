@@ -102,7 +102,7 @@ describeIt('Supabase auth & membership (integration)', () => {
       .single();
 
     expect(memError).toBeNull();
-    expect(membership?.plan).toBe('premium');
+    expect(membership?.plan).toBe('plus');
     expect(['trial', 'active', 'comp', 'free', 'expired']).toContain(membership?.status);
   });
 
@@ -163,6 +163,162 @@ describeIt('Supabase auth & membership (integration)', () => {
     expect(Array.isArray(inbox)).toBe(true);
 
     await adminClient.auth.signOut();
+  });
+});
+
+describeIt('Supabase community feed (integration)', () => {
+  let adminClient;
+  let schemaReady = false;
+
+  beforeAll(async () => {
+    const adminCreds = getTestAdminCreds();
+    if (!adminCreds.email || !adminCreds.password) return;
+
+    adminClient = createTestClient();
+    const { error: signInError } = await adminClient.auth.signInWithPassword(adminCreds);
+    if (signInError) return;
+
+    const { error } = await adminClient.from('community_memories').select('id').limit(1);
+    schemaReady = !isSchemaMissing(error);
+    if (!schemaReady) {
+      console.warn('Skipping community IT — apply supabase/migrations/20250701160000_community.sql first');
+    }
+  });
+
+  afterAll(async () => {
+    if (adminClient) await adminClient.auth.signOut();
+  });
+
+  it('reads published memories for the public feed', async () => {
+    if (!schemaReady) return;
+
+    const { data, error } = await adminClient
+      .from('community_memories')
+      .select('id, title, status, reactions, created_at')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false })
+      .limit(5);
+
+    expect(error).toBeNull();
+    expect(Array.isArray(data)).toBe(true);
+    if (data.length > 0) {
+      expect(data[0].status).toBe('published');
+      expect(data[0].reactions).toBeTruthy();
+      expect(data[0].created_at).toMatch(/^\d{4}-/);
+    }
+  });
+
+  it('reads memory comments linked to published posts', async () => {
+    if (!schemaReady) return;
+
+    const { data: memories } = await adminClient
+      .from('community_memories')
+      .select('id')
+      .eq('status', 'published')
+      .limit(1);
+
+    if (!memories?.length) return;
+
+    const { data: comments, error } = await adminClient
+      .from('community_memory_comments')
+      .select('id, text, author_name, created_at, memory_id')
+      .eq('memory_id', memories[0].id);
+
+    expect(error).toBeNull();
+    expect(Array.isArray(comments)).toBe(true);
+    if (comments.length > 0) {
+      expect(comments[0].text).toBeTruthy();
+      expect(comments[0].created_at).toMatch(/^\d{4}-/);
+    }
+  });
+
+  it('increments reactions via react_to_community_memory RPC', async () => {
+    if (!schemaReady) return;
+
+    const { data: memories } = await adminClient
+      .from('community_memories')
+      .select('id, reactions')
+      .eq('status', 'published')
+      .limit(1);
+
+    if (!memories?.length) return;
+
+    const before = memories[0].reactions?.heart ?? 0;
+    const { error } = await adminClient.rpc('react_to_community_memory', {
+      p_memory_id: memories[0].id,
+      p_reaction: 'heart',
+    });
+    expect(error).toBeNull();
+
+    const { data: updated } = await adminClient
+      .from('community_memories')
+      .select('reactions')
+      .eq('id', memories[0].id)
+      .single();
+
+    expect(updated.reactions.heart).toBeGreaterThanOrEqual(before + 1);
+  });
+});
+
+describeIt('Supabase DIY activity content (integration)', () => {
+  let adminClient;
+  let anonClient;
+  let schemaReady = false;
+  const activityId = 'm1-1';
+  const testTitle = `IT DIY ${Date.now()}`;
+
+  beforeAll(async () => {
+    const adminCreds = getTestAdminCreds();
+    if (!adminCreds.email || !adminCreds.password) return;
+
+    adminClient = createTestClient();
+    anonClient = createTestClient();
+    const { error: signInError } = await adminClient.auth.signInWithPassword(adminCreds);
+    if (signInError) return;
+
+    const { error } = await adminClient.from('diy_activity_content').select('activity_id').limit(1);
+    schemaReady = !isSchemaMissing(error);
+    if (!schemaReady) {
+      console.warn('Skipping DIY content IT — apply supabase/migrations/20250701170000_diy_activity_content.sql first');
+    }
+  });
+
+  afterAll(async () => {
+    if (adminClient && schemaReady) {
+      await adminClient.from('diy_activity_content').delete().eq('activity_id', activityId);
+      await adminClient.auth.signOut();
+    }
+  });
+
+  it('admin upserts content and anon can read YouTube URL', async () => {
+    if (!schemaReady) return;
+
+    const videoUrl = 'https://www.youtube.com/results?search_query=it+diy+test';
+    const { error: upsertError } = await adminClient.from('diy_activity_content').upsert({
+      activity_id: activityId,
+      name: testTitle,
+      category: 'sensory',
+      duration: '5–10 min',
+      difficulty: 'Easy',
+      materials: ['Paper'],
+      steps: ['Step one'],
+      benefits: ['Benefit'],
+      why_it_works: 'Because.',
+      video_search: videoUrl,
+      illustration: 'vision_cards',
+      updated_at: new Date().toISOString(),
+    });
+    expect(upsertError).toBeNull();
+
+    const { data, error } = await anonClient
+      .from('diy_activity_content')
+      .select('name, video_search')
+      .eq('activity_id', activityId)
+      .single();
+
+    expect(error).toBeNull();
+    expect(data.name).toBe(testTitle);
+    expect(data.video_search).toBe(videoUrl);
   });
 });
 

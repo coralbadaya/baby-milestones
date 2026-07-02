@@ -1,10 +1,17 @@
-/** @typedef {'free'|'premium'} MembershipPlan */
+/** @typedef {'free'|'plus'} MembershipPlan */
 /** @typedef {'free'|'trial'|'active'|'comp'|'expired'} MembershipStatus */
 
 /**
  * @param {{ plan?: string, status?: string, trial_ends_at?: string|null, premium_until?: string|null }|null} membership
  */
 export function isPremiumActive(membership) {
+  return isPlusActive(membership);
+}
+
+/**
+ * @param {{ plan?: string, status?: string, trial_ends_at?: string|null, premium_until?: string|null }|null} membership
+ */
+export function isPlusActive(membership) {
   if (!membership) return false;
 
   const now = Date.now();
@@ -26,17 +33,17 @@ export function isPremiumActive(membership) {
 
 /** @param {{ status?: string }|null} membership */
 export function membershipLabel(membership) {
-  if (!membership) return 'Free';
+  if (!membership) return 'Basic';
 
   switch (membership.status) {
     case 'comp':
       return 'Founding Member';
     case 'trial':
-      return isPremiumActive(membership) ? 'Premium Trial' : 'Free';
+      return isPlusActive(membership) ? 'Plus Trial' : 'Basic';
     case 'active':
-      return isPremiumActive(membership) ? 'Premium' : 'Free';
+      return isPlusActive(membership) ? 'Plus' : 'Basic';
     default:
-      return 'Free';
+      return 'Basic';
   }
 }
 

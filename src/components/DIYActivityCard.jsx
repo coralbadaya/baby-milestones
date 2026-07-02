@@ -1,37 +1,10 @@
 import { useState } from 'react';
-import { getDiyImage } from '../data/diyImages';
-import { useDiyImagesContext } from '../context/DiyImagesContext';
+import DiyCardImage from './DiyCardImage';
 import DetailModal from './DetailModal';
+import DiyActivityModalBody from './DiyActivityModalBody';
 import { diyCategoryConfig, difficultyDots } from './diyCategoryConfig';
 import { interact } from '../utils/haptics';
 import Icon from './Icon';
-
-function DiyCardImage({ activity }) {
-  const { overrides } = useDiyImagesContext();
-  const config = getDiyImage(
-    { activityId: activity.id, illustration: activity.illustration, category: activity.category },
-    overrides,
-  );
-  const [failed, setFailed] = useState(false);
-  const showPhoto = config.src && !failed;
-
-  return (
-    <div
-      className="diy-activity-media-photo"
-      style={!showPhoto ? { background: config.fallbackGradient } : { backgroundColor: config.placeholderColor }}
-    >
-      {showPhoto && (
-        <img
-          src={config.src}
-          alt={config.alt}
-          loading="lazy"
-          decoding="async"
-          onError={() => setFailed(true)}
-        />
-      )}
-    </div>
-  );
-}
 
 function DIYActivityCard({ activity, onOpen, onClose, isOpen, compact = false }) {
   const cat = diyCategoryConfig[activity.category] || diyCategoryConfig.sensory;
@@ -43,58 +16,16 @@ function DIYActivityCard({ activity, onOpen, onClose, isOpen, compact = false })
     interact('tap', 'selection');
   };
 
-  const openVideo = (e) => {
-    e.stopPropagation();
-    interact('tap', 'selection');
-    window.open(activity.videoSearch, '_blank', 'noopener,noreferrer');
-  };
-
   const modalContent = isOpen && (
     <DetailModal
       title={activity.name}
       subtitle={`${cat.label} · ${activity.duration} · ${activity.difficulty}`}
       onClose={onClose}
     >
-      <div className="diy-illustration-wrap">
-        <DiyCardImage activity={activity} />
-      </div>
-      <div className="diy-section">
-        <h5 className="diy-section-title"><Icon name="shopping-cart" size={16} /> What You Need</h5>
-        <div className="diy-materials">
-          {activity.materials.map((m, i) => (
-            <span key={i} className="diy-material-chip">{m}</span>
-          ))}
-        </div>
-      </div>
-      <div className="diy-section">
-        <h5 className="diy-section-title"><Icon name="clipboard" size={16} /> How To Play</h5>
-        <ol className="diy-steps">
-          {activity.steps.map((step, i) => (
-            <li key={i}>
-              <span className="step-num">{i + 1}</span>
-              <span>{step}</span>
-            </li>
-          ))}
-        </ol>
-      </div>
-      <div className="diy-two-col">
-        <div className="diy-section">
-          <h5 className="diy-section-title"><Icon name="check-mark" size={16} /> Benefits</h5>
-          <ul className="diy-benefits">
-            {activity.benefits.map((b, i) => (
-              <li key={i}>{b}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="diy-section diy-why">
-          <h5 className="diy-section-title"><Icon name="microscope" size={16} /> Why It Works</h5>
-          <p>{activity.whyItWorks}</p>
-        </div>
-      </div>
-      <button type="button" className="diy-video-btn" onClick={openVideo}>
-        <Icon name="youtube" size={18} className="yt-icon" />
-        Watch How-To Videos on YouTube
-      </button>
+      <DiyActivityModalBody
+        activity={activity}
+        image={<DiyCardImage activity={activity} />}
+      />
     </DetailModal>
   );
 
@@ -117,10 +48,6 @@ function DIYActivityCard({ activity, onOpen, onClose, isOpen, compact = false })
             <div className="diy-preview-card__actions">
               <button type="button" className="content-card-cta" onClick={open}>
                 Open guide
-              </button>
-              <button type="button" className="diy-preview-card__video" onClick={openVideo}>
-                <Icon name="youtube" size={16} className="yt-icon-brand" />
-                YouTube
               </button>
             </div>
           </div>

@@ -25,47 +25,54 @@ Professional staff console for Nestbean. **Separate visual language** from the c
 
 ## Layout system
 
-### Desktop (≥1024px)
+### Desktop (≥769px)
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│ ■ Nestbean Admin          [Staff badge]  user@…  Sign out    │  admin-topbar (56px, sticky)
-├─────────────┬────────────────────────────────────────────────┤
-│  Overview   │  Inbox                                         │  admin-breadcrumb
-│  Inbox  ●3  │  ────────────────────────────────────────────  │
-│  Users      │  [ toolbar: filters · search · primary action ]│
-│  Promo codes│                                                │
-│  Newsletter │  ┌──────────────────────────────────────────┐  │
-│  DIY images │  │  admin-panel (white, rounded, shadow-sm)   │  │
-│             │  │  table · form · stat grid · empty state    │  │
-│  ─────────  │  └──────────────────────────────────────────┘  │
-│  ← Back to app│                                              │
+┌─────────────┬────────────────────────────────────────────────┐
+│  Nestbean   │  Overview                                      │
+│ Staff console│  ────────────────────────────────────────────  │
+│             │  [ toolbar: filters · search · primary action ]│
+│ OPERATIONS  │                                                │
+│  Overview   │  ┌──────────────────────────────────────────┐  │
+│  Inbox  ●3  │  │  admin-panel (white, rounded, shadow-sm)   │  │
+│  Users      │  │  table · form · stat grid · empty state    │  │
+│  Promo codes│  └──────────────────────────────────────────┘  │
+│  Newsletter │                                                │
+│  Community  │                                                │
+│  DIY images │                                                │
+│  ─────────  │                                                │
+│  [avatar]   │                                                │
+│  Admin pill │                                                │
+│  user@…     │                                                │
+│  Sign out   │                                                │
+│  ← View site│                                                │
 └─────────────┴────────────────────────────────────────────────┘
-     240px fixed sidebar              fluid main (max 1200px content)
+     256px light sidebar              scrollable main workspace
 ```
+
+- **No desktop top bar** — brand, nav, and account live in the sidebar.
+- Full viewport shell (`100dvh`); main content scrolls independently.
 
 ### Tablet (769–1023px)
 
-- Sidebar collapses to **icon rail** (64px) with tooltips; expand on hover or toggle.
-- Top bar keeps logo + user menu.
+- Same as desktop: persistent light sidebar + scrollable main.
 
 ### Mobile (≤768px)
 
-- **No persistent sidebar.** Hamburger opens full-height drawer overlay.
-- Top bar: menu · title · user avatar.
-- Tables → card list pattern or horizontal scroll with sticky first column.
-- Touch targets ≥ 44px.
+- **Compact top bar:** hamburger · “Staff console” · role pill.
+- Sidebar opens as **drawer overlay** (full height below top bar).
+- Tables → horizontal scroll or card list; touch targets ≥ 44px.
 
 ### Shell structure (target components)
 
 | Component | Role |
 |-----------|------|
-| `AdminShell` | Full viewport wrapper; applies admin theme tokens |
-| `AdminTopBar` | Brand mark, environment pill (`Staff` / `Admin`), signed-in email, sign out |
-| `AdminSidebar` | Nav groups + badge counts (e.g. new inbox) |
+| `AdminShell` | Full viewport wrapper (`admin-shell`); applies admin theme tokens |
+| `AdminSidebar` | Brand, nav groups, inbox badge, user card, sign out, exit link |
+| `AdminMobileBar` | Mobile-only: menu toggle, title, role pill |
 | `AdminPageHeader` | Breadcrumb, `h1`, optional description + primary action slot |
 | `AdminPanel` | White elevated surface for page body (tables, forms) |
-| `AdminLayout` | Composes shell; `<Outlet />` in main workspace |
+| `AdminLayout` | Composes shell; `<Outlet />` in scrollable main workspace |
 
 **Nav order** (match `AdminLayout.jsx`):
 
@@ -74,9 +81,10 @@ Professional staff console for Nestbean. **Separate visual language** from the c
 3. Users  
 4. Promo codes  
 5. Newsletter  
-6. DIY images *(admin only)*  
+6. Community  
+7. DIY images *(admin only)*  
 
-Footer link: **← Back to app** → `/account`.
+Sidebar footer: user avatar + role pill + email, **Sign out**, **View public site** → `/`.
 
 ---
 
@@ -88,18 +96,20 @@ Add to `src/styles/admin-portal.css` (import from `global.css`). Prefix: `--admi
 
 | Token | Value | Use |
 |-------|-------|-----|
-| `--admin-canvas` | `#F0F1F4` | Page background behind panels |
-| `--admin-sidebar-bg` | `#2B2622` | Fixed sidebar (brand ink) |
-| `--admin-sidebar-text` | `#E8E4DF` | Nav labels |
-| `--admin-sidebar-muted` | `#9A928C` | Section labels, disabled |
-| `--admin-sidebar-active-bg` | `rgba(255,255,255,0.08)` | Active nav item |
-| `--admin-sidebar-active-text` | `#FFFFFF` | Active nav label |
-| `--admin-sidebar-accent` | `#C4956A` | Active indicator bar (terracotta) |
+| `--admin-canvas` | `#F4F5F7` | Page background behind panels |
+| `--admin-sidebar-bg` | `#FFFFFF` | Fixed sidebar (light) |
+| `--admin-sidebar-border` | `#E4E6EB` | Sidebar dividers |
+| `--admin-sidebar-text` | `#3D3A36` | Nav labels |
+| `--admin-sidebar-muted` | `#8A827C` | Section labels, icons |
+| `--admin-sidebar-hover` | `#F4F5F7` | Nav hover |
+| `--admin-sidebar-active-bg` | `#F0EBE4` | Active nav item |
+| `--admin-sidebar-active-text` | `#2B2622` | Active nav label |
+| `--admin-sidebar-accent` | `#C4956A` | Active icon, accents |
 | `--admin-panel` | `#FFFFFF` | Main content cards |
-| `--admin-panel-muted` | `#F7F8FA` | Table header row |
-| `--admin-topbar-bg` | `#FFFFFF` | Sticky header |
-| `--admin-border` | `rgba(43, 38, 34, 0.10)` | Panel + table borders |
-| `--admin-border-strong` | `rgba(43, 38, 34, 0.16)` | Inputs, dividers |
+| `--admin-panel-muted` | `#F7F8FA` | Table header row, sidebar foot |
+| `--admin-topbar-bg` | `#FFFFFF` | Mobile header only |
+| `--admin-border` | `rgba(43, 38, 34, 0.08)` | Panel + table borders |
+| `--admin-border-strong` | `rgba(43, 38, 34, 0.14)` | Inputs, dividers |
 
 ### Text
 
@@ -254,4 +264,4 @@ Summary: Phase 1 shell → Phase 2 shared components → Phase 3 page refactors 
 
 ---
 
-*Last updated: admin portal design v1 — Phase 1 shell shipped (dark sidebar, admin-portal.css).*
+*Last updated: admin portal v2 — light sidebar shell, full-viewport layout, sidebar account footer.*

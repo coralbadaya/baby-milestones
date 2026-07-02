@@ -126,10 +126,19 @@ async function main() {
     await sharp(ogSvg()).png().toBuffer()
   );
 
+  // Editorial watermark placeholder (4:3 DIY cards, heroes, recipes)
+  const watermarkSvg = readFileSync(join(PUBLIC, 'brand/nestbean-watermark.svg'));
+  mkdirSync(join(PUBLIC, 'images/placeholders'), { recursive: true });
+  writeFileSync(
+    join(PUBLIC, 'images/placeholders/nestbean-watermark.jpg'),
+    await sharp(watermarkSvg, { density: 144 }).jpeg({ quality: 88, mozjpeg: true }).toBuffer()
+  );
+
   console.log('Brand assets generated in public/:');
   console.log('  favicon.svg, favicon.ico, favicon-16/32/48.png');
   console.log('  apple-touch-icon.png, icon-192/512.png, icon-maskable-512.png');
   console.log('  icon-store-1024.png, og-default.png');
+  console.log('  images/placeholders/nestbean-watermark.jpg');
 }
 
 main().catch((err) => {

@@ -5,6 +5,7 @@ import { getGuideBySlug } from '../data/guides';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
+import GuideStoryCta from '../components/book/GuideStoryCta';
 import { articleSchema, breadcrumbSchema } from '../utils/structuredData';
 
 function GuideArticle() {
@@ -58,6 +59,8 @@ function GuideArticle() {
           </section>
         ))}
       </div>
+
+      <GuideStoryCta month={guide.milestoneMonth} />
 
       <div className="guide-disclaimer" role="note">
         <Icon name="medical" size={24} />

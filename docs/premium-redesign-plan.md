@@ -38,7 +38,8 @@
 | 4 | Hub pages (My Baby, Essentials) | ✅ |
 | 5 | Premium scaffold (gating, pricing UI) | ✅ |
 | 6 | Supabase auth + email OTP signup | ✅ |
-| 6b | Stripe checkout + webhooks | Planned |
+| 6b | Stripe checkout + webhooks (Plus SKUs) | ✅ scaffold |
+| 6c | AI baby book (Basic/Plus, entitlements, story, flip-book) | ✅ |
 | 7 | Personalization (name, city, concierge copy) | Planned |
 | 8 | Nanny concierge module | Future |
 

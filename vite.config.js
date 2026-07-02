@@ -7,6 +7,10 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+    server: {
+      port: 5173,
+      strictPort: true,
+    },
     test: {
       environment: 'node',
       include: ['src/**/*.test.js', 'src/**/*.it.test.js'],

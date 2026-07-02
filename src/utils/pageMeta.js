@@ -34,6 +34,20 @@ function setCanonical(url) {
   el.setAttribute('href', url);
 }
 
+function setRobots(content) {
+  let el = document.querySelector('meta[name="robots"]');
+  if (!content) {
+    el?.remove();
+    return;
+  }
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute('name', 'robots');
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
 export function applyPageMeta(meta = {}) {
   const title = meta.title ? `${meta.title} | ${BRAND_NAME}` : DEFAULT.title;
   const ogTitle = meta.title ? `${meta.title} | ${BRAND_NAME}` : DEFAULT.title;
@@ -48,11 +62,17 @@ export function applyPageMeta(meta = {}) {
   setMeta('property', 'og:image', image);
   setMeta('property', 'og:url', url);
   setMeta('property', 'og:type', meta.type || 'website');
+  setMeta('property', 'og:site_name', BRAND_NAME);
+  setMeta('property', 'og:image:width', '1200');
+  setMeta('property', 'og:image:height', '630');
+  setMeta('property', 'og:locale', 'en_GB');
   setMeta('name', 'twitter:card', 'summary_large_image');
+  setMeta('name', 'twitter:site', '@nestbean');
   setMeta('name', 'twitter:title', ogTitle);
   setMeta('name', 'twitter:description', description);
   setMeta('name', 'twitter:image', image);
   setCanonical(meta.canonical || url);
+  setRobots(meta.robots);
 }
 
 export function resetPageMeta() {
@@ -61,11 +81,11 @@ export function resetPageMeta() {
 
 /**
  * React hook: apply per-page SEO meta on mount / when inputs change.
- * @param {{ title?: string, description?: string, image?: string, url?: string, canonical?: string, type?: string }} meta
+ * @param {{ title?: string, description?: string, image?: string, url?: string, canonical?: string, type?: string, robots?: string }} meta
  */
 export function usePageMeta(meta = {}) {
-  const { title, description, image, url, canonical, type } = meta;
+  const { title, description, image, url, canonical, type, robots } = meta;
   useEffect(() => {
-    applyPageMeta({ title, description, image, url, canonical, type });
-  }, [title, description, image, url, canonical, type]);
+    applyPageMeta({ title, description, image, url, canonical, type, robots });
+  }, [title, description, image, url, canonical, type, robots]);
 }

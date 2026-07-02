@@ -3,12 +3,13 @@ import DIYActivityCard from './DIYActivityCard';
 import { diyCategoryConfig } from './diyCategoryConfig';
 import { interact } from '../utils/haptics';
 import Icon from './Icon';
-import diyActivities from '../data/diyActivities';
+import { useDiyActivitiesContext } from '../context/DiyActivitiesContext';
 
 function DIYSection({ month }) {
   const [activeFilter, setActiveFilter] = useState('all');
   const [openId, setOpenId] = useState(null);
-  const monthData = diyActivities.find((d) => d.month === month);
+  const { activitiesByMonth } = useDiyActivitiesContext();
+  const monthData = activitiesByMonth.find((d) => d.month === month);
   if (!monthData) return null;
 
   const filters = ['all', ...Object.keys(diyCategoryConfig)];

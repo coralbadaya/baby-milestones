@@ -29,12 +29,23 @@ import AdminInbox from './pages/admin/AdminInbox';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminPromos from './pages/admin/AdminPromos';
 import AdminDiyImages from './pages/admin/AdminDiyImages';
+import AdminDiyImageEdit from './pages/admin/AdminDiyImageEdit';
 import AdminNewsletter from './pages/admin/AdminNewsletter';
 import AdminCommunity from './pages/admin/AdminCommunity';
+import AdminCommunityPost from './pages/admin/AdminCommunityPost';
 import NewsletterUnsubscribe from './pages/NewsletterUnsubscribe';
+import BabyBook from './pages/BabyBook';
+import VoiceInvite from './pages/VoiceInvite';
+import MilestoneCardsTool from './pages/MilestoneCardsTool';
+import StoryPreview from './pages/StoryPreview';
+import InstallPrompt from './components/book/InstallPrompt';
 import AssistantPanel from './components/AssistantPanel';
+import Analytics from './components/Analytics';
+import CookieConsentBanner from './components/CookieConsentBanner';
 import { useFirstMoments } from './hooks/useFirstMoments';
+import { useAuth } from './context/AuthContext';
 import { interact } from './utils/haptics';
+import { loadStoredBabyName, saveStoredBabyName } from './utils/babyName';
 import { ROUTES, isCommunityTab } from './routes';
 
 function ScrollToTop() {
@@ -69,8 +80,10 @@ function MonthDetailRoute({ checkedItems, toggleCheck, getCurrentWeek }) {
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { profile } = useAuth();
 
   const [birthDate, setBirthDate] = useState(() => localStorage.getItem('babyBirthDate') || '');
+  const [babyName, setBabyName] = useState(() => loadStoredBabyName());
   const [checkedItems, setCheckedItems] = useState(() => {
     const saved = localStorage.getItem('babyMilestoneChecks');
     return saved ? JSON.parse(saved) : {};
@@ -111,6 +124,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem('babyMilestoneChecks', JSON.stringify(checkedItems));
   }, [checkedItems]);
+
+  useEffect(() => {
+    saveStoredBabyName(babyName);
+  }, [babyName]);
 
   useEffect(() => {
     if (birthDate) {
@@ -161,8 +178,10 @@ function App() {
   }, [navigate]);
 
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const isBabyBookRoute = location.pathname.startsWith('/baby/book') || location.pathname.startsWith('/book/voice-invite');
   const showAssistant =
     !isAdminRoute
+    && !isBabyBookRoute
     && (
       location.pathname === ROUTES.home
       || location.pathname.startsWith('/month/')
@@ -171,9 +190,11 @@ function App() {
     );
 
   return (
-    <div className="app">
+    <div className={`app${isAdminRoute ? ' app--admin' : ''}${isBabyBookRoute ? ' app--baby-book' : ''}`}>
+      <Analytics />
+      {!isAdminRoute ? <CookieConsentBanner /> : null}
       <ScrollToTop />
-      {!isAdminRoute && <Header />}
+      {!isAdminRoute && !isBabyBookRoute && <Header />}
       <main className={`app-main${isAdminRoute ? ' app-main--admin' : ''}`}>
         <Routes>
         <Route
@@ -207,7 +228,19 @@ function App() {
           path={ROUTES.essentials}
           element={<Essentials />}
         />
+        <Route
+          path="/baby/book/:tab?"
+          element={(
+            <BabyBook
+              birthDate={birthDate}
+              currentMonth={getCurrentMonth()}
+              firstMoments={firstMoments}
+              babyName={babyName}
+            />
+          )}
+        />
         <Route path={ROUTES.premium} element={<Premium />} />
+        <Route path="/book/voice-invite/:token" element={<VoiceInvite />} />
         <Route
           path="/month/:month"
           element={(
@@ -275,6 +308,8 @@ function App() {
 
         <Route path={ROUTES.guides} element={<Guides />} />
         <Route path="/guides/:slug" element={<GuideArticle />} />
+        <Route path={ROUTES.milestoneCardsTool} element={<MilestoneCardsTool />} />
+        <Route path="/story/preview/:token" element={<StoryPreview />} />
         <Route path={ROUTES.faq} element={<Faq />} />
 
         <Route path={ROUTES.about} element={<StaticPage pageKey="about" />} />
@@ -299,14 +334,17 @@ function App() {
           <Route path="users" element={<AdminUsers />} />
           <Route path="promos" element={<AdminPromos />} />
           <Route path="diy" element={<AdminDiyImages />} />
+          <Route path="diy/:activityId" element={<AdminDiyImageEdit />} />
           <Route path="newsletter" element={<AdminNewsletter />} />
           <Route path="community" element={<AdminCommunity />} />
+          <Route path="community/posts/:postId" element={<AdminCommunityPost />} />
         </Route>
 
         <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
         </Routes>
       </main>
-      {!isAdminRoute && <Footer />}
+      {!isAdminRoute && !isBabyBookRoute && <Footer />}
+      {!isAdminRoute && <InstallPrompt />}
       {showAssistant && (
         <AssistantPanel
           currentMonth={getCurrentMonth()}

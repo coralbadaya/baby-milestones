@@ -1,6 +1,8 @@
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import ShoppingChecklist from '../components/ShoppingChecklist';
+import PremiumGate from '../components/PremiumGate';
+import { PREMIUM_FEATURES } from '../constants/premium';
 import { usePageMeta } from '../utils/pageMeta';
 
 function Shopping({ checkedItems, toggleCheck, currentMonth }) {
@@ -24,6 +26,12 @@ function Shopping({ checkedItems, toggleCheck, currentMonth }) {
           toggleCheck={toggleCheck}
           currentMonth={currentMonth}
         />
+        <PremiumGate feature={PREMIUM_FEATURES.shoppingPremiumEdit}>
+          <section className="shopping-premium-edit card-accent-top">
+            <h2 className="font-display">Premium brand edit</h2>
+            <p>Investment nursery pieces worth buying once — organic swaddles, carriers, and sleep essentials we return to every season.</p>
+          </section>
+        </PremiumGate>
       </PageSection>
     </>
   );

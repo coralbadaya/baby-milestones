@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
+import ws from 'ws';
 import { recipes } from '../src/data/recipes.js';
 import { parentingTips } from '../src/data/parentingTips.js';
 import { recipeToRow, tipToRow } from '../src/utils/community.js';
@@ -32,7 +33,10 @@ if (!url || !key) {
   process.exit(1);
 }
 
-const supabase = createClient(url, key, { auth: { persistSession: false } });
+const supabase = createClient(url, key, {
+  auth: { persistSession: false, autoRefreshToken: false },
+  realtime: { transport: ws },
+});
 
 async function seedRecipes() {
   const rows = recipes.map((recipe, index) => ({

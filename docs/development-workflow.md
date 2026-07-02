@@ -209,7 +209,10 @@ Frontend code may use:
 ```text
 VITE_SUPABASE_URL
 VITE_SUPABASE_ANON_KEY
+VITE_GA_MEASUREMENT_ID
 ```
+
+`VITE_GA_MEASUREMENT_ID` is optional. When set (e.g. `G-XXXXXXXXXX` from [Google Analytics](https://analytics.google.com/)), the app loads GA4 and sends page views on route changes. Admin routes (`/admin/*`) are excluded. Add the same variable in Vercel for production.
 
 Frontend code must never use:
 
@@ -229,6 +232,7 @@ Local environment values usually go in `.env.local`:
 ```bash
 VITE_SUPABASE_URL="https://your-project-ref.supabase.co"
 VITE_SUPABASE_ANON_KEY="your-public-anon-or-publishable-key"
+VITE_GA_MEASUREMENT_ID="G-XXXXXXXXXX"
 ```
 
 Do not commit `.env.local`.

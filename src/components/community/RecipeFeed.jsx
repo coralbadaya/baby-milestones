@@ -6,6 +6,8 @@ import { AGE_FILTERS, filterRecipe } from '../../utils/recipeFilters';
 import { buildTagOptions } from '../../utils/tagFilters';
 import TagFilterBar from './TagFilterBar';
 import Icon from '../Icon';
+import ImageWithFallback from '../ImageWithFallback';
+import { NESTBEAN_WATERMARK_SRC } from '../../constants/brandAssets';
 import RecipeDetailModal from './RecipeDetailModal';
 
 function RecipeCard({ recipe, offset = 0, isActive, onTap }) {
@@ -41,14 +43,15 @@ function RecipeCard({ recipe, offset = 0, isActive, onTap }) {
       onTouchEnd={handlePointerUp}
     >
       <div className="recipe-card-media">
-        {recipe.thumbnail ? (
-          <img src={recipe.thumbnail} alt="" className="recipe-thumbnail" />
-        ) : (
-          <div className="recipe-placeholder">
-            <Icon name="baby-bottle" size={48} />
-            <span>Baby recipe</span>
-          </div>
-        )}
+        <ImageWithFallback
+          className="recipe-card-media__frame"
+          imgClassName="recipe-thumbnail"
+          src={recipe.thumbnail}
+          watermarkSrc={NESTBEAN_WATERMARK_SRC}
+          alt=""
+          fallbackGradient="linear-gradient(145deg, #D4ECD9 0%, #FCF8F2 100%)"
+          loading="lazy"
+        />
       </div>
 
       <div className="recipe-card-body">
