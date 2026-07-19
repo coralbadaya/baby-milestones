@@ -31,7 +31,7 @@ function AdminDiyModalPreview({ activity, imageSrc, imageAlt }) {
       src={imageSrc}
       watermarkSrc={BRAND_WATERMARK_SRC}
       alt={imageAlt || activity.name}
-      fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #FCF8F2 100%)`}
+      fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #F3F5F2 100%)`}
       loading="lazy"
     />
   );

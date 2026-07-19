@@ -188,7 +188,7 @@
 
 ## Retheme follow-up
 
-**Deferred.** Separate plan for palette, typography, motion, and editorial layout under Yarn Trails. Do not fold retheme into this rebrand’s remaining ops checklist.
+See [`yarntrails-retheme-plan.md`](yarntrails-retheme-plan.md) — **Wool & Trail** palette (moss primary, yarn gold, cool mist). Typography families and editorial layout remain deferred.
 
 ---
 

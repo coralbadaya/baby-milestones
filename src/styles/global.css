@@ -1,58 +1,58 @@
-/* Switzer — warm Swiss grotesk (Fontshare) */
-@import url('https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap');
-/* Fraunces — editorial display serif (Google Fonts) */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap');
+/* Newsreader — literary display serif · Manrope — UI body (Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap');
 @import './admin-portal.css';
 
 :root {
   /* =====================
-     yarntrails — Quiet Luxury
-     Terracotta + honey gold on warm ivory
-     Palette A (see docs/brand-identity.md)
+     Yarn Trails — Wool & Trail
+     Moss trail + yarn gold on cool mist
+     See docs/yarntrails-retheme-plan.md
      ===================== */
 
   /* Brand anchors */
-  --brand-terracotta: #C2603E;
-  --brand-gold: #C9A24B;
-  --brand-clay: #D8A088;
-  --brand-ink: #2B2622;
+  --brand-trail: #3F5E52;
+  --brand-terracotta: var(--brand-trail); /* legacy alias → trail moss */
+  --brand-gold: #C4A35A;
+  --brand-yarn: var(--brand-gold);
+  --brand-clay: #D2C0A4;
+  --brand-ink: #1E2A26;
 
-  /* Primary - Terracotta */
-  --coral-primary: #C2603E;
-  --coral-primary-light: #EFD2C4;
-  --coral-primary-dark: #A54E30;
+  /* Primary - Trail moss */
+  --coral-primary: #3F5E52;
+  --coral-primary-light: #D5E3DC;
+  --coral-primary-dark: #2F4A40;
   
-  /* Secondary - Soft Lavender (legacy accent, retained) */
-  --lavender: #E8E0F0;
-  --lavender-dark: #9B88C0;
+  /* Secondary - Soft lavender (desaturated for mist) */
+  --lavender: #E4E0EA;
+  --lavender-dark: #8B7FA8;
   
-  /* Accents - Gentle pastels with good contrast */
-  --mint: #D4ECD9;
-  --mint-dark: #5FB878;
-  --baby-blue: #D6E9F8;
-  --baby-blue-dark: #5A9FD8;
-  --rose: #F3D9CC;
-  --rose-dark: #C77A5C;
-  --gold: #F2E2B8;
-  --gold-dark: #A8842F;
+  /* Accents - Gentle pastels (slightly desaturated) */
+  --mint: #D0E6D6;
+  --mint-dark: #5A9E6C;
+  --baby-blue: #D2E4F0;
+  --baby-blue-dark: #5A8FBE;
+  --rose: #E8D5CC;
+  --rose-dark: #B07860;
+  --gold: #EDE0C0;
+  --gold-dark: #9A7D3A;
   
-  /* Neutrals - Warm ivory & sand */
-  --cream: #FCF8F2;
-  --cream-dark: #EFE3D4;
-  --sand: #F5ECE0;
-  --mushroom: #D6C8B6;
-  --text-primary: #2B2622;
-  --text-secondary: #5A5048;
-  --text-light: #8A8179;
+  /* Neutrals - Wool mist */
+  --cream: #F3F5F2;
+  --cream-dark: #E4E9E4;
+  --sand: #EBEFEC;
+  --mushroom: #C5CDC7;
+  --text-primary: #1E2A26;
+  --text-secondary: #4A5650;
+  --text-light: #6B756F;
   --white: #FFFFFF;
   
   /* Surfaces — editorial page system */
-  --border-subtle: rgba(43, 38, 34, 0.1);
+  --border-subtle: rgba(30, 42, 38, 0.1);
   --surface-ivory: var(--cream);
   --surface-sand: var(--cream-dark);
   --surface-white: var(--white);
-  --surface-lavender: #F3EEF8;
-  --surface-mist: #EEF5FF;
+  --surface-lavender: #F0EEF3;
+  --surface-mist: #EEF4F1;
   --surface-ink: var(--brand-ink);
   --surface-primary: var(--cream);
   --surface-elevated: var(--white);
@@ -62,16 +62,16 @@
   --text-muted: var(--text-light);
   
   /* Semantic */
-  --success: #5FB878;
-  --warning: #D8A850;
-  --error: #D87878;
-  --info: #5A9FD8;
+  --success: #5A9E6C;
+  --warning: #C49A40;
+  --error: #C87878;
+  --info: #5A8FBE;
   
-  /* Shadows - very soft */
-  --shadow-sm: 0 1px 3px rgba(74, 69, 69, 0.04);
-  --shadow-md: 0 4px 12px rgba(74, 69, 69, 0.06);
-  --shadow-lg: 0 8px 24px rgba(74, 69, 69, 0.08);
-  --shadow-card: 0 2px 8px rgba(74, 69, 69, 0.04);
+  /* Shadows - cool forest tint */
+  --shadow-sm: 0 1px 3px rgba(30, 42, 38, 0.04);
+  --shadow-md: 0 4px 12px rgba(30, 42, 38, 0.06);
+  --shadow-lg: 0 8px 24px rgba(30, 42, 38, 0.08);
+  --shadow-card: 0 2px 8px rgba(30, 42, 38, 0.05);
   
   /* Radius - softer, rounder */
   --radius-xs: 8px;
@@ -95,9 +95,9 @@
   /* Mobile bottom nav clearance (see docs/page-layout-standardization.md) */
   --mobile-nav-height: 64px;
   
-  /* Typography */
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --font-body: 'Switzer', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Typography — Newsreader display + Manrope body */
+  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-body: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --text-xs: 11px;
   --text-sm: 13px;
   --text-base: 15px;
@@ -150,10 +150,10 @@
 }
 
 body {
-  font-family: 'Switzer', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
   background: var(--surface-primary);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.65;
   font-size: var(--text-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -162,7 +162,8 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--text-primary);
 }
 
@@ -176,7 +177,7 @@ h3 { font-size: var(--text-lg); }
 h4 { font-size: var(--text-md); }
 
 button {
-  font-family: 'Switzer', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   cursor: pointer;
   border: none;
   outline: none;
@@ -738,7 +739,7 @@ a {
   font-size: var(--text-lg);
   font-weight: 600;
   color: var(--text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .coral-logo-tagline {
@@ -959,7 +960,7 @@ a {
 }
 
 .birth-date-form input {
-  font-family: 'Switzer', sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: var(--text-md);
   padding: var(--space-3) var(--space-5);
   border: 2px solid var(--surface-elevated);
@@ -2509,7 +2510,7 @@ a {
   border: none;
   background: var(--coral-primary-light);
   color: var(--text-primary);
-  font-family: 'Switzer', sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
@@ -2736,7 +2737,7 @@ a {
   color: var(--text-secondary);
   border: 2px solid var(--coral-sand);
   transition: all var(--motion-fast) var(--ease-out);
-  font-family: 'Switzer', sans-serif;
+  font-family: var(--font-body), sans-serif;
 }
 
 .diy-filter-btn:hover {
@@ -2994,7 +2995,7 @@ a {
   border-radius: var(--radius-sm);
   font-size: var(--text-sm);
   font-weight: 700;
-  font-family: 'Switzer', sans-serif;
+  font-family: var(--font-body), sans-serif;
   transition: all var(--motion-fast) var(--ease-out);
   margin-top: var(--space-1);
   min-height: 52px;
@@ -3640,7 +3641,7 @@ a {
   padding: var(--space-3) 36px var(--space-3) var(--space-3);
   border-radius: var(--radius-sm);
   border: 2px solid var(--coral-sand);
-  font-family: 'Switzer', sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: var(--text-base);
   font-weight: 500;
   color: var(--text-primary);

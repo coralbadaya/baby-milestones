@@ -16,7 +16,7 @@ Read `docs/brand-identity.md` (logo, palette, asset list, SEO files).
 ## Logo workflow
 
 1. The master is `public/brand/yarntrails-mark.svg` (viewBox 0 0 64 64).
-2. Edit the SVG paths; keep gold `#C9A24B` yarn ball and terracotta `#C2603E` trail threads.
+2. Edit the SVG paths; keep yarn gold `#C4A35A` and trail moss `#3F5E52`.
 3. Mirror geometry into `src/components/CoralLogo.jsx` (`CoralMark`) and `public/brand/yarntrails-logo.svg`.
 4. Inspect by rendering to PNG with sharp before committing.
 
@@ -30,7 +30,13 @@ Outputs favicons, iOS/Android/PWA icons, maskable, store icon, and OG image into
 
 ## Colors
 
-Edit tokens in `src/styles/global.css` `:root`. Anchor tokens: `--brand-terracotta`, `--brand-gold`, `--brand-clay`, `--brand-ink`. Keep WCAG AA contrast.
+Edit tokens in `src/styles/global.css` `:root`. Wool & Trail anchors: `--brand-trail` / `--coral-primary` (`#3F5E52`), `--brand-gold` (`#C4A35A`), `--cream` mist (`#F3F5F2`), `--brand-ink`. Keep WCAG AA contrast. See `docs/yarntrails-retheme-plan.md`.
+
+## Typography
+
+- Display: Newsreader (`--font-display`)
+- Body: Manrope (`--font-body`)
+
 
 ## SEO / PWA checklist
 

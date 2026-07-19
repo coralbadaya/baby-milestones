@@ -23,7 +23,7 @@ function ImageWithFallback({
   src,
   watermarkSrc = BRAND_WATERMARK_SRC,
   alt,
-  fallbackGradient = 'linear-gradient(145deg, #F5EDE5 0%, #FCF8F2 100%)',
+  fallbackGradient = 'linear-gradient(145deg, #E4E9E4 0%, #F3F5F2 100%)',
   placeholderColor,
   className,
   imgClassName,

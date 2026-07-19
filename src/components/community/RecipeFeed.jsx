@@ -49,7 +49,7 @@ function RecipeCard({ recipe, offset = 0, isActive, onTap }) {
           src={recipe.thumbnail}
           watermarkSrc={BRAND_WATERMARK_SRC}
           alt=""
-          fallbackGradient="linear-gradient(145deg, #D4ECD9 0%, #FCF8F2 100%)"
+          fallbackGradient="linear-gradient(145deg, #D4ECD9 0%, #F3F5F2 100%)"
           loading="lazy"
         />
       </div>

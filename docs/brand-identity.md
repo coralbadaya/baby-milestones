@@ -18,7 +18,7 @@
 
 ## Logo
 
-**Mark:** A honey-gold yarn ball with winding arcs, and terracotta trail threads leading outward — the path of early motherhood.
+**Mark:** A spun-gold yarn ball with winding arcs, and moss trail threads leading outward — the path of early motherhood.
 
 | Asset | Path | Use |
 |-------|------|-----|
@@ -28,7 +28,7 @@
 | React | `src/components/CoralLogo.jsx` | In-app header/footer (component name legacy) |
 | favicon.svg | `public/favicon.svg` | Browser tab (vector) |
 
-**Wordmark:** Fraunces (display serif), weight 600, letter-spacing −0.01em.
+**Wordmark:** Newsreader (display serif), weight 600, letter-spacing −0.02em.
 
 ### Clear space & sizing
 - Keep clear space ≥ the yarn-ball radius around the mark.
@@ -37,20 +37,23 @@
 
 ---
 
-## Color palette (Palette A)
+## Color palette (Wool & Trail)
 
 | Token | Hex | Use |
 |-------|-----|-----|
-| `--brand-terracotta` / `--coral-primary` | `#C2603E` | Primary, logo stems, CTAs |
-| `--coral-primary-dark` | `#A54E30` | Hover |
-| `--coral-primary-light` | `#EFD2C4` | Tints, hero gradients |
-| `--brand-gold` / `--gold-dark` | `#C9A24B` / `#A8842F` | Yarn ball, accents, dividers |
-| `--brand-clay` | `#D8A088` | Soft accent |
-| `--cream` | `#FCF8F2` | Page background (ivory) |
-| `--cream-dark` | `#EFE3D4` | Fills |
-| `--sand` | `#F5ECE0` | Subtle surfaces |
-| `--brand-ink` / `--text-primary` | `#2B2622` | Headings, body |
-| `--text-secondary` | `#5A5048` | Meta |
+| `--brand-trail` / `--coral-primary` | `#3F5E52` | Primary CTAs, logo trail, active nav |
+| `--coral-primary-dark` | `#2F4A40` | Hover |
+| `--coral-primary-light` | `#D5E3DC` | Tints, hero washes |
+| `--brand-gold` / `--brand-yarn` | `#C4A35A` | Yarn ball, accents, dividers |
+| `--gold-dark` | `#9A7D3A` | Gold hover / strokes |
+| `--brand-clay` | `#D2C0A4` | Soft flax accent |
+| `--cream` | `#F3F5F2` | Page background (wool mist) |
+| `--cream-dark` | `#E4E9E4` | Fills |
+| `--sand` | `#EBEFEC` | Subtle surfaces |
+| `--brand-ink` / `--text-primary` | `#1E2A26` | Headings, body |
+| `--text-secondary` | `#4A5650` | Meta |
+
+**Typography:** Display **Newsreader**; body/UI **Manrope**. Spec: [`yarntrails-retheme-plan.md`](yarntrails-retheme-plan.md).
 
 Source of truth: `src/styles/global.css` `:root`.
 

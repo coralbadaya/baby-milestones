@@ -15,7 +15,7 @@ function ShopProductImage({ item, size = 'md' }) {
         src={item.image}
         watermarkSrc={BRAND_WATERMARK_SRC}
         alt=""
-        fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #FCF8F2 100%)`}
+        fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #F3F5F2 100%)`}
         loading="lazy"
       />
     );
@@ -27,7 +27,7 @@ function ShopProductImage({ item, size = 'md' }) {
       imgClassName="shop-product-thumb__img"
       watermarkSrc={BRAND_WATERMARK_SRC}
       alt=""
-      fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #FCF8F2 100%)`}
+      fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #F3F5F2 100%)`}
       loading="lazy"
     />
   );

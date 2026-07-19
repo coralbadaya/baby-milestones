@@ -18,11 +18,11 @@ const ROOT = join(__dirname, '..');
 const PUBLIC = join(ROOT, 'public');
 const MARK = join(PUBLIC, 'brand/yarntrails-mark.svg');
 
-const IVORY = '#FCF8F2';
-const TERRACOTTA = '#C2603E';
-const GOLD = '#C9A24B';
-const INK = '#2B2622';
-const MUTED = '#8A8585';
+const IVORY = '#F3F5F2';
+const TERRACOTTA = '#3F5E52'; /* trail moss */
+const GOLD = '#C4A35A';
+const INK = '#1E2A26';
+const MUTED = '#6B756F';
 
 const markSvg = readFileSync(MARK);
 
@@ -90,7 +90,7 @@ async function main() {
 
   // favicon.ico (16/32/48)
   const icoSources = await Promise.all(
-    [16, 32, 48].map((s) => renderIcon(s, { scale: 0.92, background: { r: 252, g: 248, b: 242, alpha: 1 } }))
+    [16, 32, 48].map((s) => renderIcon(s, { scale: 0.92, background: { r: 243, g: 245, b: 242, alpha: 1 } }))
   );
   const ico = await pngToIco(icoSources);
   writeFileSync(join(PUBLIC, 'favicon.ico'), ico);
@@ -98,27 +98,27 @@ async function main() {
   // Apple touch icon (solid bg, rounded handled by iOS)
   writeFileSync(
     join(PUBLIC, 'apple-touch-icon.png'),
-    await renderIcon(180, { background: { r: 252, g: 248, b: 242, alpha: 1 }, scale: 0.72 })
+    await renderIcon(180, { background: { r: 243, g: 245, b: 242, alpha: 1 }, scale: 0.72 })
   );
 
   // Android / PWA icons (solid bg)
   for (const s of [192, 512]) {
     writeFileSync(
       join(PUBLIC, `icon-${s}.png`),
-      await renderIcon(s, { background: { r: 252, g: 248, b: 242, alpha: 1 }, scale: 0.74 })
+      await renderIcon(s, { background: { r: 243, g: 245, b: 242, alpha: 1 }, scale: 0.74 })
     );
   }
 
   // Maskable (extra safe zone)
   writeFileSync(
     join(PUBLIC, 'icon-maskable-512.png'),
-    await renderIcon(512, { background: { r: 252, g: 248, b: 242, alpha: 1 }, scale: 0.56 })
+    await renderIcon(512, { background: { r: 243, g: 245, b: 242, alpha: 1 }, scale: 0.56 })
   );
 
   // App store icon (1024, no transparency)
   writeFileSync(
     join(PUBLIC, 'icon-store-1024.png'),
-    await renderIcon(1024, { background: { r: 252, g: 248, b: 242, alpha: 1 }, scale: 0.7 })
+    await renderIcon(1024, { background: { r: 243, g: 245, b: 242, alpha: 1 }, scale: 0.7 })
   );
 
   // OG / social image

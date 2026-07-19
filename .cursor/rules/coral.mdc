@@ -38,6 +38,7 @@ alwaysApply: true
 | `docs/design-system-2026.md` | **Master design system** — audience, colors, typography, quiet luxury |
 | `docs/brand-identity.md` | **Brand** — Yarn Trails logo, palette, asset pipeline, SEO |
 | `docs/yarntrails-rebrand-plan.md` | **Rebrand** — Nestbean → Yarn Trails (name, copy, assets, SEO, infra; retheme deferred) |
+| `docs/yarntrails-retheme-plan.md` | **Retheme** — Wool & Trail color + Newsreader/Manrope type + styling; preview in `docs/prototypes/yarntrails-visual-system.html` |
 | `docs/premium-redesign-plan.md` | **Premium repositioning** — phases, metrics, file map |
 | `docs/information-architecture.md` | Nav order, routes, page hierarchy |
 | `docs/imagery-system.md` | PageHero, AI art direction, image manifest |

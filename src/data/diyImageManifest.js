@@ -217,8 +217,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Drum Circle. Scene shows Pots, pans, lids, wooden spoon, metal spoon, plastic spoon. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Drum Circle baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['first_art', {
@@ -246,8 +246,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: First Foods Sensory Play. Scene shows High chair, Puréed food (sweet potato, banana, avocado), Bib and patience!. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for First Foods Sensory Play baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['first_walk', {
@@ -314,8 +314,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Kitchen Instrument Band. Scene shows 2 wooden spoons, Pot, cake tin, plastic bowl, cardboard box. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Kitchen Instrument Band baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['lap_bounce', {
@@ -371,8 +371,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Hanging Mobile DIY. Scene shows Wooden dowel or hanger, String, Foil, colourful paper, or old CDs. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Hanging Mobile DIY baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['name_game', {
@@ -398,8 +398,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Nature Walk Collecting. Scene shows Small bag or bucket, Outdoors. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Nature Walk Collecting baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['nesting_cups', {
@@ -577,8 +577,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Rattle Discovery Box. Scene shows Small container with lid (Tupperware), Dried beans or rice, Tape to seal lid. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Rattle Discovery Box baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['reading', {
@@ -618,8 +618,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Colourful Scarf Dance. Scene shows 2–3 colourful scarves or fabric pieces, Gentle music. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Colourful Scarf Dance baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['seated_reach', {
@@ -647,8 +647,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Sand/Rice Sensory Bin. Scene shows Shallow container or storage box, Dried rice or clean sand, Cups, spoons, small toys to hide inside. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Sand/Rice Sensory Bin baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['sensory_box', {
@@ -662,8 +662,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Crinkle Texture Tunnel. Scene shows Large cardboard box, Aluminium foil, Bubble wrap. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Crinkle Texture Tunnel baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['shakers', {
@@ -676,8 +676,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Sound Shaker Eggs. Scene shows Plastic Easter eggs or small containers, Rice, sand, small bells (different fillings for each). Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Sound Shaker Eggs baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['shape_sorter', {
@@ -731,8 +731,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Sound Tour of the House. Scene shows Just you and baby. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Sound Tour of the House baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['texture_book', {
@@ -746,8 +746,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Texture Touch Book. Scene shows Cardboard pages, Glue, Fabric scraps: velvet, cotton, burlap, foil, bubble wrap. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Texture Touch Book baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['texture_walk', {
@@ -760,8 +760,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Barefoot Texture Walk. Scene shows Towels, Different materials: bubble wrap, carpet square, bath mat, smooth plastic tray, grass. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Barefoot Texture Walk baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['treasure_basket', {
@@ -774,8 +774,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Treasure Basket Exploration. Scene shows Wicker basket or bowl, 10–12 safe household objects with different properties. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Treasure Basket Exploration baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['tummy_time', {
@@ -818,8 +818,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Black & White Vision Cards. Scene shows White paper, Black marker, Cardboard or clipboard. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Black & White Vision Cards baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['walk_carry', {
@@ -847,8 +847,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Water Pillow Sensory Mat. Scene shows Large zip-lock freezer bag, Water, Food colouring (optional). Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Water Pillow Sensory Mat baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['water_play', {
@@ -862,8 +862,8 @@ export const diyImageManifest = Object.fromEntries([
     ],
     "prompt": "Editorial baby activity: Water Splash Bath Play. Scene shows Shallow baby bath, Plastic cups, spoon, Floating toys. Hands-only or minimal luxury home setting, warm natural light, desaturated warm tones, magazine editorial, candid not staged. Horizontal 4:3, no text, no logos, no stock baby clichés.",
     "alt": "Editorial photo for Water Splash Bath Play baby activity",
-    "accent": "#C2603E",
-    "gradientFrom": "#EFD2C4",
+    "accent": "#3F5E52",
+    "gradientFrom": "#D5E3DC",
     "gradientTo": "#F5ECE0"
   }],
   ['wave', {

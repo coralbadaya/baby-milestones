@@ -19,17 +19,19 @@ Use when elevating Yarn Trails UI for affluent tier-1 new mothers — quiet luxu
 
 | Do | Don't |
 |----|-------|
-| Fraunces for display headlines | All-caps paragraphs |
+| Newsreader for display headlines | All-caps paragraphs |
 | Generous `--space-8` / `--space-12` section gaps | Dense feature stacks |
 | One primary action per section | 8 nav items |
 | PageHero with editorial photo | Gradient-only heroes (except fallback) |
 | Left-align body copy | Center long paragraphs |
 | Invitation tone for Premium | Aggressive paywalls on health tracking |
+| Trail moss CTAs (`--coral-primary`) | Terracotta / purple gradients |
 
 ## Typography
 
-- **Display:** `'Fraunces', Georgia, serif` — h1, `.page-hero__title`, `.font-display`
-- **Body:** `'Switzer', sans-serif` — paragraphs, UI
+- **Display:** `var(--font-display)` → Newsreader — h1, `.page-hero__title`, `.font-display`
+- **Body:** `var(--font-body)` → Manrope — paragraphs, UI
+- Palette: Wool & Trail — see `docs/yarntrails-retheme-plan.md`
 
 ## Components (reuse)
 

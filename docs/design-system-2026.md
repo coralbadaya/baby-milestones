@@ -56,8 +56,8 @@ Extension of warm minimalism for affluent tier-1 mothers.
 
 | Element | Spec |
 |---------|------|
-| Display type | **Fraunces** serif — `--font-display` |
-| Body type | **Switzer** — `--font-body` |
+| Display type | **Newsreader** serif — `--font-display` |
+| Body type | **Manrope** — `--font-body` |
 | Heroes | `<PageHero>` with AI art-directed photography |
 | Nav | 6 journey links (desktop): Today · My Baby · My Care · Essentials · Community · Guides; mobile bottom bar: 5 items (no Guides) |
 | Spacing | Generous `--space-8` section gaps |
@@ -110,50 +110,52 @@ Move toward:
 
 ### Philosophy
 
-The shipped palette is **light, warm, and positive** — soft peach, lavender, and mint pastels on cream. It avoids heavy earth tones and auto dark mode so the app always feels airy and approachable.
+**Wool & Trail** — cool wool mist backgrounds, moss trail primary, spun-gold yarn accents. Quiet luxury for Yarn Trails; avoids Nestbean terracotta-on-cream.
 
-**Source of truth:** [`src/styles/global.css`](src/styles/global.css) `:root` tokens.
+**Source of truth:** [`src/styles/global.css`](../src/styles/global.css) `:root` tokens. Plan: [`yarntrails-retheme-plan.md`](yarntrails-retheme-plan.md).
 
 ### Primary Palette
 
 | Token | Name | Hex | Usage |
 |-------|------|-----|-------|
-| `--coral-primary` | Soft Coral | `#E89060` | CTAs, active nav, accents |
-| `--coral-primary-light` | Peach | `#FFD5C2` | Hero gradients, card CTA bg |
-| `--coral-primary-dark` | Coral Deep | `#D87850` | Hover on primary |
+| `--coral-primary` / `--brand-trail` | Trail moss | `#3F5E52` | CTAs, active nav, accents |
+| `--coral-primary-light` | Trail tint | `#D5E3DC` | Hero washes, chips |
+| `--coral-primary-dark` | Trail deep | `#2F4A40` | Hover on primary |
 
 ### Secondary & Accents
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--lavender` / `--lavender-dark` | `#E8E0F0` / `#9B88C0` | Secondary surfaces, progress rings |
-| `--mint` / `--mint-dark` | `#D4ECD9` / `#5FB878` | Success, milestones checked |
-| `--baby-blue` / `--baby-blue-dark` | `#D6E9F8` / `#5A9FD8` | Physical activity accent |
-| `--rose` / `--rose-dark` | `#F8D4D8` / `#D88090` | Emotional activity accent |
-| `--gold` / `--gold-dark` | `#F8ECC0` / `#C8A840` | Warnings, disclaimer borders |
+| `--brand-gold` / `--gold-dark` | `#C4A35A` / `#9A7D3A` | Yarn accent, dividers, premium spark |
+| `--lavender` / `--lavender-dark` | `#E4E0EA` / `#8B7FA8` | Secondary surfaces, progress |
+| `--mint` / `--mint-dark` | `#D0E6D6` / `#5A9E6C` | Success, milestones checked |
+| `--baby-blue` / `--baby-blue-dark` | `#D2E4F0` / `#5A8FBE` | Physical activity accent |
+| `--rose` / `--rose-dark` | `#E8D5CC` / `#B07860` | Emotional activity accent |
+| `--gold` | `#EDE0C0` | Soft gold wash |
 
 ### Neutrals
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--cream` | `#FFFBF7` | Page background |
-| `--cream-dark` | `#F5EDE5` | Subtle fills, inputs |
-| `--mushroom` | `#D0C8C0` | Borders, disabled |
-| `--text-primary` | `#2D2A2A` | Headings, body |
-| `--text-secondary` | `#5A5555` | Meta, subtitles |
-| `--text-light` | `#8A8585` | Captions |
+| `--cream` | `#F3F5F2` | Page background (wool mist) |
+| `--cream-dark` | `#E4E9E4` | Subtle fills, inputs |
+| `--sand` | `#EBEFEC` | Muted strips |
+| `--mushroom` | `#C5CDC7` | Borders, disabled |
+| `--text-primary` | `#1E2A26` | Headings, body |
+| `--text-secondary` | `#4A5650` | Meta, subtitles |
+| `--text-light` | `#6B756F` | Captions |
 | `--white` | `#FFFFFF` | Cards, modals |
 
 ### Semantic
 
 | Token | Hex |
 |-------|-----|
-| `--success` | `#5FB878` |
-| `--warning` | `#D8A850` |
-| `--error` | `#D87878` |
-| `--info` | `#5A9FD8` |
+| `--success` | `#5A9E6C` |
+| `--warning` | `#C49A40` |
+| `--error` | `#C87878` |
+| `--info` | `#5A8FBE` |
 
-Legacy aliases (`--peach`, `--coral-sage`, etc.) map to the tokens above for backward compatibility.
+Legacy aliases (`--peach`, `--coral-sage`, `--brand-terracotta` → trail) map to the tokens above.
 
 ### Dark Mode
 
@@ -163,10 +165,8 @@ Legacy aliases (`--peach`, `--coral-sage`, etc.) map to the tokens above for bac
 
 - All text must meet **WCAG 2.1 AA** contrast (4.5:1 for normal text, 3:1 for large)
 - Never use color alone to convey meaning (pair with icons or text)
-- Test palettes under:
-  - Low light conditions
-  - Direct sunlight (outdoor glare)
-  - Protanopia, deuteranopia, tritanopia simulations
+- Do not use yarn gold for small body text
+- Test palettes under low light, glare, and colorblind simulations
 
 ---
 
@@ -174,38 +174,41 @@ Legacy aliases (`--peach`, `--coral-sage`, etc.) map to the tokens above for bac
 
 ### Philosophy
 
-Move away from clinical neo-grotesks (Inter, SF Pro) toward **bouba grotesks**—soft, rounded, friendly typefaces that project warmth without sacrificing readability.
+Literary **Newsreader** for display (story / trail journal) with **Manrope** for calm UI body — already used in the baby book surfaces.
 
 ### Font Stack
 
 | Role | Primary | Fallback |
 |------|---------|----------|
-| Display | **Fraunces** | Georgia, serif |
-| Body | **Switzer** | Hanken Grotesk, system-ui |
+| Display | **Newsreader** | Georgia, serif |
+| Body | **Manrope** | system-ui, sans-serif |
 | Monospace | Geist Mono | JetBrains Mono, monospace |
 
-**Why Fraunces + Switzer?**
-- Fraunces: editorial warmth for headlines — quiet luxury
-- Switzer: calm UI legibility at small sizes
+```css
+--font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+--font-body: 'Manrope', system-ui, sans-serif;
+```
 
 ### Type Scale
 
-Based on a 1.25 ratio with 16px base.
+Based on a 1.25 ratio with ~15–16px base.
 
 | Token | Size | Weight | Line Height | Usage |
 |-------|------|--------|-------------|-------|
-| `--text-xs` | 12px | 400 | 1.5 | Captions, timestamps |
-| `--text-sm` | 14px | 400 | 1.5 | Secondary text, labels |
-| `--text-base` | 16px | 400 | 1.6 | Body text (minimum for mobile) |
-| `--text-md` | 18px | 500 | 1.5 | Emphasized body |
-| `--text-lg` | 20px | 600 | 1.4 | Card titles, section headers |
-| `--text-xl` | 24px | 700 | 1.3 | Page section headers |
-| `--text-2xl` | 32px | 700 | 1.2 | Page titles |
-| `--text-3xl` | 40px | 800 | 1.1 | Hero headlines |
+| `--text-xs` | 11–12px | 400–500 | 1.5 | Captions, timestamps |
+| `--text-sm` | 13px | 400 | 1.5 | Secondary text, labels |
+| `--text-base` | 15px | 400 | 1.65 | Body text (minimum for mobile) |
+| `--text-md` | 17px | 500 | 1.5 | Emphasized body |
+| `--text-lg` | 19px | 600 | 1.4 | Card titles, section headers |
+| `--text-xl` | 22px | 600 | 1.3 | Page section headers |
+| `--text-2xl` | 28px | 600 | 1.15 | Page titles |
+| `--text-3xl` | 34px | 600 | 1.15 | Hero headlines |
+
+Display headings use `letter-spacing: -0.02em`.
 
 ### Typography Rules
 
-1. **Minimum 16px** for body text on mobile (CRITICAL for tired eyes)
+1. **Minimum 15–16px** for body text on mobile (CRITICAL for tired eyes)
 2. **High contrast** between text and background
 3. **Left-align** body text (no justify, no center for paragraphs)
 4. **Line length** max 65–75 characters for readability
@@ -839,13 +842,15 @@ Replace animations with instant state changes or simple opacity crossfades.
 ### Font Loading
 
 ```html
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-<link 
-  href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap" 
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap"
   rel="stylesheet"
 >
 ```
 
+Also loaded via `@import` in `src/styles/global.css`.
 ### Animation Library
 
 Recommended: Framer Motion (React)
@@ -906,9 +911,9 @@ Before shipping any UI change:
 
 | Item | Status |
 |------|--------|
-| Light warm palette | Shipped — `global.css` |
-| Switzer typography | Shipped |
-| Fraunces display serif | Shipped |
+| Light Wool & Trail palette | Shipped — `global.css` |
+| Manrope body typography | Shipped |
+| Newsreader display serif | Shipped |
 | Phosphor Light icons | Shipped — `Icon.jsx`, `phosphorIconMap.js` |
 | Soothing UI sounds (WAV) | Shipped — `public/sounds/`, always on |
 | PageHero + editorial images | Shipped — `PageHero.jsx`, `public/images/heroes/` |
@@ -927,8 +932,8 @@ Before shipping any UI change:
 ## Resources
 
 ### Fonts
-- [General Sans (Fontshare)](https://www.fontshare.com/fonts/general-sans)
-- [Cabinet Grotesk (Fontshare)](https://www.fontshare.com/fonts/cabinet-grotesk)
+- [Newsreader (Google Fonts)](https://fonts.google.com/specimen/Newsreader)
+- [Manrope (Google Fonts)](https://fonts.google.com/specimen/Manrope)
 
 ### Icons
 - [Lucide Icons](https://lucide.dev/)
