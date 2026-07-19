@@ -124,8 +124,15 @@ function Community({ currentMonth, tab }) {
         </nav>
       </PageSection>
 
-      <PageSection surface="white" width="narrow" className="page-body--with-mobile-nav">
-        <div className="community-panel community-panel--editorial" role="tabpanel">
+      <PageSection
+        surface="white"
+        width={tab === 'feed' ? 'wide' : 'narrow'}
+        className="page-body--with-mobile-nav"
+      >
+        <div
+          className={`community-panel community-panel--editorial${tab === 'feed' ? ' community-panel--feed' : ''}`}
+          role="tabpanel"
+        >
           {tab === 'feed' && (
             memoriesLoading ? (
               <p className="community-loading">Loading feed…</p>

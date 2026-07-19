@@ -22,6 +22,7 @@ function MemoryFeed({ memories, onReact, onAddComment }) {
   }, [memories, typeFilter, tagFilter]);
 
   const hasFilters = typeFilter !== 'all' || tagFilter !== 'all';
+  const showTagSidebar = tagOptions.length > 1;
 
   if (memories.length === 0) {
     return (
@@ -34,63 +35,71 @@ function MemoryFeed({ memories, onReact, onAddComment }) {
   }
 
   return (
-    <div className="memory-feed">
-      <div className="community-section-filters">
-        <p className="community-filter-count">
-          {filtered.length === memories.length
-            ? `${memories.length} posts`
-            : `${filtered.length} of ${memories.length} posts`}
-        </p>
+    <div className={`memory-feed${showTagSidebar ? ' memory-feed--with-tags' : ''}`}>
+      <div className="memory-feed__main">
+        <div className="community-section-filters">
+          <p className="community-filter-count">
+            {filtered.length === memories.length
+              ? `${memories.length} posts`
+              : `${filtered.length} of ${memories.length} posts`}
+          </p>
 
-        <div className="community-filters" role="tablist" aria-label="Post type">
-          {MEMORY_TYPE_FILTERS.map((t) => (
+          <div className="community-filters" role="tablist" aria-label="Post type">
+            {MEMORY_TYPE_FILTERS.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                role="tab"
+                aria-selected={typeFilter === t.id}
+                className={`community-filter-btn${typeFilter === t.id ? ' active' : ''}`}
+                onClick={() => setTypeFilter(t.id)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {hasFilters && (
             <button
-              key={t.id}
               type="button"
-              role="tab"
-              aria-selected={typeFilter === t.id}
-              className={`community-filter-btn${typeFilter === t.id ? ' active' : ''}`}
-              onClick={() => setTypeFilter(t.id)}
+              className="community-clear-filters"
+              onClick={() => {
+                setTypeFilter('all');
+                setTagFilter('all');
+              }}
             >
-              {t.label}
+              Clear filters
             </button>
-          ))}
+          )}
         </div>
 
-        <TagFilterBar
-          options={tagOptions}
-          selected={tagFilter}
-          onSelect={setTagFilter}
-          label="Memory tags"
-        />
-
-        {hasFilters && (
-          <button
-            type="button"
-            className="community-clear-filters"
-            onClick={() => {
-              setTypeFilter('all');
-              setTagFilter('all');
-            }}
-          >
-            Clear filters
-          </button>
+        {filtered.length === 0 ? (
+          <div className="community-empty community-empty-inline">
+            <p>No posts match these filters — try another type or tag.</p>
+          </div>
+        ) : (
+          filtered.map((memory) => (
+            <MemoryCard
+              key={memory.id}
+              memory={memory}
+              onReact={onReact}
+              onAddComment={onAddComment}
+            />
+          ))
         )}
       </div>
 
-      {filtered.length === 0 ? (
-        <div className="community-empty community-empty-inline">
-          <p>No posts match these filters — try another type or tag.</p>
-        </div>
-      ) : (
-        filtered.map((memory) => (
-          <MemoryCard
-            key={memory.id}
-            memory={memory}
-            onReact={onReact}
-            onAddComment={onAddComment}
+      {showTagSidebar && (
+        <aside className="memory-feed__tags" aria-label="Filter by tag">
+          <p className="memory-feed__tags-title">Tags</p>
+          <TagFilterBar
+            options={tagOptions}
+            selected={tagFilter}
+            onSelect={setTagFilter}
+            label="Memory tags"
+            className="tag-filter-bar--sidebar"
           />
-        ))
+        </aside>
       )}
     </div>
   );
