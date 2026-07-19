@@ -71,7 +71,7 @@ function IdeasGrid({ ideas, totalPhotoCount = 0, onGenerate, generating }) {
       <p className="baby-book-ideas__eyebrow">Idea Studio</p>
       <h2 className="baby-book-section-title">Books hiding in your camera roll</h2>
       <p className="baby-book-section-sub">
-        Nestbean studied your {totalPhotoCount || 'album'} photos. Each idea below is one tap from a finished keepsake — layout, cleanup, and captions handled.
+        Yarn Trails studied your {totalPhotoCount || 'album'} photos. Each idea below is one tap from a finished keepsake — layout, cleanup, and captions handled.
       </p>
       <div className="baby-book-ideas__list">
         {ideas.map((idea, index) => (

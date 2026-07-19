@@ -1,4 +1,4 @@
-# Nestbean — Claude / Cursor project guide
+# Yarn Trails — Claude / Cursor project guide
 
 Baby milestone tracker and mom care (React + Vite). Use this file for **fast agent orientation**; deeper context lives in linked docs.
 
@@ -19,7 +19,7 @@ Baby milestone tracker and mom care (React + Vite). Use this file for **fast age
 - **Frontend:** React 19, Vite 8, Vitest, React Router 7
 - **Backend:** Supabase (auth, Postgres, storage)
 - **Hosting:** Vercel
-- **Brand:** Nestbean — `src/constants/brand.js`
+- **Brand:** Yarn Trails — `src/constants/brand.js`
 
 ---
 
@@ -55,8 +55,8 @@ Admin: `/admin` · `/admin/inbox` · `/admin/users` · `/admin/promos` · `/admi
 |-----|---------|
 | `babyBirthDate` | Baby DOB |
 | `babyMilestoneChecks` | Milestone checkboxes |
-| `nestbeanFirstMoments` | Life firsts media |
-| `nestmilePremium` | Anonymous premium preview |
+| `yarntrailsFirstMoments` | Life firsts media |
+| `yarntrailsPremium` | Anonymous premium preview |
 
 Full list: [`memory.md`](memory.md#localstorage-keys)
 
@@ -124,7 +124,7 @@ Full list: [`memory.md`](memory.md#localstorage-keys)
 | `src/components/PageHero.jsx` | Editorial heroes |
 | `src/components/Select.jsx` | All dropdowns |
 | `src/components/Footer.jsx` | Global footer |
-| `src/components/CoralLogo.jsx` | Nestbean mark + lockup |
+| `src/components/CoralLogo.jsx` | Yarn Trails mark + lockup |
 | `src/components/Icon.jsx` | Phosphor icons |
 
 ---
@@ -152,4 +152,4 @@ Update in the same session when you change:
 
 ---
 
-*Nestbean · See [`memory.md`](memory.md) for full living reference*
+*Yarn Trails · See [`memory.md`](memory.md) for full living reference*

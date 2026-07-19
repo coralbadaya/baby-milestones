@@ -12,7 +12,7 @@ function StoryPreview() {
 
   usePageMeta({
     title: story?.title || 'Story preview',
-    description: 'A preview page from a Nestbean AI baby book story.',
+    description: 'A preview page from a Yarn Trails AI baby book story.',
   });
 
   useEffect(() => {

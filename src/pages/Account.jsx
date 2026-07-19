@@ -10,7 +10,7 @@ import { ROUTES } from '../routes';
 import { BRAND_NAME } from '../constants/brand';
 
 function AccountContent() {
-  usePageMeta({ title: 'Account', description: 'Manage your Nestbean membership and profile.' });
+  usePageMeta({ title: 'Account', description: 'Manage your Yarn Trails membership and profile.' });
   const {
     user, profile, membership, isPremium, isAdmin, isStaff,
     signOut, updateDisplayName, redeemPromoCode, refreshProfile,

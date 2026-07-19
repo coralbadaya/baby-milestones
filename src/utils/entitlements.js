@@ -87,5 +87,5 @@ export function entitlementBlockedMessage(state, feature) {
   if (feature === PREMIUM_FEATURES.voiceNotes) {
     return `Basic includes ${ENTITLEMENT_LIMITS.voiceNotesStored} voice notes. Upgrade for unlimited storage.`;
   }
-  return 'Available on Nestbean Plus.';
+  return 'Available on Yarn Trails Plus.';
 }

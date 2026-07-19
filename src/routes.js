@@ -109,7 +109,7 @@ export const FOOTER_SECTIONS = [
       { to: ROUTES.guides, label: 'Guides & Articles' },
       { to: ROUTES.milestoneCardsTool, label: 'Milestone Cards' },
       { to: ROUTES.guide('best-baby-book-apps-2026'), label: 'Best Baby Book Apps' },
-      { to: ROUTES.guide('nestbean-vs-qeepsake'), label: 'Nestbean vs Qeepsake' },
+      { to: ROUTES.guide('yarntrails-vs-qeepsake'), label: 'Yarn Trails vs Qeepsake' },
       { to: ROUTES.baby, label: 'Milestones by Month' },
       { to: ROUTES.vaccination, label: 'Vaccination Schedule' },
       { to: ROUTES.faq, label: 'FAQ' },

@@ -1,4 +1,4 @@
-# Nestmile Community Feature — Phased Implementation Plan
+# Yarn Trails Community Feature — Phased Implementation Plan
 
 > **Tagline:** Milestones, recipes, and tips shared by parents  
 > **Target:** Gen Z & late Millennial parents, especially new moms  
@@ -45,7 +45,7 @@
 - [x] Apply design system styling (warm colors, General Sans font)
 
 ### 2.2 Page Header
-- [x] Add "Nestmile Community" title
+- [x] Add "Yarn Trails Community" title
 - [x] Display community tagline (see `COMMUNITY_TAGLINE` in `src/constants/brand.js`)
 - [x] Style header per design-system-2026.md
 

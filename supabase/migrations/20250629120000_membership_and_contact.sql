@@ -1,4 +1,4 @@
--- Nestbean: profiles, memberships, promo codes, contact submissions, RBAC helpers
+-- Yarn Trails: profiles, memberships, promo codes, contact submissions, RBAC helpers
 
 -- ---------------------------------------------------------------------------
 -- profiles (table first — helpers below reference this relation)

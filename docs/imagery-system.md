@@ -1,6 +1,6 @@
 # Imagery System
 
-> Editorial, art-directed photography for Nestbean. **AI-generated primary**; licensed stock for signature moments.
+> Editorial, art-directed photography for Yarn Trails. **AI-generated primary**; licensed stock for signature moments.
 
 ---
 
@@ -67,11 +67,11 @@ Table: diy_activity_images (admin-managed)
 
 **Admin:** `/admin/diy` — see [`docs/diy-images-admin.md`](diy-images-admin.md)
 
-**Resolution order:** Supabase override → bundled illustration JPG → Nestbean watermark → category gradient.
+**Resolution order:** Supabase override → bundled illustration JPG → Yarn Trails watermark → category gradient.
 
-**Nestbean watermark placeholder** (`public/images/placeholders/nestbean-watermark.jpg`, source `public/brand/nestbean-watermark.svg`):
+**Yarn Trails watermark placeholder** (`public/images/placeholders/yarntrails-watermark.jpg`, source `public/brand/yarntrails-watermark.svg`):
 - Used when bundled/override photos are missing or fail `onError`
-- Shared via `ImageWithFallback` + `NESTBEAN_WATERMARK_SRC` in `src/constants/brandAssets.js`
+- Shared via `ImageWithFallback` + `BRAND_WATERMARK_SRC` in `src/constants/brandAssets.js`
 - Regenerate: `npm run generate:brand`
 
 **Generate bundled editorial images:**
@@ -130,7 +130,7 @@ Focus card headers: `src/data/focusImages.js` (reuses hero photography).
 - `<picture>` or `<img>` with `loading="eager"` on home, `lazy` elsewhere
 - When `eager`, injects a document `<link rel="preload" as="image">` for the hero src (LCP target ≤2.5s on 4G — verify with Lighthouse mobile)
 - Gradient scrim overlay for WCAG text contrast
-- `ImageWithFallback`: primary → Nestbean watermark → CSS gradient from manifest `fallbackGradient`
+- `ImageWithFallback`: primary → Yarn Trails watermark → CSS gradient from manifest `fallbackGradient`
 - Blur placeholder via inline `background-color` until load
 
 ### CSS classes

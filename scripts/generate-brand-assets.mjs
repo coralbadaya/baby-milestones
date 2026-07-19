@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * In-house brand asset generator.
- * Master: public/brand/nestbean-mark.svg
+ * Master: public/brand/yarntrails-mark.svg
  * Outputs: favicons, iOS/Android/PWA icons, maskable, OG image.
  *
  * Run: npm run generate:brand
@@ -16,7 +16,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const PUBLIC = join(ROOT, 'public');
-const MARK = join(PUBLIC, 'brand/nestbean-mark.svg');
+const MARK = join(PUBLIC, 'brand/yarntrails-mark.svg');
 
 const IVORY = '#FCF8F2';
 const TERRACOTTA = '#C2603E';
@@ -64,13 +64,14 @@ function ogSvg() {
   <rect width="1200" height="630" fill="${IVORY}"/>
   <rect x="40" y="40" width="1120" height="550" rx="28" fill="none" stroke="${GOLD}" stroke-width="2" opacity="0.5"/>
   <g transform="translate(468 150) scale(4.6)">
-    <path d="M18 17 V47" stroke="${TERRACOTTA}" stroke-width="6" stroke-linecap="round"/>
-    <path d="M46 17 V47" stroke="${TERRACOTTA}" stroke-width="6" stroke-linecap="round"/>
-    <path d="M18 18.5 L46 45.5" stroke="${TERRACOTTA}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-    <ellipse cx="32" cy="41.5" rx="8.2" ry="5.4" fill="${GOLD}"/>
-    <circle cx="25.4" cy="39.2" r="3.1" fill="${GOLD}"/>
+    <circle cx="26" cy="30" r="13" fill="none" stroke="${GOLD}" stroke-width="3.5"/>
+    <path d="M18 26 C22 22 30 22 34 26" fill="none" stroke="${GOLD}" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M17.5 30 C22 34 30 34 34.5 30" fill="none" stroke="${GOLD}" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M19 34.5 C23 38 29 38 33 34.5" fill="none" stroke="${GOLD}" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M38 34 C46 36 50 42 52 50" fill="none" stroke="${TERRACOTTA}" stroke-width="4" stroke-linecap="round"/>
+    <path d="M39 26 C48 22 52 16 54 12" fill="none" stroke="${TERRACOTTA}" stroke-width="3.2" stroke-linecap="round"/>
   </g>
-  <text x="600" y="470" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="74" font-weight="600" fill="${INK}" letter-spacing="-1">Nestbean</text>
+  <text x="600" y="470" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="600" fill="${INK}" letter-spacing="-1">Yarn Trails</text>
   <text x="600" y="520" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="6" fill="${MUTED}">THE ART OF EARLY MOTHERHOOD</text>
 </svg>`);
 }
@@ -127,10 +128,10 @@ async function main() {
   );
 
   // Editorial watermark placeholder (4:3 DIY cards, heroes, recipes)
-  const watermarkSvg = readFileSync(join(PUBLIC, 'brand/nestbean-watermark.svg'));
+  const watermarkSvg = readFileSync(join(PUBLIC, 'brand/yarntrails-watermark.svg'));
   mkdirSync(join(PUBLIC, 'images/placeholders'), { recursive: true });
   writeFileSync(
-    join(PUBLIC, 'images/placeholders/nestbean-watermark.jpg'),
+    join(PUBLIC, 'images/placeholders/yarntrails-watermark.jpg'),
     await sharp(watermarkSvg, { density: 144 }).jpeg({ quality: 88, mozjpeg: true }).toBuffer()
   );
 
@@ -138,7 +139,7 @@ async function main() {
   console.log('  favicon.svg, favicon.ico, favicon-16/32/48.png');
   console.log('  apple-touch-icon.png, icon-192/512.png, icon-maskable-512.png');
   console.log('  icon-store-1024.png, og-default.png');
-  console.log('  images/placeholders/nestbean-watermark.jpg');
+  console.log('  images/placeholders/yarntrails-watermark.jpg');
 }
 
 main().catch((err) => {

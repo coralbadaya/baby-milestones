@@ -1,6 +1,6 @@
 # Brand Assets Skill
 
-Use when changing the Nestbean logo, favicon, app icons, OG image, colors, or SEO/PWA metadata.
+Use when changing the Yarn Trails logo, favicon, app icons, OG image, colors, or SEO/PWA metadata.
 
 ## Triggers
 
@@ -15,9 +15,9 @@ Read `docs/brand-identity.md` (logo, palette, asset list, SEO files).
 
 ## Logo workflow
 
-1. The master is `public/brand/nestbean-mark.svg` (viewBox 0 0 64 64).
-2. Edit the SVG paths; keep terracotta `#C2603E` stems and gold `#C9A24B` bean.
-3. Mirror geometry into `src/components/CoralLogo.jsx` (`CoralMark`) and `public/brand/nestbean-logo.svg`.
+1. The master is `public/brand/yarntrails-mark.svg` (viewBox 0 0 64 64).
+2. Edit the SVG paths; keep gold `#C9A24B` yarn ball and terracotta `#C2603E` trail threads.
+3. Mirror geometry into `src/components/CoralLogo.jsx` (`CoralMark`) and `public/brand/yarntrails-logo.svg`.
 4. Inspect by rendering to PNG with sharp before committing.
 
 ## Regenerate all assets

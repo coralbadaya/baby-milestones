@@ -3,7 +3,7 @@ import Icon from '../Icon';
 import ImageWithFallback from '../ImageWithFallback';
 import PremiumGate from '../PremiumGate';
 import { PREMIUM_FEATURES } from '../../constants/premium';
-import { NESTBEAN_WATERMARK_SRC } from '../../constants/brandAssets';
+import { BRAND_WATERMARK_SRC } from '../../constants/brandAssets';
 import { interact } from '../../utils/haptics';
 import useMonthlyAlbum from '../../hooks/useMonthlyAlbum';
 
@@ -71,7 +71,7 @@ function MonthlyAlbumSection({ currentMonth = 1 }) {
               <ImageWithFallback
                 src={photo.data_url}
                 alt={photo.caption || 'Album photo'}
-                watermarkSrc={!isPlus ? NESTBEAN_WATERMARK_SRC : undefined}
+                watermarkSrc={!isPlus ? BRAND_WATERMARK_SRC : undefined}
                 className="monthly-album__image"
               />
               {photo.caption && <figcaption>{photo.caption}</figcaption>}

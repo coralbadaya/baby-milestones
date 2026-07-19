@@ -2,7 +2,7 @@
  * DIY activity imagery — per-activity Supabase overrides + illustration fallbacks.
  * See docs/diy-images-admin.md and docs/imagery-system.md
  */
-import { NESTBEAN_WATERMARK_ALT, NESTBEAN_WATERMARK_SRC } from '../constants/brandAssets';
+import { BRAND_WATERMARK_ALT, BRAND_WATERMARK_SRC } from '../constants/brandAssets';
 import diyActivities from './diyActivities';
 import { diyImageManifest, diyActivityImages } from './diyImageManifest';
 
@@ -75,7 +75,7 @@ export const diyImages = Object.fromEntries(
 
 /**
  * Resolve DIY image for an activity.
- * Order: Supabase override → bundled illustration JPG → Nestbean watermark → category gradient.
+ * Order: Supabase override → bundled illustration JPG → Yarn Trails watermark → category gradient.
  *
  * @param {{ activityId?: string, illustration?: string, category?: string }} params
  * @param {Record<string, DiyImageOverride>} [overrides]
@@ -98,7 +98,7 @@ export function getDiyImage({ activityId, illustration, category }, overrides = 
       fallbackGradient: fallback.fallbackGradient,
       placeholderColor: fallback.placeholderColor,
       prompt: activityMeta?.prompt,
-      watermarkSrc: NESTBEAN_WATERMARK_SRC,
+      watermarkSrc: BRAND_WATERMARK_SRC,
       source: 'override',
     };
   }
@@ -107,19 +107,19 @@ export function getDiyImage({ activityId, illustration, category }, overrides = 
     return {
       ...diyImages[illustration],
       alt: defaultAlt,
-      watermarkSrc: NESTBEAN_WATERMARK_SRC,
+      watermarkSrc: BRAND_WATERMARK_SRC,
       source: 'bundled',
     };
   }
 
   const humanized = (illustration || activityId || 'activity').replace(/_/g, ' ');
   return {
-    src: NESTBEAN_WATERMARK_SRC,
-    alt: defaultAlt || NESTBEAN_WATERMARK_ALT,
+    src: BRAND_WATERMARK_SRC,
+    alt: defaultAlt || BRAND_WATERMARK_ALT,
     fallbackGradient: fallback.fallbackGradient,
     placeholderColor: fallback.placeholderColor,
     prompt: activityMeta?.prompt,
-    watermarkSrc: NESTBEAN_WATERMARK_SRC,
+    watermarkSrc: BRAND_WATERMARK_SRC,
     source: 'watermark',
   };
 }

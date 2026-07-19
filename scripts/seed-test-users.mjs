@@ -94,7 +94,7 @@ async function ensureUser({ email, password, displayName, role }) {
 }
 
 async function main() {
-  console.log('Seeding Nestbean test users…\n');
+  console.log('Seeding Yarn Trails test users…\n');
   await ensureUser(TEST_USER);
   await ensureUser(TEST_ADMIN);
   console.log('\nDone. Credentials (also in .env.test.example):');

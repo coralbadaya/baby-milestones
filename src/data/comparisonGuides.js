@@ -3,19 +3,19 @@
 /** @type {import('./guides.js').Guide[]} */
 const comparisonGuides = [
   {
-    slug: 'nestbean-vs-qeepsake',
-    title: 'Nestbean vs Qeepsake: Which Baby Book App Is Right for You?',
-    description: 'Compare AI baby books, milestone tracking, and pricing — Nestbean vs Qeepsake for modern parents.',
+    slug: 'yarntrails-vs-qeepsake',
+    title: 'Yarn Trails vs Qeepsake: Which Baby Book App Is Right for You?',
+    description: 'Compare AI baby books, milestone tracking, and pricing — Yarn Trails vs Qeepsake for modern parents.',
     category: 'Compare',
     icon: 'book-open',
     readMinutes: 7,
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending review',
     updated: '2026-07-02',
-    intro: 'Both apps help you capture the first year — but they optimize for different moments. Qeepsake pioneered text-prompt journaling; Nestbean focuses on AI stories and an interactive flip-book built from your photos and milestones.',
+    intro: 'Both apps help you capture the first year — but they optimize for different moments. Qeepsake pioneered text-prompt journaling; Yarn Trails focuses on AI stories and an interactive flip-book built from your photos and milestones.',
     body: [
       {
-        heading: 'Nestbean strengths',
+        heading: 'Yarn Trails strengths',
         list: [
           'AI-illustrated stories with narration from your photos',
           'Interactive 3D flip-book on Plus',
@@ -34,7 +34,7 @@ const comparisonGuides = [
       {
         heading: 'Bottom line',
         paragraphs: [
-          'Choose Qeepsake if you want daily text prompts above all else. Choose Nestbean if the emotional payoff is an AI-rendered story and flip-book you can share with grandparents.',
+          'Choose Qeepsake if you want daily text prompts above all else. Choose Yarn Trails if the emotional payoff is an AI-rendered story and flip-book you can share with grandparents.',
         ],
       },
     ],
@@ -47,14 +47,14 @@ const comparisonGuides = [
     category: 'Compare',
     icon: 'star',
     readMinutes: 8,
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending review',
     updated: '2026-07-02',
-    intro: 'The category split in 2026: prompt journals (Qeepsake), private photo sharing (Tinybeans), and AI-rendered storybooks (Nestbean). Here is how to pick.',
+    intro: 'The category split in 2026: prompt journals (Qeepsake), private photo sharing (Tinybeans), and AI-rendered storybooks (Yarn Trails). Here is how to pick.',
     body: [
       {
         heading: 'Best AI baby book',
-        paragraphs: ['Nestbean — milestone tracking free; Plus unlocks unlimited AI stories and a 3D flip-book.'],
+        paragraphs: ['Yarn Trails — milestone tracking free; Plus unlocks unlimited AI stories and a 3D flip-book.'],
       },
       {
         heading: 'Best for family photo sharing',
@@ -65,7 +65,7 @@ const comparisonGuides = [
         paragraphs: ['Qeepsake — daily questions by text; strong print upsell.'],
       },
     ],
-    relatedSlugs: ['nestbean-vs-qeepsake', 'digital-baby-book-guide'],
+    relatedSlugs: ['yarntrails-vs-qeepsake', 'digital-baby-book-guide'],
   },
   {
     slug: 'tinybeans-vs-qeepsake',
@@ -74,10 +74,10 @@ const comparisonGuides = [
     category: 'Compare',
     icon: 'speech-bubble',
     readMinutes: 6,
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending review',
     updated: '2026-07-02',
-    intro: 'Tinybeans centers family photo feeds; Qeepsake centers daily text prompts. Neither focuses on AI story rendering — that is where Nestbean differs.',
+    intro: 'Tinybeans centers family photo feeds; Qeepsake centers daily text prompts. Neither focuses on AI story rendering — that is where Yarn Trails differs.',
     body: [
       {
         heading: 'Tinybeans',
@@ -89,10 +89,10 @@ const comparisonGuides = [
       },
       {
         heading: 'Also consider',
-        paragraphs: ['Nestbean if you want an AI baby book with a free milestone tracker and one full story on Basic.'],
+        paragraphs: ['Yarn Trails if you want an AI baby book with a free milestone tracker and one full story on Basic.'],
       },
     ],
-    relatedSlugs: ['nestbean-vs-qeepsake', 'best-baby-book-apps-2026'],
+    relatedSlugs: ['yarntrails-vs-qeepsake', 'best-baby-book-apps-2026'],
   },
   {
     slug: 'digital-baby-book-guide',
@@ -101,7 +101,7 @@ const comparisonGuides = [
     category: 'Baby Book',
     icon: 'book-open',
     readMinutes: 6,
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending review',
     updated: '2026-07-02',
     intro: 'A digital baby book should preserve the recording habit for free and charge for the emotional rendering — stories, flip-books, and print.',
@@ -125,7 +125,7 @@ const comparisonGuides = [
     category: 'Gifts',
     icon: 'star',
     readMinutes: 5,
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending review',
     updated: '2026-07-02',
     intro: 'Grandparents want connection, not clutter. A gift subscription to an AI baby book with viewer seats beats another onesie set.',
@@ -133,7 +133,7 @@ const comparisonGuides = [
       {
         heading: 'Top picks',
         list: [
-          'Nestbean gift subscription ($59.99) — the full first year',
+          'Yarn Trails gift subscription ($59.99) — the full first year',
           'First Year Bundle with linen hardcover for the nursery shelf',
           'Viewer seat invite on Plus — read-only flip-book access',
         ],
@@ -148,7 +148,7 @@ const comparisonGuides = [
     category: 'Baby Book',
     icon: 'book-open',
     readMinutes: 5,
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending review',
     updated: '2026-07-02',
     intro: 'Paper books gather dust; apps meet you at 3am. The best alternatives combine free tracking with optional print and AI narrative.',
@@ -156,7 +156,7 @@ const comparisonGuides = [
       {
         heading: 'Alternatives worth trying',
         list: [
-          'Nestbean — AI flip-book + free milestones',
+          'Yarn Trails — AI flip-book + free milestones',
           'Printed photo books from camera roll (no milestone context)',
           'Prompt journals — Qeepsake-style text capture',
         ],
@@ -167,18 +167,18 @@ const comparisonGuides = [
   {
     slug: 'milestone-cards-printable',
     title: 'Milestone Cards & Printable Month Signs',
-    description: 'Free printable milestone cards for monthly photos — plus how to turn them into story pages in Nestbean.',
+    description: 'Free printable milestone cards for monthly photos — plus how to turn them into story pages in Yarn Trails.',
     category: 'Tools',
     icon: 'camera',
     readMinutes: 4,
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending review',
     updated: '2026-07-02',
     intro: 'Monthly milestone cards are a classic photo tradition. Use our free generator or turn the same months into AI story pages.',
     body: [
       {
         heading: 'Free tool',
-        paragraphs: ['Use the Nestbean milestone card generator at /tools/milestone-cards to download printable cards.'],
+        paragraphs: ['Use the Yarn Trails milestone card generator at /tools/milestone-cards to download printable cards.'],
       },
     ],
     relatedSlugs: ['digital-baby-book-guide'],

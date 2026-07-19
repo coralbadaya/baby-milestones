@@ -26,7 +26,7 @@ function FolkTaleToggle({ enabled, onChange, selectedTemplateId, onTemplateChang
         <span>
           <strong>Enable folk-tale structure</strong>
           <span className="baby-book-studio__section-sub">
-            Inspired by folk traditions worldwide — an original Nestbean story.
+            Inspired by folk traditions worldwide — an original Yarn Trails story.
           </span>
         </span>
       </label>

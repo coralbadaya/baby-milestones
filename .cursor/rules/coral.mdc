@@ -1,9 +1,9 @@
 ---
-description: Nestmile app — design-first UI workflow and doc index
+description: Yarn Trails app — design-first UI workflow and doc index
 alwaysApply: true
 ---
 
-# Nestmile
+# Yarn Trails
 
 **Constitution:** [`docs/doctrine-summary.md`](docs/doctrine-summary.md) (one page) · [`docs/doctrine.md`](docs/doctrine.md) (full).
 
@@ -36,7 +36,8 @@ alwaysApply: true
 | `docs/doctrine-summary.md` | **Onboarding one-pager** — pillars, rules, commands, doc map |
 | `memory.md` | **Living reference** — file map, localStorage, assistant KB, routes |
 | `docs/design-system-2026.md` | **Master design system** — audience, colors, typography, quiet luxury |
-| `docs/brand-identity.md` | **Brand** — Nestbean logo, palette, asset pipeline, SEO |
+| `docs/brand-identity.md` | **Brand** — Yarn Trails logo, palette, asset pipeline, SEO |
+| `docs/yarntrails-rebrand-plan.md` | **Rebrand** — Nestbean → Yarn Trails (name, copy, assets, SEO, infra; retheme deferred) |
 | `docs/premium-redesign-plan.md` | **Premium repositioning** — phases, metrics, file map |
 | `docs/information-architecture.md` | Nav order, routes, page hierarchy |
 | `docs/imagery-system.md` | PageHero, AI art direction, image manifest |

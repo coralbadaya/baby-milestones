@@ -1,4 +1,4 @@
--- Nestbean: newsletter subscribers, templates, campaigns, sends
+-- Yarn Trails: newsletter subscribers, templates, campaigns, sends
 
 -- ---------------------------------------------------------------------------
 -- newsletter_subscribers
@@ -231,23 +231,23 @@ insert into public.newsletter_templates (
 ) values
 (
   'welcome',
-  'Welcome to Nestbean',
+  'Welcome to Yarn Trails',
   'Sent after footer signup — gentle introduction to the list.',
-  'Welcome to Nestbean — gentle notes for your journey',
+  'Welcome to Yarn Trails — gentle notes for your journey',
   'Your curated companion for milestones, care, and calm.',
-  '<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#3d3835;">Welcome to Nestbean. We''re glad you''re here.</p>
+  '<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#3d3835;">Welcome to Yarn Trails. We''re glad you''re here.</p>
 <p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#3d3835;">From time to time, we''ll send quiet, editorial notes — milestone highlights, one thoughtful activity, and reminders that care for you matters too. No clutter, no daily noise.</p>
 <p style="margin:0 0 24px;font-size:16px;line-height:1.6;color:#3d3835;">When you''re ready, open Today for a calm read tailored to your week.</p>
 <p style="margin:0 0 24px;"><a href="{{site_url}}" style="display:inline-block;padding:12px 24px;background:#8b7355;color:#fff;text-decoration:none;border-radius:6px;font-size:15px;">Open Today</a></p>
-<p style="margin:0;font-size:15px;line-height:1.6;color:#6b6560;">Warmly,<br>The Nestbean team</p>',
-  'Welcome to Nestbean. We''re glad you''re here.
+<p style="margin:0;font-size:15px;line-height:1.6;color:#6b6560;">Warmly,<br>The Yarn Trails team</p>',
+  'Welcome to Yarn Trails. We''re glad you''re here.
 
 From time to time, we''ll send quiet, editorial notes — milestone highlights, one thoughtful activity, and reminders that care for you matters too.
 
 Open Today: {{site_url}}
 
 Warmly,
-The Nestbean team',
+The Yarn Trails team',
   true
 ),
 (
@@ -261,7 +261,7 @@ The Nestbean team',
 <p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#3d3835;"><strong>Try this week:</strong> one simple DIY activity from your month page — five calm minutes together.</p>
 <p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#3d3835;"><strong>For you:</strong> drink water before you reach for your phone in the morning. Small rituals anchor long days.</p>
 <p style="margin:0 0 24px;"><a href="{{site_url}}/baby" style="display:inline-block;padding:12px 24px;background:#8b7355;color:#fff;text-decoration:none;border-radius:6px;font-size:15px;">View this month</a></p>
-<p style="margin:0;font-size:15px;line-height:1.6;color:#6b6560;">With care,<br>The Nestbean team</p>',
+<p style="margin:0;font-size:15px;line-height:1.6;color:#6b6560;">With care,<br>The Yarn Trails team</p>',
   'A new month brings new curiosity — for your little one and for you.
 
 Watch for: small shifts in movement, sound, and connection.
@@ -271,24 +271,24 @@ For you: drink water before you reach for your phone in the morning.
 View this month: {{site_url}}/baby
 
 With care,
-The Nestbean team',
+The Yarn Trails team',
   true
 ),
 (
   'product-update',
-  'What''s new at Nestbean',
+  'What''s new at Yarn Trails',
   'Product update with feature highlights.',
-  'New on Nestbean — {{feature_name}}',
+  'New on Yarn Trails — {{feature_name}}',
   'A quick look at what we''ve added for you.',
-  '<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#3d3835;">We''ve been refining Nestbean for calmer, more considered early motherhood. Here''s what''s new:</p>
+  '<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#3d3835;">We''ve been refining Yarn Trails for calmer, more considered early motherhood. Here''s what''s new:</p>
 <ul style="margin:0 0 16px;padding-left:20px;font-size:16px;line-height:1.7;color:#3d3835;">
 <li><strong>First Moments</strong> — a gentle photo journal for life''s small firsts.</li>
 <li><strong>DIY activity images</strong> — curated visuals for every month''s play ideas.</li>
 <li><strong>Editorial refresh</strong> — quieter layouts across Today and My Baby.</li>
 </ul>
-<p style="margin:0 0 24px;"><a href="{{site_url}}" style="display:inline-block;padding:12px 24px;background:#8b7355;color:#fff;text-decoration:none;border-radius:6px;font-size:15px;">Explore Nestbean</a></p>
-<p style="margin:0;font-size:15px;line-height:1.6;color:#6b6560;">Thank you for being here,<br>The Nestbean team</p>',
-  'We''ve been refining Nestbean for calmer, more considered early motherhood.
+<p style="margin:0 0 24px;"><a href="{{site_url}}" style="display:inline-block;padding:12px 24px;background:#8b7355;color:#fff;text-decoration:none;border-radius:6px;font-size:15px;">Explore Yarn Trails</a></p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#6b6560;">Thank you for being here,<br>The Yarn Trails team</p>',
+  'We''ve been refining Yarn Trails for calmer, more considered early motherhood.
 
 - First Moments — a gentle photo journal for life''s small firsts.
 - DIY activity images — curated visuals for every month''s play ideas.
@@ -297,7 +297,7 @@ The Nestbean team',
 Explore: {{site_url}}
 
 Thank you for being here,
-The Nestbean team',
+The Yarn Trails team',
   true
 )
 on conflict (slug) do nothing;

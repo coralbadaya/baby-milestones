@@ -1,4 +1,4 @@
-# Nestbean Doctrine
+# Yarn Trails Doctrine
 
 > **The art of early motherhood.**  
 > This document is the project's constitution — what we build, who we serve, and what we refuse to compromise.  
@@ -9,7 +9,7 @@
 
 ## 1. Mission
 
-Nestbean is a **quiet-luxury companion** for the first three years of parenthood. We help educated, time-poor mothers in tier‑1 cities move through early motherhood with **sequence, calm, and trust** — not more noise.
+Yarn Trails is a **quiet-luxury companion** for the first three years of parenthood. We help educated, time-poor mothers in tier‑1 cities move through early motherhood with **sequence, calm, and trust** — not more noise.
 
 We are not a social network, a medical device, or a gamified checklist. We are an **editorial guide** with practical tools woven in.
 
@@ -104,7 +104,7 @@ The staff console is a **separate product surface** — operational, data-first,
 
 ### Brand
 
-- Name: **Nestbean** (source: `src/constants/brand.js`)
+- Name: **Yarn Trails** (source: `src/constants/brand.js`)
 - Logo & palette: [`brand-identity.md`](brand-identity.md)
 - Regenerate icons after logo changes: `npm run generate:brand`
 
@@ -219,9 +219,9 @@ When docs conflict, resolve in this order: **doctrine → feature spec → code*
 
 ## 12. Names & legacy
 
-- **Product name:** Nestbean (user-facing)
-- **Repo / internal paths:** Some legacy `coral` / `Nestmile` identifiers remain in filenames and CSS tokens — do not rename casually; new work uses Nestbean in copy and `src/constants/brand.js`.
+- **Product name:** Yarn Trails (user-facing)
+- **Repo / internal paths:** Some legacy `coral` / `Yarn Trails` identifiers remain in filenames and CSS tokens — do not rename casually; new work uses Yarn Trails in copy and `src/constants/brand.js`.
 
 ---
 
-*Established: July 2026 · Nestbean*
+*Established: July 2026 · Yarn Trails*

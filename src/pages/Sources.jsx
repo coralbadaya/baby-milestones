@@ -15,7 +15,7 @@ function TabButton({ active, onClick, icon, children }) {
 function Sources() {
   usePageMeta({
     title: 'Medical Sources & Citations',
-    description: 'The recognized medical authorities and citations behind Nestbean\u2019s milestones and guidance.',
+    description: 'The recognized medical authorities and citations behind Yarn Trails\u2019s milestones and guidance.',
   });
   const [activeTab, setActiveTab] = useState('global');
   const [expandedSource, setExpandedSource] = useState(null);

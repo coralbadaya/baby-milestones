@@ -73,7 +73,7 @@ Sand editorial band below the main tip card (`.editorial-band-inline--sand`).
 ### Layout
 
 ```
-SectionHeader (eyebrow: Nestbean Plus)
+SectionHeader (eyebrow: Yarn Trails Plus)
 City pills (London · Dubai · New York)
 Split card
   ├── .travel-longhaul__media (gradient placeholder)

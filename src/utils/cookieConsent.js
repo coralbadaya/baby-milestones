@@ -1,6 +1,6 @@
 /** @typedef {'accepted' | 'rejected'} AnalyticsConsent */
 
-const STORAGE_KEY = 'nestbean-cookie-consent';
+const STORAGE_KEY = 'yarntrails-cookie-consent';
 
 /** @returns {{ analytics: AnalyticsConsent, updatedAt: string } | null} */
 export function readCookieConsent() {

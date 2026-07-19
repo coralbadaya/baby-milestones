@@ -17,7 +17,7 @@ describe('first moments persistence pattern', () => {
 
     expect(restored['first-smile'].mediaType).toBe('photo');
     expect(countCapturedMoments(restored)).toBe(1);
-    expect(FIRST_MOMENTS_STORAGE_KEY).toBe('nestbeanFirstMoments');
+    expect(FIRST_MOMENTS_STORAGE_KEY).toBe('yarntrailsFirstMoments');
   });
 
   it('counts photo and video captures', () => {

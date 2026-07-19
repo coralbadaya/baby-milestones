@@ -1,5 +1,5 @@
 /**
- * Vercel serverless: create Stripe Checkout session for Nestbean Plus SKUs.
+ * Vercel serverless: create Stripe Checkout session for Yarn Trails Plus SKUs.
  * Requires STRIPE_SECRET_KEY and price IDs in env.
  */
 export default async function handler(req, res) {

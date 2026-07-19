@@ -10,8 +10,8 @@ function ShareStoryButton({ story, isPlus }) {
   const share = async () => {
     trackEvent('share_story', { is_plus: isPlus, story_id: story.id });
     const text = isPlus
-      ? `A page from ${story.title} — made with Nestbean`
-      : `A preview from ${story.title} — Nestbean AI baby book`;
+      ? `A page from ${story.title} — made with Yarn Trails`
+      : `A preview from ${story.title} — Yarn Trails AI baby book`;
 
     if (navigator.share) {
       try {

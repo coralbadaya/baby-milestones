@@ -1,6 +1,6 @@
 # Admin Portal Skill
 
-Use when designing or implementing the Nestbean **staff admin console** (`/admin/*`).
+Use when designing or implementing the Yarn Trails **staff admin console** (`/admin/*`).
 
 ## Before you start
 
@@ -35,7 +35,7 @@ Copy everything below the line into a new agent task when implementing the admin
 
 ---
 
-### PROMPT: Nestbean Admin Portal — Professional Shell (Phase 1)
+### PROMPT: Yarn Trails Admin Portal — Professional Shell (Phase 1)
 
 **Goal:** Transform `/admin/*` into a professional admin portal per `docs/admin-portal-design.md`. Phase 1 = shell + theme only; do not rewrite business logic in admin pages.
 

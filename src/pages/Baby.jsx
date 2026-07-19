@@ -110,7 +110,7 @@ function Baby({
 
       <PageSection surface="sand" width="wide">
         <SectionHeader
-          eyebrow="Nestbean Plus"
+          eyebrow="Yarn Trails Plus"
           title="Your baby book"
           subtitle="AI stories in your language, photo-book ideas, and a 3D flip-book — the magic rendering tier."
         />

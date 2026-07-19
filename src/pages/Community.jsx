@@ -103,7 +103,7 @@ function Community({ currentMonth, tab }) {
 
       <PageSection surface="sand" width="narrow">
         <SectionHeader
-          eyebrow="Nestbean Community"
+          eyebrow="Yarn Trails Community"
           title={TAB_META[tab]?.title || 'Community'}
           subtitle={TAB_META[tab]?.description}
         />

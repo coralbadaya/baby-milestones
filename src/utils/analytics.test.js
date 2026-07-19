@@ -24,7 +24,7 @@ describe('analytics', () => {
     const calls = [];
     globalThis.window.gtag = (...args) => { calls.push(args); };
     Object.defineProperty(globalThis.window, 'document', {
-      value: { title: 'Nestbean' },
+      value: { title: 'Yarn Trails' },
       configurable: true,
     });
 

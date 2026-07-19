@@ -6,7 +6,7 @@
 
 :root {
   /* =====================
-     NESTBEAN — Quiet Luxury
+     yarntrails — Quiet Luxury
      Terracotta + honey gold on warm ivory
      Palette A (see docs/brand-identity.md)
      ===================== */
@@ -687,7 +687,7 @@ a {
   flex-shrink: 0;
 }
 
-/* Nestmile brand logo */
+/* Yarn Trails brand logo */
 .coral-logo--lockup {
   display: inline-flex;
   align-items: center;
@@ -702,6 +702,10 @@ a {
 
 .coral-logo-stroke-parent {
   stroke: var(--coral-primary);
+}
+
+.coral-logo-stroke-accent {
+  stroke: var(--gold-dark);
 }
 
 .coral-logo-stroke-baby {
@@ -7544,7 +7548,7 @@ a {
   }
 }
 
-/* ——— Nestbean Plus / AI baby book ——— */
+/* ——— Yarn Trails Plus / AI baby book ——— */
 .premium-compare {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

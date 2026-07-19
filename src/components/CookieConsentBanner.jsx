@@ -32,7 +32,7 @@ function CookieConsentBanner() {
           <p id="cookie-consent-desc" className="cookie-consent-desc">
             {isUpdating ? (
               <>
-                Choose whether Nestbean may use optional analytics cookies to understand aggregate
+                Choose whether Yarn Trails may use optional analytics cookies to understand aggregate
                 usage. Essential storage for your entries always stays on your device.
               </>
             ) : (

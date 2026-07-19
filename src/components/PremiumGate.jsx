@@ -8,7 +8,7 @@ import Icon from './Icon';
 function PremiumGate({ feature, children, compact = false }) {
   const { isPremium, user, startLocalTrial } = useAuth();
   const copy = PREMIUM_FEATURE_COPY[feature] || {
-    title: 'Nestbean Plus',
+    title: 'Yarn Trails Plus',
     teaser: 'Unlock the full AI baby book experience.',
   };
 

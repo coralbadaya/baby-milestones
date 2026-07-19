@@ -1,6 +1,6 @@
 # Development Workflow
 
-This guide explains how to work on Nestmile as a first-time website developer. Keep it open while you build features.
+This guide explains how to work on Yarn Trails as a first-time website developer. Keep it open while you build features.
 
 **New to the project?** Read [`doctrine-summary.md`](doctrine-summary.md) first (one page) — mission, pillars, and non‑negotiables.
 

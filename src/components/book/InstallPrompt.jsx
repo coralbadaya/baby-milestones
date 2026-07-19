@@ -4,7 +4,7 @@ import { ROUTES } from '../../routes';
 import { trackEvent } from '../../utils/analytics';
 import { interact } from '../../utils/haptics';
 
-const DISMISS_KEY = 'nestbean-install-prompt-dismissed';
+const DISMISS_KEY = 'yarntrails-install-prompt-dismissed';
 
 function isMobile() {
   if (typeof navigator === 'undefined') return false;
@@ -31,7 +31,7 @@ function InstallPrompt() {
   return (
     <div className="install-prompt" role="region" aria-label="Install app">
       <p>
-        <strong>Nestbean on your home screen</strong>
+        <strong>Yarn Trails on your home screen</strong>
         {' — '}
         Add to Home Screen for one-tap access to milestones and stories.
       </p>

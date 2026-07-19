@@ -14,7 +14,7 @@ function GuideStoryCta({ month }) {
       <Icon name="sparkles" size={28} className="guide-story-cta__icon" />
       <h2 className="font-display">Your AI baby book</h2>
       <p>
-        Log milestones free forever — then let Nestbean weave photos and moments into
+        Log milestones free forever — then let Yarn Trails weave photos and moments into
         an illustrated story with narration.
       </p>
       <Link

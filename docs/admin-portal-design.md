@@ -1,6 +1,6 @@
 # Admin Portal — Design & Theme
 
-Professional staff console for Nestbean. **Separate visual language** from the consumer app: operational, data-first, calm — not editorial parenting warmth.
+Professional staff console for Yarn Trails. **Separate visual language** from the consumer app: operational, data-first, calm — not editorial parenting warmth.
 
 **Routes:** `/admin`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/newsletter`, `/admin/diy`  
 **Access:** `staff` (read-most) · `admin` (write + DIY images)  
@@ -19,7 +19,7 @@ Professional staff console for Nestbean. **Separate visual language** from the c
 
 **Reference feel:** Stripe Dashboard, Linear settings, Notion database views — restrained, trustworthy, fast to scan.
 
-**Not:** Bootstrap admin templates, neon dashboards, gamification, or consumer Nestbean lavender wash.
+**Not:** Bootstrap admin templates, neon dashboards, gamification, or consumer Yarn Trails lavender wash.
 
 ---
 
@@ -29,7 +29,7 @@ Professional staff console for Nestbean. **Separate visual language** from the c
 
 ```
 ┌─────────────┬────────────────────────────────────────────────┐
-│  Nestbean   │  Overview                                      │
+│  Yarn Trails   │  Overview                                      │
 │ Staff console│  ────────────────────────────────────────────  │
 │             │  [ toolbar: filters · search · primary action ]│
 │ OPERATIONS  │                                                │

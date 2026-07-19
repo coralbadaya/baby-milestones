@@ -1,6 +1,6 @@
-# Nestmile Premium Redesign Plan
+# Yarn Trails Premium Redesign Plan
 
-> Master plan for repositioning Nestmile from a feature-stacked utility to a **quiet-luxury concierge** for affluent new mothers in tier-1 global cities.
+> Master plan for repositioning Yarn Trails from a feature-stacked utility to a **quiet-luxury concierge** for affluent new mothers in tier-1 global cities.
 
 **Status:** In progress (Phase 0–2 shipped in code)  
 **Audience:** Educated, health-conscious, high-income new mothers — London, New York, Manchester, Dubai, Abu Dhabi, and similar markets.

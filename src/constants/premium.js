@@ -1,6 +1,6 @@
 /** Plus tiers and gating — see docs/monetization-strategy.md */
 
-export const PREMIUM_STORAGE_KEY = 'nestmilePremium';
+export const PREMIUM_STORAGE_KEY = 'yarntrailsPremium';
 
 /** Free-tier usage caps (Basic). Plus = unlimited unless noted. */
 export const ENTITLEMENT_LIMITS = {
@@ -36,7 +36,7 @@ export const PREMIUM_CURRENCIES = {
 export const PLANS = {
   basic: {
     id: 'basic',
-    name: 'Nestbean Basic',
+    name: 'Yarn Trails Basic',
     priceMonthly: 0,
     priceAnnual: 0,
     currency: 'USD',
@@ -50,7 +50,7 @@ export const PLANS = {
   },
   plus: {
     id: 'plus',
-    name: 'Nestbean Plus',
+    name: 'Yarn Trails Plus',
     priceMonthly: 7.99,
     priceAnnual: 49.99,
     priceBundle: 79.99,

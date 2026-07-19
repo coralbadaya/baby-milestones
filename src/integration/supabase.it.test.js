@@ -35,7 +35,7 @@ describeIt('Supabase contact (integration)', () => {
 
   it('allows anonymous contact form insert', async () => {
     if (!schemaReady) return;
-    const unique = `it-${Date.now()}@nestbean.test`;
+    const unique = `it-${Date.now()}@yarntrails.test`;
     const { data, error } = await anonClient.rpc('submit_contact_form', {
       p_email: unique,
       p_name: 'IT Test',

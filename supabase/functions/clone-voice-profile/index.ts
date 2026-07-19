@@ -51,8 +51,8 @@ Deno.serve(async (req) => {
     }
 
     const form = new FormData();
-    form.append('name', profile.display_name || `nestbean-${profileId.slice(0, 8)}`);
-    form.append('description', `Nestbean voice clone for ${profile.role}`);
+    form.append('name', profile.display_name || `yarntrails-${profileId.slice(0, 8)}`);
+    form.append('description', `Yarn Trails voice clone for ${profile.role}`);
     form.append('files', fileData, 'sample.webm');
 
     const cloneRes = await fetch('https://api.elevenlabs.io/v1/voices/add', {

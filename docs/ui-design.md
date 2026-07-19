@@ -1,4 +1,4 @@
-# Nestmile UI Design System
+# Yarn Trails UI Design System
 
 > **Before any UI work:** read this file, `docs/design-system-2026.md`, and the feature-specific design doc.  
 > **After UI changes:** update this file and the feature doc in the same session.

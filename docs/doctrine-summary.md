@@ -1,4 +1,4 @@
-# Nestbean Doctrine — One-Page Summary
+# Yarn Trails Doctrine — One-Page Summary
 
 > **Read this first.** Full constitution: [`doctrine.md`](doctrine.md)
 
@@ -6,7 +6,7 @@
 
 ## What we are
 
-**Nestbean** — *The art of early motherhood.*  
+**Yarn Trails** — *The art of early motherhood.*  
 A quiet-luxury companion for affluent new mothers (0–36 months). Editorial guide + practical tools. Not a social network, medical app, or gamified checklist.
 
 ---
@@ -81,4 +81,4 @@ npm run build        # before merge
 
 ---
 
-*Nestbean · July 2026*
+*Yarn Trails · July 2026*

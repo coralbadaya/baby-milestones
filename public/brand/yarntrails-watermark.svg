@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Yarn Trails">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5EDE5"/>
+      <stop offset="45%" stop-color="#FCF8F2"/>
+      <stop offset="100%" stop-color="#EFE3D4"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect x="32" y="32" width="736" height="536" rx="20" fill="none" stroke="#C9A24B" stroke-width="1.5" opacity="0.35"/>
+  <g transform="translate(400 248)" opacity="0.22">
+    <g transform="translate(-32 -32) scale(2.15)">
+      <circle cx="26" cy="30" r="13" fill="none" stroke="#C9A24B" stroke-width="3.5"/>
+      <path d="M18 26 C22 22 30 22 34 26" fill="none" stroke="#C9A24B" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M17.5 30 C22 34 30 34 34.5 30" fill="none" stroke="#C9A24B" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M19 34.5 C23 38 29 38 33 34.5" fill="none" stroke="#C9A24B" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M38 34 C46 36 50 42 52 50" fill="none" stroke="#C2603E" stroke-width="4" stroke-linecap="round"/>
+      <path d="M39 26 C48 22 52 16 54 12" fill="none" stroke="#C2603E" stroke-width="3.2" stroke-linecap="round"/>
+    </g>
+  </g>
+  <text x="400" y="360" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="600" fill="#2B2622" opacity="0.28" letter-spacing="-0.5">Yarn Trails</text>
+</svg>

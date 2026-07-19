@@ -24,13 +24,13 @@
 ```
 1. Supabase override (activity_id) → public storage URL
 2. Bundled JPG (/images/diy/{illustration}.jpg)
-3. Nestbean watermark (/images/placeholders/nestbean-watermark.jpg)
+3. Yarn Trails watermark (/images/placeholders/yarntrails-watermark.jpg)
 4. Category gradient (sensory / motor / …) — only if watermark also fails
 ```
 
 Cards never break when Supabase is unavailable — step 1 is skipped and steps 2–4 apply. Missing illustration keys show the watermark immediately (step 3).
 
-**Watermark asset:** source SVG `public/brand/nestbean-watermark.svg`; regenerate JPG via `npm run generate:brand`.
+**Watermark asset:** source SVG `public/brand/yarntrails-watermark.svg`; regenerate JPG via `npm run generate:brand`.
 
 ---
 

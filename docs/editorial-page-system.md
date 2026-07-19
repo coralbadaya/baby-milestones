@@ -1,9 +1,9 @@
 # Editorial Page System
 
-> **Master plan** for Nestbean’s visual upgrade — starting on **Today (`/`)**, then rolling out to every major route.  
+> **Master plan** for Yarn Trails’s visual upgrade — starting on **Today (`/`)**, then rolling out to every major route.  
 > **Goal:** Magazine-grade editorial rhythm (photography, contrast, scroll momentum) on a calm utility foundation.  
 > **Audience:** Affluent new mothers in tier-1 cities — London, New York, Dubai, Singapore, Hong Kong.  
-> **Brand:** Nestbean — *The art of early motherhood.*
+> **Brand:** Yarn Trails — *The art of early motherhood.*
 
 **Status:** Shipped (Phases 1–6 implemented June 2026)  
 **Last updated:** June 2026
@@ -421,4 +421,4 @@ When starting a phase:
 
 ---
 
-*Nestbean editorial page system — Home first, then everywhere.*
+*Yarn Trails editorial page system — Home first, then everywhere.*

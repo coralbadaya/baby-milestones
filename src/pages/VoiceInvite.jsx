@@ -13,7 +13,7 @@ function VoiceInvite() {
 
   usePageMeta({
     title: 'Record your voice',
-    description: 'Leave a voice blessing for your grandchild — Nestbean Baby Book.',
+    description: 'Leave a voice blessing for your grandchild — Yarn Trails Baby Book.',
   });
 
   useEffect(() => {

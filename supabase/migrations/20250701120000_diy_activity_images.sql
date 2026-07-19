@@ -1,4 +1,4 @@
--- Nestbean: per-activity DIY image overrides (Supabase Storage + metadata)
+-- Yarn Trails: per-activity DIY image overrides (Supabase Storage + metadata)
 
 -- ---------------------------------------------------------------------------
 -- diy_activity_images

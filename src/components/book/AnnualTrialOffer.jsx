@@ -9,7 +9,7 @@ function AnnualTrialOffer({ open, onClose, onAccept }) {
       <div className="baby-book-modal baby-book-glass">
         <h2 id="trial-title">Your first story is ready</h2>
         <p>
-          Turn every month into a illustrated page. Try Nestbean Plus free for 7 days
+          Turn every month into a illustrated page. Try Yarn Trails Plus free for 7 days
           on the annual plan — unlimited stories, voice narration, and the full 3D book.
         </p>
         <div className="baby-book-modal__actions">

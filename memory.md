@@ -1,4 +1,4 @@
-# Nestbean — Project Memory
+# Yarn Trails — Project Memory
 
 > Living reference for humans and AI agents. **Principles:** [`docs/doctrine-summary.md`](docs/doctrine-summary.md) · **Full constitution:** [`docs/doctrine.md`](docs/doctrine.md)
 
@@ -10,7 +10,7 @@ Last updated: July 2026
 
 | | |
 |---|---|
-| **Name** | Nestbean — *The art of early motherhood* |
+| **Name** | Yarn Trails — *The art of early motherhood* |
 | **Audience** | Affluent new mothers, tier‑1 cities; babies 0–36 months |
 | **Positioning** | Quiet-luxury editorial + **AI baby book** (Basic free / Plus magic) |
 | **Stack** | React 19 · Vite 8 · Vitest · Supabase · Vercel |
@@ -45,8 +45,8 @@ Routes source of truth: `src/routes.js` · IA spec: `docs/information-architectu
 | Assistant | Every response includes `MEDICAL_DISCLAIMER`; never diagnose |
 | Premium | Invitation tone; **Basic** = free tracking; **Plus** = stories, flip-book, editorial |
 | UI dropdowns | Use `src/components/Select.jsx` — no raw `<select>` |
-| Brand copy | `src/constants/brand.js` — user-facing name is **Nestbean** |
-| Legacy names | Repo/CSS may say `coral` / `Nestmile` — do not rename casually |
+| Brand copy | `src/constants/brand.js` — user-facing name is **Yarn Trails** |
+| Legacy CSS names | Repo/CSS may still say `coral` — do not rename casually |
 
 ---
 
@@ -61,8 +61,12 @@ Routes source of truth: `src/routes.js` · IA spec: `docs/information-architectu
 | `babyVaccineRecords` | Vaccination completion records |
 | `babyCustomVaccines` | User-added vaccines |
 | `babyVaccineReminderDays` | Reminder offset (default 7) |
-| `nestbeanFirstMoments` | Life firsts media + notes (`useFirstMoments`) |
-| `nestmilePremium` | Anonymous premium preview (`PREMIUM_STORAGE_KEY`) |
+| `yarntrailsFirstMoments` | Life firsts media + notes (`useFirstMoments`) |
+| `yarntrailsPremium` | Anonymous premium preview (`PREMIUM_STORAGE_KEY`) |
+| `yarntrailsAlbumPhotos` | Monthly album photos (`useMonthlyAlbum`) |
+| `yarntrailsVoiceNotes` | Voice notes (`useVoiceNotes`) |
+| `yarntrails-cookie-consent` | Cookie consent preference |
+| `yarntrails-install-prompt-dismissed` | PWA install prompt dismiss |
 | `coral_memories` | Community memories |
 | `coral_saved_recipes` | Saved recipe IDs |
 | `coral_helpful_tips` | Helpful community tips |
@@ -283,7 +287,7 @@ Carousel on **Today**; full journal on **My Baby** (`/baby#moments`).
 
 IDs: `birth`, `homecoming`, `first-smile`, `first-laugh`, `crawling`, `clapping`, `sitting-up`, `standing`, `first-tooth`, `bath-time`, `first-birthday`, `first-words`, `rolling-over`, `waving-bye`, `first-walk`, `first-food`, `first-haircut`
 
-Storage: `nestbeanFirstMoments` (localStorage data URLs, 2 MB limit). Supabase sync planned.
+Storage: `yarntrailsFirstMoments` (localStorage data URLs, 2 MB limit). Supabase sync planned.
 
 ---
 

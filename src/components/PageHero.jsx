@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { NESTBEAN_WATERMARK_SRC } from '../constants/brandAssets';
+import { BRAND_WATERMARK_SRC } from '../constants/brandAssets';
 import { pageImages } from '../data/pageImages';
 import ImageWithFallback from './ImageWithFallback';
 
@@ -44,7 +44,7 @@ function PageHero({
       className="page-hero__image-wrap"
       imgClassName="page-hero__image"
       src={config.src}
-      watermarkSrc={NESTBEAN_WATERMARK_SRC}
+      watermarkSrc={BRAND_WATERMARK_SRC}
       alt={config.alt || ''}
       fallbackGradient={config.fallbackGradient}
       loading={eager ? 'eager' : 'lazy'}

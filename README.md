@@ -1,4 +1,4 @@
-# Nestbean
+# Yarn Trails
 
 *The art of early motherhood.* A quiet-luxury companion for the first three years — curated milestones, mom care, and practical essentials. Built with **React 19 + Vite**.
 
@@ -90,4 +90,4 @@ Brand source of truth: `src/constants/brand.js`
 
 ---
 
-*Nestbean · July 2026*
+*Yarn Trails · July 2026*

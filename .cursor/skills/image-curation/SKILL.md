@@ -1,6 +1,6 @@
 # Image Curation Skill
 
-Use when adding, replacing, or optimizing page hero images and editorial photography for Nestmile.
+Use when adding, replacing, or optimizing page hero images and editorial photography for Yarn Trails.
 
 ## Triggers
 

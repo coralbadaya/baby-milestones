@@ -10,7 +10,7 @@ const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
 function MilestoneCardsTool() {
   usePageMeta({
     title: 'Free Printable Milestone Cards',
-    description: 'Download printable monthly milestone cards for baby photos — free tool from Nestbean.',
+    description: 'Download printable monthly milestone cards for baby photos — free tool from Yarn Trails.',
   });
 
   const canvasRef = useRef(null);
@@ -53,7 +53,7 @@ function MilestoneCardsTool() {
     trackEvent('milestone_card_download', { month });
     const a = document.createElement('a');
     a.href = url;
-    a.download = `nestbean-milestone-${month}-months.png`;
+    a.download = `yarntrails-milestone-${month}-months.png`;
     a.click();
   };
 

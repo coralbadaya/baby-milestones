@@ -117,7 +117,7 @@ export function buildMilestoneGuide(month) {
     category: 'Baby Development',
     icon: 'baby',
     readMinutes: 5 + (month % 3),
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending medical review',
     updated: '2026-07-02',
     milestoneMonth: month,
@@ -138,7 +138,7 @@ export function buildMilestoneGuide(month) {
       {
         heading: 'Turn this month into a story',
         paragraphs: [
-          'Nestbean Basic lets you track milestones free forever — then turn photos into an AI-illustrated page in their flip-book. One full story is included to taste the magic.',
+          'Yarn Trails Basic lets you track milestones free forever — then turn photos into an AI-illustrated page in their flip-book. One full story is included to taste the magic.',
         ],
       },
       {

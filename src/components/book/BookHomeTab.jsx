@@ -36,7 +36,7 @@ function BookHomeTab({ birthDate, babyName, currentMonth, onNavigateTab }) {
 
       <BookAlbumHero currentMonth={currentMonth} onOpenBook={() => onNavigateTab('book')} />
 
-      <h2 className="baby-book-section-title">New in Nestbean</h2>
+      <h2 className="baby-book-section-title">New in Yarn Trails</h2>
       <div className="baby-book-carousel">
         {FEATURE_CAROUSEL.map((item) => (
           <button

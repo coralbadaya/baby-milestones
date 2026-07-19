@@ -28,14 +28,14 @@ describe('getDiyImage', () => {
     expect(result.src).toBe('/images/diy/tummy_time.jpg');
   });
 
-  it('falls back to Nestbean watermark when illustration unknown', () => {
+  it('falls back to Yarn Trails watermark when illustration unknown', () => {
     const result = getDiyImage(
       { activityId: 'unknown-1', illustration: 'not_a_real_key', category: 'bonding' },
       {},
     );
     expect(result.source).toBe('watermark');
-    expect(result.src).toContain('nestbean-watermark');
-    expect(result.watermarkSrc).toContain('nestbean-watermark');
+    expect(result.src).toContain('yarntrails-watermark');
+    expect(result.watermarkSrc).toContain('yarntrails-watermark');
     expect(result.fallbackGradient).toContain('linear-gradient');
   });
 });

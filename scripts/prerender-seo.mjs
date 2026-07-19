@@ -14,10 +14,10 @@ const indexHtml = readFileSync(join(dist, 'index.html'), 'utf8');
 
 /** @type {{ path: string, title: string }[]} */
 const routes = [
-  { path: '/tools/milestone-cards', title: 'Free Printable Milestone Cards — Nestbean' },
+  { path: '/tools/milestone-cards', title: 'Free Printable Milestone Cards — Yarn Trails' },
   ...guides.map((g) => ({
     path: `/guides/${g.slug}`,
-    title: `${g.title} — Nestbean`,
+    title: `${g.title} — Yarn Trails`,
   })),
 ];
 

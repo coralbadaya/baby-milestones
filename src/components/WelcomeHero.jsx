@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import ImageWithFallback from './ImageWithFallback';
 import TrustStrip from './TrustStrip';
-import { NESTBEAN_WATERMARK_SRC } from '../constants/brandAssets';
+import { BRAND_WATERMARK_SRC } from '../constants/brandAssets';
 import { pageImages } from '../data/pageImages';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
@@ -19,7 +19,7 @@ function WelcomeHero({ birthDate, setBirthDate, onLocalPreview }) {
           className="welcome-hero__image-wrap"
           imgClassName="welcome-hero__image"
           src={config.src}
-          watermarkSrc={NESTBEAN_WATERMARK_SRC}
+          watermarkSrc={BRAND_WATERMARK_SRC}
           alt=""
           fallbackGradient={config.fallbackGradient}
           loading="eager"
@@ -33,7 +33,7 @@ function WelcomeHero({ birthDate, setBirthDate, onLocalPreview }) {
         <div className="welcome-hero__copy">
           <p className="welcome-hero__eyebrow">For new mothers</p>
           <h1 id="welcome-hero-title" className="welcome-hero__title font-display">
-            Nestbean
+            Yarn Trails
           </h1>
           <p className="welcome-hero__subtitle">
             Week-by-week guides, milestones, and routines for your baby&apos;s first year.

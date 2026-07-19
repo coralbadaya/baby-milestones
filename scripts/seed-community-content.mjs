@@ -76,7 +76,7 @@ async function seedMemories() {
       tags: ['teething', 'remedies'],
       status: 'published',
       reactions: { heart: 5, celebrate: 2, support: 3 },
-      author_name: 'Nestbean',
+      author_name: 'Yarn Trails',
       created_at: '2026-05-28T10:00:00.000Z',
     },
     {
@@ -88,7 +88,7 @@ async function seedMemories() {
       tags: ['milestone', 'smile'],
       status: 'published',
       reactions: { heart: 8, celebrate: 4, support: 1 },
-      author_name: 'Nestbean',
+      author_name: 'Yarn Trails',
       created_at: '2026-05-25T09:00:00.000Z',
     },
   ];

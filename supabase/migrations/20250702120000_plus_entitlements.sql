@@ -1,4 +1,4 @@
--- Nestbean Plus: entitlements, baby book tables, remove signup auto-trial
+-- Yarn Trails Plus: entitlements, baby book tables, remove signup auto-trial
 -- @see docs/ai-baby-book-plan.md
 
 -- pgcrypto optional; token defaults use gen_random_uuid() for portability

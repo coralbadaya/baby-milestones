@@ -17,7 +17,7 @@ import { startCheckout } from '../utils/stripeCheckout';
 
 function Premium() {
   usePageMeta({
-    title: 'Nestbean Plus — AI Baby Book',
+    title: 'Yarn Trails Plus — AI Baby Book',
     description: 'Turn milestones into their story. Basic is free forever; Plus unlocks unlimited AI stories, the full flip-book, and HD memories.',
   });
 

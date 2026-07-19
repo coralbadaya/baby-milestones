@@ -13,7 +13,7 @@ import { CONTACT_SUBJECT_OPTIONS } from '../constants/contactSubjects';
 function Contact() {
   usePageMeta({
     title: 'Contact Us',
-    description: 'Get in touch with the Nestbean team — feedback, partnerships, and questions.',
+    description: 'Get in touch with the Yarn Trails team — feedback, partnerships, and questions.',
   });
 
   const { user } = useAuth();

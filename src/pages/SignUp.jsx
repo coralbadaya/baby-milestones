@@ -7,7 +7,7 @@ import { ROUTES } from '../routes';
 function SignUp() {
   usePageMeta({
     title: 'Create Account',
-    description: 'Join Nestbean — complimentary early-access membership included.',
+    description: 'Join Yarn Trails — complimentary early-access membership included.',
   });
   const { signUp, user } = useAuth();
   const navigate = useNavigate();

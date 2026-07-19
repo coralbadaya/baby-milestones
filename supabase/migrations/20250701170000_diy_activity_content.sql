@@ -1,4 +1,4 @@
--- Nestbean: admin-managed DIY activity content overrides (full activity snapshot per row)
+-- Yarn Trails: admin-managed DIY activity content overrides (full activity snapshot per row)
 
 -- ---------------------------------------------------------------------------
 -- diy_activity_content

@@ -21,7 +21,7 @@
 
 - **Component:** `WelcomeHero.jsx` — dedicated layout (photo band + ivory copy), not split `PageHero`
 - **Eyebrow:** "For new mothers"
-- **Title:** "Nestbean"
+- **Title:** "Yarn Trails"
 - **Subtitle:** *"Week-by-week guides, milestones, and routines for your baby's first year."*
 - **Primary CTA:** **Create free account** → `/signup`; secondary **Preview without an account** (`startLocalTrial`); birth-date form under *"Or personalize with birth date"*; `TrustStrip` with privacy note
 - **Visual:** `.home-today--welcome` ivory canvas; mobile stacked image + copy; desktop side-by-side grid (~460px min-height)

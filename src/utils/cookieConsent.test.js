@@ -56,7 +56,7 @@ describe('cookieConsent', () => {
   });
 
   it('ignores invalid stored values', async () => {
-    localStorage.setItem('nestbean-cookie-consent', '{"analytics":"maybe"}');
+    localStorage.setItem('yarntrails-cookie-consent', '{"analytics":"maybe"}');
     const { readCookieConsent } = await import('./cookieConsent.js');
     expect(readCookieConsent()).toBeNull();
   });

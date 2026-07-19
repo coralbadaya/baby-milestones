@@ -1,5 +1,5 @@
 import ImageWithFallback from './ImageWithFallback';
-import { NESTBEAN_WATERMARK_SRC } from '../constants/brandAssets';
+import { BRAND_WATERMARK_SRC } from '../constants/brandAssets';
 import { categoryConfig, SHOP_IMAGE_FALLBACK_CATEGORY } from './shopCategoryConfig';
 
 function ShopProductImage({ item, size = 'md' }) {
@@ -13,7 +13,7 @@ function ShopProductImage({ item, size = 'md' }) {
         className={`shop-product-thumb shop-product-thumb--${size}${isBanner ? ' shop-product-thumb--has-img' : ''}`}
         imgClassName="shop-product-thumb__img"
         src={item.image}
-        watermarkSrc={NESTBEAN_WATERMARK_SRC}
+        watermarkSrc={BRAND_WATERMARK_SRC}
         alt=""
         fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #FCF8F2 100%)`}
         loading="lazy"
@@ -25,7 +25,7 @@ function ShopProductImage({ item, size = 'md' }) {
     <ImageWithFallback
       className={`shop-product-thumb shop-product-thumb--${size}${isBanner ? ' shop-product-thumb--has-img' : ''}`}
       imgClassName="shop-product-thumb__img"
-      watermarkSrc={NESTBEAN_WATERMARK_SRC}
+      watermarkSrc={BRAND_WATERMARK_SRC}
       alt=""
       fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #FCF8F2 100%)`}
       loading="lazy"

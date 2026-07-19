@@ -1,6 +1,6 @@
 # Premium UI Skill
 
-Use when elevating Nestmile UI for affluent tier-1 new mothers — quiet luxury, editorial layout, journey sequencing.
+Use when elevating Yarn Trails UI for affluent tier-1 new mothers — quiet luxury, editorial layout, journey sequencing.
 
 ## Triggers
 

@@ -28,7 +28,7 @@ const guidesBase = [
     category: 'Baby Development',
     icon: 'baby',
     readMinutes: 6,
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending medical review',
     updated: '2026-06-29',
     milestoneMonth: 3,
@@ -91,7 +91,7 @@ const guidesBase = [
     category: 'Mom Care',
     icon: 'heart',
     readMinutes: 7,
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending medical review',
     updated: '2026-06-29',
     intro:
@@ -144,7 +144,7 @@ const guidesBase = [
     category: 'Health & Safety',
     icon: 'medical',
     readMinutes: 5,
-    author: 'Nestbean Editorial Team',
+    author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending medical review',
     updated: '2026-06-29',
     intro:

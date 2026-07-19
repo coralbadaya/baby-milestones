@@ -1,6 +1,6 @@
 # AI Baby Book — Feature Plan
 
-> Nestbean Plus: emotional payoff (stories, flip-book, voice, HD photos). Basic: recording habit free forever.
+> Yarn Trails Plus: emotional payoff (stories, flip-book, voice, HD photos). Basic: recording habit free forever.
 
 **Status:** Shipped (v2 UI + pipeline stubs)  
 **Last updated:** July 2026
@@ -18,7 +18,7 @@ Editorial/travel/shopping/assistant perks remain bundled in **Plus** (layered mo
 
 ## Twilight sub-brand
 
-The baby book is a **nested twilight product** inside the ivory Nestbean app — intentional contrast for paid “magic rendering.”
+The baby book is a **nested twilight product** inside the ivory Yarn Trails app — intentional contrast for paid “magic rendering.”
 
 | Element | Spec |
 |---------|------|
@@ -58,7 +58,7 @@ Three layers (Stories tab):
 
 1. **Language** — 12 locales in [`src/constants/storyLanguages.js`](../src/constants/storyLanguages.js). Live switch demo via `language_variants` jsonb — culturally adapted, not translated.
 2. **Voice** — 60s sample → ElevenLabs clone (Edge Function `clone-voice-profile`). Grandparent invite at `/book/voice-invite/:token` with owner approval gate.
-3. **Folk-tale** — Original templates in [`src/data/folkTaleTemplates.js`](../src/data/folkTaleTemplates.js). UI copy: *“Inspired by folk traditions worldwide — an original Nestbean story.”*
+3. **Folk-tale** — Original templates in [`src/data/folkTaleTemplates.js`](../src/data/folkTaleTemplates.js). UI copy: *“Inspired by folk traditions worldwide — an original Yarn Trails story.”*
 
 ### Stories tab layout (Story Studio)
 
@@ -93,11 +93,11 @@ Read aloud: `speechSynthesis` (Storyteller) or [`narrate-story-page`](../supabas
 | Reminder | existing banner → Stories tab |
 | 3D album CTA | `home/BookAlbumHero.jsx` |
 | Month list | `home/BookMonthList.jsx` — [`bookChapters.js`](../src/data/bookChapters.js) |
-| Carousel | “New in Nestbean” feature cards |
+| Carousel | “New in Yarn Trails” feature cards |
 
 Personalization: [`babyName`](../src/utils/babyName.js) localStorage key + auth profile fallback.
 
-Prototype reference: [`docs/prototypes/nestmile-v2.html`](prototypes/nestmile-v2.html)
+Prototype reference: [`docs/prototypes/yarntrails-v2.html`](prototypes/yarntrails-v2.html)
 
 Entry points: baby book Stories tab · My Baby teaser · [`GuideStoryCta.jsx`](../src/components/book/GuideStoryCta.jsx) → `ROUTES.babyBookTab('stories')`.
 

@@ -1,4 +1,4 @@
-# Nestbean Admin Portal — Phased Implementation Plan
+# Yarn Trails Admin Portal — Phased Implementation Plan
 
 > Professional staff console for `/admin/*` — operational, data-first, visually distinct from the consumer app.
 

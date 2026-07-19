@@ -84,7 +84,7 @@ function DiyActivityModalBody({ activity, image }) {
           ) : isSearch ? (
             <>
               <p className="diy-video-disclosure">
-                Third-party videos — not vetted by Nestbean. Results open on YouTube.
+                Third-party videos — not vetted by Yarn Trails. Results open on YouTube.
               </p>
               <button type="button" className="diy-video-btn diy-video-btn--secondary" onClick={openVideo}>
                 <Icon name="youtube" size={18} className="yt-icon" />

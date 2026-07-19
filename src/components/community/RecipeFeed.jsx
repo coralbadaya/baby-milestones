@@ -7,7 +7,7 @@ import { buildTagOptions } from '../../utils/tagFilters';
 import TagFilterBar from './TagFilterBar';
 import Icon from '../Icon';
 import ImageWithFallback from '../ImageWithFallback';
-import { NESTBEAN_WATERMARK_SRC } from '../../constants/brandAssets';
+import { BRAND_WATERMARK_SRC } from '../../constants/brandAssets';
 import RecipeDetailModal from './RecipeDetailModal';
 
 function RecipeCard({ recipe, offset = 0, isActive, onTap }) {
@@ -47,7 +47,7 @@ function RecipeCard({ recipe, offset = 0, isActive, onTap }) {
           className="recipe-card-media__frame"
           imgClassName="recipe-thumbnail"
           src={recipe.thumbnail}
-          watermarkSrc={NESTBEAN_WATERMARK_SRC}
+          watermarkSrc={BRAND_WATERMARK_SRC}
           alt=""
           fallbackGradient="linear-gradient(145deg, #D4ECD9 0%, #FCF8F2 100%)"
           loading="lazy"

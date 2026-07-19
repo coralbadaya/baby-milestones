@@ -4,7 +4,7 @@ import useEntitlements from './useEntitlements';
 import { supabase } from '../utils/supabaseClient';
 import { fileToDataUrl } from '../utils/firstMomentsStorage';
 
-const LOCAL_KEY = 'nestbeanAlbumPhotos';
+const LOCAL_KEY = 'yarntrailsAlbumPhotos';
 
 function loadLocal() {
   try {

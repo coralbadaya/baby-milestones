@@ -35,7 +35,7 @@ function AdminLayoutInner() {
 
   usePageMeta({
     title: 'Admin',
-    description: 'Nestbean staff console — inbox, users, promo codes, newsletter, community, and DIY images.',
+    description: 'Yarn Trails staff console — inbox, users, promo codes, newsletter, community, and DIY images.',
     robots: 'noindex, nofollow',
   });
 

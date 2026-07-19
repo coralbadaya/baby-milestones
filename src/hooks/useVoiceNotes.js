@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import useEntitlements from './useEntitlements';
 import { ENTITLEMENT_LIMITS } from '../constants/premium';
 
-const LOCAL_KEY = 'nestbeanVoiceNotes';
+const LOCAL_KEY = 'yarntrailsVoiceNotes';
 
 function loadLocal() {
   try {

@@ -8,7 +8,7 @@ import AdminPageHeader from '../../components/admin/AdminPageHeader';
 import AdminPanel from '../../components/admin/AdminPanel';
 import { useAuth } from '../../context/AuthContext';
 import { diyActivityImages } from '../../data/diyImageManifest';
-import { NESTBEAN_WATERMARK_SRC } from '../../constants/brandAssets';
+import { BRAND_WATERMARK_SRC } from '../../constants/brandAssets';
 import { getDiyImage } from '../../data/diyImages';
 import { ROUTES } from '../../routes';
 import {
@@ -181,7 +181,7 @@ function AdminDiyImageEdit() {
       category: categoryKey,
     }).src
     : '';
-  const activePreview = customPreview || fallbackPreview || NESTBEAN_WATERMARK_SRC;
+  const activePreview = customPreview || fallbackPreview || BRAND_WATERMARK_SRC;
 
   const sourceLabel = useMemo(() => {
     if (!imageRow) return 'Bundled fallback';

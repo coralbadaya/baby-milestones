@@ -67,7 +67,7 @@ export function applyPageMeta(meta = {}) {
   setMeta('property', 'og:image:height', '630');
   setMeta('property', 'og:locale', 'en_GB');
   setMeta('name', 'twitter:card', 'summary_large_image');
-  setMeta('name', 'twitter:site', '@nestbean');
+  setMeta('name', 'twitter:site', '@yarntrails');
   setMeta('name', 'twitter:title', ogTitle);
   setMeta('name', 'twitter:description', description);
   setMeta('name', 'twitter:image', image);

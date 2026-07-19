@@ -42,7 +42,7 @@ function TravelLongHaulGuides({ currentMonth }) {
     <section className="travel-longhaul" aria-labelledby="longhaul-heading">
       <SectionHeader
         id="longhaul-heading"
-        eyebrow="Nestbean Plus"
+        eyebrow="Yarn Trails Plus"
         title="Long-haul city guides"
         subtitle={`Curated packing and jet-lag routines for ${monthLabel} — London, Dubai, and New York.`}
       />

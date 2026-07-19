@@ -49,7 +49,7 @@ function socialLinksHtml() {
 }
 
 /**
- * Wrap fragment HTML in Nestbean email shell.
+ * Wrap fragment HTML in Yarn Trails email shell.
  * @param {{ bodyHtml: string, previewBanner?: string }} opts
  */
 export function wrapNewsletterHtml({ bodyHtml, previewBanner }) {

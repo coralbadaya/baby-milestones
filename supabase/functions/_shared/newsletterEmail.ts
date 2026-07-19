@@ -1,4 +1,4 @@
-const BRAND_NAME = 'Nestbean';
+const BRAND_NAME = 'Yarn Trails';
 const DEFAULT_SITE_URL = 'https://yarntrails.com';
 
 export function applyMergeTags(text: string, context: Record<string, string>): string {
@@ -81,7 +81,7 @@ export async function sendViaResend(payload: {
       subject: payload.subject,
       html: payload.html,
       text: payload.text,
-      headers: payload.previewText ? { 'X-Entity-Ref-ID': 'nestbean-newsletter' } : undefined,
+      headers: payload.previewText ? { 'X-Entity-Ref-ID': 'yarntrails-newsletter' } : undefined,
     }),
   });
 

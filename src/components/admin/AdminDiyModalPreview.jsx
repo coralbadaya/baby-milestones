@@ -1,7 +1,7 @@
 import { diyCategoryConfig } from '../diyCategoryConfig';
 import DiyActivityModalBody from '../DiyActivityModalBody';
 import ImageWithFallback from '../ImageWithFallback';
-import { NESTBEAN_WATERMARK_SRC } from '../../constants/brandAssets';
+import { BRAND_WATERMARK_SRC } from '../../constants/brandAssets';
 
 /**
  * Live preview of the consumer "Open guide" modal for admin editing.
@@ -29,7 +29,7 @@ function AdminDiyModalPreview({ activity, imageSrc, imageAlt }) {
       className="diy-activity-media-photo admin-diy-modal-preview__image"
       imgClassName="diy-activity-media-photo__img"
       src={imageSrc}
-      watermarkSrc={NESTBEAN_WATERMARK_SRC}
+      watermarkSrc={BRAND_WATERMARK_SRC}
       alt={imageAlt || activity.name}
       fallbackGradient={`linear-gradient(145deg, ${cat.bg} 0%, #FCF8F2 100%)`}
       loading="lazy"

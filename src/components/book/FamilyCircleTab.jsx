@@ -143,7 +143,7 @@ function FamilyCircleTab({ birthDate }) {
           Give the first year — ${PLANS.plus.priceGift} one-time. View-only feed plus voice blessings.
         </p>
         <Link to={ROUTES.premium} className="baby-book-btn baby-book-btn--primary">
-          Gift Nestbean Plus · ${PLANS.plus.priceGift}
+          Gift Yarn Trails Plus · ${PLANS.plus.priceGift}
         </Link>
       </div>
     </div>

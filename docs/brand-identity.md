@@ -1,6 +1,6 @@
-# Brand Identity — Nestbean
+# Brand Identity — Yarn Trails
 
-> **Nestbean** — *The art of early motherhood.*
+> **Yarn Trails** — *The art of early motherhood.*
 > Quiet-luxury identity for affluent new mothers in tier-1 cities.
 
 ---
@@ -9,7 +9,7 @@
 
 | Element | Value |
 |---------|-------|
-| Name | **Nestbean** |
+| Name | **Yarn Trails** |
 | Tagline | The art of early motherhood |
 | Short tagline | early motherhood |
 | Source of truth | `src/constants/brand.js` |
@@ -18,19 +18,20 @@
 
 ## Logo
 
-**Mark:** An "N" monogram cradling a golden bean — the baby in the nest. Two terracotta stems + diagonal form the N; a honey-gold bean (with a small head) rests in the cradle.
+**Mark:** A honey-gold yarn ball with winding arcs, and terracotta trail threads leading outward — the path of early motherhood.
 
 | Asset | Path | Use |
 |-------|------|-----|
-| Master mark (SVG) | `public/brand/nestbean-mark.svg` | Source for all generated assets |
-| Lockup (SVG) | `public/brand/nestbean-logo.svg` | Mark + wordmark + tagline |
+| Master mark (SVG) | `public/brand/yarntrails-mark.svg` | Source for all generated assets |
+| Lockup (SVG) | `public/brand/yarntrails-logo.svg` | Mark + wordmark + tagline |
+| Watermark SVG | `public/brand/yarntrails-watermark.svg` | Source for editorial placeholder JPG |
 | React | `src/components/CoralLogo.jsx` | In-app header/footer (component name legacy) |
 | favicon.svg | `public/favicon.svg` | Browser tab (vector) |
 
 **Wordmark:** Fraunces (display serif), weight 600, letter-spacing −0.01em.
 
 ### Clear space & sizing
-- Keep clear space ≥ the height of the bean around the mark.
+- Keep clear space ≥ the yarn-ball radius around the mark.
 - Minimum mark size: 24px (favicon uses 16–48px PNGs).
 - Never recolor the mark outside brand palette; never add shadows/3D.
 
@@ -43,7 +44,7 @@
 | `--brand-terracotta` / `--coral-primary` | `#C2603E` | Primary, logo stems, CTAs |
 | `--coral-primary-dark` | `#A54E30` | Hover |
 | `--coral-primary-light` | `#EFD2C4` | Tints, hero gradients |
-| `--brand-gold` / `--gold-dark` | `#C9A24B` / `#A8842F` | Bean, accents, dividers |
+| `--brand-gold` / `--gold-dark` | `#C9A24B` / `#A8842F` | Yarn ball, accents, dividers |
 | `--brand-clay` | `#D8A088` | Soft accent |
 | `--cream` | `#FCF8F2` | Page background (ivory) |
 | `--cream-dark` | `#EFE3D4` | Fills |

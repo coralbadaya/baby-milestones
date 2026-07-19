@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { NESTBEAN_WATERMARK_ALT, NESTBEAN_WATERMARK_SRC } from '../constants/brandAssets';
+import { BRAND_WATERMARK_ALT, BRAND_WATERMARK_SRC } from '../constants/brandAssets';
 
 /**
- * Image with Nestbean watermark fallback when primary src is missing or fails.
+ * Image with Yarn Trails watermark fallback when primary src is missing or fails.
  * @param {{
  *   src?: string,
  *   watermarkSrc?: string,
@@ -21,7 +21,7 @@ import { NESTBEAN_WATERMARK_ALT, NESTBEAN_WATERMARK_SRC } from '../constants/bra
  */
 function ImageWithFallback({
   src,
-  watermarkSrc = NESTBEAN_WATERMARK_SRC,
+  watermarkSrc = BRAND_WATERMARK_SRC,
   alt,
   fallbackGradient = 'linear-gradient(145deg, #F5EDE5 0%, #FCF8F2 100%)',
   placeholderColor,
@@ -42,7 +42,7 @@ function ImageWithFallback({
   }, [src, watermarkSrc]);
 
   const activeSrc = stage === 'primary' ? src : stage === 'watermark' ? watermarkSrc : null;
-  const resolvedAlt = stage === 'watermark' && alt ? alt : (alt || NESTBEAN_WATERMARK_ALT);
+  const resolvedAlt = stage === 'watermark' && alt ? alt : (alt || BRAND_WATERMARK_ALT);
 
   const containerStyle = {
     ...style,

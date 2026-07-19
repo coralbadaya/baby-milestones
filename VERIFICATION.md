@@ -1,4 +1,4 @@
-# Nestmile verification results
+# Yarn Trails verification results
 
 Last run: automated checks via `npm run verify:data`, `npm test`, and `npm run build`.
 

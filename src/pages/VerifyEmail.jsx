@@ -9,7 +9,7 @@ import { ROUTES } from '../routes';
 function VerifyEmail() {
   usePageMeta({
     title: 'Verify Email',
-    description: 'Confirm your email to activate your Nestbean account.',
+    description: 'Confirm your email to activate your Yarn Trails account.',
   });
 
   const { user, verifyEmailOtp, resendSignupOtp } = useAuth();

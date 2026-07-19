@@ -1,6 +1,6 @@
 # Auth, membership & admin
 
-Nestbean uses Supabase for accounts, early-access membership, contact submissions, and the admin center.
+Yarn Trails uses Supabase for accounts, early-access membership, contact submissions, and the admin center.
 
 ## Local login (quick reference)
 
@@ -119,10 +119,10 @@ Configure in **Authentication** for your project:
    - Enable **Confirm email**
    - Use **OTP** (6-digit code) for signup confirmation
 2. **URL configuration**
-   - **Site URL**: production origin (e.g. `https://nestbean.com`)
+   - **Site URL**: production origin (e.g. `https://yarntrails.com`)
    - **Redirect URLs**: include `http://localhost:5173/**` for local dev
 3. **Email templates**
-   - Customize **Confirm signup** copy for Nestbean brand
+   - Customize **Confirm signup** copy for Yarn Trails brand
 4. **SMTP** (production)
    - Configure a custom sender; Supabase default mail is fine for dev only
 
@@ -132,7 +132,7 @@ If **Confirm email** is disabled locally, signup may return a session immediatel
 
 - **Signup** → email OTP required → then 7-day `trial` via `handle_new_user` trigger
 - **Promo codes** → `redeem_promo_code` RPC (`FOUNDING30` seeded)
-- **Anonymous** → optional local preview via `localStorage` (`nestmilePremium`)
+- **Anonymous** → optional local preview via `localStorage` (`yarntrailsPremium`)
 - **Signed-in** → Supabase membership is source of truth
 
 No Stripe yet — Premium page frames **Early Access Membership**, not a broken paywall.

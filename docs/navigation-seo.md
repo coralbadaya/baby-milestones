@@ -1,8 +1,8 @@
 # Navigation, Footer & SEO
 
-Information architecture, navigation chrome, and SEO/GEO infrastructure for Nestbean.
+Information architecture, navigation chrome, and SEO/GEO infrastructure for Yarn Trails.
 
-> Nestbean is a **YMYL** (Your Money or Your Life — baby health) product. The nav and
+> Yarn Trails is a **YMYL** (Your Money or Your Life — baby health) product. The nav and
 > footer double as **E-E-A-T** trust surfaces. Treat trust/legal/editorial links as
 > first-class, not afterthoughts.
 
@@ -84,7 +84,7 @@ Footer (4 columns):
   Implemented in `src/utils/analytics.js` + `src/components/Analytics.jsx` (SPA page
   views on route change; `/admin/*` excluded). **Consent:** `CookieConsentBanner` +
   `CookieConsentContext` gate GA until the user accepts; choice stored in
-  `localStorage` (`nestbean-cookie-consent`). Footer link **Cookie preferences** reopens
+  `localStorage` (`yarntrails-cookie-consent`). Footer link **Cookie preferences** reopens
   the banner. Align copy with [Cookie Policy](legalContent) before production EU/UK traffic.
 
 ### Prerender (SEO routes)

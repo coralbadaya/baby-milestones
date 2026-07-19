@@ -1,4 +1,4 @@
--- Nestbean: community recipes, tips, memories, comments
+-- Yarn Trails: community recipes, tips, memories, comments
 
 -- ---------------------------------------------------------------------------
 -- community_recipes

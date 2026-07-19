@@ -1,4 +1,4 @@
-# Nestmile Design System 2026
+# Yarn Trails Design System 2026
 
 > A comprehensive design system for Gen Z and late millennial parents.  
 > **Target:** Parents aged 22–38 with babies 0–36 months.  
@@ -215,7 +215,7 @@ Based on a 1.25 ratio with 16px base.
 
 ## Brand / Logo
 
-**Product name:** Nestbean. **Tagline:** `The art of early motherhood`. SEO title/description live in `src/constants/brand.js`. Full spec: `docs/brand-identity.md`.
+**Product name:** Yarn Trails. **Tagline:** `The art of early motherhood`. SEO title/description live in `src/constants/brand.js`. Full spec: `docs/brand-identity.md`.
 
 ### Mark
 
@@ -223,8 +223,8 @@ Based on a 1.25 ratio with 16px base.
 
 | Asset | Path |
 |-------|------|
-| Master mark | `public/brand/nestbean-mark.svg` |
-| Lockup | `public/brand/nestbean-logo.svg` |
+| Master mark | `public/brand/yarntrails-mark.svg` |
+| Lockup | `public/brand/yarntrails-logo.svg` |
 | React | `src/components/CoralLogo.jsx` |
 | Generated icons/OG | `public/` via `npm run generate:brand` |
 
@@ -240,9 +240,9 @@ import CoralLogo from './CoralLogo';
 
 | Placement | Spec |
 |-----------|------|
-| Header | Lockup: **Nestmile** + tagline `for parents` |
-| Footer | Lockup: **Nestmile** only (long tagline in footer copy below) |
-| Favicon | `/brand/coral-mark.svg` |
+| Header | Lockup: **Yarn Trails** + tagline `for parents` |
+| Footer | Lockup: **Yarn Trails** only (long tagline in footer copy below) |
+| Favicon | `/brand/yarntrails-mark.svg` |
 
 ### Rules
 
@@ -489,7 +489,7 @@ Persistent on every route in `App.jsx` (below `<main className="app-main">`).
 
 | Region | Content |
 |--------|---------|
-| Brand | Nestmile logo + tagline |
+| Brand | Yarn Trails logo + tagline |
 | Nav | Home, Shopping, Travel, Mom Care, Community, Progress, Sources |
 | Meta | Disclaimer + copyright |
 
@@ -915,7 +915,7 @@ Before shipping any UI change:
 | Journey-ordered nav (6 desktop / 5 mobile) | Shipped |
 | Today home dashboard | Shipped |
 | Premium scaffold | Shipped — local trial |
-| Nestmile SVG logo (`CoralLogo`) | Shipped |
+| Yarn Trails SVG logo (`CoralLogo`) | Shipped |
 | Minimal card border (`.card-accent-top`) | Shipped |
 | Full 1px border, no top accent bar | Shipped |
 | Detail modal (scroll, safe area) | Shipped |

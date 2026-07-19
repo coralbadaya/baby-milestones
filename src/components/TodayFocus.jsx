@@ -9,7 +9,7 @@ import PremiumGate from './PremiumGate';
 import { PREMIUM_FEATURES } from '../constants/premium';
 
 import ImageWithFallback from './ImageWithFallback';
-import { NESTBEAN_WATERMARK_SRC } from '../constants/brandAssets';
+import { BRAND_WATERMARK_SRC } from '../constants/brandAssets';
 
 function FocusCardImage({ imageKey }) {
   const config = focusImages[imageKey];
@@ -20,7 +20,7 @@ function FocusCardImage({ imageKey }) {
       className="today-focus-card__image"
       imgClassName="today-focus-card__image-img"
       src={config.src}
-      watermarkSrc={NESTBEAN_WATERMARK_SRC}
+      watermarkSrc={BRAND_WATERMARK_SRC}
       alt=""
       fallbackGradient={config.fallbackGradient}
       loading="lazy"

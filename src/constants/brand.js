@@ -1,5 +1,5 @@
 /** Public brand name and SEO defaults (user-facing). */
-export const BRAND_NAME = 'Nestbean';
+export const BRAND_NAME = 'Yarn Trails';
 
 export const BRAND_TAGLINE = 'The art of early motherhood';
 
@@ -9,7 +9,7 @@ export const BRAND_TAGLINE_SHORT = 'early motherhood';
 export const SEO_DEFAULT_TITLE = `${BRAND_NAME} — AI Baby Book & Milestones`;
 
 export const SEO_DEFAULT_DESCRIPTION =
-  'Free milestone tracking forever. Turn photos into AI stories and an interactive flip-book with Nestbean Plus — the modern AI baby book.';
+  'Free milestone tracking forever. Turn photos into AI stories and an interactive flip-book with Yarn Trails Plus — the modern AI baby book.';
 
 /** Canonical site URL for OG tags. */
 export const SITE_URL = 'https://yarntrails.com';
@@ -28,10 +28,10 @@ export const CONTACT_EMAIL = 'hello@yarntrails.com';
  * @type {{ key: string, label: string, icon: string, url: string }[]}
  */
 export const SOCIAL_LINKS = [
-  { key: 'instagram', label: 'Instagram', icon: 'instagram', url: 'https://instagram.com/nestbean' },
-  { key: 'tiktok', label: 'TikTok', icon: 'tiktok', url: 'https://tiktok.com/@nestbean' },
-  { key: 'pinterest', label: 'Pinterest', icon: 'pinterest', url: 'https://pinterest.com/nestbean' },
-  { key: 'youtube', label: 'YouTube', icon: 'youtube', url: 'https://youtube.com/@nestbean' },
+  { key: 'instagram', label: 'Instagram', icon: 'instagram', url: 'https://instagram.com/yarntrails' },
+  { key: 'tiktok', label: 'TikTok', icon: 'tiktok', url: 'https://tiktok.com/@yarntrails' },
+  { key: 'pinterest', label: 'Pinterest', icon: 'pinterest', url: 'https://pinterest.com/yarntrails' },
+  { key: 'youtube', label: 'YouTube', icon: 'youtube', url: 'https://youtube.com/@yarntrails' },
 ];
 
 /** Legal entity name for structured data / copyright. */

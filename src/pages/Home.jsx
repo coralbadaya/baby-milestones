@@ -23,7 +23,7 @@ import { usePageMeta } from '../utils/pageMeta';
 const WELCOME_META = {
   title: 'Week-by-Week Baby Guides',
   description:
-    'Week-by-week guides, milestones, and routines for your baby\'s first year. Create a free account or preview Nestbean without signing up.',
+    'Week-by-week guides, milestones, and routines for your baby\'s first year. Create a free account or preview Yarn Trails without signing up.',
 };
 
 function getGreeting() {
@@ -98,7 +98,7 @@ function Home({
   useScrollSurface(homeRef, { defaultSurface: 'primary', observeKey: birthDate });
 
   const heroEyebrow = isWelcomeMode ? 'For new mothers' : getGreeting();
-  const heroTitle = isWelcomeMode ? 'Nestbean' : (ageLine || 'Welcome to Nestbean');
+  const heroTitle = isWelcomeMode ? 'Yarn Trails' : (ageLine || 'Welcome to Yarn Trails');
   const heroSubtitle = isWelcomeMode
     ? 'Week-by-week guides, milestones, and routines for your baby\'s first year.'
     : (ageLine

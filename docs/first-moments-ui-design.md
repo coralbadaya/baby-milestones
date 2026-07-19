@@ -85,7 +85,7 @@ Each entry may include `monthHint` (for carousel auto-focus) and `linkedMileston
 
 ## Data & storage (v1 — localStorage)
 
-**Key:** `nestbeanFirstMoments` ([`FIRST_MOMENTS_STORAGE_KEY`](../src/constants/firstMoments.js))
+**Key:** `yarntrailsFirstMoments` ([`FIRST_MOMENTS_STORAGE_KEY`](../src/constants/firstMoments.js))
 
 **Schema:**
 
@@ -141,7 +141,7 @@ Styles in [`src/styles/editorial-system.css`](../src/styles/editorial-system.css
 - `.firsts-journal*` — numbered rows
 - `.first-moment-capture*` — modal
 
-Nestbean quiet luxury: ivory/sand bands, Fraunces labels, coral ring accents — not literal baby-blue from reference mocks.
+Yarn Trails quiet luxury: ivory/sand bands, Fraunces labels, coral ring accents — not literal baby-blue from reference mocks.
 
 ---
 

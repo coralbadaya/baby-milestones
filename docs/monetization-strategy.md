@@ -1,6 +1,6 @@
 # Monetization Strategy
 
-> **Nestbean Basic** = recording habit (free forever). **Nestbean Plus** = magic rendering + editorial perks. Stripe checkout in progress.
+> **Yarn Trails Basic** = recording habit (free forever). **Yarn Trails Plus** = magic rendering + editorial perks. Stripe checkout in progress.
 
 ---
 

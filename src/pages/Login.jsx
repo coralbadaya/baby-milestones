@@ -6,7 +6,7 @@ import { usePageMeta } from '../utils/pageMeta';
 import { ROUTES } from '../routes';
 
 function Login() {
-  usePageMeta({ title: 'Sign In', description: 'Sign in to your Nestbean account.' });
+  usePageMeta({ title: 'Sign In', description: 'Sign in to your Yarn Trails account.' });
   const { signIn, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
