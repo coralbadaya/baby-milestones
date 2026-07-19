@@ -9,9 +9,9 @@ import {
 
 describe('applyMergeTags', () => {
   it('replaces known merge tags', () => {
-    const ctx = buildMergeContext({ site_url: 'https://nestbean.app' });
+    const ctx = buildMergeContext({ site_url: 'https://yarntrails.com' });
     expect(applyMergeTags('Visit {{site_url}} in {{year}}', ctx)).toBe(
-      'Visit https://nestbean.app in 2026',
+      'Visit https://yarntrails.com in 2026',
     );
   });
 

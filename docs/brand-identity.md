@@ -85,8 +85,8 @@ To produce native app icons later (iOS `.icns`, Android mipmaps), feed `icon-sto
 | `public/robots.txt` | Crawl directives + sitemap link |
 | `public/sitemap.xml` | Route index for search engines |
 
-**Before launch:** replace `https://nestbean.app` placeholders with the live domain across `index.html`, `brand.js`, `robots.txt`, `sitemap.xml`.
+**Live domain:** `https://yarntrails.com` (wired in `SITE_URL`, `index.html`, `robots.txt`, `sitemap.xml`). Point Namecheap DNS at Vercel (`A @ → 76.76.21.21`, `CNAME www → cname.vercel-dns.com`).
 
 ---
 
-*Last updated: June 2026*
+*Last updated: July 2026*

@@ -37,7 +37,7 @@ Edit tokens in `src/styles/global.css` `:root`. Anchor tokens: `--brand-terracot
 - `index.html`: title, description, canonical, OG/Twitter, theme-color, JSON-LD
 - `public/manifest.webmanifest`: name, icons, theme_color
 - `public/robots.txt` + `public/sitemap.xml`
-- Replace `https://nestbean.app` with live domain before launch
+- Live domain: `https://yarntrails.com` (`SITE_URL` in `brand.js`)
 - After changes, validate with a Lighthouse SEO/PWA run
 
 ## Rules

@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  const origin = req.headers.origin || process.env.SITE_URL || 'https://nestbean.app';
+  const origin = req.headers.origin || process.env.SITE_URL || 'https://yarntrails.com';
   const mode = sku === 'gift_subscription' || sku === 'first_year_bundle' ? 'payment' : 'subscription';
 
   const params = new URLSearchParams();

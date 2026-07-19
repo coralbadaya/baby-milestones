@@ -11,8 +11,8 @@ export const SEO_DEFAULT_TITLE = `${BRAND_NAME} — AI Baby Book & Milestones`;
 export const SEO_DEFAULT_DESCRIPTION =
   'Free milestone tracking forever. Turn photos into AI stories and an interactive flip-book with Nestbean Plus — the modern AI baby book.';
 
-/** Canonical site URL for OG tags (update when production domain is live). */
-export const SITE_URL = 'https://nestbean.app';
+/** Canonical site URL for OG tags. */
+export const SITE_URL = 'https://yarntrails.com';
 
 export const OG_IMAGE = `${SITE_URL}/og-default.png`;
 
@@ -21,7 +21,7 @@ export const COMMUNITY_TAGLINE = 'Milestones, recipes, and tips shared by mother
 export const SHARE_SUFFIX = `— ${BRAND_NAME}`;
 
 /** Contact email (update to the production inbox before launch). */
-export const CONTACT_EMAIL = 'hello@nestbean.app';
+export const CONTACT_EMAIL = 'hello@yarntrails.com';
 
 /**
  * Social profile URLs. Placeholders — replace with live handles once secured.

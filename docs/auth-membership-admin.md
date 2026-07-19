@@ -160,9 +160,9 @@ Edge functions (deploy after `supabase db push`):
 Supabase secrets (Dashboard → Edge Functions → Secrets):
 
 - `RESEND_API_KEY` — transactional email
-- `NEWSLETTER_FROM` — e.g. `hello@nestbean.app`
+- `NEWSLETTER_FROM` — e.g. `hello@yarntrails.com`
 - `NEWSLETTER_REPLY_TO` — optional reply-to
-- `SITE_URL` — e.g. `https://nestbean.app`
+- `SITE_URL` — e.g. `https://yarntrails.com`
 - `NEWSLETTER_CRON_SECRET` — shared secret for scheduled invocations
 
 **Cron (production):** invoke `newsletter-process-queue` every minute with header `x-cron-secret: YOUR_SECRET` (Supabase Cron or external scheduler).

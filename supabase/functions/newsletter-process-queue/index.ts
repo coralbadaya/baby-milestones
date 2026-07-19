@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
 
   const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
   const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-  const siteUrl = Deno.env.get('SITE_URL') || 'https://nestbean.app';
+  const siteUrl = Deno.env.get('SITE_URL') || 'https://yarntrails.com';
   const admin = createClient(supabaseUrl, serviceKey);
 
   const summary = { campaigns: 0, sent: 0, failed: 0 };

@@ -1,5 +1,5 @@
 const BRAND_NAME = 'Nestbean';
-const DEFAULT_SITE_URL = 'https://nestbean.app';
+const DEFAULT_SITE_URL = 'https://yarntrails.com';
 
 export function applyMergeTags(text: string, context: Record<string, string>): string {
   if (!text) return '';
@@ -64,7 +64,7 @@ export async function sendViaResend(payload: {
   const apiKey = Deno.env.get('RESEND_API_KEY');
   if (!apiKey) throw new Error('RESEND_API_KEY not configured');
 
-  const from = Deno.env.get('NEWSLETTER_FROM') || 'hello@nestbean.app';
+  const from = Deno.env.get('NEWSLETTER_FROM') || 'hello@yarntrails.com';
   const replyTo = Deno.env.get('NEWSLETTER_REPLY_TO') || from;
   const siteUrl = Deno.env.get('SITE_URL') || DEFAULT_SITE_URL;
 

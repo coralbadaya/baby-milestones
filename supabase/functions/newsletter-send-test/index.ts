@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    const siteUrl = Deno.env.get('SITE_URL') || 'https://nestbean.app';
+    const siteUrl = Deno.env.get('SITE_URL') || 'https://yarntrails.com';
     const mergeContext = {
       site_url: siteUrl,
       unsubscribe_url: `${siteUrl}/newsletter/unsubscribe?token=sample`,

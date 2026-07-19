@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nestbean.app/sitemap.xml
+Sitemap: https://yarntrails.com/sitemap.xml
