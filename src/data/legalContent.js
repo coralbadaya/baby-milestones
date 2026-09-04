@@ -20,12 +20,14 @@ export const PAGES = {
   about: {
     title: `About ${BRAND_NAME}`,
     icon: 'info',
-    intro: `${BRAND_NAME} is a calm companion for early motherhood — month-by-month baby milestones, postpartum care, practical guides, and a private AI baby book for the first three years.`,
+    intro: `${BRAND_NAME} is a baby milestone tracker and calm companion for early motherhood — not a knitting yarn crawl, a social network, or a medical app.`,
     body: [
       {
-        heading: 'What Yarn Trails is',
+        heading: 'What is Yarn Trails?',
         paragraphs: [
-          BRAND_NAME + ' is an editorial guide and practical toolkit for new mothers. It is not a social network, a medical app, or a gamified checklist. The product is designed for quiet, considered use — including at 3am, with one hand, in low light.',
+          BRAND_NAME + ' is a quiet-luxury companion for early motherhood: a baby milestone tracker, postpartum care, practical guides, and a private AI baby book for the first three years. It is an editorial guide and toolkit for new mothers — not a social network, a medical app, or a gamified checklist.',
+          'The name is not a knitting yarn trail or a pub crawl with balls of wool. Yarn Trails is a product for parents: the yarn is a metaphor for the thread you follow through the first years, not a craft meetup.',
+          'The product is designed for quiet, considered use — including at 3am, with one hand, in low light.',
         ],
       },
       {
@@ -296,7 +298,7 @@ export const PAGES = {
 export const FAQS = [
   {
     q: `What is ${BRAND_NAME}?`,
-    a: BRAND_NAME + ' is a companion for early motherhood: month-by-month baby milestones, postpartum care, parenting guides, and a private AI baby book. It is educational, not medical advice.',
+    a: BRAND_NAME + ' is a baby milestone tracker and companion for early motherhood: month-by-month development, postpartum care, parenting guides, and a private AI baby book. It is not a knitting yarn crawl. It is educational, not medical advice.',
   },
   {
     q: `Who is ${BRAND_NAME} for?`,

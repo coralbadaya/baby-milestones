@@ -8,6 +8,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { homepageBodyHtml } from '../src/data/homepageCopy.js';
 import guides from '../src/data/guides.js';
 import { PAGES, FAQS } from '../src/data/legalContent.js';
 import milestones from '../src/data/milestones.js';
@@ -50,11 +51,22 @@ function blocksToHtml(blocks = []) {
   }).join('');
 }
 
+function guideRelatedLinksHtml(guide) {
+  if (!guide.milestoneMonth) return '';
+  return `<p>
+    <a href="${ROUTES.month(guide.milestoneMonth)}">Month ${guide.milestoneMonth} tracker</a>
+    · <a href="${ROUTES.vaccination}">Vaccination schedule</a>
+    · <a href="${ROUTES.momCare}">Postpartum care</a>
+    · <a href="${ROUTES.sources}">Sources &amp; citations</a>
+  </p>`;
+}
+
 function guideBodyHtml(guide) {
   return `<article>
     <nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/guides">Guides</a> / ${escapeHtml(guide.title)}</nav>
     <h1>${escapeHtml(guide.title)}</h1>
     <p>${escapeHtml(guide.intro || guide.description || '')}</p>
+    ${guideRelatedLinksHtml(guide)}
     ${blocksToHtml(guide.body)}
   </article>`;
 }
@@ -105,6 +117,7 @@ for (const entry of entries) {
       description: entry.description,
       canonical: buildCanonicalUrl('/'),
       jsonLd: homepageGraph(),
+      bodyHtml: homepageBodyHtml(),
     });
     writeFileSync(join(dist, 'index.html'), homeHtml);
     count += 1;

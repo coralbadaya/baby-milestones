@@ -84,7 +84,7 @@ Signed-in users: Supabase `memberships` is source of truth for premium (not loca
 |------|-----------|
 | Shell | `src/App.jsx`, `src/components/Header.jsx`, `src/components/Footer.jsx` |
 | Routes | `src/routes.js` |
-| Brand / SEO | `src/constants/brand.js`, `src/seo/`, `src/utils/pageMeta.js`, `src/components/StructuredData.jsx` |
+| Brand / SEO | `src/constants/brand.js`, `src/data/homepageCopy.js`, `src/seo/`, `src/utils/pageMeta.js`, `src/components/StructuredData.jsx` |
 | Styles | `src/styles/global.css`, `src/styles/editorial-system.css` |
 
 ### Today & My Baby

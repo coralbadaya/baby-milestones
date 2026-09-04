@@ -9,7 +9,7 @@ export const BRAND_TAGLINE_SHORT = 'early motherhood';
 export const SEO_DEFAULT_TITLE = `${BRAND_NAME} — The Art of Early Motherhood`;
 
 export const SEO_DEFAULT_DESCRIPTION =
-  'A calm companion for new mothers: month-by-month baby milestones, postpartum care, parenting guides, and a private AI baby book for the first years.';
+  'A calm baby milestone tracker for new mothers: month-by-month development, postpartum care, parenting guides, and a private AI baby book for the first years.';
 
 /** Canonical origin. Always the production hostname — never localhost or staging. */
 export const SITE_URL = 'https://yarntrails.com';

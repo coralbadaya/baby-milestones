@@ -20,13 +20,14 @@
 **Welcome mode** (`!user && !birthDate` — first visit, logged out):
 
 - **Component:** `WelcomeHero.jsx` — dedicated layout (photo band + ivory copy), not split `PageHero`
-- **Eyebrow:** "For new mothers"
-- **Title:** "Yarn Trails"
-- **Subtitle:** *"Week-by-week guides, milestones, and routines for your baby's first year."*
+- **Eyebrow:** "Yarn Trails"
+- **Title (H1):** *"The art of early motherhood"* (`BRAND_TAGLINE` via `src/data/homepageCopy.js`)
+- **Subtitle:** *"A calm baby milestone tracker for new mothers — month by month through the first years, with postpartum care beside it."*
 - **Primary CTA:** **Create free account** → `/signup`; secondary **Preview without an account** (`startLocalTrial`); birth-date form under *"Or personalize with birth date"*; `TrustStrip` with privacy note
-- **Visual:** `.home-today--welcome` ivory canvas; mobile stacked image + copy; desktop side-by-side grid (~460px min-height)
+- **Welcome intro:** compact ivory `PageSection` (narrow) under the hero — same copy as prerender (`homepageCopy.js`): intro + H2s (what it is, who it is for, what you can track) + links to Guides, My Baby, Mom Care, About. Logged-in Today does **not** show this block.
+- **Visual:** `.home-today--welcome` ivory canvas; mobile stacked image + copy; desktop side-by-side grid (~460px min-height); subtitle `max-width: 46ch`
 - **Funnel:** Single `ConversionBand` in `EditorialBand` only (no mid-page bands in welcome mode); sample banner on month preview
-- **SEO:** `usePageMeta` with welcome-specific title/description
+- **SEO:** `usePageMeta` with **homepage** title/description (`Yarn Trails — The Art of Early Motherhood`). Do not swap meta for conversion copy. Prerender injects the same welcome body into `dist/index.html`.
 
 **Logged-out conversion bands** (`!user`): `ConversionBand` after focus, DIY, and inside `EditorialBand` (ink band). See `ConversionBand.jsx`, `TrustStrip.jsx`.
 

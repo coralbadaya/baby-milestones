@@ -13,6 +13,7 @@ import Timeline from '../components/Timeline';
 import FirstsCarousel from '../components/firsts/FirstsCarousel';
 import FirstMomentCapture from '../components/firsts/FirstMomentCapture';
 import { getSuggestedFirst } from '../data/firsts';
+import { HOMEPAGE_COPY } from '../data/homepageCopy';
 import { PLANS } from '../constants/premium';
 import { useAuth } from '../context/AuthContext';
 import useScrollSurface from '../hooks/useScrollSurface';
@@ -91,13 +92,11 @@ function Home({
   const homeRef = useRef(null);
   useScrollSurface(homeRef, { defaultSurface: 'primary', observeKey: birthDate });
 
-  const heroEyebrow = isWelcomeMode ? 'For new mothers' : getGreeting();
-  const heroTitle = isWelcomeMode ? 'Yarn Trails' : (ageLine || 'Welcome to Yarn Trails');
-  const heroSubtitle = isWelcomeMode
-    ? 'Week-by-week guides, milestones, and routines for your baby\'s first year.'
-    : (ageLine
-      ? "Here's what matters this week."
-      : 'Set your baby\'s birth date to personalize your journey.');
+  const heroEyebrow = getGreeting();
+  const heroTitle = ageLine || 'Welcome to Yarn Trails';
+  const heroSubtitle = ageLine
+    ? "Here's what matters this week."
+    : 'Set your baby\'s birth date to personalize your journey.';
 
   return (
     <div ref={homeRef} className={`home home-today${isWelcomeMode ? ' home-today--welcome' : ''}`}>
@@ -143,6 +142,38 @@ function Home({
             )}
           </div>
       </PageHero>
+      )}
+
+      {isWelcomeMode && (
+        <PageSection
+          surface="ivory"
+          width="narrow"
+          ariaLabelledby="welcome-intro-heading"
+          blendEdges
+          className="page-section--welcome-intro"
+        >
+          <article className="welcome-intro content-page-body">
+            <p className="welcome-intro__lead">{HOMEPAGE_COPY.intro}</p>
+            {HOMEPAGE_COPY.sections.map((block, i) => (
+              <section key={block.heading} className="content-block">
+                <h2 id={i === 0 ? 'welcome-intro-heading' : undefined}>{block.heading}</h2>
+                {block.paragraphs.map((p) => (
+                  <p key={p}>{p}</p>
+                ))}
+              </section>
+            ))}
+            <p className="month-related-links welcome-intro__links">
+              {HOMEPAGE_COPY.links.map((link, i) => (
+                <span key={link.to}>
+                  {i > 0 ? ' · ' : null}
+                  <Link to={link.to} onClick={() => interact('tap', 'light')}>
+                    {link.label}
+                  </Link>
+                </span>
+              ))}
+            </p>
+          </article>
+        </PageSection>
       )}
 
       <PageSection surface="ivory" width="wide" ariaLabelledby="today-focus-heading" blendEdges>

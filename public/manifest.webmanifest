@@ -1,7 +1,7 @@
 {
   "name": "Yarn Trails — The art of early motherhood",
   "short_name": "Yarn Trails",
-  "description": "A calm companion for new mothers: month-by-month baby milestones, postpartum care, parenting guides, and a private AI baby book.",
+  "description": "A calm baby milestone tracker for new mothers: month-by-month development, postpartum care, parenting guides, and a private AI baby book.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

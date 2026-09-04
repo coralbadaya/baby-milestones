@@ -7,6 +7,8 @@ import { buildRobotsTxt } from './robots.js';
 import { applySeoToHtml } from './prerenderHtml.js';
 import { articleSchema, breadcrumbSchema, faqSchema, organizationSchema, websiteSchema } from '../utils/structuredData.js';
 import { SITE_URL } from '../constants/brand.js';
+import { homepageBodyHtml } from '../data/homepageCopy.js';
+import { getGuideBySlug } from '../data/guides.js';
 
 describe('canonical URLs', () => {
   it('normalizes trailing slashes, query, and hash', () => {
@@ -182,5 +184,37 @@ describe('prerender HTML', () => {
     expect(html).toContain('href="https://yarntrails.com/about"');
     expect(html).toContain('name="robots"');
     expect(html).toContain('<h1>About Yarn Trails</h1>');
+  });
+
+  it('injects the welcome homepage H1 and intro into #root', () => {
+    const shell = `<!doctype html><html><head>
+      <title>Old</title>
+      <meta name="description" content="old" />
+      <link rel="canonical" href="https://yarntrails.com/" />
+      </head><body><div id="root"></div></body></html>`;
+    const html = applySeoToHtml(shell, {
+      homepage: true,
+      description: 'Home description',
+      canonical: 'https://yarntrails.com/',
+      bodyHtml: homepageBodyHtml(),
+    });
+    expect(html).toContain('<h1>The art of early motherhood</h1>');
+    expect(html).toContain('baby milestone tracker');
+    expect(html).toContain('<h2>What Yarn Trails is</h2>');
+    expect(html).toContain('href="/guides"');
+  });
+});
+
+describe('3-month-old milestones guide', () => {
+  it('answers the query with sleep, feeding, and pediatrician sections', () => {
+    const guide = getGuideBySlug('3-month-old-milestones');
+    expect(guide).toBeTruthy();
+    expect(guide.milestoneMonth).toBe(3);
+    const headings = (guide.body || []).map((block) => block.heading);
+    expect(headings).toContain('Sleep at 3 months');
+    expect(headings).toContain('Feeding at 3 months');
+    expect(headings).toContain('When to talk to your pediatrician');
+    const text = [guide.intro, ...(guide.body || []).flatMap((b) => b.paragraphs || [])].join(' ');
+    expect(text.length).toBeGreaterThan(4000);
   });
 });

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import ImageWithFallback from './ImageWithFallback';
 import TrustStrip from './TrustStrip';
 import { BRAND_WATERMARK_SRC } from '../constants/brandAssets';
+import { HOMEPAGE_COPY } from '../data/homepageCopy';
 import { pageImages } from '../data/pageImages';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
@@ -31,12 +32,12 @@ function WelcomeHero({ birthDate, setBirthDate, onLocalPreview }) {
 
       <div className="welcome-hero__body">
         <div className="welcome-hero__copy">
-          <p className="welcome-hero__eyebrow">For new mothers</p>
+          <p className="welcome-hero__eyebrow">{HOMEPAGE_COPY.eyebrow}</p>
           <h1 id="welcome-hero-title" className="welcome-hero__title font-display">
-            Yarn Trails
+            {HOMEPAGE_COPY.h1}
           </h1>
           <p className="welcome-hero__subtitle">
-            Week-by-week guides, milestones, and routines for your baby&apos;s first year.
+            {HOMEPAGE_COPY.subtitle}
           </p>
 
           <div className="welcome-hero__actions">

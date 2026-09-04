@@ -460,7 +460,21 @@
   line-height: 1.55;
   color: var(--text-secondary);
   margin: 0;
-  max-width: 32ch;
+  max-width: 46ch;
+}
+
+.welcome-intro {
+  text-align: left;
+}
+
+.welcome-intro__lead {
+  margin: 0 0 var(--space-6);
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.welcome-intro__links {
+  margin-top: var(--space-2);
 }
 
 .welcome-hero__actions {

@@ -47,6 +47,19 @@ function GuideArticle() {
           {guide.readMinutes} min read
         </p>
         <p className="content-page-intro">{guide.intro}</p>
+        {guide.milestoneMonth ? (
+          <p className="month-related-links">
+            <Link to={ROUTES.month(guide.milestoneMonth)}>
+              Month {guide.milestoneMonth} tracker
+            </Link>
+            {' · '}
+            <Link to={ROUTES.vaccination}>Vaccination schedule</Link>
+            {' · '}
+            <Link to={ROUTES.momCare}>Postpartum care</Link>
+            {' · '}
+            <Link to={ROUTES.sources}>Sources & citations</Link>
+          </p>
+        ) : null}
       </header>
 
       <div className="content-page-body">

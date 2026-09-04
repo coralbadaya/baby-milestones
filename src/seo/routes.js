@@ -104,7 +104,7 @@ export const INDEXABLE_STATIC_PAGES = [
   {
     path: ROUTES.about,
     title: 'About Yarn Trails',
-    description: 'Yarn Trails is a quiet-luxury companion for early motherhood — editorial guides plus practical tools for the first three years.',
+    description: 'Yarn Trails is a baby milestone tracker and calm companion for early motherhood — not a knitting yarn crawl, a social network, or a medical app.',
     changefreq: 'monthly',
     priority: 0.7,
   },
