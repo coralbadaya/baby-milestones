@@ -13,13 +13,11 @@ import { readLocalPremium } from '../utils/localPremium';
 import { formatPremiumRateLine } from '../utils/premiumPricing';
 import { ROUTES } from '../routes';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
 import { startCheckout } from '../utils/stripeCheckout';
 
 function Premium() {
-  usePageMeta({
-    title: 'Yarn Trails Plus — AI Baby Book',
-    description: 'Turn milestones into their story. Basic is free forever; Plus unlocks unlimited AI stories, the full flip-book, and HD memories.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.premium) || {});
 
   const {
     user, isPremium, membership, loading, redeemPromoCode, startLocalTrial,

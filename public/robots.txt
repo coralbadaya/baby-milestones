@@ -1,4 +1,16 @@
 User-agent: *
 Allow: /
 
+Disallow: /admin
+Disallow: /login
+Disallow: /signup
+Disallow: /verify-email
+Disallow: /account
+Disallow: /api/
+Disallow: /baby/book
+Disallow: /book/voice-invite
+Disallow: /story/preview
+Disallow: /newsletter/unsubscribe
+Disallow: /community/create
+
 Sitemap: https://yarntrails.com/sitemap.xml

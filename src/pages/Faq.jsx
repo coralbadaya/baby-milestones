@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import Icon from '../components/Icon';
+import PageBreadcrumb from '../components/PageBreadcrumb';
 import StructuredData from '../components/StructuredData';
 import { FAQS } from '../data/legalContent';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
-import { faqSchema } from '../utils/structuredData';
+import { getStaticMeta } from '../seo/routes';
+import { ROUTES } from '../routes';
+import { breadcrumbSchema, faqSchema } from '../utils/structuredData';
 
 function Faq() {
   const [open, setOpen] = useState(0);
 
-  usePageMeta({
-    title: 'Frequently Asked Questions',
-    description: 'Answers to common questions about milestones, mom care, privacy, and using the app.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.faq) || {});
 
   const toggle = (i) => {
     setOpen(open === i ? null : i);
@@ -21,6 +21,12 @@ function Faq() {
 
   return (
     <div className="content-page faq-page fade-in">
+      <PageBreadcrumb
+        items={[
+          { name: 'Home', to: ROUTES.home },
+          { name: 'FAQ' },
+        ]}
+      />
       <header className="content-page-hero">
         <Icon name="question" size={40} className="content-page-icon" />
         <h1>Frequently Asked Questions</h1>
@@ -51,6 +57,13 @@ function Faq() {
       </div>
 
       <StructuredData id="faq" data={faqSchema(FAQS)} />
+      <StructuredData
+        id="faq-breadcrumb"
+        data={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'FAQ', path: ROUTES.faq },
+        ])}
+      />
     </div>
   );
 }

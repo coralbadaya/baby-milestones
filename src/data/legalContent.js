@@ -8,7 +8,7 @@
  * @typedef {{ heading?: string, paragraphs?: string[], list?: string[] }} ContentBlock
  * @typedef {{ title: string, icon: string, updated?: string, intro?: string, note?: string, body: ContentBlock[] }} ContentPage
  */
-import { BRAND_NAME, CONTACT_EMAIL } from '../constants/brand';
+import { BRAND_NAME, CONTACT_EMAIL } from '../constants/brand.js';
 
 const REVIEW_NOTE =
   'This is drafted starter content for review. Please have it reviewed by a qualified professional before relying on it or publishing.';
@@ -20,21 +20,37 @@ export const PAGES = {
   about: {
     title: `About ${BRAND_NAME}`,
     icon: 'info',
-    intro: `${BRAND_NAME} is a calm, considered companion for the first years of parenthood — month-by-month baby milestones, postpartum mom care, vaccination tracking, and practical guides, all in one place.`,
+    intro: `${BRAND_NAME} is a calm companion for early motherhood — month-by-month baby milestones, postpartum care, practical guides, and a private AI baby book for the first three years.`,
     body: [
       {
-        heading: 'Why we exist',
+        heading: 'What Yarn Trails is',
         paragraphs: [
-          'New parenthood is full of questions, often at 3am. We built ' + BRAND_NAME + ' to answer them with warmth and credibility — turning trusted developmental guidance into something gentle, personal, and easy to act on.',
+          BRAND_NAME + ' is an editorial guide and practical toolkit for new mothers. It is not a social network, a medical app, or a gamified checklist. The product is designed for quiet, considered use — including at 3am, with one hand, in low light.',
         ],
       },
       {
-        heading: 'What we believe',
+        heading: 'Who it is for',
+        paragraphs: [
+          'We built ' + BRAND_NAME + ' for new and expecting mothers, and the people who care for them, during pregnancy aftermath and the first 36 months. The tone is adult, warm, and unhurried — for parents who want evidence-informed guidance without noise.',
+        ],
+      },
+      {
+        heading: 'What you will find',
         list: [
-          'Development is a range, not a race — we celebrate every baby\u2019s pace',
+          'Month-by-month baby milestones, activities, and Watch For notes from newborn to three years',
+          'Postpartum recovery and self-care for the mother, not only the baby',
+          'Vaccination tracking, shopping checklists, and age-aware travel notes',
+          'Guides on development, recovery, and choosing a baby book — written to answer real questions',
+          'A private AI baby book on Plus: stories and a flip-book from the photos and milestones you already keep',
+        ],
+      },
+      {
+        heading: 'What makes it different',
+        list: [
+          'Development is a range, not a race — we celebrate every baby\'s pace',
           'Mothers deserve as much care and attention as their babies',
           'Guidance should be evidence-informed, clearly sourced, and never alarmist',
-          'Your data is yours — we keep things private and on-device wherever we can',
+          'Your data is yours — we keep tracking private and on-device wherever we can',
         ],
       },
       {
@@ -278,6 +294,22 @@ export const PAGES = {
  * @type {{ q: string, a: string }[]}
  */
 export const FAQS = [
+  {
+    q: `What is ${BRAND_NAME}?`,
+    a: BRAND_NAME + ' is a companion for early motherhood: month-by-month baby milestones, postpartum care, parenting guides, and a private AI baby book. It is educational, not medical advice.',
+  },
+  {
+    q: `Who is ${BRAND_NAME} for?`,
+    a: 'New and expecting mothers — and the people supporting them — during the first three years. The product is designed for quiet, considered use, including at 3am.',
+  },
+  {
+    q: 'What kind of guides and stories does Yarn Trails publish?',
+    a: 'Editorial guides cover baby development, postpartum recovery, vaccinations, and choosing a baby book. Community feed, recipes, and tips are shared by mothers. Private AI stories in Plus are generated from your own photos and milestones — they are not public articles.',
+  },
+  {
+    q: 'How can I share a memory or tip?',
+    a: 'Open Community from the main navigation, then choose Create to share a milestone, recipe, or parenting tip.',
+  },
   {
     q: `Is ${BRAND_NAME} a substitute for my pediatrician?`,
     a: 'No. ' + BRAND_NAME + ' is educational only and is not medical advice. Always consult your pediatrician or obstetric provider for health decisions.',

@@ -3,6 +3,8 @@ import sources from '../data/sources';
 import { interact } from '../utils/haptics';
 import Icon from '../components/Icon';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
+import { ROUTES } from '../routes';
 
 function TabButton({ active, onClick, icon, children }) {
   return (
@@ -13,10 +15,7 @@ function TabButton({ active, onClick, icon, children }) {
 }
 
 function Sources() {
-  usePageMeta({
-    title: 'Medical Sources & Citations',
-    description: 'The recognized medical authorities and citations behind Yarn Trails\u2019s milestones and guidance.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.sources) || {});
   const [activeTab, setActiveTab] = useState('global');
   const [expandedSource, setExpandedSource] = useState(null);
   const [expandedCitation, setExpandedCitation] = useState(null);

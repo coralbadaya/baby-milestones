@@ -6,15 +6,17 @@ export const BRAND_TAGLINE = 'The art of early motherhood';
 /** Short tagline for compact placements (e.g. header lockup). */
 export const BRAND_TAGLINE_SHORT = 'early motherhood';
 
-export const SEO_DEFAULT_TITLE = `${BRAND_NAME} — AI Baby Book & Milestones`;
+export const SEO_DEFAULT_TITLE = `${BRAND_NAME} — The Art of Early Motherhood`;
 
 export const SEO_DEFAULT_DESCRIPTION =
-  'Free milestone tracking forever. Turn photos into AI stories and an interactive flip-book with Yarn Trails Plus — the modern AI baby book.';
+  'A calm companion for new mothers: month-by-month baby milestones, postpartum care, parenting guides, and a private AI baby book for the first years.';
 
-/** Canonical site URL for OG tags. */
+/** Canonical origin. Always the production hostname — never localhost or staging. */
 export const SITE_URL = 'https://yarntrails.com';
 
 export const OG_IMAGE = `${SITE_URL}/og-default.png`;
+
+export const LOGO_URL = `${SITE_URL}/icon-512.png`;
 
 export const COMMUNITY_TAGLINE = 'Milestones, recipes, and tips shared by mothers';
 

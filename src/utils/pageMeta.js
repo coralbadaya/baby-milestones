@@ -1,18 +1,12 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   BRAND_NAME,
   OG_IMAGE,
   SEO_DEFAULT_DESCRIPTION,
-  SEO_DEFAULT_TITLE,
-  SITE_URL,
 } from '../constants/brand';
-
-const DEFAULT = {
-  title: SEO_DEFAULT_TITLE,
-  description: SEO_DEFAULT_DESCRIPTION,
-  image: OG_IMAGE,
-  url: typeof window !== 'undefined' ? window.location.href : SITE_URL,
-};
+import { formatPageTitle, ROBOTS_INDEX } from '../seo/metadata';
+import { buildCanonicalUrl } from '../seo/urls';
 
 function setMeta(attr, key, value) {
   let el = document.querySelector(`meta[${attr}="${key}"]`);
@@ -48,19 +42,32 @@ function setRobots(content) {
   el.setAttribute('content', content);
 }
 
+/**
+ * @param {{
+ *   title?: string,
+ *   description?: string,
+ *   image?: string,
+ *   path?: string,
+ *   canonical?: string,
+ *   type?: string,
+ *   robots?: string,
+ *   homepage?: boolean,
+ * }} [meta]
+ */
 export function applyPageMeta(meta = {}) {
-  const title = meta.title ? `${meta.title} | ${BRAND_NAME}` : DEFAULT.title;
-  const ogTitle = meta.title ? `${meta.title} | ${BRAND_NAME}` : DEFAULT.title;
-  const description = meta.description || DEFAULT.description;
-  const image = meta.image || DEFAULT.image;
-  const url = meta.url || DEFAULT.url;
+  const homepage = Boolean(meta.homepage || meta.path === '/');
+  const title = formatPageTitle(meta.title, { homepage });
+  const description = meta.description || SEO_DEFAULT_DESCRIPTION;
+  const image = meta.image || OG_IMAGE;
+  const canonical = meta.canonical || buildCanonicalUrl(meta.path || '/');
 
   document.title = title;
   setMeta('name', 'description', description);
-  setMeta('property', 'og:title', ogTitle);
+  setRobots(meta.robots || ROBOTS_INDEX);
+  setMeta('property', 'og:title', title);
   setMeta('property', 'og:description', description);
   setMeta('property', 'og:image', image);
-  setMeta('property', 'og:url', url);
+  setMeta('property', 'og:url', canonical);
   setMeta('property', 'og:type', meta.type || 'website');
   setMeta('property', 'og:site_name', BRAND_NAME);
   setMeta('property', 'og:image:width', '1200');
@@ -68,24 +75,47 @@ export function applyPageMeta(meta = {}) {
   setMeta('property', 'og:locale', 'en_GB');
   setMeta('name', 'twitter:card', 'summary_large_image');
   setMeta('name', 'twitter:site', '@yarntrails');
-  setMeta('name', 'twitter:title', ogTitle);
+  setMeta('name', 'twitter:title', title);
   setMeta('name', 'twitter:description', description);
   setMeta('name', 'twitter:image', image);
-  setCanonical(meta.canonical || url);
-  setRobots(meta.robots);
+  setCanonical(canonical);
 }
 
 export function resetPageMeta() {
-  applyPageMeta({});
+  applyPageMeta({ homepage: true, path: '/' });
 }
 
 /**
- * React hook: apply per-page SEO meta on mount / when inputs change.
- * @param {{ title?: string, description?: string, image?: string, url?: string, canonical?: string, type?: string, robots?: string }} meta
+ * Apply per-page SEO meta. Canonical always uses the production origin + path
+ * (never window.location, query strings, or hashes).
+ * @param {{
+ *   title?: string,
+ *   description?: string,
+ *   image?: string,
+ *   path?: string,
+ *   canonical?: string,
+ *   type?: string,
+ *   robots?: string,
+ *   homepage?: boolean,
+ * }} [meta]
  */
 export function usePageMeta(meta = {}) {
-  const { title, description, image, url, canonical, type, robots } = meta;
+  const { pathname } = useLocation();
+  const {
+    title, description, image, path, canonical, type, robots, homepage,
+  } = meta;
+  const resolvedPath = path || pathname;
+
   useEffect(() => {
-    applyPageMeta({ title, description, image, url, canonical, type, robots });
-  }, [title, description, image, url, canonical, type, robots]);
+    applyPageMeta({
+      title,
+      description,
+      image,
+      path: resolvedPath,
+      canonical,
+      type,
+      robots,
+      homepage: homepage || resolvedPath === '/',
+    });
+  }, [title, description, image, resolvedPath, canonical, type, robots, homepage]);
 }

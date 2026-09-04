@@ -1,13 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import milestones from '../data/milestones';
 import sources from '../data/sources';
+import { getGuideBySlug } from '../data/guides';
 import { interact, sounds } from '../utils/haptics';
 import { useSwipe } from '../utils/gestures';
 import DIYSection from '../components/DIYSection';
 import CareSection from '../components/CareSection';
 import PageSection from '../components/PageSection';
 import Icon from '../components/Icon';
+import StructuredData from '../components/StructuredData';
 import { usePageMeta } from '../utils/pageMeta';
+import { breadcrumbSchema } from '../utils/structuredData';
+import { ROUTES } from '../routes';
 
 function SectionHeading({ icon, children }) {
   return (
@@ -20,9 +25,12 @@ function SectionHeading({ icon, children }) {
 
 function MonthDetail({ month, checkedItems, toggleCheck, onBack, onNavigate, currentWeek }) {
   const data = milestones.find(m => m.month === month);
+  const guide = getGuideBySlug(`${month}-month-old-milestones`);
   usePageMeta({
-    title: `Month ${month} Milestones`,
-    description: `Developmental milestones, activities, and care for your baby in month ${month}.`,
+    title: data ? `Month ${month}: ${data.title}` : `Month ${month} Milestones`,
+    description: data?.summary
+      || `Developmental milestones, activities, and care for month ${month}.`,
+    path: ROUTES.month(month),
   });
   const [showCelebration, setShowCelebration] = useState(false);
   const [justChecked, setJustChecked] = useState(null);
@@ -159,6 +167,24 @@ function MonthDetail({ month, checkedItems, toggleCheck, onBack, onNavigate, cur
         <div className="month-num-big">{data.month}</div>
         <h1>Month {data.month}: {data.title}</h1>
         <p>{data.summary}</p>
+        <p className="month-related-links">
+          {guide ? (
+            <>
+              <Link to={ROUTES.guide(guide.slug)}>{guide.title}</Link>
+              {' · '}
+            </>
+          ) : (
+            <>
+              <Link to={ROUTES.guides}>Milestone guides</Link>
+              {' · '}
+            </>
+          )}
+          <Link to={ROUTES.vaccination}>Vaccination schedule</Link>
+          {' · '}
+          <Link to={ROUTES.momCare}>Postpartum care</Link>
+          {' · '}
+          <Link to={ROUTES.sources}>Sources & citations</Link>
+        </p>
 
         <div className="month-progress-inline">
           <div className="progress-bar-inline">
@@ -346,6 +372,14 @@ function MonthDetail({ month, checkedItems, toggleCheck, onBack, onNavigate, cur
         </div>
       </div>
       </PageSection>
+      <StructuredData
+        id={`month-breadcrumb-${data.month}`}
+        data={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'My Baby', path: ROUTES.baby },
+          { name: `Month ${data.month}`, path: ROUTES.month(data.month) },
+        ])}
+      />
     </div>
   );
 }

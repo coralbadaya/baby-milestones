@@ -1,5 +1,6 @@
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Icon from '../components/Icon';
+import PageBreadcrumb from '../components/PageBreadcrumb';
 import StructuredData from '../components/StructuredData';
 import { getGuideBySlug } from '../data/guides';
 import { ROUTES } from '../routes';
@@ -7,29 +8,35 @@ import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
 import GuideStoryCta from '../components/book/GuideStoryCta';
 import { articleSchema, breadcrumbSchema } from '../utils/structuredData';
+import NotFound from './NotFound';
 
 function GuideArticle() {
   const { slug } = useParams();
   const guide = getGuideBySlug(slug);
+  const pathname = guide ? ROUTES.guide(guide.slug) : undefined;
 
   usePageMeta({
     title: guide?.title,
     description: guide?.description,
     type: 'article',
+    path: pathname,
   });
 
-  if (!guide) return <Navigate to={ROUTES.guides} replace />;
+  if (!guide) return <NotFound />;
 
   const related = (guide.relatedSlugs || [])
     .map((s) => getGuideBySlug(s))
     .filter(Boolean);
-  const pathname = ROUTES.guide(guide.slug);
 
   return (
     <article className="content-page guide-article fade-in">
-      <Link to={ROUTES.guides} className="guide-back" onClick={() => interact('tap', 'light')}>
-        ← All guides
-      </Link>
+      <PageBreadcrumb
+        items={[
+          { name: 'Home', to: ROUTES.home },
+          { name: 'Guides', to: ROUTES.guides },
+          { name: guide.title },
+        ]}
+      />
 
       <header className="content-page-hero">
         <Icon name={guide.icon} size={40} className="content-page-icon" />

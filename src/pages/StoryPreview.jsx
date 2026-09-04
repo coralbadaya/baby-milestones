@@ -13,6 +13,7 @@ function StoryPreview() {
   usePageMeta({
     title: story?.title || 'Story preview',
     description: 'A preview page from a Yarn Trails AI baby book story.',
+    robots: 'noindex, nofollow',
   });
 
   useEffect(() => {

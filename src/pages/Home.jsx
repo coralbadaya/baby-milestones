@@ -20,12 +20,6 @@ import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
 
-const WELCOME_META = {
-  title: 'Week-by-Week Baby Guides',
-  description:
-    'Week-by-week guides, milestones, and routines for your baby\'s first year. Create a free account or preview Yarn Trails without signing up.',
-};
-
 function getGreeting() {
   const hour = new Date().getHours();
   if (hour < 12) return 'Good morning';
@@ -67,7 +61,7 @@ function Home({
   const showLoggedOutBands = !loading && !user;
   const showLoggedOutHeroCtas = showLoggedOutBands;
 
-  usePageMeta(isWelcomeMode ? WELCOME_META : {});
+  usePageMeta({ homepage: true, path: ROUTES.home });
 
   const [detailFirstId, setDetailFirstId] = useState(null);
   const [captureError, setCaptureError] = useState(null);

@@ -1,7 +1,9 @@
 import { useLocation } from 'react-router-dom';
 import ContentPage from '../components/ContentPage';
+import PageBreadcrumb from '../components/PageBreadcrumb';
 import StructuredData from '../components/StructuredData';
 import { PAGES } from '../data/legalContent';
+import { ROUTES } from '../routes';
 import { usePageMeta } from '../utils/pageMeta';
 import { breadcrumbSchema } from '../utils/structuredData';
 
@@ -22,6 +24,12 @@ function StaticPage({ pageKey }) {
 
   return (
     <>
+      <PageBreadcrumb
+        items={[
+          { name: 'Home', to: ROUTES.home },
+          { name: page.title },
+        ]}
+      />
       <ContentPage page={page} />
       <StructuredData
         id={`breadcrumb-${pageKey}`}

@@ -3,15 +3,14 @@ import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import { BRAND_NAME } from '../constants/brand';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
+import { ROUTES } from '../routes';
 import { trackEvent } from '../utils/analytics';
 
 const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
 
 function MilestoneCardsTool() {
-  usePageMeta({
-    title: 'Free Printable Milestone Cards',
-    description: 'Download printable monthly milestone cards for baby photos — free tool from Yarn Trails.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.milestoneCardsTool) || {});
 
   const canvasRef = useRef(null);
   const [month, setMonth] = useState(1);

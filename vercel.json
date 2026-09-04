@@ -1,5 +1,24 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.yarntrails.com" }],
+      "destination": "https://yarntrails.com/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.yarntrails.com" }],
+      "destination": "https://yarntrails.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
+    {
+      "source": "/((?!api/|sitemap\\.xml|robots\\.txt).*)",
+      "destination": "/index.html"
+    }
   ]
 }

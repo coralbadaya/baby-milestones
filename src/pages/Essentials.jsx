@@ -7,6 +7,7 @@ import { pageImages } from '../data/pageImages';
 import { interact } from '../utils/haptics';
 import { ROUTES } from '../routes';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
 
 const ESSENTIALS_CARDS = [
   {
@@ -39,10 +40,7 @@ const ESSENTIALS_CARDS = [
 ];
 
 function Essentials() {
-  usePageMeta({
-    title: 'Essentials',
-    description: 'Curated baby shopping checklists and age-aware travel tips — practical and calm.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.essentials) || {});
   const onLink = () => interact('tap', 'light');
 
   return (

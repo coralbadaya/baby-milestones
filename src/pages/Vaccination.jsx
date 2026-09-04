@@ -21,6 +21,8 @@ import {
   toCsv,
 } from '../utils/vaccines';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
+import { ROUTES } from '../routes';
 
 const FILTERS = ['all', 'due', 'upcoming', 'overdue', 'done', 'skipped'];
 
@@ -132,10 +134,7 @@ function Vaccination({
   reminderDays,
   setReminderDays,
 }) {
-  usePageMeta({
-    title: 'Vaccination Tracker',
-    description: 'Track your baby\u2019s immunizations with India, CDC, or custom schedules, reminders, and exports.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.vaccination) || {});
   const [filter, setFilter] = useState('all');
   const [editingVaccine, setEditingVaccine] = useState(null);
   const [selectedVaccineId, setSelectedVaccineId] = useState(null);

@@ -84,7 +84,7 @@ Signed-in users: Supabase `memberships` is source of truth for premium (not loca
 |------|-----------|
 | Shell | `src/App.jsx`, `src/components/Header.jsx`, `src/components/Footer.jsx` |
 | Routes | `src/routes.js` |
-| Brand / SEO | `src/constants/brand.js`, `src/utils/pageMeta.js`, `src/components/StructuredData.jsx` |
+| Brand / SEO | `src/constants/brand.js`, `src/seo/`, `src/utils/pageMeta.js`, `src/components/StructuredData.jsx` |
 | Styles | `src/styles/global.css`, `src/styles/editorial-system.css` |
 
 ### Today & My Baby
@@ -301,7 +301,9 @@ npm run verify:data      # milestone + mom-milestone integrity
 npm run build            # production build
 npm run seed:test-users  # test admin/user accounts
 npm run generate:brand   # favicon, PWA icons from logo SVG
-npm run generate:sitemap # public/sitemap.xml
+npm run generate:sitemap # public/sitemap.xml + robots.txt
+npm run audit:seo        # inventory / canonical / private-URL checks
+npm run build            # sitemap + vite + SEO prerender
 ```
 
 Quality gate before merge: `npm test` · `npm run verify:data` (if data changed) · `npm run build`
@@ -328,6 +330,7 @@ Quality gate before merge: `npm test` · `npm run verify:data` (if data changed)
 
 | Date | Change |
 |------|--------|
+| Sep 2026 | Technical SEO: SPA rewrite, canonical helpers, dynamic sitemap/robots, prerender of all public URLs |
 | Jul 2026 | Expanded memory: project snapshot, file map, localStorage, life firsts, updated nav/IA |
 | Earlier | Parenting assistant KB only (topics, priority, test queries) |
 

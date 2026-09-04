@@ -16,6 +16,7 @@ import Icon from '../components/Icon';
 import { interact } from '../utils/haptics';
 import { ROUTES } from '../routes';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
 import { useAuth } from '../context/AuthContext';
 
 function Baby({
@@ -29,10 +30,7 @@ function Baby({
   onFirstNoteSave,
   onFirstRemove,
 }) {
-  usePageMeta({
-    title: 'My Baby',
-    description: 'Month-by-month baby milestones, DIY activities, and care from newborn to toddler.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.baby) || {});
   const location = useLocation();
   const { isPremium } = useAuth();
   const onLink = () => interact('tap', 'light');

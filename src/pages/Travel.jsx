@@ -2,12 +2,11 @@ import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import TravelTips from '../components/TravelTips';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
+import { ROUTES } from '../routes';
 
 function Travel({ currentMonth }) {
-  usePageMeta({
-    title: 'Travel with Baby',
-    description: 'Age-aware travel tips for flights, road trips, and long-haul journeys with your baby.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.travel) || {});
   return (
     <>
       <PageHero

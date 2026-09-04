@@ -6,7 +6,7 @@ import { usePageMeta } from '../utils/pageMeta';
 import { ROUTES } from '../routes';
 
 function Login() {
-  usePageMeta({ title: 'Sign In', description: 'Sign in to your Yarn Trails account.' });
+  usePageMeta({ title: 'Sign In', description: 'Sign in to your Yarn Trails account.', robots: 'noindex, nofollow' });
   const { signIn, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

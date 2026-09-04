@@ -34,6 +34,7 @@ import AdminNewsletter from './pages/admin/AdminNewsletter';
 import AdminCommunity from './pages/admin/AdminCommunity';
 import AdminCommunityPost from './pages/admin/AdminCommunityPost';
 import NewsletterUnsubscribe from './pages/NewsletterUnsubscribe';
+import NotFound from './pages/NotFound';
 import BabyBook from './pages/BabyBook';
 import VoiceInvite from './pages/VoiceInvite';
 import MilestoneCardsTool from './pages/MilestoneCardsTool';
@@ -62,7 +63,7 @@ function MonthDetailRoute({ checkedItems, toggleCheck, getCurrentWeek }) {
   const month = Number(monthParam);
 
   if (!Number.isInteger(month) || month < 1 || month > 36) {
-    return <Navigate to={ROUTES.home} replace />;
+    return <NotFound />;
   }
 
   return (
@@ -340,7 +341,7 @@ function App() {
           <Route path="community/posts/:postId" element={<AdminCommunityPost />} />
         </Route>
 
-        <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
+        <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       {!isAdminRoute && !isBabyBookRoute && <Footer />}

@@ -7,13 +7,11 @@ import guides from '../data/guides';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
+import PageBreadcrumb from '../components/PageBreadcrumb';
 
 function Guides() {
-  usePageMeta({
-    title: 'Guides & Articles',
-    description:
-      'Evidence-informed guides on baby development, postpartum recovery, vaccinations, and the practical side of early parenthood.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.guides) || {});
 
   return (
     <div className="guides-page">
@@ -27,6 +25,12 @@ function Guides() {
       />
 
       <PageSection surface="ivory" width="wide">
+        <PageBreadcrumb
+          items={[
+            { name: 'Home', to: ROUTES.home },
+            { name: 'Guides' },
+          ]}
+        />
         <SectionHeader
           id="guides-list-heading"
           eyebrow="Library"

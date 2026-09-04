@@ -15,6 +15,7 @@ function BabyBook({ birthDate, currentMonth, firstMoments, babyName: babyNamePro
   usePageMeta({
     title: 'Baby Book',
     description: 'AI stories in your language, photo-book ideas, 3D flip-book, and family voice blessings.',
+    robots: 'noindex, nofollow',
   });
 
   if (tab && !VALID_TABS.includes(tab)) {

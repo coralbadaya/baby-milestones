@@ -14,6 +14,7 @@ function NewsletterUnsubscribe() {
   usePageMeta({
     title: 'Unsubscribe',
     description: `Manage your ${BRAND_NAME} newsletter preferences.`,
+    robots: 'noindex, nofollow',
   });
 
   useEffect(() => {

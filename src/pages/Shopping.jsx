@@ -4,12 +4,11 @@ import ShoppingChecklist from '../components/ShoppingChecklist';
 import PremiumGate from '../components/PremiumGate';
 import { PREMIUM_FEATURES } from '../constants/premium';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
+import { ROUTES } from '../routes';
 
 function Shopping({ checkedItems, toggleCheck, currentMonth }) {
-  usePageMeta({
-    title: 'Shopping Checklist',
-    description: 'A curated, month-by-month baby shopping checklist — investment pieces, not clutter.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.shopping) || {});
   return (
     <>
       <PageHero

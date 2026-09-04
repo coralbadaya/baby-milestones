@@ -8,6 +8,7 @@ function SignUp() {
   usePageMeta({
     title: 'Create Account',
     description: 'Join Yarn Trails — complimentary early-access membership included.',
+    robots: 'noindex, nofollow',
   });
   const { signUp, user } = useAuth();
   const navigate = useNavigate();

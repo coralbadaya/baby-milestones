@@ -2,12 +2,11 @@ import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import MomCareTips from '../components/MomCareTips';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
+import { ROUTES } from '../routes';
 
 function MomCare({ birthDate }) {
-  usePageMeta({
-    title: 'Mom Care',
-    description: 'Postpartum recovery timeline, self-care, and gentle guidance for the modern mother.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.momCare) || {});
   return (
     <>
       <PageHero

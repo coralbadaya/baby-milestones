@@ -6,15 +6,13 @@ import { useAuth } from '../context/AuthContext';
 import { supabase } from '../utils/supabaseClient';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
+import { getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
 import { CONTACT_EMAIL } from '../constants/brand';
 import { CONTACT_SUBJECT_OPTIONS } from '../constants/contactSubjects';
 
 function Contact() {
-  usePageMeta({
-    title: 'Contact Us',
-    description: 'Get in touch with the Yarn Trails team — feedback, partnerships, and questions.',
-  });
+  usePageMeta(getStaticMeta(ROUTES.contact) || {});
 
   const { user } = useAuth();
   const [name, setName] = useState('');

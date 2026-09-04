@@ -6,7 +6,8 @@ import Icon from '../components/Icon';
 import { useNavigate } from 'react-router-dom';
 import { interact } from '../utils/haptics';
 import { COMMUNITY_TAGLINE } from '../constants/brand';
-import { applyPageMeta, resetPageMeta } from '../utils/pageMeta';
+import { usePageMeta } from '../utils/pageMeta';
+import { COMMUNITY_CREATE_META, getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
 import { useMemories } from '../hooks/useMemories';
 import { useCommunityRecipes } from '../hooks/useCommunityRecipes';
@@ -49,6 +50,13 @@ const TAB_META = {
 
 function Community({ currentMonth, tab }) {
   const navigate = useNavigate();
+  const tabMeta = tab === 'create'
+    ? COMMUNITY_CREATE_META
+    : (getStaticMeta(ROUTES.communityTab(tab)) || TAB_META[tab] || TAB_META.feed);
+  usePageMeta({
+    ...tabMeta,
+    path: ROUTES.communityTab(tab),
+  });
   const {
     memories,
     loading: memoriesLoading,
@@ -60,15 +68,6 @@ function Community({ currentMonth, tab }) {
   } = useMemories();
   const { recipes, loading: recipesLoading } = useCommunityRecipes();
   const { tips, loading: tipsLoading } = useCommunityTips();
-
-  useEffect(() => {
-    const meta = TAB_META[tab] || TAB_META.feed;
-    applyPageMeta({
-      ...meta,
-      url: `${window.location.origin}${ROUTES.communityTab(tab)}`,
-    });
-    return resetPageMeta;
-  }, [tab]);
 
   useEffect(() => {
     if (tab !== 'create') clearSubmitStatus();
