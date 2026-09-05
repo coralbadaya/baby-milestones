@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#3F5E52" />
+    <style>
+      /* Ivory canvas until React paints. Never show crawler stubs in #root. */
+      html { background: #F3F5F2; }
+      #seo-prerender { display: none !important; }
+      #root:not([data-ready]) { visibility: hidden; }
+    </style>
 
     <title>Yarn Trails — The Art of Early Motherhood</title>
     <meta name="description" content="A calm baby milestone tracker for new mothers: month-by-month development, postpartum care, parenting guides, and a private AI baby book for the first years." />

@@ -82,9 +82,11 @@ export function applySeoToHtml(html, page) {
   }
 
   if (page.bodyHtml) {
+    // Keep #root empty so humans never see the crawler stub. Hidden sibling is
+    // for HTML-only crawlers; CSS also forces it off-screen.
     out = out.replace(
-      /<div id="root"><\/div>/,
-      `<div id="root">${page.bodyHtml}</div>`,
+      /<div id="root">\s*<\/div>/,
+      `<div id="root"></div>\n    <div id="seo-prerender" hidden>${page.bodyHtml}</div>`,
     );
   }
 

@@ -184,9 +184,12 @@ describe('prerender HTML', () => {
     expect(html).toContain('href="https://yarntrails.com/about"');
     expect(html).toContain('name="robots"');
     expect(html).toContain('<h1>About Yarn Trails</h1>');
+    expect(html).toContain('<div id="root"></div>');
+    expect(html).toContain('<div id="seo-prerender" hidden><h1>About Yarn Trails</h1></div>');
+    expect(html).not.toContain('<div id="root"><h1>');
   });
 
-  it('injects the welcome homepage H1 and intro into #root', () => {
+  it('injects the welcome homepage H1 and intro outside #root', () => {
     const shell = `<!doctype html><html><head>
       <title>Old</title>
       <meta name="description" content="old" />
@@ -198,10 +201,12 @@ describe('prerender HTML', () => {
       canonical: 'https://yarntrails.com/',
       bodyHtml: homepageBodyHtml(),
     });
-    expect(html).toContain('<h1>The art of early motherhood</h1>');
+    expect(html).toContain('<div id="root"></div>');
+    expect(html).toMatch(/<div id="seo-prerender" hidden>[\s\S]*<h1>The art of early motherhood<\/h1>/);
     expect(html).toContain('baby milestone tracker');
     expect(html).toContain('<h2>What Yarn Trails is</h2>');
     expect(html).toContain('href="/guides"');
+    expect(html).not.toContain('<div id="root"><article');
   });
 });
 

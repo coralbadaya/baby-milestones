@@ -103,7 +103,9 @@ metadata live in `src/seo/` and are applied at build time plus in the client.
 - **Prerender:** `scripts/prerender-seo.mjs` writes a unique HTML shell (title,
   description, canonical, OG, robots, JSON-LD, crawler-visible body) for every
   indexable URL. It emits both `dist/<path>.html` (Vercel `cleanUrls`) and
-  `dist/<path>/index.html` (directory index).
+  `dist/<path>/index.html` (directory index). Crawler body copy lives in a hidden
+  `#seo-prerender` sibling, never inside `#root`. `#root` stays hidden until React
+  commits, so users never see unstyled HTML before the designed UI.
 - **Analytics (GA4):** optional `VITE_GA_MEASUREMENT_ID` in `.env.local` / Vercel.
   Implemented in `src/utils/analytics.js` + `src/components/Analytics.jsx` (SPA page
   views on route change; `/admin/*` excluded). **Consent:** `CookieConsentBanner` +
@@ -125,7 +127,7 @@ Do not submit `www` as a separate property once the apex redirect is live.
 
 This remains a client-rendered app. Prerendered HTML in `dist/` is the GEO
 mitigation for crawlers that do not execute JavaScript. Google still hydrates the
-SPA after the first paint.
+SPA. Users see an ivory canvas, then the designed UI — never a plain-text stub.
 
 ## Conventions
 
