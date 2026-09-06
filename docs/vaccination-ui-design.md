@@ -22,7 +22,7 @@
   - CDC (US)
   - Custom editable schedule
 - Keep interactions low-friction for tired, one-handed use
-- Persist everything in localStorage (no backend dependency)
+- Persist tracking in localStorage when signed out; signed-in users sync to `vaccine_settings` / `vaccine_records` / `custom_vaccines`
 
 ---
 
@@ -54,15 +54,17 @@ Create:
 
 ### App state + storage
 
-Use route-level/global state in `App.jsx` (like milestones/shopping):
+Use [`useVaccination.js`](../src/hooks/useVaccination.js) (wired from `App.jsx`):
 
 - `vaccineScheduleType`: `'india' | 'cdc' | 'custom'`
 - `vaccineRecords`: object by schedule + vaccine id
 
-localStorage keys:
+Anonymous localStorage keys (cache when signed in):
 
 - `babyVaccineScheduleType`
 - `babyVaccineRecords`
+- `babyCustomVaccines`
+- `babyVaccineReminderDays`
 
 Record schema:
 

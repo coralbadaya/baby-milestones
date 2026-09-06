@@ -23,28 +23,23 @@ function VoiceInvite() {
       return;
     }
     supabase
-      .from('voice_profiles')
-      .select('*')
-      .eq('invite_token', token)
-      .maybeSingle()
-      .then(({ data }) => {
-        setProfile(data);
+      .rpc('get_voice_invite', { p_token: token })
+      .then(({ data, error }) => {
+        const row = Array.isArray(data) ? data[0] : data;
+        setProfile(error ? null : row || null);
         setLoading(false);
       });
   }, [token]);
 
-  const handleComplete = async (blob, duration) => {
-    if (!profile) return;
-    const path = `voice-samples/${profile.id}-${Date.now()}.webm`;
+  const handleComplete = async (blob) => {
+    if (!profile || !token) return;
+    const path = `invites/${token}/${profile.id}-${Date.now()}.webm`;
     await supabase.storage.from('voice-notes').upload(path, blob, { contentType: 'audio/webm' });
-    await supabase
-      .from('voice_profiles')
-      .update({
-        sample_storage_path: path,
-        consent_signed_at: new Date().toISOString(),
-        status: 'pending',
-      })
-      .eq('id', profile.id);
+    const { error } = await supabase.rpc('accept_voice_invite', {
+      p_token: token,
+      p_sample_storage_path: path,
+    });
+    if (error) throw error;
     setDone(true);
   };
 

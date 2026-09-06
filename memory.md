@@ -2,7 +2,7 @@
 
 > Living reference for humans and AI agents. **Principles:** [`docs/doctrine-summary.md`](docs/doctrine-summary.md) · **Full constitution:** [`docs/doctrine.md`](docs/doctrine.md)
 
-Last updated: July 2026
+Last updated: September 2026
 
 ---
 
@@ -54,25 +54,28 @@ Routes source of truth: `src/routes.js` · IA spec: `docs/information-architectu
 
 | Key | Purpose |
 |-----|---------|
-| `babyBirthDate` | Baby DOB (ISO date string) |
-| `babyName` | Optional baby display name for stories & baby book copy |
-| `babyMilestoneChecks` | `{ [milestoneId]: boolean }` |
-| `babyVaccineScheduleType` | `india` \| `cdc` \| custom default |
-| `babyVaccineRecords` | Vaccination completion records |
-| `babyCustomVaccines` | User-added vaccines |
-| `babyVaccineReminderDays` | Reminder offset (default 7) |
-| `yarntrailsFirstMoments` | Life firsts media + notes (`useFirstMoments`) |
+| `babyBirthDate` | Baby DOB (ISO date string) — cache; signed-in source is `baby_profiles` |
+| `babyName` | Optional baby display name — cache; signed-in source is `baby_profiles` |
+| `babyMilestoneChecks` | `{ [milestoneId]: boolean }` — cache; signed-in source is `milestone_checks` (shop-* ids migrated out) |
+| `yarntrailsShoppingChecks` | Shopping checklist checks — cache; signed-in source is `shopping_checks` |
+| `yarntrailsShoppingSplit` | One-time flag after splitting shop-* ids from `babyMilestoneChecks` |
+| `yarntrailsCloudMerged` | `{ userId, at, domains }` — which sync domains have merged for this user |
+| `babyVaccineScheduleType` | `india` \| `cdc` \| custom default — cache; signed-in `vaccine_settings` |
+| `babyVaccineRecords` | Vaccination completion records — cache; signed-in `vaccine_records` |
+| `babyCustomVaccines` | User-added vaccines — cache; signed-in `custom_vaccines` |
+| `babyVaccineReminderDays` | Reminder offset (default 7) — cache |
+| `yarntrailsFirstMoments` | Life firsts media + notes (`useFirstMoments`) — cache; signed-in Storage + `first_moments` |
 | `yarntrailsPremium` | Anonymous premium preview (`PREMIUM_STORAGE_KEY`) |
-| `yarntrailsAlbumPhotos` | Monthly album photos (`useMonthlyAlbum`) |
-| `yarntrailsVoiceNotes` | Voice notes (`useVoiceNotes`) |
-| `yarntrails-cookie-consent` | Cookie consent preference |
-| `yarntrails-install-prompt-dismissed` | PWA install prompt dismiss |
-| `coral_memories` | Community memories |
-| `coral_saved_recipes` | Saved recipe IDs |
-| `coral_helpful_tips` | Helpful community tips |
-| `shopRangeFrom` / `shopRangeTo` | Shopping checklist month range |
+| `yarntrailsAlbumPhotos` | Monthly album photos (`useMonthlyAlbum`) — anonymous only |
+| `yarntrailsVoiceNotes` | Voice notes (`useVoiceNotes`) — anonymous only |
+| `yarntrails-cookie-consent` | Cookie consent preference (local only) |
+| `yarntrails-install-prompt-dismissed` | PWA install prompt dismiss (local only) |
+| `coral_memories` | Community memories (local overlay; signed-in uses published cloud rows) |
+| `coral_saved_recipes` | Saved recipe IDs — cache; signed-in `user_saved_recipes` |
+| `coral_helpful_tips` | Helpful community tips — cache; signed-in `user_helpful_tips` |
+| `shopRangeFrom` / `shopRangeTo` | Shopping checklist month range (local only) |
 
-Signed-in users: Supabase `memberships` is source of truth for premium (not localStorage).
+Signed-in users: Supabase `memberships` is source of truth for premium (not localStorage). Tracking, vaccines, firsts, and baby identity sync to Postgres after one merge per domain (`yarntrailsCloudMerged`).
 
 ---
 

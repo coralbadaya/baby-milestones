@@ -3,6 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import useEntitlements from './useEntitlements';
 import { supabase } from '../utils/supabaseClient';
 import { fileToDataUrl } from '../utils/firstMomentsStorage';
+import { ensurePrimaryBabyProfile } from '../utils/babyCloud';
+import { createSignedUrl, uploadPrivateObject } from '../utils/storageUrl';
+import { FIRST_MOMENT_CLOUD_MAX_FILE_BYTES } from '../constants/firstMoments';
 
 const LOCAL_KEY = 'yarntrailsAlbumPhotos';
 
@@ -17,6 +20,13 @@ function loadLocal() {
 
 function saveLocal(items) {
   localStorage.setItem(LOCAL_KEY, JSON.stringify(items));
+}
+
+async function hydratePhoto(row) {
+  if (row?.data_url) return row;
+  if (!row?.storage_path) return row;
+  const url = await createSignedUrl(supabase, 'album-photos', row.storage_path);
+  return { ...row, data_url: url };
 }
 
 export function useMonthlyAlbum(currentMonth = 1) {
@@ -44,7 +54,8 @@ export function useMonthlyAlbum(currentMonth = 1) {
           .eq('user_id', user.id)
           .order('captured_at', { ascending: false });
         if (fetchErr) throw fetchErr;
-        setPhotos(data || []);
+        const hydrated = await Promise.all((data || []).map(hydratePhoto));
+        setPhotos(hydrated);
       } else {
         setPhotos(loadLocal());
       }
@@ -66,20 +77,30 @@ export function useMonthlyAlbum(currentMonth = 1) {
     }
 
     setError(null);
-    const dataUrl = await fileToDataUrl(file);
 
     if (user) {
+      if (file.size > FIRST_MOMENT_CLOUD_MAX_FILE_BYTES) {
+        throw new Error('File must be under 15MB.');
+      }
       const { data: quotaResult, error: qErr } = await checkPhotoUpload();
       if (qErr) throw qErr;
       if (!quotaResult?.allowed) {
         throw new Error('Monthly photo limit reached — upgrade to Plus for unlimited HD uploads.');
       }
 
+      const profile = await ensurePrimaryBabyProfile(user.id);
+      const id = crypto.randomUUID();
+      const ext = file.type.includes('png') ? 'png' : 'jpg';
+      const path = `${user.id}/${id}.${ext}`;
+      await uploadPrivateObject(supabase, 'album-photos', path, file, file.type);
+
       const { data, error: insErr } = await supabase
         .from('album_photos')
         .insert({
+          id,
           user_id: user.id,
-          data_url: dataUrl,
+          baby_profile_id: profile?.id || null,
+          storage_path: path,
           caption: caption.trim() || null,
           photo_month: currentMonth,
           is_hd: isPlus,
@@ -89,9 +110,12 @@ export function useMonthlyAlbum(currentMonth = 1) {
 
       if (insErr) throw insErr;
       await refreshUsage();
-      setPhotos((prev) => [data, ...prev]);
-      return data;
+      const hydrated = await hydratePhoto(data);
+      setPhotos((prev) => [hydrated, ...prev]);
+      return hydrated;
     }
+
+    const dataUrl = await fileToDataUrl(file);
 
     if (!state.photos.canUpload && !isPlus) {
       throw new Error('Sign in to sync your album, or upgrade to Plus.');

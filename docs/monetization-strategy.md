@@ -95,7 +95,7 @@ Events: `story_generated`, `trial_started`, `guide_cta_click`, `install_banner_c
 | `src/context/AuthContext.jsx` | Session, membership, usage fetch |
 | `src/components/PremiumGate.jsx` | Teaser overlay |
 | `src/pages/Premium.jsx` | Basic vs Plus comparison, annual-first |
-| `api/checkout.js` / `api/stripe-webhook.js` | Stripe integration |
+| `api/checkout.js` / `api/stripe-webhook.js` | Stripe Checkout + signed webhook (`stripe_events` idempotency) |
 
 ---
 

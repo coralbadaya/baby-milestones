@@ -3,6 +3,11 @@
  * Requires STRIPE_WEBHOOK_SECRET, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY.
  */
 import { createClient } from '@supabase/supabase-js';
+import { applyStripeEvent, verifyStripeSignature } from '../src/utils/stripeWebhook.js';
+
+export const config = {
+  api: { bodyParser: false },
+};
 
 function getSupabaseAdmin() {
   const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
@@ -11,16 +16,15 @@ function getSupabaseAdmin() {
   return createClient(url, key);
 }
 
-async function upsertPlusMembership(userId, payload) {
-  const supabase = getSupabaseAdmin();
-  if (!supabase || !userId) return;
-
-  await supabase.from('memberships').upsert({
-    user_id: userId,
-    plan: 'plus',
-    ...payload,
-    updated_at: new Date().toISOString(),
-  }, { onConflict: 'user_id' });
+function readRawBody(req) {
+  if (typeof req.body === 'string') return Promise.resolve(req.body);
+  if (Buffer.isBuffer(req.body)) return Promise.resolve(req.body.toString('utf8'));
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data', (c) => chunks.push(c));
+    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+    req.on('error', reject);
+  });
 }
 
 export default async function handler(req, res) {
@@ -35,70 +39,33 @@ export default async function handler(req, res) {
     return;
   }
 
-  let event = req.body;
-  if (typeof event === 'string') {
-    try {
-      event = JSON.parse(event);
-    } catch {
-      res.status(400).json({ error: 'Invalid JSON' });
-      return;
-    }
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    res.status(503).json({ error: 'Database not configured' });
+    return;
   }
 
-  const type = event.type;
-  const obj = event.data?.object || {};
-
-  if (type === 'checkout.session.completed') {
-    const userId = obj.client_reference_id || obj.metadata?.user_id;
-    const sku = obj.metadata?.sku;
-
-    if (obj.mode === 'subscription') {
-      const trialEnd = obj.subscription
-        ? null
-        : null;
-      await upsertPlusMembership(userId, {
-        status: 'active',
-        source: 'stripe',
-        billing_interval: sku === 'plus_monthly' ? 'monthly' : 'annual',
-        stripe_customer_id: obj.customer,
-        stripe_subscription_id: obj.subscription,
-        premium_until: null,
-      });
-    } else if (sku === 'gift_subscription') {
-      await upsertPlusMembership(userId, {
-        status: 'active',
-        source: 'stripe',
-        billing_interval: 'gift',
-        premium_until: new Date(Date.now() + 365 * 86400000).toISOString(),
-      });
-    } else if (sku === 'first_year_bundle') {
-      await upsertPlusMembership(userId, {
-        status: 'active',
-        source: 'stripe',
-        billing_interval: 'bundle',
-        premium_until: new Date(Date.now() + 365 * 86400000).toISOString(),
-      });
-      const supabase = getSupabaseAdmin();
-      if (supabase && userId) {
-        await supabase.from('print_coupons').insert({
-          user_id: userId,
-          code: `BUNDLE-${obj.id?.slice(-8)?.toUpperCase() || Date.now()}`,
-          discount_pct: 20,
-          free_shipping: true,
-          bundle_type: 'first_year_linen',
-        });
-      }
-    }
+  let rawBody;
+  try {
+    rawBody = await readRawBody(req);
+  } catch {
+    res.status(400).json({ error: 'Invalid body' });
+    return;
   }
 
-  if (type === 'customer.subscription.deleted') {
-    const userId = obj.metadata?.user_id;
-    if (userId) {
-      await upsertPlusMembership(userId, {
-        status: 'expired',
-        plan: 'free',
-      });
-    }
+  let event;
+  try {
+    event = verifyStripeSignature(rawBody, req.headers['stripe-signature'], webhookSecret);
+  } catch {
+    res.status(400).json({ error: 'Invalid signature' });
+    return;
+  }
+
+  try {
+    await applyStripeEvent(supabase, event);
+  } catch (err) {
+    res.status(500).json({ error: err.message || 'Webhook error' });
+    return;
   }
 
   res.status(200).json({ received: true });

@@ -42,6 +42,11 @@ export default async function handler(req, res) {
   params.set('metadata[sku]', sku);
   if (userId) params.set('metadata[user_id]', userId);
 
+  if (mode === 'subscription' && userId) {
+    params.set('subscription_data[metadata][user_id]', userId);
+    params.set('subscription_data[metadata][sku]', sku);
+  }
+
   if (mode === 'subscription' && sku === 'plus_annual' && trialDays) {
     params.set('subscription_data[trial_period_days]', String(trialDays));
   }

@@ -88,7 +88,7 @@ Two-column on desktop: **range selector** (left) + **selected period** (right). 
 └─────────────┴────────────────────────────────────────────┘
 ```
 
-Mobile: horizontal scroll range pills; single-column cards and aside.
+Below 900px: layout stacks. Range chips wrap in a compact row (auto width — never `width: 100%` in a horizontal strip, which hid later periods off-screen). Guidance cards and Watch for are single column.
 
 ## Interaction
 
@@ -135,7 +135,8 @@ Mobile: horizontal scroll range pills; single-column cards and aside.
 
 ### UI
 
-- [x] Mobile 375px: tabs scroll; milestone rows readable
+- [x] Mobile 375px: range chips wrap in-view; milestone rows readable
+- [x] Tablet 768px: stacked layout, chips wrap, no horizontal page overflow
 - [x] Desktop 1280px: max-width 1100px aligned with Mom Care page
 ### Accessibility
 

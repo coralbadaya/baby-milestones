@@ -5,3 +5,6 @@ verify_jwt = true
 
 [functions.newsletter-process-queue]
 verify_jwt = false
+
+[functions.delete-my-account]
+verify_jwt = true

@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
+import Icon from './Icon';
 
 /**
  * Visible breadcrumb for editorial / content pages. Keep chrome quiet.
+ * Must sit inside the page column (`.content-page` or `PageSection`), never as a
+ * full-bleed sibling of `<main>`.
  * @param {{ items: { name: string, to?: string }[] }} props
  */
 function PageBreadcrumb({ items }) {
@@ -14,7 +17,7 @@ function PageBreadcrumb({ items }) {
           const last = index === items.length - 1;
           return (
             <li key={`${item.name}-${index}`} className="page-breadcrumb-item">
-              {index > 0 && <span className="page-breadcrumb-sep" aria-hidden="true">/</span>}
+              {index > 0 && <Icon name="caret-right" size={12} className="page-breadcrumb-sep" />}
               {!last && item.to ? (
                 <Link to={item.to}>{item.name}</Link>
               ) : (

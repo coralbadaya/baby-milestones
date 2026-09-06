@@ -147,6 +147,31 @@ Place multiple selects in a flex row with `align-items: flex-end` and `gap: 16px
 
 ---
 
+## Breadcrumb (`PageBreadcrumb.jsx`)
+
+Quiet trail for editorial pages. Render **inside** the page column, never as a
+full-bleed child of `<main>` (that pins crumbs to the viewport left).
+
+```jsx
+<PageBreadcrumb
+  items={[
+    { name: 'Home', to: ROUTES.home },
+    { name: 'Guides', to: ROUTES.guides },
+    { name: 'Current page' },
+  ]}
+/>
+```
+
+| Context | Alignment |
+|---------|-----------|
+| `.content-page` (FAQ, guides article, legal) | Centered with the hero |
+| `PageSection` (Guides hub) | Left-aligned with the section header |
+
+Separator is Phosphor `caret-right`. Current page uses `aria-current="page"`.
+Legal/company pages pass the nav into `ContentPage` via the `breadcrumb` slot.
+
+---
+
 ## Content card grid & detail modal
 
 Used on **month detail** for DIY and Care (not shopping).
@@ -179,6 +204,12 @@ Shared shell: `AuthPageShell`, `AuthForm` in `src/components/auth/AuthForm.jsx`.
 | `.auth-resend-btn` | Text button for OTP resend (60s cooldown in component) |
 
 Signup sends email OTP before session; unverified users redirect to `/verify-email`. Full flow: [`docs/auth-membership-admin.md`](auth-membership-admin.md).
+
+---
+
+## Account (`Account.jsx`)
+
+`/account` uses `.account-card` + `.account-input` (same field chrome as auth). Sections: membership, promo, display name, baby name/DOB, data export, delete account (two-step confirm). Baby identity writes `baby_profiles` via `useBabyIdentity`.
 
 ---
 

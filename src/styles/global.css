@@ -595,19 +595,26 @@ a {
 }
 
 .page-breadcrumb {
-  margin: 0 0 var(--space-4);
+  margin: 0 0 var(--space-5);
 }
 
 .page-breadcrumb-list {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-start;
   gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
   color: var(--text-light);
+}
+
+.content-page .page-breadcrumb-list {
+  justify-content: center;
 }
 
 .page-breadcrumb-item {
@@ -615,9 +622,19 @@ a {
   align-items: center;
 }
 
-.page-breadcrumb-sep {
-  margin: 0 0.45em;
+.page-breadcrumb-sep.app-icon {
+  margin: 0 0.4em;
   color: var(--text-light);
+  opacity: 0.65;
+  flex-shrink: 0;
+}
+
+.page-breadcrumb a,
+.page-breadcrumb [aria-current='page'] {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.1em;
 }
 
 .page-breadcrumb a {
@@ -628,6 +645,17 @@ a {
 
 .page-breadcrumb a:hover {
   text-decoration: underline;
+}
+
+.page-breadcrumb a:focus-visible {
+  outline: 2px solid var(--coral-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.page-breadcrumb [aria-current='page'] {
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .month-related-links {
@@ -4343,6 +4371,7 @@ a {
   grid-template-columns: minmax(148px, 200px) minmax(0, 1fr);
   gap: var(--space-5);
   align-items: start;
+  min-width: 0;
 }
 
 .mom-milestones-ranges {
@@ -4375,6 +4404,11 @@ a {
 .mom-milestones-range-btn:hover {
   background: var(--cream-dark);
   color: var(--text-primary);
+}
+
+.mom-milestones-range-btn:focus-visible {
+  outline: 2px solid var(--lavender-dark);
+  outline-offset: 2px;
 }
 
 .mom-milestones-range-btn.active {
@@ -4530,10 +4564,44 @@ a {
 
 .mom-milestones-learn {
   width: 100%;
+  max-width: 100%;
   justify-content: center;
+  margin-left: 0;
+  margin-right: 0;
+  box-sizing: border-box;
 }
 
 @media (max-width: 900px) {
+  .mom-milestones-panel {
+    padding: var(--space-4) var(--space-3);
+    overflow-x: clip;
+  }
+
+  .mom-milestones-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .mom-milestones-ranges {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    position: static;
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-1);
+    border-bottom: 1px solid color-mix(in srgb, var(--mushroom) 40%, transparent);
+  }
+
+  .mom-milestones-range-btn {
+    width: fit-content;
+    max-width: 100%;
+    flex: 0 0 auto;
+    min-width: 0;
+    min-height: 48px;
+    padding: var(--space-2) var(--space-3);
+    white-space: nowrap;
+  }
+
   .mom-milestones-detail-grid {
     grid-template-columns: 1fr;
   }
@@ -4545,26 +4613,9 @@ a {
   .mom-milestones-list {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 640px) {
-  .mom-milestones-layout {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-  }
-
-  .mom-milestones-ranges {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    position: static;
-    padding-bottom: var(--space-1);
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .mom-milestones-range-btn {
-    flex: 0 0 auto;
-    min-width: 120px;
+  .mom-milestones-detail-header h2 {
+    font-size: var(--text-lg);
   }
 }
 
@@ -7381,6 +7432,32 @@ a {
 
 .account-save {
   margin-top: var(--space-4);
+}
+
+.account-card .auth-field-label {
+  display: block;
+  margin-top: var(--space-4);
+}
+
+.account-card .auth-field-label:first-of-type {
+  margin-top: 0;
+}
+
+.account-delete {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.account-delete-start,
+.account-delete-confirm {
+  margin-top: var(--space-3);
+}
+
+.account-delete-confirm {
+  background: var(--color-danger, #b42318);
+  border-color: var(--color-danger, #b42318);
 }
 
 .account-admin-link {

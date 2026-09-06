@@ -19,13 +19,10 @@ function StoryPreview() {
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const { data } = await supabase
-        .from('baby_stories')
-        .select('title, pages, preview_token')
-        .or(`preview_token.eq.${token},id.eq.${token}`)
-        .maybeSingle();
+      const { data, error } = await supabase.rpc('get_story_by_preview_token', { p_token: token });
       if (mounted) {
-        setStory(data);
+        const row = Array.isArray(data) ? data[0] : data;
+        setStory(error ? null : row || null);
         setLoading(false);
       }
     })();

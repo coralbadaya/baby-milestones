@@ -28,4 +28,10 @@ describe('first moments persistence pattern', () => {
     };
     expect(countCapturedMoments(moments)).toBe(2);
   });
+
+  it('counts storage-backed captures without data URLs', () => {
+    expect(countCapturedMoments({
+      birth: { storagePath: 'user/baby/birth.jpg', mediaType: 'photo' },
+    })).toBe(1);
+  });
 });

@@ -2,8 +2,8 @@
 
 > Curated “first moments” with photo/video capture — carousel on Today, full journal on My Baby.
 
-**Status:** Shipped (localStorage MVP)  
-**Last updated:** July 2026
+**Status:** Shipped (signed-in Storage + `first_moments`; anonymous localStorage)  
+**Last updated:** September 2026
 
 ---
 
@@ -77,40 +77,19 @@ Each entry may include `monthHint` (for carousel auto-focus) and `linkedMileston
 
 1. User taps empty slot → file picker
 2. File read via `FileReader` → data URL
-3. Max **2MB** per file (`FIRST_MOMENT_MAX_FILE_BYTES`) — user-facing error if exceeded
+3. Max **2MB** per file when signed out (`FIRST_MOMENT_MAX_FILE_BYTES`); **15MB** when signed in (`FIRST_MOMENT_CLOUD_MAX_FILE_BYTES`)
 4. Modal opens for optional note + remove
 5. Same moment syncs between Today carousel and My Baby journal (shared state)
 
 ---
 
-## Data & storage (v1 — localStorage)
+## Data & storage
 
-**Key:** `yarntrailsFirstMoments` ([`FIRST_MOMENTS_STORAGE_KEY`](../src/constants/firstMoments.js))
+**Anonymous:** localStorage key `yarntrailsFirstMoments` (data URLs, 2MB cap).
 
-**Schema:**
-
-```json
-{
-  "first-smile": {
-    "photoDataUrl": "data:image/jpeg;base64,...",
-    "videoDataUrl": null,
-    "mediaType": "photo",
-    "capturedAt": "2026-07-01T12:00:00.000Z",
-    "note": "Tummy time grin"
-  }
-}
-```
+**Signed-in:** private Storage bucket `first-moments` (`{user_id}/{baby_profile_id}/{first_id}`) + table `first_moments`. UI still reads `photoDataUrl` / `videoDataUrl` (signed URLs). Merge on first login uploads local data URLs.
 
 **Hook:** [`useFirstMoments.js`](../src/hooks/useFirstMoments.js) — wired in [`App.jsx`](../src/App.jsx), passed to Home + Baby.
-
-### Supabase migration path (v2)
-
-1. **Storage bucket** `first-moments` (private, user-scoped paths `{user_id}/{first_id}/{uuid}`)
-2. **Table** `first_moments`:
-   - `user_id`, `first_id`, `storage_path`, `media_type`, `note`, `captured_at`
-3. **RLS:** users CRUD own rows; staff read for support only
-4. Frontend: upload file → store signed URL or path in row; drop data URLs from localStorage on sync
-5. Optional: link `first_id` + `linked_milestone_ids` for month-detail prompts
 
 ---
 

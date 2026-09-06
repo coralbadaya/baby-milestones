@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import RequireAuth from '../components/auth/RequireAuth';
 import Icon from '../components/Icon';
 import { useAuth } from '../context/AuthContext';
+import { useBabyIdentity } from '../hooks/useBabyIdentity';
+import { supabase } from '../utils/supabaseClient';
 import { membershipExpiry, membershipLabel } from '../utils/membership';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
@@ -15,16 +17,25 @@ function AccountContent() {
     user, profile, membership, isPremium, isAdmin, isStaff,
     signOut, updateDisplayName, redeemPromoCode, refreshProfile,
   } = useAuth();
+  const { birthDate, setBirthDate, babyName, setBabyName } = useBabyIdentity();
 
   const [displayName, setDisplayName] = useState(profile?.display_name || '');
+  const [babyNameDraft, setBabyNameDraft] = useState(babyName || '');
+  const [babyBirthDraft, setBabyBirthDraft] = useState(birthDate || '');
   const [promoCode, setPromoCode] = useState('');
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
     if (profile?.display_name) setDisplayName(profile.display_name);
   }, [profile?.display_name]);
+
+  useEffect(() => {
+    setBabyNameDraft(babyName || '');
+    setBabyBirthDraft(birthDate || '');
+  }, [babyName, birthDate]);
 
   const expiry = membershipExpiry(membership);
   const label = membershipLabel(membership);
@@ -59,6 +70,60 @@ function AccountContent() {
       setError(err.message);
       interact('tap', 'error');
     } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleSaveBaby = async (e) => {
+    e.preventDefault();
+    setBusy(true);
+    setError(null);
+    try {
+      setBabyName(babyNameDraft.trim());
+      setBirthDate(babyBirthDraft);
+      interact('check', 'success');
+      setMessage('Baby profile updated.');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleExport = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      const { data, error: exportError } = await supabase.rpc('export_my_data');
+      if (exportError) throw exportError;
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'yarntrails-data.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      setMessage('Download started.');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      const { data, error: delError } = await supabase.functions.invoke('delete-my-account', {
+        body: { confirm: true },
+      });
+      if (delError) throw delError;
+      if (data?.error) throw new Error(data.error);
+      interact('tap', 'light');
+      await signOut();
+    } catch (err) {
+      setError(err.message || 'Could not delete account.');
       setBusy(false);
     }
   };
@@ -139,6 +204,59 @@ function AccountContent() {
             Save
           </button>
         </form>
+      </section>
+
+      <section className="account-card">
+        <h2>Baby</h2>
+        <form onSubmit={handleSaveBaby}>
+          <label htmlFor="account-baby-name" className="auth-field-label">Name</label>
+          <input
+            id="account-baby-name"
+            type="text"
+            value={babyNameDraft}
+            onChange={(e) => setBabyNameDraft(e.target.value)}
+            className="account-input"
+            autoComplete="off"
+          />
+          <label htmlFor="account-baby-birth" className="auth-field-label">Birth date</label>
+          <input
+            id="account-baby-birth"
+            type="date"
+            value={babyBirthDraft}
+            onChange={(e) => setBabyBirthDraft(e.target.value)}
+            className="account-input"
+          />
+          <button type="submit" className="btn-primary account-save" disabled={busy}>
+            Save baby
+          </button>
+        </form>
+      </section>
+
+      <section className="account-card">
+        <h2>Your data</h2>
+        <p className="account-hint">
+          Download a copy of your profile, tracking, and vaccine records. Photos and voice files are listed by path, not included as binaries.
+        </p>
+        <button type="button" className="btn-ghost" onClick={handleExport} disabled={busy}>
+          Download my data
+        </button>
+        {confirmDelete ? (
+          <div className="account-delete">
+            <p className="account-hint">
+              This permanently deletes your account, private photos, and voice notes. Tracking cannot be recovered.
+            </p>
+            <button type="button" className="btn-primary account-delete-confirm" onClick={handleDeleteAccount} disabled={busy}>
+              Delete permanently
+            </button>
+            <button type="button" className="btn-ghost" onClick={() => setConfirmDelete(false)} disabled={busy}>
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <button type="button" className="btn-ghost account-delete-start" onClick={() => setConfirmDelete(true)}>
+            Delete account
+          </button>
+        )}
       </section>
 
       {(isAdmin || isStaff) && (

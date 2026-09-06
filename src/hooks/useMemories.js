@@ -111,7 +111,9 @@ export function useMemories() {
       const remote = await fetchPublishedMemories();
       if (!cancelled) {
         if (remote.length) {
-          setMemories(mergeCommunityMemories(remote, loadLocalMemories()));
+          setMemories(mergeCommunityMemories(remote, user?.id ? [] : loadLocalMemories(), {
+            preferRemote: Boolean(user?.id),
+          }));
         }
         setLoading(false);
       }
@@ -121,7 +123,7 @@ export function useMemories() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [user?.id]);
 
   useEffect(() => {
     const localOnly = localOnlyMemories(memories);
@@ -253,9 +255,11 @@ export function useMemories() {
   const refreshMemories = useCallback(async () => {
     const remote = await fetchPublishedMemories();
     if (remote.length) {
-      setMemories(mergeCommunityMemories(remote, loadLocalMemories()));
+      setMemories(mergeCommunityMemories(remote, user?.id ? [] : loadLocalMemories(), {
+        preferRemote: Boolean(user?.id),
+      }));
     }
-  }, []);
+  }, [user?.id]);
 
   return {
     memories,

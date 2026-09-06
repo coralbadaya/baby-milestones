@@ -3,6 +3,8 @@ import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../context/AuthContext';
 import useEntitlements from './useEntitlements';
 import { ENTITLEMENT_LIMITS } from '../constants/premium';
+import { ensurePrimaryBabyProfile } from '../utils/babyCloud';
+import { createSignedUrl, uploadPrivateObject } from '../utils/storageUrl';
 
 const LOCAL_KEY = 'yarntrailsVoiceNotes';
 
@@ -19,6 +21,13 @@ function saveLocal(items) {
   localStorage.setItem(LOCAL_KEY, JSON.stringify(items));
 }
 
+async function hydrateNote(row) {
+  if (row?.data_url) return row;
+  if (!row?.storage_path) return row;
+  const url = await createSignedUrl(supabase, 'voice-notes', row.storage_path);
+  return { ...row, data_url: url };
+}
+
 export function useVoiceNotes() {
   const { user } = useAuth();
   const { state, checkVoiceQuota, refreshUsage } = useEntitlements();
@@ -33,7 +42,8 @@ export function useVoiceNotes() {
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
-      setNotes(data || []);
+      const hydrated = await Promise.all((data || []).map(hydrateNote));
+      setNotes(hydrated);
     } else {
       setNotes(loadLocal());
     }
@@ -55,7 +65,33 @@ export function useVoiceNotes() {
       if (!quota?.allowed) {
         throw new Error('Voice note limit reached — upgrade to Plus for unlimited notes.');
       }
-    } else if (!state.voiceNotes.canRecord) {
+
+      const profile = await ensurePrimaryBabyProfile(user.id);
+      const id = crypto.randomUUID();
+      const path = `${user.id}/${id}.webm`;
+      await uploadPrivateObject(supabase, 'voice-notes', path, blob, blob.type || 'audio/webm');
+
+      const { data, error: insErr } = await supabase
+        .from('voice_notes')
+        .insert({
+          id,
+          user_id: user.id,
+          baby_profile_id: profile?.id || null,
+          storage_path: path,
+          duration_seconds: durationSeconds,
+          attach_type: attachType || null,
+          attach_id: attachId || null,
+        })
+        .select()
+        .single();
+      if (insErr) throw insErr;
+      await refreshUsage();
+      const hydrated = await hydrateNote(data);
+      setNotes((prev) => [hydrated, ...prev]);
+      return hydrated;
+    }
+
+    if (!state.voiceNotes.canRecord) {
       throw new Error('Sign in to sync voice notes, or upgrade to Plus.');
     }
 
@@ -75,18 +111,6 @@ export function useVoiceNotes() {
       created_at: new Date().toISOString(),
     };
 
-    if (user) {
-      const { data, error: insErr } = await supabase
-        .from('voice_notes')
-        .insert({ ...entry, user_id: user.id })
-        .select()
-        .single();
-      if (insErr) throw insErr;
-      await refreshUsage();
-      setNotes((prev) => [data, ...prev]);
-      return data;
-    }
-
     const local = [entry, ...loadLocal()];
     saveLocal(local);
     setNotes(local);
@@ -95,13 +119,17 @@ export function useVoiceNotes() {
 
   const removeNote = useCallback(async (id) => {
     if (user) {
+      const existing = notes.find((n) => n.id === id);
+      if (existing?.storage_path) {
+        await supabase.storage.from('voice-notes').remove([existing.storage_path]);
+      }
       await supabase.from('voice_notes').delete().eq('id', id).eq('user_id', user.id);
       await refreshUsage();
     } else {
       saveLocal(loadLocal().filter((n) => n.id !== id));
     }
     setNotes((prev) => prev.filter((n) => n.id !== id));
-  }, [user, refreshUsage]);
+  }, [user, refreshUsage, notes]);
 
   return {
     notes,

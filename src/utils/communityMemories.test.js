@@ -51,6 +51,18 @@ describe('community feed memory helpers', () => {
     expect(sorted.map((m) => m.id)).toEqual(['b', 'c', 'a']);
   });
 
+  it('drops seed memories when preferRemote is set', () => {
+    const remote = [
+      sampleMemory({ id: 'uuid-remote', _fromSupabase: true, createdAt: '2026-07-01T10:00:00.000Z' }),
+    ];
+    const local = [
+      sampleMemory({ id: 'memory-seed-teething', createdAt: '2026-05-28T10:00:00.000Z' }),
+      sampleMemory({ id: 'memory-local-1', createdAt: '2026-06-15T10:00:00.000Z' }),
+    ];
+    const merged = mergeCommunityMemories(remote, local, { preferRemote: true });
+    expect(merged.map((m) => m.id)).toEqual(['uuid-remote', 'memory-local-1']);
+  });
+
   it('merges remote and local without duplicating seed legacy ids', () => {
     const remote = [
       sampleMemory({

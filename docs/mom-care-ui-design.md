@@ -113,6 +113,7 @@ Renders `MomMilestonesPanel` (read-only postpartum timeline). No entry in `momCa
 
 - Mirrors Travel page structure: hero → filter tabs → single tip card.
 - Tab strip is horizontally scrollable on mobile (11 categories overflow).
+- Timeline (`#timeline`) stacks below 900px: wrapping period chips, then single-column guidance. Do not use `width: 100%` chips in a horizontal strip.
 - Uses existing `.diy-filter-btn` styling for tabs with category `bg`/`color` for active state.
 - Card uses `.card-accent-top` with `--cat-color` set per category.
 - Section headings use `--lavender-dark` color for visual hierarchy.

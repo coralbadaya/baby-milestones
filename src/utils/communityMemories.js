@@ -31,11 +31,15 @@ export function createCommunityMemoryRecord(memory) {
  * @param {Memory[]} local
  * @returns {Memory[]}
  */
-export function mergeCommunityMemories(remote, local) {
+export function mergeCommunityMemories(remote, local, options = {}) {
   const remoteLegacyIds = new Set(
     remote.map((m) => m.id).filter((id) => id.startsWith('memory-seed-')),
   );
-  const localOnly = local.filter((m) => !remoteLegacyIds.has(m.id));
+  const localOnly = local.filter((m) => {
+    if (remoteLegacyIds.has(m.id)) return false;
+    if (options.preferRemote && String(m.id).startsWith('memory-seed-')) return false;
+    return true;
+  });
   const combined = [...remote, ...localOnly];
   return combined.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),

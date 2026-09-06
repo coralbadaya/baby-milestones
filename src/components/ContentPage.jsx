@@ -2,13 +2,14 @@ import Icon from './Icon';
 
 /**
  * Renders a structured long-form content page (legal / company / trust).
- * @param {{ page: import('../data/legalContent').PAGES[string] }} props
+ * @param {{ page: import('../data/legalContent').PAGES[string], breadcrumb?: import('react').ReactNode }} props
  */
-function ContentPage({ page }) {
+function ContentPage({ page, breadcrumb }) {
   if (!page) return null;
 
   return (
     <article className="content-page legal-page fade-in">
+      {breadcrumb}
       <header className="content-page-hero">
         {page.icon && <Icon name={page.icon} size={40} className="content-page-icon" />}
         <h1>{page.title}</h1>

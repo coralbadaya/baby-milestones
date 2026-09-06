@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Routes, Route, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -44,9 +44,11 @@ import AssistantPanel from './components/AssistantPanel';
 import Analytics from './components/Analytics';
 import CookieConsentBanner from './components/CookieConsentBanner';
 import { useFirstMoments } from './hooks/useFirstMoments';
-import { useAuth } from './context/AuthContext';
+import { useBabyIdentity } from './hooks/useBabyIdentity';
+import { useMilestoneChecks } from './hooks/useMilestoneChecks';
+import { useShoppingChecks } from './hooks/useShoppingChecks';
+import { useVaccination } from './hooks/useVaccination';
 import { interact } from './utils/haptics';
-import { loadStoredBabyName, saveStoredBabyName } from './utils/babyName';
 import { ROUTES, isCommunityTab } from './routes';
 
 function ScrollToTop() {
@@ -81,34 +83,27 @@ function MonthDetailRoute({ checkedItems, toggleCheck, getCurrentWeek }) {
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { profile } = useAuth();
 
-  const [birthDate, setBirthDate] = useState(() => localStorage.getItem('babyBirthDate') || '');
-  const [babyName, setBabyName] = useState(() => loadStoredBabyName());
-  const [checkedItems, setCheckedItems] = useState(() => {
-    const saved = localStorage.getItem('babyMilestoneChecks');
-    return saved ? JSON.parse(saved) : {};
-  });
-  const [vaccineScheduleType, setVaccineScheduleType] = useState(() => localStorage.getItem('babyVaccineScheduleType') || 'india');
-  const [vaccineRecords, setVaccineRecords] = useState(() => {
-    const saved = localStorage.getItem('babyVaccineRecords');
-    return saved ? JSON.parse(saved) : {};
-  });
-  const [customVaccines, setCustomVaccines] = useState(() => {
-    const saved = localStorage.getItem('babyCustomVaccines');
-    return saved ? JSON.parse(saved) : [];
-  });
-  const [vaccineReminderDays, setVaccineReminderDays] = useState(() => {
-    const saved = localStorage.getItem('babyVaccineReminderDays');
-    return saved ? JSON.parse(saved) : 7;
-  });
+  const { birthDate, setBirthDate, babyName, babyProfileId } = useBabyIdentity();
+  const { checkedItems, toggleCheck } = useMilestoneChecks(babyProfileId);
+  const { checkedItems: shoppingCheckedItems, toggleCheck: toggleShoppingCheck } = useShoppingChecks(babyProfileId);
+  const {
+    scheduleType: vaccineScheduleType,
+    setScheduleType: setVaccineScheduleType,
+    vaccineRecords,
+    setVaccineRecords,
+    customVaccines,
+    setCustomVaccines,
+    reminderDays: vaccineReminderDays,
+    setReminderDays: setVaccineReminderDays,
+  } = useVaccination(babyProfileId);
 
   const {
     firstMoments,
     saveMedia: saveFirstMedia,
     updateNote: updateFirstNote,
     removeMedia: removeFirstMedia,
-  } = useFirstMoments();
+  } = useFirstMoments(babyProfileId);
 
   const handleFirstMediaSelect = useCallback(async (firstId, file) => {
     await saveFirstMedia(firstId, file);
@@ -121,33 +116,6 @@ function App() {
     onFirstNoteSave: updateFirstNote,
     onFirstRemove: removeFirstMedia,
   };
-
-  useEffect(() => {
-    localStorage.setItem('babyMilestoneChecks', JSON.stringify(checkedItems));
-  }, [checkedItems]);
-
-  useEffect(() => {
-    saveStoredBabyName(babyName);
-  }, [babyName]);
-
-  useEffect(() => {
-    if (birthDate) {
-      localStorage.setItem('babyBirthDate', birthDate);
-    }
-  }, [birthDate]);
-
-  useEffect(() => {
-    localStorage.setItem('babyVaccineScheduleType', vaccineScheduleType);
-  }, [vaccineScheduleType]);
-  useEffect(() => {
-    localStorage.setItem('babyVaccineRecords', JSON.stringify(vaccineRecords));
-  }, [vaccineRecords]);
-  useEffect(() => {
-    localStorage.setItem('babyCustomVaccines', JSON.stringify(customVaccines));
-  }, [customVaccines]);
-  useEffect(() => {
-    localStorage.setItem('babyVaccineReminderDays', JSON.stringify(vaccineReminderDays));
-  }, [vaccineReminderDays]);
 
   const getCurrentMonth = () => {
     if (!birthDate) return null;
@@ -169,10 +137,6 @@ function App() {
     const daysIntoMonth = diffDays - ((currentMonth - 1) * 30);
     return Math.max(1, Math.min(4, Math.ceil(daysIntoMonth / 7)));
   };
-
-  const toggleCheck = useCallback((id) => {
-    setCheckedItems((prev) => ({ ...prev, [id]: !prev[id] }));
-  }, []);
 
   const handleSelectMonth = useCallback((month) => {
     navigate(ROUTES.month(month));
@@ -256,8 +220,8 @@ function App() {
           path={ROUTES.shopping}
           element={(
             <Shopping
-              checkedItems={checkedItems}
-              toggleCheck={toggleCheck}
+              checkedItems={shoppingCheckedItems}
+              toggleCheck={toggleShoppingCheck}
               currentMonth={getCurrentMonth()}
             />
           )}

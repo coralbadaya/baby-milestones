@@ -322,6 +322,75 @@ describeIt('Supabase DIY activity content (integration)', () => {
   });
 });
 
+describeIt('Supabase private story & tracking (integration)', () => {
+  let anonClient;
+  let userClient;
+  let schemaReady = false;
+  let signedIn = false;
+
+  beforeAll(async () => {
+    anonClient = createTestClient();
+    userClient = createTestClient();
+    const { error: schemaError } = await anonClient.rpc('get_story_by_preview_token', { p_token: 'missing' });
+    schemaReady = !isSchemaMissing(schemaError) && schemaError?.code !== 'PGRST202';
+    if (schemaError && /schema cache|does not exist|PGRST202/i.test(schemaError.message || '')) {
+      schemaReady = false;
+      console.warn('Skipping private story IT — apply 20260905 migrations');
+      return;
+    }
+    schemaReady = true;
+    const { error } = await userClient.auth.signInWithPassword(getTestUserCreds());
+    signedIn = !error;
+  });
+
+  afterAll(async () => {
+    if (signedIn) await userClient?.auth.signOut();
+  });
+
+  it('does not allow anonymous select of baby_stories', async () => {
+    if (!schemaReady) return;
+    const { data, error } = await anonClient.from('baby_stories').select('id').limit(5);
+    expect(data == null || data.length === 0).toBe(true);
+    if (error) {
+      expect(error.message).toBeTruthy();
+    }
+  });
+
+  it('get_story_by_preview_token returns empty for unknown token', async () => {
+    if (!schemaReady) return;
+    const { data, error } = await anonClient.rpc('get_story_by_preview_token', {
+      p_token: 'not-a-real-token',
+    });
+    expect(error).toBeNull();
+    expect(!data || (Array.isArray(data) && data.length === 0)).toBe(true);
+  });
+
+  it('signed-in user can upsert own milestone checks', async () => {
+    if (!schemaReady || !signedIn) return;
+    const { data: { user } } = await userClient.auth.getUser();
+    const { data: baby, error: babyError } = await userClient
+      .from('baby_profiles')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('is_primary', true)
+      .maybeSingle();
+    if (babyError || !baby) return;
+
+    const { error } = await userClient.rpc('upsert_milestone_checks', {
+      p_baby_id: baby.id,
+      p_items: [{ id: 'p4-1', checked: true }],
+    });
+    expect(error).toBeNull();
+
+    const { data: rows } = await userClient
+      .from('milestone_checks')
+      .select('milestone_id, checked')
+      .eq('baby_profile_id', baby.id)
+      .eq('milestone_id', 'p4-1');
+    expect(rows?.[0]?.checked).toBe(true);
+  });
+});
+
 if (!enabled) {
   describe('Supabase integration (skipped)', () => {
     it('set SUPABASE_IT=1 and test creds in .env — see .env.test.example', () => {

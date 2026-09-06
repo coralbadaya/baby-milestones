@@ -10,6 +10,7 @@ import { AuthProvider } from './context/AuthContext';
 import { CookieConsentProvider } from './context/CookieConsentContext';
 import { DiyActivitiesProvider } from './context/DiyActivitiesContext';
 import { DiyImagesProvider } from './context/DiyImagesContext';
+import { BabyIdentityProvider } from './hooks/useBabyIdentity.jsx';
 
 const rootEl = document.getElementById('root');
 rootEl.replaceChildren();
@@ -19,6 +20,7 @@ flushSync(() => {
     <StrictMode>
       <BrowserRouter>
         <AuthProvider>
+          <BabyIdentityProvider>
           <CookieConsentProvider>
             <DiyImagesProvider>
               <DiyActivitiesProvider>
@@ -26,6 +28,7 @@ flushSync(() => {
               </DiyActivitiesProvider>
             </DiyImagesProvider>
           </CookieConsentProvider>
+          </BabyIdentityProvider>
         </AuthProvider>
       </BrowserRouter>
     </StrictMode>,

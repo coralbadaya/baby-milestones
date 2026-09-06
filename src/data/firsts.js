@@ -36,9 +36,12 @@ export function getFirstById(id) {
  * @param {number|null} currentMonth
  * @param {Record<string, unknown>} moments
  */
+export function momentHasMedia(moment) {
+  return Boolean(moment?.photoDataUrl || moment?.videoDataUrl || moment?.storagePath);
+}
+
 export function getSuggestedFirst(currentMonth, moments = {}) {
-  const hasMedia = (f) => moments[f.id]?.photoDataUrl || moments[f.id]?.videoDataUrl;
-  const uncaptured = FIRSTS.filter((f) => !hasMedia(f));
+  const uncaptured = FIRSTS.filter((f) => !momentHasMedia(moments[f.id]));
   if (uncaptured.length === 0) return FIRSTS[FIRSTS.length - 1].id;
 
   if (currentMonth) {
@@ -51,5 +54,5 @@ export function getSuggestedFirst(currentMonth, moments = {}) {
 
 /** @param {Record<string, unknown>} moments */
 export function countCapturedMoments(moments = {}) {
-  return FIRSTS.filter((f) => moments[f.id]?.photoDataUrl || moments[f.id]?.videoDataUrl).length;
+  return FIRSTS.filter((f) => momentHasMedia(moments[f.id])).length;
 }

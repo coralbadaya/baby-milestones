@@ -24,13 +24,17 @@ function StaticPage({ pageKey }) {
 
   return (
     <>
-      <PageBreadcrumb
-        items={[
-          { name: 'Home', to: ROUTES.home },
-          { name: page.title },
-        ]}
+      <ContentPage
+        page={page}
+        breadcrumb={(
+          <PageBreadcrumb
+            items={[
+              { name: 'Home', to: ROUTES.home },
+              { name: page.title },
+            ]}
+          />
+        )}
       />
-      <ContentPage page={page} />
       <StructuredData
         id={`breadcrumb-${pageKey}`}
         data={breadcrumbSchema([

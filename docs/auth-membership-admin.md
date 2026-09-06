@@ -50,6 +50,13 @@ Tables:
 | `newsletter_templates` | Reusable email starting points (3 system seeds) |
 | `newsletter_campaigns` | Draft / scheduled / sent campaigns |
 | `newsletter_sends` | Per-recipient send audit log |
+| `baby_profiles` | Primary baby name + DOB (siblings supported) |
+| `milestone_checks` | Per-baby milestone checkbox state |
+| `shopping_checks` | Per-baby shopping checklist state |
+| `vaccine_settings` / `vaccine_records` / `custom_vaccines` | Vaccination tracker |
+| `first_moments` | Life firsts metadata (private bucket `first-moments`) |
+| `user_saved_recipes` / `user_helpful_tips` | Community saves |
+| `stripe_events` | Webhook idempotency (service role only) |
 
 Apply locally or to remote:
 
@@ -130,12 +137,12 @@ If **Confirm email** is disabled locally, signup may return a session immediatel
 
 ## Membership model (early access)
 
-- **Signup** → email OTP required → then 7-day `trial` via `handle_new_user` trigger
+- **Signup** → email OTP required → Basic (`free`) membership + empty primary `baby_profiles` row via `handle_new_user`
 - **Promo codes** → `redeem_promo_code` RPC (`FOUNDING30` seeded)
 - **Anonymous** → optional local preview via `localStorage` (`yarntrailsPremium`)
 - **Signed-in** → Supabase membership is source of truth
 
-No Stripe yet — Premium page frames **Early Access Membership**, not a broken paywall.
+No Stripe yet — Premium page frames **Early Access Membership**, not a broken paywall. Webhook at `api/stripe-webhook.js` verifies `Stripe-Signature`, records `stripe_events` for idempotency, and maps checkout/subscription events onto `memberships`.
 
 ## RLS summary
 
@@ -145,6 +152,10 @@ No Stripe yet — Premium page frames **Early Access Membership**, not a broken 
 - Promo CRUD admin-only; redeem via RPC
 - DIY activity images: public read; admin CRUD + storage write on `diy-images` bucket
 - Newsletter: public subscribe/unsubscribe RPCs; staff read subscribers/campaigns; admin CRUD campaigns/templates/subscribers
+- Baby tracking (`baby_profiles`, `milestone_checks`, `shopping_checks`, vaccines, `first_moments`): owner only
+- Story preview: no public table select; `get_story_by_preview_token` RPC
+- Voice invites: `get_voice_invite` / `accept_voice_invite` RPCs (no open table policies)
+- Private buckets `first-moments`, `album-photos`, `voice-notes` (path `{user_id}/...`)
 
 ## Newsletter delivery
 
@@ -156,6 +167,7 @@ Edge functions (deploy after `supabase db push`):
 |----------|---------|
 | `newsletter-send-test` | Admin sample send to own inbox (JWT required) |
 | `newsletter-process-queue` | Batch send scheduled campaigns (cron / service role) |
+| `delete-my-account` | JWT: wipe private storage prefixes then delete Auth user |
 
 Supabase secrets (Dashboard → Edge Functions → Secrets):
 
