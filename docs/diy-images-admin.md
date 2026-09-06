@@ -9,10 +9,12 @@
 | Layer | Role |
 |-------|------|
 | **Supabase `diy_activity_content`** | Full activity snapshot override (name, steps, materials, …) |
-| **Supabase `diy_activity_images`** | One row per `activity.id` (180 rows) |
-| **Supabase Storage `diy-images`** | Public objects at `activities/{activityId}.jpg` |
-| **Bundled fallbacks** | `src/data/diyActivities.js` + `public/images/diy/{illustration}.jpg` |
-| **Admin UI** | `/admin/diy` — browse & filter; `/admin/diy/:activityId` — full-page edit (content + image) |
+| **Supabase `diy_activity_images`** | One row per `activity.id` (optional custom photo) |
+| **Supabase `diy_image_defaults`** | Singleton site-wide default card image |
+| **Supabase Storage `diy-images`** | Public objects at `activities/{activityId}.jpg` and `defaults/card.jpg` |
+| **Bundled cream lockup** | `public/images/placeholders/yarntrails-watermark.jpg` — card face when no custom/default |
+| **Illustration keys** | `public/images/diy/{illustration}.jpg` — AI prompt helpers only (not card faces) |
+| **Admin UI** | `/admin/diy` — default image + browse; `/admin/diy/:activityId` — full-page edit (image + content) |
 | **Public cards** | `useDiyActivities` merges DB overrides; `getDiyImage` for photos |
 
 **Option B (implemented):** each of 180 activities can have its own image, even when they share an `illustration` key.
@@ -22,15 +24,17 @@
 ## Fallback chain
 
 ```
-1. Supabase override (activity_id) → public storage URL
-2. Bundled JPG (/images/diy/{illustration}.jpg)
-3. Yarn Trails watermark (/images/placeholders/yarntrails-watermark.jpg)
-4. Category gradient (sensory / motor / …) — only if watermark also fails
+1. Per-activity Supabase override (activity_id) → public storage URL
+2. Admin site-wide default (diy_image_defaults / defaults/card.jpg)
+3. Cream Yarn Trails lockup (/images/placeholders/yarntrails-watermark.jpg)
+4. Category gradient (sensory / motor / …) — only if the lockup also fails
 ```
 
-Cards never break when Supabase is unavailable — step 1 is skipped and steps 2–4 apply. Missing illustration keys show the watermark immediately (step 3).
+Illustration JPGs in `public/images/diy/` are kept for AI prompts and `verify:diy-images`; they are **not** used as card faces. Bootstrap seed rows (`source = seed`) are also ignored so the cream lockup / admin default can show until a real upload replaces them.
 
-**Watermark asset:** source SVG `public/brand/yarntrails-watermark.svg`; regenerate JPG via `npm run generate:brand`.
+Cards never break when Supabase is unavailable — steps 1–2 are skipped and the cream lockup shows.
+
+**Lockup asset:** source SVG `public/brand/yarntrails-watermark.svg` (full-opacity mark + wordmark + tagline on cream); regenerate JPG via `npm run generate:brand`.
 
 ---
 
@@ -50,7 +54,7 @@ Cards never break when Supabase is unavailable — step 1 is skipped and steps 2
 | `benefits` | `text[]` | Benefit bullets |
 | `why_it_works` | `text` | Science / rationale copy |
 | `video_search` | `text` | YouTube **watch** URL preferred (`watch?v=` / `youtu.be/` — embeds in modal). Search URLs (`/results?search_query=`) show disclosure + outbound link only |
-| `illustration` | `text` | Bundled image key fallback |
+| `illustration` | `text` | Illustration key for AI prompts (not the card photo) |
 | `updated_at` | `timestamptz` | |
 | `updated_by` | `uuid` | Admin user |
 
@@ -71,6 +75,21 @@ Row exists only after admin saves — bundled `diyActivities.js` is used until t
 | `updated_by` | `uuid` | Admin user |
 
 Migration: `supabase/migrations/20250701120000_diy_activity_images.sql`
+
+### Table `diy_image_defaults`
+
+Singleton (`id = 'global'` only). Optional; when absent, cards use the cream lockup.
+
+| Column | Type | Notes |
+|--------|------|-------|
+| `id` | `text` PK | Always `global` |
+| `storage_path` | `text` | e.g. `defaults/card.jpg` |
+| `alt_text` | `text` | Default: `Hands-on play` |
+| `source` | `text` | `upload`, `url_import`, `ai`, `stock` |
+| `updated_at` | `timestamptz` | |
+| `updated_by` | `uuid` | Admin user |
+
+Migration: `supabase/migrations/20260906140000_diy_image_defaults.sql`
 
 ### RLS
 
@@ -105,13 +124,15 @@ Each activity entry includes: `activityId`, `name`, `month`, `illustration`, `ca
 
 | File | Role |
 |------|------|
-| [`src/data/diyImages.js`](../src/data/diyImages.js) | `getDiyImage`, `buildDiyImageOverrides` |
+| [`src/data/diyImages.js`](../src/data/diyImages.js) | `getDiyImage`, `buildDiyImageOverrides`, `buildDiyGlobalDefault` |
+| [`src/hooks/useDiyImages.js`](../src/hooks/useDiyImages.js) | Fetch per-activity overrides + site-wide default |
 | [`src/hooks/useDiyActivities.js`](../src/hooks/useDiyActivities.js) | Fetch content overrides + merge with static |
 | [`src/context/DiyActivitiesContext.jsx`](../src/context/DiyActivitiesContext.jsx) | Provider in `main.jsx` |
 | [`src/utils/diyActivitiesMerge.js`](../src/utils/diyActivitiesMerge.js) | Merge bundled + DB content |
 | [`src/utils/diyActivityAdmin.js`](../src/utils/diyActivityAdmin.js) | Admin content CRUD |
-| [`src/utils/diyImageAdmin.js`](../src/utils/diyImageAdmin.js) | Upload, URL import, reset helpers |
-| [`src/pages/admin/AdminDiyImages.jsx`](../src/pages/admin/AdminDiyImages.jsx) | Admin list UI |
+| [`src/utils/diyImageAdmin.js`](../src/utils/diyImageAdmin.js) | Per-activity + default upload/reset helpers |
+| [`src/pages/admin/AdminDiyImages.jsx`](../src/pages/admin/AdminDiyImages.jsx) | List + default card image panel |
+| [`src/components/admin/AdminDiyDefaultImage.jsx`](../src/components/admin/AdminDiyDefaultImage.jsx) | Site-wide default upload |
 | [`src/pages/admin/AdminDiyImageEdit.jsx`](../src/pages/admin/AdminDiyImageEdit.jsx) | Full-page activity editor |
 
 **Card components:** `DIYActivityCard`, `DIYEditorialCard` — pass full `activity` object to image resolver. **Open guide** opens `DiyActivityModalBody`; no card-face YouTube button.
@@ -133,12 +154,14 @@ Route: **`/admin/diy`** (admin role only; hidden from support staff nav).
 
 | Action | Behavior |
 |--------|----------|
+| **Upload default** | Replaces the site-wide card image (`diy_image_defaults` + `defaults/card.jpg`) |
+| **Reset default** | Deletes default row + storage object → cream lockup |
 | **Save content** | Upsert full activity snapshot to `diy_activity_content` |
 | **Reset content** | Delete content row → bundled `diyActivities.js` copy |
-| **Upload** | JPEG/WebP/PNG ≤2 MB; client resize to max 800px wide; upsert storage + row |
+| **Upload** | JPEG/WebP/PNG ≤2 MB; client resize to max 800px wide; upsert storage + row for that activity |
 | **URL import** | Fetch licensed URL (blocks Pinterest); same upload path |
 | **Edit alt** | Update image row without re-upload |
-| **Reset image** | Delete storage object + image row → bundled fallback |
+| **Reset image** | Delete storage object + image row → site default (or cream lockup) |
 | **AI prompt** | Read-only helper from manifest for manual regeneration |
 
 Overview stat on `/admin`: “X of 180 DIY images configured”.
@@ -180,14 +203,14 @@ See [`imagery-system.md`](imagery-system.md) for art direction.
 
 ```bash
 npm run build:diy-manifest
-npm run verify:diy-images          # 65 bundled fallbacks
+npm run verify:diy-images          # 65 illustration JPGs still present (prompt helpers)
 npm run verify:diy-activity-images # 180 manifest entries
 npm test
 npm run build
 supabase db push                   # apply migration
 ```
 
-**Manual:** Admin upload for `m1-1` → visible on Today DIY strip + month 1 page; reset → `vision_cards.jpg` fallback.
+**Manual:** `/admin/diy` → upload default → all uncustomized cards update. Open `m1-1` → upload a unique photo → Today DIY strip + month 1 show that photo; reset → site default.
 
 ---
 

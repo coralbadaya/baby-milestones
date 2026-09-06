@@ -1,5 +1,6 @@
 /**
- * DIY activity imagery — per-activity Supabase overrides + illustration fallbacks.
+ * DIY activity imagery — per-activity Supabase overrides + site-wide default.
+ * Illustration JPGs remain in the repo for AI prompts; they are not card faces.
  * See docs/diy-images-admin.md and docs/imagery-system.md
  */
 import { BRAND_WATERMARK_ALT, BRAND_WATERMARK_SRC } from '../constants/brandAssets';
@@ -62,7 +63,7 @@ export const diyImages = Object.fromEntries(
  * @property {string} fallbackGradient
  * @property {string} placeholderColor
  * @property {string} [prompt]
- * @property {'override'|'bundled'|'watermark'|'gradient'} source
+ * @property {'override'|'default'|'watermark'|'gradient'} source
  * @property {string} watermarkSrc
  */
 
@@ -75,13 +76,14 @@ export const diyImages = Object.fromEntries(
 
 /**
  * Resolve DIY image for an activity.
- * Order: Supabase override → bundled illustration JPG → Yarn Trails watermark → category gradient.
+ * Order: per-activity override → admin site-wide default → cream lockup → category gradient.
  *
  * @param {{ activityId?: string, illustration?: string, category?: string }} params
  * @param {Record<string, DiyImageOverride>} [overrides]
+ * @param {DiyImageOverride | null} [globalDefault]
  * @returns {DiyImageConfig}
  */
-export function getDiyImage({ activityId, illustration, category }, overrides = {}) {
+export function getDiyImage({ activityId, illustration, category }, overrides = {}, globalDefault = null) {
   const resolvedCategory = category
     || (illustration && illustrationCategories[illustration])
     || 'sensory';
@@ -103,16 +105,18 @@ export function getDiyImage({ activityId, illustration, category }, overrides = 
     };
   }
 
-  if (illustration && diyImages[illustration]) {
+  if (globalDefault?.src) {
     return {
-      ...diyImages[illustration],
-      alt: defaultAlt,
+      src: globalDefault.src,
+      alt: globalDefault.alt || defaultAlt,
+      fallbackGradient: fallback.fallbackGradient,
+      placeholderColor: fallback.placeholderColor,
+      prompt: activityMeta?.prompt,
       watermarkSrc: BRAND_WATERMARK_SRC,
-      source: 'bundled',
+      source: 'default',
     };
   }
 
-  const humanized = (illustration || activityId || 'activity').replace(/_/g, ' ');
   return {
     src: BRAND_WATERMARK_SRC,
     alt: defaultAlt || BRAND_WATERMARK_ALT,
@@ -126,7 +130,7 @@ export function getDiyImage({ activityId, illustration, category }, overrides = 
 
 /**
  * Build public URL map from diy_activity_images rows.
- * @param {Array<{ activity_id: string, storage_path: string, alt_text: string }>} rows
+ * @param {Array<{ activity_id: string, storage_path: string, alt_text: string, source?: string }>} rows
  * @param {string} supabaseUrl
  * @returns {Record<string, DiyImageOverride>}
  */
@@ -134,20 +138,38 @@ export function buildDiyImageOverrides(rows, supabaseUrl) {
   if (!supabaseUrl || !rows?.length) return {};
   const base = supabaseUrl.replace(/\/$/, '');
   return Object.fromEntries(
-    rows.map((row) => [
-      row.activity_id,
-      {
-        src: `${base}/storage/v1/object/public/diy-images/${row.storage_path}`,
-        alt: row.alt_text,
-        storagePath: row.storage_path,
-      },
-    ]),
+    rows
+      .filter((row) => row.activity_id && row.storage_path && row.source !== 'seed')
+      .map((row) => [
+        row.activity_id,
+        {
+          src: `${base}/storage/v1/object/public/diy-images/${row.storage_path}`,
+          alt: row.alt_text,
+          storagePath: row.storage_path,
+        },
+      ]),
   );
 }
 
+/**
+ * Build public URL for the site-wide DIY default image row.
+ * @param {{ storage_path?: string, alt_text?: string } | null} row
+ * @param {string} supabaseUrl
+ * @returns {DiyImageOverride | null}
+ */
+export function buildDiyGlobalDefault(row, supabaseUrl) {
+  if (!supabaseUrl || !row?.storage_path) return null;
+  const base = supabaseUrl.replace(/\/$/, '');
+  return {
+    src: `${base}/storage/v1/object/public/diy-images/${row.storage_path}`,
+    alt: row.alt_text || '',
+    storagePath: row.storage_path,
+  };
+}
+
 /** Back-compat: illustration-only lookup */
-export function getDiyImageByIllustration(illustrationKey, overrides = {}) {
-  return getDiyImage({ illustration: illustrationKey }, overrides);
+export function getDiyImageByIllustration(illustrationKey, overrides = {}, globalDefault = null) {
+  return getDiyImage({ illustration: illustrationKey }, overrides, globalDefault);
 }
 
 export { illustrationCategories, diyActivityImages };

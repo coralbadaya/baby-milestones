@@ -16,7 +16,13 @@ export function DiyImagesProvider({ children }) {
 export function useDiyImagesContext() {
   const ctx = useContext(DiyImagesContext);
   if (!ctx) {
-    return { overrides: {}, loading: false, error: null, refetch: async () => {} };
+    return {
+      overrides: {},
+      globalDefault: null,
+      loading: false,
+      error: null,
+      refetch: async () => {},
+    };
   }
   return ctx;
 }

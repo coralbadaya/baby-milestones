@@ -51,7 +51,7 @@ Three cards max, age-aware:
 ### 4. DIY preview strip (`DIYPreviewStrip.jsx`)
 
 - Uses `DIYEditorialCard` — split layout on Today (2 cards), grid on My Baby (4 cards)
-- Photos via `getDiyImage({ activityId, illustration, category })` — Supabase override per activity, else bundled illustration JPG (see [`docs/diy-images-admin.md`](diy-images-admin.md))
+- Photos via `getDiyImage({ activityId, illustration, category }, overrides, globalDefault)` — per-activity override, else site-wide default, else cream lockup (see [`docs/diy-images-admin.md`](diy-images-admin.md))
 - **Open guide** opens in-app modal; video access inside modal only (no card-face YouTube button); sand section band via `PageSection`
 
 ### 5. Editorial band (`EditorialBand.jsx`)

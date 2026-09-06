@@ -7,6 +7,7 @@ import AdminLoading from '../../components/admin/AdminLoading';
 import AdminPageHeader from '../../components/admin/AdminPageHeader';
 import AdminPanel from '../../components/admin/AdminPanel';
 import { useAuth } from '../../context/AuthContext';
+import { useDiyImagesContext } from '../../context/DiyImagesContext';
 import { diyActivityImages } from '../../data/diyImageManifest';
 import { BRAND_WATERMARK_SRC } from '../../constants/brandAssets';
 import { getDiyImage } from '../../data/diyImages';
@@ -78,6 +79,7 @@ function AdminDiyImageEdit() {
   const returnQuery = searchParams.get('return') || '';
   const backTo = returnQuery ? `${ROUTES.adminDiy}?${returnQuery}` : ROUTES.adminDiy;
   const { isAdmin, user } = useAuth();
+  const { globalDefault, refetch: refetchPublicImages } = useDiyImagesContext();
 
   const staticActivity = useMemo(
     () => (activityId ? getStaticActivityById(activityId) : null),
@@ -171,7 +173,9 @@ function AdminDiyImageEdit() {
     setContentForm((prev) => (prev ? { ...prev, [key]: value } : prev));
   };
 
-  const customPreview = imageRow ? publicDiyImageUrl(imageRow.storage_path) : '';
+  const customPreview = imageRow && imageRow.source !== 'seed'
+    ? publicDiyImageUrl(imageRow.storage_path)
+    : '';
   const illustrationKey = contentForm?.illustration || staticActivity?.illustration;
   const categoryKey = contentForm?.category || staticActivity?.category;
   const fallbackPreview = staticActivity
@@ -179,12 +183,12 @@ function AdminDiyImageEdit() {
       activityId,
       illustration: illustrationKey,
       category: categoryKey,
-    }).src
+    }, {}, globalDefault).src
     : '';
   const activePreview = customPreview || fallbackPreview || BRAND_WATERMARK_SRC;
 
   const sourceLabel = useMemo(() => {
-    if (!imageRow) return 'Bundled fallback';
+    if (!imageRow || imageRow.source === 'seed') return 'Site default';
     if (imageRow.source === 'upload') return 'Custom upload';
     if (imageRow.source === 'url_import') return 'URL import';
     return imageRow.source || 'Custom';
@@ -285,6 +289,7 @@ function AdminDiyImageEdit() {
       });
       showNotice('Image uploaded');
       await reload();
+      await refetchPublicImages();
     } catch (err) {
       setError(err.message || 'Upload failed');
     } finally {
@@ -309,6 +314,7 @@ function AdminDiyImageEdit() {
       setUrlInput('');
       showNotice('Image imported from URL');
       await reload();
+      await refetchPublicImages();
     } catch (err) {
       setError(err.message || 'Import failed');
     } finally {
@@ -341,7 +347,7 @@ function AdminDiyImageEdit() {
   };
 
   const handleResetImage = async () => {
-    if (!window.confirm(`Reset image for “${contentForm.name}” to bundled fallback?`)) return;
+    if (!window.confirm(`Reset image for “${contentForm.name}” to the site default?`)) return;
     setBusy(true);
     setError(null);
     interact('tap', 'light');
@@ -349,8 +355,9 @@ function AdminDiyImageEdit() {
       await resetDiyActivityImage(supabase, activityId, imageRow?.storage_path);
       setAltInput(manifestMeta?.alt || staticActivity.name);
       setUrlInput('');
-      showNotice('Image reset to bundled fallback');
+      showNotice('Image reset to site default');
       await reload();
+      await refetchPublicImages();
     } catch (err) {
       setError(err.message || 'Reset failed');
     } finally {
@@ -401,6 +408,90 @@ function AdminDiyImageEdit() {
 
       <div className="admin-post-moderator admin-diy-edit-layout">
         <div className="admin-post-moderator-main">
+          <AdminPanel>
+            <div className="admin-diy-section-head">
+              <h2 className="admin-post-section-title">Card image</h2>
+              {imageRow && imageRow.source !== 'seed' ? (
+                <AdminBadge variant="trial">Custom upload</AdminBadge>
+              ) : (
+                <AdminBadge variant="neutral">Using site default</AdminBadge>
+              )}
+            </div>
+            <p className="admin-muted admin-diy-modal-intro">
+              Replaces the site default for this activity only. JPEG, WebP, or PNG · max 2 MB.
+            </p>
+            <div className="admin-form admin-form--post">
+              <label className="admin-field">
+                <span>Alt text</span>
+                <input
+                  type="text"
+                  value={altInput}
+                  onChange={(e) => setAltInput(e.target.value)}
+                />
+              </label>
+
+              <div className="admin-diy-upload-row">
+                <label className="admin-btn admin-btn--primary admin-diy-upload">
+                  {busy ? 'Working…' : 'Upload image'}
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/webp,image/png"
+                    hidden
+                    disabled={busy}
+                    onChange={(e) => {
+                      handleUpload(e.target.files?.[0]);
+                      e.target.value = '';
+                    }}
+                  />
+                </label>
+                {imageRow && imageRow.source !== 'seed' ? (
+                  <button type="button" className="admin-btn admin-btn--ghost admin-btn--sm" disabled={busy} onClick={handleAltSave}>
+                    Save alt only
+                  </button>
+                ) : null}
+              </div>
+
+              <label className="admin-field">
+                <span>Import from URL</span>
+                <input
+                  type="url"
+                  value={urlInput}
+                  onChange={(e) => setUrlInput(e.target.value)}
+                  placeholder="https://…"
+                  disabled={busy}
+                />
+              </label>
+              <button
+                type="button"
+                className="admin-btn admin-btn--ghost"
+                disabled={busy || !urlInput.trim()}
+                onClick={handleUrlImport}
+              >
+                Import URL
+              </button>
+            </div>
+          </AdminPanel>
+
+          <AdminPanel>
+            <h2 className="admin-post-section-title">Image preview</h2>
+            <div className="admin-diy-preview-grid">
+              <figure className="admin-diy-preview-card">
+                <figcaption>Active image</figcaption>
+                {activePreview ? (
+                  <img src={activePreview} alt={altInput} />
+                ) : (
+                  <div className="admin-diy-preview-empty">No preview</div>
+                )}
+              </figure>
+              {customPreview && fallbackPreview && customPreview !== fallbackPreview ? (
+                <figure className="admin-diy-preview-card admin-diy-preview-card--muted">
+                  <figcaption>Site default</figcaption>
+                  <img src={fallbackPreview} alt="" />
+                </figure>
+              ) : null}
+            </div>
+          </AdminPanel>
+
           <AdminPanel>
             <div className="admin-diy-section-head">
               <h2 className="admin-post-section-title">Open guide modal</h2>
@@ -526,12 +617,13 @@ function AdminDiyImageEdit() {
               </div>
 
               <label className="admin-field">
-                <span>Illustration key (image fallback)</span>
+                <span>Illustration key (AI prompt)</span>
                 <input
                   type="text"
                   value={contentForm.illustration}
                   onChange={(e) => setContentField('illustration', e.target.value)}
                 />
+                <span className="admin-field-hint">Used for the AI generation prompt. Does not change the card photo.</span>
               </label>
             </form>
           </AdminPanel>
@@ -547,81 +639,6 @@ function AdminDiyImageEdit() {
               />
             </AdminPanel>
           ) : null}
-
-          <AdminPanel>
-            <h2 className="admin-post-section-title">Image preview</h2>
-            <div className="admin-diy-preview-grid">
-              <figure className="admin-diy-preview-card">
-                <figcaption>Active image</figcaption>
-                {activePreview ? (
-                  <img src={activePreview} alt={altInput} />
-                ) : (
-                  <div className="admin-diy-preview-empty">No preview</div>
-                )}
-              </figure>
-              {customPreview && fallbackPreview && customPreview !== fallbackPreview ? (
-                <figure className="admin-diy-preview-card admin-diy-preview-card--muted">
-                  <figcaption>Bundled fallback</figcaption>
-                  <img src={fallbackPreview} alt="" />
-                </figure>
-              ) : null}
-            </div>
-          </AdminPanel>
-
-          <AdminPanel>
-            <h2 className="admin-post-section-title">Image settings</h2>
-            <div className="admin-form admin-form--post">
-              <label className="admin-field">
-                <span>Alt text</span>
-                <input
-                  type="text"
-                  value={altInput}
-                  onChange={(e) => setAltInput(e.target.value)}
-                />
-              </label>
-
-              <div className="admin-diy-upload-row">
-                <label className="admin-btn admin-btn--ghost admin-diy-upload">
-                  {busy ? 'Working…' : 'Upload image'}
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/webp,image/png"
-                    hidden
-                    disabled={busy}
-                    onChange={(e) => {
-                      handleUpload(e.target.files?.[0]);
-                      e.target.value = '';
-                    }}
-                  />
-                </label>
-                <span className="admin-muted">JPEG, WebP, or PNG · max 2 MB</span>
-                {imageRow ? (
-                  <button type="button" className="admin-btn admin-btn--ghost admin-btn--sm" disabled={busy} onClick={handleAltSave}>
-                    Save alt only
-                  </button>
-                ) : null}
-              </div>
-
-              <label className="admin-field">
-                <span>Import from URL</span>
-                <input
-                  type="url"
-                  value={urlInput}
-                  onChange={(e) => setUrlInput(e.target.value)}
-                  placeholder="https://…"
-                  disabled={busy}
-                />
-              </label>
-              <button
-                type="button"
-                className="admin-btn admin-btn--primary"
-                disabled={busy || !urlInput.trim()}
-                onClick={handleUrlImport}
-              >
-                Import URL
-              </button>
-            </div>
-          </AdminPanel>
 
           {manifestMeta?.prompt ? (
             <AdminPanel>
@@ -700,7 +717,7 @@ function AdminDiyImageEdit() {
               ) : null}
               {imageRow ? (
                 <button type="button" className="admin-btn admin-btn--danger" disabled={busy} onClick={handleResetImage}>
-                  Reset image to bundled
+                  Reset image to site default
                 </button>
               ) : null}
             </div>

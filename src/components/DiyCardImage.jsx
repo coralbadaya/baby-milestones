@@ -3,10 +3,11 @@ import { getDiyImage } from '../data/diyImages';
 import { useDiyImagesContext } from '../context/DiyImagesContext';
 
 function DiyCardImage({ activity, loading = 'lazy' }) {
-  const { overrides } = useDiyImagesContext();
+  const { overrides, globalDefault } = useDiyImagesContext();
   const config = getDiyImage(
     { activityId: activity.id, illustration: activity.illustration, category: activity.category },
     overrides,
+    globalDefault,
   );
 
   return (

@@ -1,7 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import {
+  DIY_DEFAULT_ID,
+  diyDefaultStoragePath,
   fetchAllDiyImageRows,
+  fetchDiyImageDefault,
   fetchDiyImageRow,
+  resetDiyImageDefault,
   updateDiyImageAlt,
   validateDiyImageUrl,
 } from './diyImageAdmin';
@@ -12,6 +16,8 @@ function chain(resolved) {
     eq: vi.fn(() => api),
     order: vi.fn(() => api),
     update: vi.fn(() => api),
+    upsert: vi.fn(() => api),
+    delete: vi.fn(() => api),
     maybeSingle: vi.fn(() => Promise.resolve(resolved)),
     single: vi.fn(() => Promise.resolve(resolved)),
   };
@@ -60,5 +66,34 @@ describe('diyImageAdmin', () => {
   it('validateDiyImageUrl rejects blocked hosts', () => {
     const result = validateDiyImageUrl('https://i.pinimg.com/example.jpg');
     expect(result.ok).toBe(false);
+  });
+
+  it('diyDefaultStoragePath uses the defaults/ prefix', () => {
+    expect(diyDefaultStoragePath('jpg')).toBe('defaults/card.jpg');
+    expect(diyDefaultStoragePath('webp')).toBe('defaults/card.webp');
+  });
+
+  it('fetchDiyImageDefault loads the singleton row', async () => {
+    supabase.from.mockReturnValue(chain({
+      data: { id: DIY_DEFAULT_ID, storage_path: 'defaults/card.jpg', alt_text: 'Hands-on play' },
+      error: null,
+    }));
+
+    const row = await fetchDiyImageDefault(supabase);
+    expect(row.storage_path).toBe('defaults/card.jpg');
+    expect(supabase.from).toHaveBeenCalledWith('diy_image_defaults');
+  });
+
+  it('resetDiyImageDefault deletes the singleton row', async () => {
+    supabase.from.mockReturnValue(chain({ data: null, error: null }));
+    supabase.storage = {
+      from: vi.fn(() => ({
+        remove: vi.fn(() => Promise.resolve({ error: null })),
+      })),
+    };
+
+    await resetDiyImageDefault(supabase, 'defaults/card.jpg');
+    expect(supabase.from).toHaveBeenCalledWith('diy_image_defaults');
+    expect(supabase.storage.from).toHaveBeenCalledWith('diy-images');
   });
 });

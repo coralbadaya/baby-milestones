@@ -24,7 +24,7 @@
 |-------|------|-----|
 | Master mark (SVG) | `public/brand/yarntrails-mark.svg` | Source for all generated assets |
 | Lockup (SVG) | `public/brand/yarntrails-logo.svg` | Mark + wordmark + tagline |
-| Watermark SVG | `public/brand/yarntrails-watermark.svg` | Source for editorial placeholder JPG |
+| Watermark SVG | `public/brand/yarntrails-watermark.svg` | Cream lockup source for editorial placeholder JPG |
 | React | `src/components/CoralLogo.jsx` | In-app header/footer (component name legacy) |
 | favicon.svg | `public/favicon.svg` | Browser tab (vector) |
 

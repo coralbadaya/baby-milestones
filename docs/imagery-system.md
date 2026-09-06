@@ -61,16 +61,26 @@ Supabase Storage: diy-images/activities/{activityId}.jpg
 Table: diy_activity_images (admin-managed)
 ```
 
+**Site-wide default (optional):**
+
+```
+Supabase Storage: diy-images/defaults/card.jpg
+Table: diy_image_defaults (singleton id = global)
+```
+
 **Manifests:**
 - `src/data/diyImageManifest.js` — `diyImageManifest` (65 keys) + `diyActivityImages` (180 activities); run `npm run build:diy-manifest`
-- `src/data/diyImages.js` — `getDiyImage({ activityId, illustration, category }, overrides)`
+- `src/data/diyImages.js` — `getDiyImage({ activityId, illustration, category }, overrides, globalDefault)`
 
 **Admin:** `/admin/diy` — see [`docs/diy-images-admin.md`](diy-images-admin.md)
 
-**Resolution order:** Supabase override → bundled illustration JPG → Yarn Trails watermark → category gradient.
+**Resolution order:** per-activity override → admin site-wide default → cream Yarn Trails lockup → category gradient.
 
-**Yarn Trails watermark placeholder** (`public/images/placeholders/yarntrails-watermark.jpg`, source `public/brand/yarntrails-watermark.svg`):
-- Used when bundled/override photos are missing or fail `onError`
+Illustration JPGs in `public/images/diy/` are AI prompt helpers only; they are not card faces. Seeded storage copies (`source = seed`) are ignored the same way.
+
+**Yarn Trails cream lockup** (`public/images/placeholders/yarntrails-watermark.jpg`, source `public/brand/yarntrails-watermark.svg`):
+- Full-opacity mark + “Yarn Trails” + tagline on mist/cream (4:3 canvas, horizontal lockup centered for short card crops)
+- Used when no per-activity photo and no admin default, and as `ImageWithFallback` last visual
 - Shared via `ImageWithFallback` + `BRAND_WATERMARK_SRC` in `src/constants/brandAssets.js`
 - Regenerate: `npm run generate:brand`
 

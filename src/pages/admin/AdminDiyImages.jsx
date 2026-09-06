@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import AdminBadge from '../../components/admin/AdminBadge';
 import AdminDataTable from '../../components/admin/AdminDataTable';
+import AdminDiyDefaultImage from '../../components/admin/AdminDiyDefaultImage';
 import AdminEmpty from '../../components/admin/AdminEmpty';
 import AdminLoading from '../../components/admin/AdminLoading';
 import AdminPageHeader from '../../components/admin/AdminPageHeader';
@@ -9,12 +10,14 @@ import AdminPanel from '../../components/admin/AdminPanel';
 import AdminToolbar from '../../components/admin/AdminToolbar';
 import Select from '../../components/Select';
 import { useAuth } from '../../context/AuthContext';
+import { useDiyImagesContext } from '../../context/DiyImagesContext';
 import { diyActivityImages, diyActivityIds } from '../../data/diyImageManifest';
-import { getDiyImage } from '../../data/diyImages';
+import { buildDiyGlobalDefault, getDiyImage } from '../../data/diyImages';
 import { ROUTES } from '../../routes';
 import { supabase } from '../../utils/supabaseClient';
 import {
   fetchAllDiyImageRows,
+  fetchDiyImageDefault,
   publicDiyImageUrl,
 } from '../../utils/diyImageAdmin';
 import { fetchAllDiyContentRows } from '../../utils/diyActivityAdmin';
@@ -56,12 +59,14 @@ function buildReturnQuery({ search, monthFilter, categoryFilter, page }) {
 }
 
 function AdminDiyImages() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, user } = useAuth();
+  const { refetch: refetchPublicImages } = useDiyImagesContext();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const [imageRows, setImageRows] = useState([]);
   const [contentRows, setContentRows] = useState([]);
+  const [defaultRow, setDefaultRow] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState(searchParams.get('search') || '');
@@ -72,12 +77,14 @@ function AdminDiyImages() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const [images, content] = await Promise.all([
+      const [images, content, defaults] = await Promise.all([
         fetchAllDiyImageRows(supabase),
         fetchAllDiyContentRows(supabase),
+        fetchDiyImageDefault(supabase).catch(() => null),
       ]);
       setImageRows(images);
       setContentRows(content);
+      setDefaultRow(defaults);
       setError(null);
     } catch (fetchError) {
       setError(fetchError.message);
@@ -137,21 +144,25 @@ function AdminDiyImages() {
     return <Navigate to={ROUTES.admin} replace />;
   }
 
-  const customImageCount = imageRows.length;
+  const customImageCount = imageRows.filter((row) => row.source !== 'seed').length;
   const customContentCount = contentRows.length;
   const totalCount = diyActivityIds.length;
+
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+  const globalDefault = buildDiyGlobalDefault(defaultRow, supabaseUrl);
 
   const renderCell = (activityId, col) => {
     const meta = diyActivityImages[activityId];
     const imageRow = imageByActivityId[activityId];
     const contentRow = contentByActivityId[activityId];
-    const preview = imageRow
+    const hasCustomImage = imageRow && imageRow.source !== 'seed';
+    const preview = hasCustomImage
       ? publicDiyImageUrl(imageRow.storage_path)
       : getDiyImage({
         activityId,
         illustration: meta.illustration,
         category: meta.category,
-      }).src;
+      }, {}, globalDefault).src;
 
     switch (col.key) {
       case 'preview':
@@ -181,8 +192,8 @@ function AdminDiyImages() {
         return (
           <span className="admin-flag-group">
             {contentRow ? <AdminBadge variant="active">Content</AdminBadge> : null}
-            {imageRow ? <AdminBadge variant="trial">Image</AdminBadge> : null}
-            {!contentRow && !imageRow ? <span className="admin-muted">Bundled</span> : null}
+            {hasCustomImage ? <AdminBadge variant="trial">Image</AdminBadge> : null}
+            {!contentRow && !hasCustomImage ? <span className="admin-muted">Default</span> : null}
           </span>
         );
       case 'actions':
@@ -211,6 +222,15 @@ function AdminDiyImages() {
       {error ? (
         <div className="admin-banner admin-banner--error" role="alert">{error}</div>
       ) : null}
+
+      <AdminDiyDefaultImage
+        defaultRow={defaultRow}
+        userId={user?.id}
+        onChanged={async () => {
+          await load();
+          await refetchPublicImages();
+        }}
+      />
 
       <AdminToolbar
         left={(

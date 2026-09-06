@@ -1,12 +1,22 @@
 const MAX_BYTES = 2 * 1024 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/webp', 'image/png'];
 
+export const DIY_DEFAULT_ID = 'global';
+export const DIY_DEFAULT_ALT = 'Hands-on play';
+
 /**
  * @param {string} activityId
  * @param {string} [ext='jpg']
  */
 export function diyStoragePath(activityId, ext = 'jpg') {
   return `activities/${activityId}.${ext}`;
+}
+
+/**
+ * @param {string} [ext='jpg']
+ */
+export function diyDefaultStoragePath(ext = 'jpg') {
+  return `defaults/card.${ext}`;
 }
 
 /**
@@ -209,4 +219,62 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 export function publicDiyImageUrl(storagePath) {
   if (!supabaseUrl || !storagePath) return '';
   return `${supabaseUrl.replace(/\/$/, '')}/storage/v1/object/public/diy-images/${storagePath}`;
+}
+
+/**
+ * @param {import('@supabase/supabase-js').SupabaseClient} supabase
+ */
+export async function fetchDiyImageDefault(supabase) {
+  const { data, error } = await supabase
+    .from('diy_image_defaults')
+    .select('*')
+    .eq('id', DIY_DEFAULT_ID)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * @param {import('@supabase/supabase-js').SupabaseClient} supabase
+ * @param {Blob} blob
+ * @param {string} contentType
+ * @param {string} ext
+ */
+export async function uploadDiyDefaultBlob(supabase, blob, contentType, ext) {
+  const path = diyDefaultStoragePath(ext);
+  const { error: uploadError } = await supabase.storage
+    .from('diy-images')
+    .upload(path, blob, { upsert: true, contentType });
+  if (uploadError) throw uploadError;
+  return path;
+}
+
+/**
+ * @param {import('@supabase/supabase-js').SupabaseClient} supabase
+ * @param {string} storagePath
+ * @param {{ altText?: string, source: string, userId?: string }} meta
+ */
+export async function upsertDiyImageDefault(supabase, storagePath, meta) {
+  const { data, error } = await supabase.from('diy_image_defaults').upsert({
+    id: DIY_DEFAULT_ID,
+    storage_path: storagePath,
+    alt_text: meta.altText || DIY_DEFAULT_ALT,
+    source: meta.source,
+    updated_by: meta.userId || null,
+    updated_at: new Date().toISOString(),
+  }).select().single();
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * @param {import('@supabase/supabase-js').SupabaseClient} supabase
+ * @param {string} [storagePath]
+ */
+export async function resetDiyImageDefault(supabase, storagePath) {
+  if (storagePath) {
+    await supabase.storage.from('diy-images').remove([storagePath]);
+  }
+  const { error } = await supabase.from('diy_image_defaults').delete().eq('id', DIY_DEFAULT_ID);
+  if (error) throw error;
 }
