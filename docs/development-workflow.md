@@ -212,7 +212,7 @@ VITE_SUPABASE_ANON_KEY
 VITE_GA_MEASUREMENT_ID
 ```
 
-`VITE_GA_MEASUREMENT_ID` is optional. When set (e.g. `G-XXXXXXXXXX` from [Google Analytics](https://analytics.google.com/)), the app loads GA4 and sends page views on route changes. Admin routes (`/admin/*`) are excluded. Add the same variable in Vercel for production.
+`VITE_GA_MEASUREMENT_ID` is optional. When set, the app loads GA4 after analytics consent. First-party Insights ingest (`/api/analytics`) also requires consent but does not need a GA ID. Admin routes (`/admin/*`) are excluded. Server secrets: `ANALYTICS_IP_SALT`, `CRON_SECRET`, `SUPABASE_SERVICE_ROLE_KEY` (never `VITE_`). See [`product-analytics.md`](product-analytics.md).
 
 Frontend code must never use:
 

@@ -2,8 +2,9 @@
 
 > Professional staff console for `/admin/*` — operational, data-first, visually distinct from the consumer app.
 
-**Status:** Phases 1–4 complete  
+**Status:** Phases 1–4 complete · Insights shipped  
 **Design spec:** [`admin-portal-design.md`](admin-portal-design.md) — layout, `--admin-*` tokens, component patterns  
+**Analytics:** [`product-analytics.md`](product-analytics.md)  
 **Implementation skill:** [`.cursor/skills/admin-portal/SKILL.md`](../.cursor/skills/admin-portal/SKILL.md)  
 **Auth & roles:** [`auth-membership-admin.md`](auth-membership-admin.md)  
 **Local login:** [`development-workflow.md#login-details-local-dev`](development-workflow.md#login-details-local-dev)
@@ -18,6 +19,7 @@
 | 2 | Shared components | **Complete** |
 | 3 | Page refactors | **Complete** |
 | 4 | Polish and ops | **Complete** |
+| 5 | Insights dashboard | **Complete** |
 
 ---
 
@@ -32,14 +34,15 @@
 
 **Admin pages** (`src/pages/admin/`):
 
-- `AdminOverview.jsx` — dashboard stats
+- `AdminOverview.jsx` — ops stats + 7-day analytics KPIs
+- `AdminInsights.jsx` — traffic, acquisition, conversion, habit, content; admin IP lookup
 - `AdminInbox.jsx` — contact submissions
 - `AdminUsers.jsx` — profiles + membership
 - `AdminPromos.jsx` — promo code CRUD
 - `AdminNewsletter.jsx` — campaigns, compose, templates, subscribers
 - `AdminDiyImages.jsx` — per-activity image config
 
-**Nav order** (match `AdminLayout.jsx`): Overview · Inbox · Users · Promo codes · Newsletter · DIY images *(admin only)*
+**Nav order** (match `AdminLayout.jsx`): Overview · Insights · Inbox · Users · Promo codes · Newsletter · Community · DIY images *(admin only)*
 
 ---
 
@@ -275,6 +278,7 @@ Manual:
 - [ ] `/admin/inbox` — filter, status update, highlight new rows
 - [ ] `/admin/newsletter` — tab switch, compose preview
 - [ ] `/admin/diy` — thumbnail grid, upload (admin only)
+- [ ] `/admin/insights` — range select, Traffic tab, empty state if no events; admin sees IP lookup, support does not
 
 Credentials: [`development-workflow.md#login-details-local-dev`](development-workflow.md#login-details-local-dev)
 
@@ -285,6 +289,7 @@ Credentials: [`development-workflow.md#login-details-local-dev`](development-wor
 | Doc | Purpose |
 |-----|---------|
 | [`admin-portal-design.md`](admin-portal-design.md) | Layout wireframe, theme tokens, component patterns |
+| [`product-analytics.md`](product-analytics.md) | Event allowlist, retention, Insights security |
 | [`auth-membership-admin.md`](auth-membership-admin.md) | Roles, routes, RLS, test users |
 | [`newsletter-admin.md`](newsletter-admin.md) | Newsletter tabs and send workflow |
 | [`diy-images-admin.md`](diy-images-admin.md) | DIY image admin and storage |
@@ -292,4 +297,4 @@ Credentials: [`development-workflow.md#login-details-local-dev`](development-wor
 
 ---
 
-*Last updated: admin portal phased plan v1 — Phases 1–4 complete (shared components, page refactors, polish).*
+*Last updated: admin portal phased plan — Insights (phase 5) shipped.*

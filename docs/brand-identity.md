@@ -18,7 +18,7 @@
 
 ## Logo
 
-**Mark:** A spun-gold yarn ball with winding arcs, and moss trail threads leading outward — the path of early motherhood.
+**Mark:** A sage yarn ball with winding strands, and a terracotta thread that forms a heart — craft meeting the path of early motherhood.
 
 | Asset | Path | Use |
 |-------|------|-----|
@@ -28,7 +28,7 @@
 | React | `src/components/CoralLogo.jsx` | In-app header/footer (component name legacy) |
 | favicon.svg | `public/favicon.svg` | Browser tab (vector) |
 
-**Wordmark:** Newsreader (display serif), weight 600, letter-spacing −0.02em.
+**Wordmark:** Newsreader (display serif), weight 600, letter-spacing −0.02em. **Yarn** in trail moss, **Trails** in heart terracotta. Lockup SVG tagline: *Little Moments. Big Stories.* Header chrome still uses the compact `for parents` line.
 
 ### Clear space & sizing
 - Keep clear space ≥ the yarn-ball radius around the mark.
@@ -44,7 +44,8 @@
 | `--brand-trail` / `--coral-primary` | `#3F5E52` | Primary CTAs, logo trail, active nav |
 | `--coral-primary-dark` | `#2F4A40` | Hover |
 | `--coral-primary-light` | `#D5E3DC` | Tints, hero washes |
-| `--brand-gold` / `--brand-yarn` | `#C4A35A` | Yarn ball, accents, dividers |
+| `--brand-gold` / `--brand-yarn` | `#C4A35A` | Accents, dividers, premium spark |
+| `--brand-heart` | `#C57A58` | Logo heart thread, **Trails** wordmark |
 | `--gold-dark` | `#9A7D3A` | Gold hover / strokes |
 | `--brand-clay` | `#D2C0A4` | Soft flax accent |
 | `--cream` | `#F3F5F2` | Page background (wool mist) |
@@ -93,4 +94,4 @@ To produce native app icons later (iOS `.icns`, Android mipmaps), feed `icon-sto
 
 ---
 
-*Last updated: July 2026*
+*Last updated: September 2026*

@@ -130,7 +130,8 @@ Travel types: `car`, `air`, `train`, `dayOuting`, `hotel` — parsed in `assista
 | Guides | `src/pages/Guides.jsx`, `src/pages/GuideArticle.jsx`, `src/data/guides.js` |
 | Static / legal | `src/pages/StaticPage.jsx`, `src/data/legalContent.js` |
 | FAQ | `src/pages/Faq.jsx` |
-| Contact | `src/pages/Contact.jsx` — uses `submit_contact_form` RPC |
+| Contact | `src/pages/Contact.jsx` — `submit_contact_form` RPC (press, partnership, general) |
+| Feedback | `src/pages/Feedback.jsx` — topic cards + optional note; same RPC, lands in Inbox |
 
 ### Auth, membership, admin
 
@@ -141,9 +142,9 @@ Travel types: `car`, `air`, `train`, `dayOuting`, `hotel` — parsed in `assista
 | Premium / Plus | `src/pages/Premium.jsx`, `PremiumGate`, `src/constants/premium.js`, `src/utils/entitlements.js` |
 | AI baby book | `src/components/book/*`, `src/hooks/useMonthlyAlbum.js`, `useBabyStories.js`, `useVoiceNotes.js` |
 | Stripe | `api/checkout.js`, `api/stripe-webhook.js`, `src/utils/stripeCheckout.js` |
-| Admin | `src/pages/admin/*`, `docs/auth-membership-admin.md`, `docs/admin-portal-design.md` |
+| Admin | `src/pages/admin/*`, `docs/auth-membership-admin.md`, `docs/admin-portal-design.md`, `docs/product-analytics.md` |
 
-Admin routes: `/admin`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/diy`, `/admin/newsletter`
+Admin routes: `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/diy`, `/admin/newsletter`, `/admin/community`
 
 Roles: `user` · `support` (inbox) · `admin` (full)
 
@@ -333,6 +334,7 @@ Quality gate before merge: `npm test` · `npm run verify:data` (if data changed)
 
 | Date | Change |
 |------|--------|
+| Sep 2026 | `/feedback` product feedback page (topic cards → admin Inbox) |
 | Sep 2026 | Technical SEO: SPA rewrite, canonical helpers, dynamic sitemap/robots, prerender of all public URLs |
 | Jul 2026 | Expanded memory: project snapshot, file map, localStorage, life firsts, updated nav/IA |
 | Earlier | Parenting assistant KB only (topics, priority, test queries) |

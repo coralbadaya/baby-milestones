@@ -62,6 +62,7 @@ alwaysApply: true
 | `docs/auth-membership-admin.md` | **Auth** — Supabase login, OTP signup, membership, admin, test users |
 | `docs/admin-portal-design.md` | **Admin portal** — staff console layout, theme tokens, component patterns |
 | `docs/admin-portal-plan.md` | **Admin portal plan** — phased implementation roadmap, tasks, acceptance criteria |
+| `docs/product-analytics.md` | **Staff Insights** — first-party events, retention, `/admin/insights` |
 
 ## UI components
 

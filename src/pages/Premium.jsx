@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
@@ -15,6 +15,7 @@ import { ROUTES } from '../routes';
 import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
 import { startCheckout } from '../utils/stripeCheckout';
+import { trackEvent } from '../utils/analytics';
 
 function Premium() {
   usePageMeta(getStaticMeta(ROUTES.premium) || {});
@@ -22,6 +23,10 @@ function Premium() {
   const {
     user, isPremium, membership, loading, redeemPromoCode, startLocalTrial,
   } = useAuth();
+
+  useEffect(() => {
+    trackEvent('premium_view');
+  }, []);
 
   const [promoCode, setPromoCode] = useState('');
   const [promoError, setPromoError] = useState(null);

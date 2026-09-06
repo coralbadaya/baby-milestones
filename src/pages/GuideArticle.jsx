@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import Icon from '../components/Icon';
 import PageBreadcrumb from '../components/PageBreadcrumb';
 import StructuredData from '../components/StructuredData';
@@ -8,6 +9,7 @@ import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
 import GuideStoryCta from '../components/book/GuideStoryCta';
 import { articleSchema, breadcrumbSchema } from '../utils/structuredData';
+import { trackEvent } from '../utils/analytics';
 import NotFound from './NotFound';
 
 function GuideArticle() {
@@ -21,6 +23,13 @@ function GuideArticle() {
     type: 'article',
     path: pathname,
   });
+
+  const guideSlug = guide?.slug;
+  useEffect(() => {
+    if (!guideSlug) return undefined;
+    trackEvent('guide_view', { guide_slug: guideSlug });
+    return undefined;
+  }, [guideSlug]);
 
   if (!guide) return <NotFound />;
 

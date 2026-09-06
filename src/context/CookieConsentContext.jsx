@@ -1,41 +1,40 @@
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { isAnalyticsEnabled } from '../utils/analytics';
 import {
   getAnalyticsConsent,
   hasAnalyticsConsentDecision,
   writeCookieConsent,
 } from '../utils/cookieConsent';
+import { ingestAnalyticsEvent } from '../utils/analyticsIngest';
 
 /** @typedef {'accepted' | 'rejected' | null} ConsentValue */
 
 const CookieConsentContext = createContext(null);
 
 export function CookieConsentProvider({ children }) {
-  const analyticsConfigured = isAnalyticsEnabled();
-  const [consent, setConsent] = useState(() => (
-    analyticsConfigured ? getAnalyticsConsent() : 'rejected'
-  ));
+  const analyticsConfigured = true;
+  const [consent, setConsent] = useState(() => getAnalyticsConsent());
   const [preferencesOpen, setPreferencesOpen] = useState(false);
 
-  const needsPrompt = analyticsConfigured && !hasAnalyticsConsentDecision() && consent === null;
-  const showBanner = analyticsConfigured && (needsPrompt || preferencesOpen);
+  const needsPrompt = !hasAnalyticsConsentDecision() && consent === null;
+  const showBanner = needsPrompt || preferencesOpen;
 
   const acceptAnalytics = useCallback(() => {
     writeCookieConsent('accepted');
     setConsent('accepted');
     setPreferencesOpen(false);
+    ingestAnalyticsEvent('consent_accepted', {}, { ignoreConsent: true });
   }, []);
 
   const rejectAnalytics = useCallback(() => {
     writeCookieConsent('rejected');
     setConsent('rejected');
     setPreferencesOpen(false);
+    ingestAnalyticsEvent('consent_rejected', {}, { ignoreConsent: true });
   }, []);
 
   const openPreferences = useCallback(() => {
-    if (!analyticsConfigured) return;
     setPreferencesOpen(true);
-  }, [analyticsConfigured]);
+  }, []);
 
   const closePreferences = useCallback(() => {
     setPreferencesOpen(false);
@@ -44,14 +43,13 @@ export function CookieConsentProvider({ children }) {
   const value = useMemo(() => ({
     analyticsConfigured,
     consent,
-    analyticsAllowed: analyticsConfigured && consent === 'accepted',
+    analyticsAllowed: consent === 'accepted',
     showBanner,
     acceptAnalytics,
     rejectAnalytics,
     openPreferences,
     closePreferences,
   }), [
-    analyticsConfigured,
     consent,
     showBanner,
     acceptAnalytics,

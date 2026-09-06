@@ -198,6 +198,7 @@ export const PHOSPHOR_ICON_MAP = {
   'book-open': BookOpen,
   info: Info,
   envelope: Envelope,
+  bug: Bug,
   users: Users,
   ticket: Ticket,
   'paper-plane': PaperPlaneTilt,

@@ -276,6 +276,11 @@ function AccountContent() {
       {error && <p className="auth-error" role="alert">{error}</p>}
 
       <footer className="account-footer">
+        <p className="account-feedback-link">
+          <Link to={ROUTES.feedback} onClick={() => interact('tap', 'light')}>
+            Share feedback
+          </Link>
+        </p>
         <button type="button" className="btn-ghost" onClick={handleSignOut}>
           Sign out of {BRAND_NAME}
         </button>

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../utils/supabaseClient';
+import { monthFromMilestoneId } from '../utils/analyticsEvents';
+import { trackEvent } from '../utils/analytics';
 import {
   checkedIds,
   checksToRpcItems,
@@ -78,8 +80,13 @@ export function useMilestoneChecks(babyProfileId) {
 
   const toggleCheck = useCallback((id) => {
     setCheckedItems((prev) => {
-      const next = { ...prev, [id]: !prev[id] };
+      const turningOn = !prev[id];
+      const next = { ...prev, [id]: turningOn };
       pushCloud(next);
+      if (turningOn) {
+        const month = monthFromMilestoneId(id);
+        trackEvent('milestone_checked', month ? { month } : {});
+      }
       return next;
     });
   }, [pushCloud]);

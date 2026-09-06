@@ -1,4 +1,4 @@
-import { createHmac, timingSafeEqual } from 'node:crypto';
+import { createHmac, randomUUID, timingSafeEqual } from 'node:crypto';
 import { Buffer } from 'node:buffer';
 
 const DEFAULT_TOLERANCE_SEC = 300;
@@ -152,6 +152,9 @@ export async function applyStripeEvent(supabase, event) {
         if (couponErr && couponErr.code !== '23505') throw couponErr;
       }
     }
+    if (obj.mode === 'subscription' || sku === 'gift_subscription' || sku === 'first_year_bundle') {
+      await recordSubscribeSuccess(supabase, { userId, sku });
+    }
   }
 
   if (type === 'invoice.paid' || type === 'customer.subscription.updated') {
@@ -189,4 +192,18 @@ export async function applyStripeEvent(supabase, event) {
   }
 
   return { processed: true, userId };
+}
+
+export async function recordSubscribeSuccess(supabase, { userId, sku } = {}) {
+  const { error } = await supabase.from('analytics_events').insert({
+    session_id: randomUUID(),
+    user_id: userId || null,
+    event_name: 'subscribe_success',
+    path: '/premium',
+    route_key: 'premium',
+    props: sku ? { sku: String(sku).slice(0, 80) } : {},
+  });
+  if (error) {
+    console.warn('analytics subscribe_success insert failed', error.message);
+  }
 }

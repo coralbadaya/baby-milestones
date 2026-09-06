@@ -97,6 +97,7 @@ Reachable via Premium CTAs, account links, and direct URLs. Not in top nav or mo
 | Create account | `/signup` | Email + password; sends OTP |
 | Verify email | `/verify-email` | 6-digit OTP entry + resend (post-signup) |
 | Account | `/account` | Profile, membership, promo codes (`RequireAuth`) |
+| Feedback | `/feedback` | Product feedback — topic cards + optional note; footer + Account |
 | Admin | `/admin` | Staff/admin center |
 
 See [`docs/auth-membership-admin.md`](auth-membership-admin.md) for OTP flow and Supabase dashboard setup.
@@ -124,4 +125,4 @@ Same 5 items as desktop header. Sound toggle remains. Progress, Sources, Premium
 
 ---
 
-*Last updated: June 2026*
+*Last updated: September 2026*

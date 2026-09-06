@@ -76,6 +76,11 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://yarntrails.com/feedback</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://yarntrails.com/editorial-policy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>

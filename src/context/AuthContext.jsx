@@ -4,6 +4,7 @@ import { isPremiumActive } from '../utils/membership';
 import { readLocalPremium } from '../utils/localPremium';
 import { PREMIUM_STORAGE_KEY, PLANS } from '../constants/premium';
 import { isEmailVerified } from '../utils/auth';
+import { trackEvent } from '../utils/analytics';
 
 const AuthContext = createContext(null);
 
@@ -161,6 +162,7 @@ export function AuthProvider({ children }) {
       trialEndsAt: ends.toISOString(),
     }));
     setLocalPremiumTick((t) => t + 1);
+    trackEvent('trial_started');
   }, []);
 
   const value = useMemo(() => ({

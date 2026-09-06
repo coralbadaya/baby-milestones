@@ -13,6 +13,7 @@ import { supabase } from '../../utils/supabaseClient';
 
 const ADMIN_NAV = [
   { to: ROUTES.admin, label: 'Overview', end: true, icon: 'squares-four' },
+  { to: ROUTES.adminInsights, label: 'Insights', icon: 'chart-bar' },
   { to: ROUTES.adminInbox, label: 'Inbox', icon: 'envelope', badgeKey: 'inbox' },
   { to: ROUTES.adminUsers, label: 'Users', icon: 'users' },
   { to: ROUTES.adminPromos, label: 'Promo codes', icon: 'ticket' },
@@ -35,7 +36,7 @@ function AdminLayoutInner() {
 
   usePageMeta({
     title: 'Admin',
-    description: 'Yarn Trails staff console — inbox, users, promo codes, newsletter, community, and DIY images.',
+    description: 'Yarn Trails staff console — overview, insights, inbox, users, promo codes, newsletter, community, and DIY images.',
     robots: 'noindex, nofollow',
   });
 

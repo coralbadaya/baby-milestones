@@ -3,6 +3,8 @@ import {
   splitLegacyChecks,
   unionChecks,
   isShopItemId,
+  isDomainMerged,
+  markDomainMerged,
   mergeBabyIdentity,
   migrateLegacyShoppingSplit,
   MILESTONE_CHECKS_KEY,
@@ -75,5 +77,13 @@ describe('cloudMerge', () => {
     expect(merged.birthDate).toBe('2024-03-01');
     expect(merged.name).toBe('Luna');
     expect(merged.source).toBe('local');
+  });
+
+  it('accumulates cloud-merge domain flags for the same user', () => {
+    markDomainMerged('user-1', 'firsts');
+    markDomainMerged('user-1', 'identity');
+    expect(isDomainMerged('user-1', 'firsts')).toBe(true);
+    expect(isDomainMerged('user-1', 'identity')).toBe(true);
+    expect(isDomainMerged('user-1', 'milestones')).toBe(false);
   });
 });

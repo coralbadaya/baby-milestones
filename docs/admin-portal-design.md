@@ -2,7 +2,7 @@
 
 Professional staff console for Yarn Trails. **Separate visual language** from the consumer app: operational, data-first, calm — not editorial parenting warmth.
 
-**Routes:** `/admin`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/newsletter`, `/admin/diy`  
+**Routes:** `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/newsletter`, `/admin/community`, `/admin/diy`  
 **Access:** `staff` (read-most) · `admin` (write + DIY images)  
 **Auth doc:** [`auth-membership-admin.md`](auth-membership-admin.md)
 
@@ -77,12 +77,13 @@ Professional staff console for Yarn Trails. **Separate visual language** from th
 **Nav order** (match `AdminLayout.jsx`):
 
 1. Overview  
-2. Inbox  
-3. Users  
-4. Promo codes  
-5. Newsletter  
-6. Community  
-7. DIY images *(admin only)*  
+2. Insights  
+3. Inbox  
+4. Users  
+5. Promo codes  
+6. Newsletter  
+7. Community  
+8. DIY images *(admin only)*  
 
 Sidebar footer: user avatar + role pill + email, **Sign out**, **View public site** → `/`.
 
@@ -228,6 +229,17 @@ Feature details: [`newsletter-admin.md`](newsletter-admin.md), [`diy-images-admi
 - Status badges: visible text (not color-only).
 - Focus rings: 2px terracotta offset on interactive elements.
 - Skip link: "Skip to admin content" (first focusable in shell).
+
+---
+
+## Insights
+
+Staff-only product analytics at `/admin/insights`. Spec: [`product-analytics.md`](product-analytics.md).
+
+- Reuse admin tokens only (Switzer, `AdminPageHeader`, `AdminStatCard`, panels/tables). No Fraunces, PageHero, or chart libraries — CSS bars + tables.
+- Range: shared `Select` (7 / 30 / 90 days). Tabs: Traffic, Acquisition, Conversion, Habit, Content.
+- Overview (`/admin`) adds a **Last 7 days** KPI row (sessions, signup conversion, paid conversion, top country) linking into Insights.
+- **IP lookup** strip is admin-only (hidden for `support`). Empty copy: “No events yet — consent + ingest not live.”
 
 ---
 

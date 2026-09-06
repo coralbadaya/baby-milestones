@@ -16,7 +16,7 @@ Read `docs/brand-identity.md` (logo, palette, asset list, SEO files).
 ## Logo workflow
 
 1. The master is `public/brand/yarntrails-mark.svg` (viewBox 0 0 64 64).
-2. Edit the SVG paths; keep yarn gold `#C4A35A` and trail moss `#3F5E52`.
+2. Edit the SVG paths; yarn ball is trail moss `#3F5E52`, heart thread is `#C57A58`.
 3. Mirror geometry into `src/components/CoralLogo.jsx` (`CoralMark`) and `public/brand/yarntrails-logo.svg`.
 4. Inspect by rendering to PNG with sharp before committing.
 

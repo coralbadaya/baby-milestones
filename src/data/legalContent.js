@@ -67,7 +67,7 @@ export const PAGES = {
   contact: {
     title: 'Contact Us',
     icon: 'envelope',
-    intro: 'We would love to hear from you — feedback, questions, partnership ideas, or just a hello.',
+    intro: 'Questions, partnership ideas, or just a hello. Product thoughts belong on the Share feedback page.',
     body: [
       {
         heading: 'Email',
@@ -150,9 +150,9 @@ export const PAGES = {
       {
         heading: 'Information we handle',
         list: [
-          'Baby and care data you enter (e.g. birth date, milestone checks, vaccine records) — stored in your browser\u2019s local storage by default',
+          'Baby and care data you enter (e.g. birth date, milestone checks, vaccine records) — stored in your browser\u2019s local storage by default, and in your account if you sign in',
           'Optional contact details you provide (e.g. newsletter email)',
-          'Basic, aggregated usage analytics, where enabled',
+          'First-party operational analytics if you accept analytics (page views and key product events). Raw IP is kept for 30 days for fraud and debugging, then hashed. This data is for staff product insights only and is not sold. Optional Google Analytics may also load when configured.',
         ],
       },
       {
@@ -221,13 +221,13 @@ export const PAGES = {
         heading: 'What we use',
         list: [
           'Essential storage required for the app to function (e.g. saving your entries locally)',
-          'Optional analytics cookies to understand aggregate usage, where enabled',
+          'Optional first-party analytics (and Google Analytics, when configured) after you accept. First-party events are stored internally for staff Insights. IP addresses are retained for 30 days, then hashed. We do not sell this data.',
         ],
       },
       {
         heading: 'Managing cookies',
         paragraphs: [
-          'When analytics is enabled, we ask for your consent before loading Google Analytics (including for visitors in the EU and UK). You can accept analytics cookies or continue with essential storage only.',
+          'We ask for your consent before collecting first-party operational analytics or loading Google Analytics (including for visitors in the EU and UK). You can accept analytics or continue with essential storage only.',
           'You can change your choice anytime via Cookie preferences in the footer. You can also control or delete cookies through your browser settings. Disabling some storage may affect functionality such as saving your data between visits.',
         ],
       },

@@ -77,6 +77,7 @@ npm run build        # before merge
 | Change UI | [`design-system-2026.md`](design-system-2026.md) + feature doc |
 | Nav / routes | [`information-architecture.md`](information-architecture.md) |
 | Auth / admin | [`auth-membership-admin.md`](auth-membership-admin.md) |
+| Staff Insights | [`product-analytics.md`](product-analytics.md) |
 | Code conventions | [`CLAUDE.md`](../CLAUDE.md) · [`memory.md`](../memory.md) · `.cursor/rules/coral.mdc` |
 
 ---

@@ -65,8 +65,8 @@ import CoralLogo from './CoralLogo';
 <CoralLogo variant="mark" size={24} />
 ```
 
-Styles: `.coral-logo--lockup`, `.coral-logo-wordmark`, `.coral-logo-tagline` in `global.css`.  
-Spec: [`docs/design-system-2026.md`](design-system-2026.md) — Brand / Logo.
+Styles: `.coral-logo--lockup`, `.coral-logo-wordmark`, `.coral-logo-yarn`, `.coral-logo-trails`, `.coral-logo-tagline` in `global.css`.  
+Spec: [`docs/design-system-2026.md`](design-system-2026.md) — Brand / Logo. Two-tone wordmark: **Yarn** moss, **Trails** heart terracotta.
 
 ---
 
@@ -207,9 +207,19 @@ Signup sends email OTP before session; unverified users redirect to `/verify-ema
 
 ---
 
+## Feedback (`Feedback.jsx`)
+
+`/feedback` — footer Company column + Account link. Not in primary nav.
+
+Tappable topic cards (radio group, `.feedback-topics` / `.feedback-topic`), optional description, required email. Submits via `submit_contact_form` into the admin Inbox. Contact keeps press / partnership / general; its intro links here.
+
+Touch targets ≥ 56px. Two columns from 641px; stacked at 375px.
+
+---
+
 ## Account (`Account.jsx`)
 
-`/account` uses `.account-card` + `.account-input` (same field chrome as auth). Sections: membership, promo, display name, baby name/DOB, data export, delete account (two-step confirm). Baby identity writes `baby_profiles` via `useBabyIdentity`.
+`/account` uses `.account-card` + `.account-input` (same field chrome as auth). Sections: membership, promo, display name, baby name/DOB, data export, delete account (two-step confirm). Quiet **Share feedback** link above sign out. Baby identity writes `baby_profiles` via `useBabyIdentity`.
 
 ---
 

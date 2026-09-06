@@ -60,7 +60,11 @@ function Contact() {
         <Icon name="envelope" size={40} className="content-page-icon" />
         <h1>Contact Us</h1>
         <p className="content-page-intro">
-          We would love to hear from you — feedback, questions, partnership ideas, or just a hello.
+          Questions, partnership ideas, or just a hello. For product thoughts,{' '}
+          <Link to={ROUTES.feedback} onClick={() => interact('tap', 'light')}>
+            share feedback
+          </Link>
+          .
         </p>
       </header>
 

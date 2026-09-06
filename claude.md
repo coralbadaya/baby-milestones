@@ -45,7 +45,8 @@ Primary nav: Today · My Baby · My Care · Essentials · Community · Guides
 Source of truth: `src/routes.js` · Spec: `docs/information-architecture.md`
 
 Auth: `/login` · `/signup` · `/verify-email` · `/account`  
-Admin: `/admin` · `/admin/inbox` · `/admin/users` · `/admin/promos` · `/admin/diy` · `/admin/newsletter`
+Admin: `/admin` · `/admin/insights` · `/admin/inbox` · `/admin/users` · `/admin/promos` · `/admin/diy` · `/admin/newsletter`  
+Company: `/contact` · `/feedback`
 
 ---
 
@@ -134,7 +135,7 @@ Full list: [`memory.md`](memory.md#localstorage-keys)
 - UI label **Watch For** (not "Take Care") for warning cards
 - Assistant: educational only; emergencies → pediatrician / local emergency number
 - Mom milestones: educational only; postpartum emergencies → obstetrician / local emergency number
-- Contact form: `submit_contact_form` RPC (not direct table insert)
+- Contact form: `submit_contact_form` RPC (not direct table insert). `/feedback` uses the same RPC with topic subjects.
 - UI changes: read design docs first, update docs after — see `.cursor/rules/coral.mdc`
 - Data changes: `npm run verify:data` + `npm test`
 

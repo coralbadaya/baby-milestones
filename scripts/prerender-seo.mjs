@@ -14,7 +14,8 @@ import { PAGES, FAQS } from '../src/data/legalContent.js';
 import milestones from '../src/data/milestones.js';
 import { ROUTES } from '../src/routes.js';
 import { applySeoToHtml, escapeHtml } from '../src/seo/prerenderHtml.js';
-import { getIndexableEntries } from '../src/seo/routes.js';
+import { getIndexableEntries, SPA_SHELL_PAGES } from '../src/seo/routes.js';
+import { ROBOTS_NOINDEX } from '../src/seo/metadata.js';
 import { buildCanonicalUrl } from '../src/seo/urls.js';
 import {
   articleSchema,
@@ -177,10 +178,21 @@ for (const entry of entries) {
   });
 
   const rel = entry.path.replace(/^\//, '');
-  const htmlFile = join(dist, `${rel}.html`);
-  mkdirSync(dirname(htmlFile), { recursive: true });
-  writeFileSync(htmlFile, html);
+  const outDir = join(dist, ...rel.split('/'));
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(join(outDir, 'index.html'), html);
+  count += 1;
+}
 
+for (const shell of SPA_SHELL_PAGES) {
+  const html = applySeoToHtml(indexHtml, {
+    title: shell.title,
+    description: 'Yarn Trails account and staff pages.',
+    canonical: buildCanonicalUrl(shell.path),
+    robots: ROBOTS_NOINDEX,
+    bodyHtml: `<article><h1>${escapeHtml(shell.title)}</h1><p>This page loads in the app.</p></article>`,
+  });
+  const rel = shell.path.replace(/^\//, '');
   const outDir = join(dist, ...rel.split('/'));
   mkdirSync(outDir, { recursive: true });
   writeFileSync(join(outDir, 'index.html'), html);

@@ -40,7 +40,7 @@
 
 - **Auth** — Email + password signup with **OTP verification** before session
 - **Premium** — Early-access membership, promo codes, teaser gates
-- **Admin** — Staff console: inbox, users, promos, DIY images, newsletter (`/admin/*`)
+- **Admin** — Staff console: overview, insights, inbox, users, promos, DIY images, newsletter (`/admin/*`)
 
 ---
 

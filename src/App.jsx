@@ -23,8 +23,10 @@ import SignUp from './pages/SignUp';
 import VerifyEmail from './pages/VerifyEmail';
 import Account from './pages/Account';
 import Contact from './pages/Contact';
+import Feedback from './pages/Feedback';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminOverview from './pages/admin/AdminOverview';
+import AdminInsights from './pages/admin/AdminInsights';
 import AdminInbox from './pages/admin/AdminInbox';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminPromos from './pages/admin/AdminPromos';
@@ -279,6 +281,7 @@ function App() {
 
         <Route path={ROUTES.about} element={<StaticPage pageKey="about" />} />
         <Route path={ROUTES.contact} element={<Contact />} />
+        <Route path={ROUTES.feedback} element={<Feedback />} />
         <Route path={ROUTES.newsletterUnsubscribe} element={<NewsletterUnsubscribe />} />
         <Route path={ROUTES.editorialPolicy} element={<StaticPage pageKey="editorialPolicy" />} />
         <Route path={ROUTES.reviewers} element={<StaticPage pageKey="reviewers" />} />
@@ -295,6 +298,7 @@ function App() {
 
         <Route path={ROUTES.admin} element={<AdminLayout />}>
           <Route index element={<AdminOverview />} />
+          <Route path="insights" element={<AdminInsights />} />
           <Route path="inbox" element={<AdminInbox />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="promos" element={<AdminPromos />} />

@@ -111,7 +111,14 @@ export const INDEXABLE_STATIC_PAGES = [
   {
     path: ROUTES.contact,
     title: 'Contact Us',
-    description: 'Get in touch with the Yarn Trails team — feedback, partnerships, and questions.',
+    description: 'Get in touch with the Yarn Trails team — partnerships, press, and questions.',
+    changefreq: 'yearly',
+    priority: 0.4,
+  },
+  {
+    path: ROUTES.feedback,
+    title: 'Share Feedback',
+    description: 'Tell Yarn Trails what you love, what is missing, or what is not working — a tap and a short note is enough.',
     changefreq: 'yearly',
     priority: 0.4,
   },
@@ -229,6 +236,29 @@ export const COMMUNITY_CREATE_META = {
   description: 'Post a milestone, tip, or sweet moment for other mothers.',
   robots: ROBOTS_NOINDEX,
 };
+
+/**
+ * Client-only routes that must exist as `dist/<path>/index.html` so Vercel
+ * does not 404 before the SPA rewrite (especially with `cleanUrls`).
+ * Keep these out of the sitemap — they are noindex shells.
+ */
+export const SPA_SHELL_PAGES = [
+  { path: ROUTES.login, title: 'Sign In' },
+  { path: ROUTES.signup, title: 'Create Account' },
+  { path: ROUTES.verifyEmail, title: 'Verify Email' },
+  { path: ROUTES.account, title: 'Account' },
+  { path: ROUTES.admin, title: 'Admin' },
+  { path: ROUTES.adminInsights, title: 'Admin Insights' },
+  { path: ROUTES.adminInbox, title: 'Admin Inbox' },
+  { path: ROUTES.adminUsers, title: 'Admin Users' },
+  { path: ROUTES.adminPromos, title: 'Admin Promo codes' },
+  { path: ROUTES.adminNewsletter, title: 'Admin Newsletter' },
+  { path: ROUTES.adminCommunity, title: 'Admin Community' },
+  { path: ROUTES.adminDiy, title: 'Admin DIY' },
+  { path: ROUTES.babyBook, title: 'Baby Book' },
+  { path: ROUTES.newsletterUnsubscribe, title: 'Unsubscribe' },
+  { path: ROUTES.communityTab('create'), title: 'Share a Memory' },
+];
 
 /** @param {string} path */
 export function getStaticMeta(path) {

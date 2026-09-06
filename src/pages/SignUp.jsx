@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import AuthForm, { AuthPageShell, AuthSwitchLink } from '../components/auth/AuthForm';
 import { isEmailVerified, useAuth } from '../context/AuthContext';
+import { trackEvent } from '../utils/analytics';
 import { usePageMeta } from '../utils/pageMeta';
 import { ROUTES } from '../routes';
 
@@ -13,6 +15,10 @@ function SignUp() {
   const { signUp, user } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    trackEvent('signup_view');
+  }, []);
+
   if (user && isEmailVerified(user)) {
     return <Navigate to={ROUTES.account} replace />;
   }
@@ -22,6 +28,7 @@ function SignUp() {
 
   const handleSubmit = async ({ email, password, displayName }) => {
     const { session } = await signUp({ email, password, displayName: displayName || undefined });
+    trackEvent('signup_completed');
     if (session) {
       navigate(ROUTES.account, { replace: true });
     } else {

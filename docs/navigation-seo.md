@@ -22,15 +22,15 @@ Footer (4 columns):
   Essentials| Vaccination Sched.| Medical Reviewers  | Cookie Policy
   Vaccination| FAQ              | Sources & Citations| Medical Disclaimer
   Travel   |                    | Contact            | Accessibility
-  Community|                    | Premium            |
-  Progress |                    |                    |
+  Community|                    | Feedback           |
+  Progress |                    | Premium            |
   Bottom bar: social icons · newsletter · disclaimer · © year
 ```
 
 ## Data model — `src/routes.js`
 
 - `ROUTES` — all paths (incl. `guides`, `guide(slug)`, `faq`, `about`, `contact`,
-  `login`, `signup`, `verifyEmail`, `account`, `admin`, legal/trust routes).
+  `feedback`, `login`, `signup`, `verifyEmail`, `account`, `admin`, legal/trust routes).
 - `PRIMARY_NAV` — desktop top-nav items (includes `guides`). **Premium is NOT here.**
 - `MOBILE_NAV` — `PRIMARY_NAV` minus `guides` (bottom bar stays at 5 for ergonomics).
 - `PREMIUM_NAV` — single object rendered as the distinct CTA button.
@@ -74,8 +74,10 @@ metadata live in `src/seo/` and are applied at build time plus in the client.
   Helpers in `src/seo/urls.js` (`buildCanonicalUrl`) never emit localhost, `www`,
   query strings, or hashes. `www.yarntrails.com` 301s to apex via `vercel.json`.
 - **SPA crawlability:** `vercel.json` rewrites unknown paths to `/index.html` so
-  client routes return HTTP 200 instead of Vercel `NOT_FOUND`. Trailing slashes
-  redirect off (`trailingSlash: false`).
+  client routes (`/login`, `/account`, `/story/preview/:token`, …) return HTTP 200
+  instead of Vercel `NOT_FOUND`. Do **not** enable `cleanUrls` — missing `.html`
+  files 404 before the rewrite runs. Trailing slashes redirect off
+  (`trailingSlash: false`).
 - **Per-page meta:** every page calls `usePageMeta` (`src/utils/pageMeta.js`).
   Titles follow `Topic | Yarn Trails` (homepage keeps the brand title). Canonical
   URLs always use the production origin + pathname. Default robots: `index, follow`.
@@ -108,16 +110,17 @@ metadata live in `src/seo/` and are applied at build time plus in the client.
   robots, and prerender stubs. Inventory check: `npm run audit:seo`.
 - **Prerender:** `scripts/prerender-seo.mjs` writes a unique HTML shell (title,
   description, canonical, OG, robots, JSON-LD, crawler-visible body) for every
-  indexable URL. It emits both `dist/<path>.html` (Vercel `cleanUrls`) and
-  `dist/<path>/index.html` (directory index). Crawler body copy lives in a hidden
-  `#seo-prerender` sibling, never inside `#root`. `#root` stays hidden until React
-  commits, so users never see unstyled HTML before the designed UI.
-- **Analytics (GA4):** optional `VITE_GA_MEASUREMENT_ID` in `.env.local` / Vercel.
-  Implemented in `src/utils/analytics.js` + `src/components/Analytics.jsx` (SPA page
-  views on route change; `/admin/*` excluded). **Consent:** `CookieConsentBanner` +
-  `CookieConsentContext` gate GA until the user accepts; choice stored in
-  `localStorage` (`yarntrails-cookie-consent`). Footer link **Cookie preferences** reopens
-  the banner. Align copy with [Cookie Policy](legalContent) before production EU/UK traffic.
+  indexable URL as `dist/<path>/index.html` (directory index). Crawler body copy
+  lives in a hidden `#seo-prerender` sibling, never inside `#root`. `#root` stays
+  hidden until React commits, so users never see unstyled HTML before the designed
+  UI. Unprerendered client routes fall through to `index.html` via the SPA rewrite.
+- **Analytics:** first-party Insights ingest (`POST /api/analytics`) plus optional GA4
+  (`VITE_GA_MEASUREMENT_ID`). Implemented in `src/utils/analytics.js` + `src/components/Analytics.jsx`
+  (SPA page views on route change; `/admin/*` excluded). **Consent:** `CookieConsentBanner` +
+  `CookieConsentContext` gate first-party events and GA until the user accepts; choice stored in
+  `localStorage` (`yarntrails-cookie-consent`). Staff console: [`/admin/insights`](product-analytics.md).
+  Footer link **Cookie preferences** reopens the banner. Align copy with [Cookie Policy](legalContent)
+  before production EU/UK traffic.
 
 ### Search Console (after deploy)
 

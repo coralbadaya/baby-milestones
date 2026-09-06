@@ -19,9 +19,9 @@ const PUBLIC = join(ROOT, 'public');
 const MARK = join(PUBLIC, 'brand/yarntrails-mark.svg');
 
 const IVORY = '#F3F5F2';
-const TERRACOTTA = '#3F5E52'; /* trail moss */
+const SAGE = '#3F5E52';
+const HEART = '#C57A58';
 const GOLD = '#C4A35A';
-const INK = '#1E2A26';
 const MUTED = '#6B756F';
 
 const markSvg = readFileSync(MARK);
@@ -58,21 +58,16 @@ async function renderIcon(size, { background, scale = 0.78, rounded = false } = 
   return img.toBuffer();
 }
 
-function ogSvg() {
+function ogFrameSvg() {
   return Buffer.from(`
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="${IVORY}"/>
   <rect x="40" y="40" width="1120" height="550" rx="28" fill="none" stroke="${GOLD}" stroke-width="2" opacity="0.5"/>
-  <g transform="translate(468 150) scale(4.6)">
-    <circle cx="26" cy="30" r="13" fill="none" stroke="${GOLD}" stroke-width="3.5"/>
-    <path d="M18 26 C22 22 30 22 34 26" fill="none" stroke="${GOLD}" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M17.5 30 C22 34 30 34 34.5 30" fill="none" stroke="${GOLD}" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M19 34.5 C23 38 29 38 33 34.5" fill="none" stroke="${GOLD}" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M38 34 C46 36 50 42 52 50" fill="none" stroke="${TERRACOTTA}" stroke-width="4" stroke-linecap="round"/>
-    <path d="M39 26 C48 22 52 16 54 12" fill="none" stroke="${TERRACOTTA}" stroke-width="3.2" stroke-linecap="round"/>
-  </g>
-  <text x="600" y="470" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="600" fill="${INK}" letter-spacing="-1">Yarn Trails</text>
-  <text x="600" y="520" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="6" fill="${MUTED}">THE ART OF EARLY MOTHERHOOD</text>
+  <text x="600" y="470" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="600" letter-spacing="-1">
+    <tspan fill="${SAGE}">Yarn</tspan>
+    <tspan fill="${HEART}"> Trails</tspan>
+  </text>
+  <text x="600" y="520" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" letter-spacing="4" fill="${MUTED}">LITTLE MOMENTS. BIG STORIES.</text>
 </svg>`);
 }
 
@@ -121,10 +116,17 @@ async function main() {
     await renderIcon(1024, { background: { r: 243, g: 245, b: 242, alpha: 1 }, scale: 0.7 })
   );
 
-  // OG / social image
+  // OG / social image — master mark composited onto the framed wordmark
+  const ogMark = await sharp(markSvg, { density: 512 })
+    .resize(240, 240, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+    .png()
+    .toBuffer();
   writeFileSync(
     join(PUBLIC, 'og-default.png'),
-    await sharp(ogSvg()).png().toBuffer()
+    await sharp(ogFrameSvg())
+      .composite([{ input: ogMark, top: 118, left: 480 }])
+      .png()
+      .toBuffer()
   );
 
   // Editorial watermark placeholder (4:3 DIY cards, heroes, recipes)

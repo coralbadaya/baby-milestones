@@ -1,6 +1,7 @@
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import AuthForm, { AuthPageShell, AuthSwitchLink } from '../components/auth/AuthForm';
 import { isEmailVerified, useAuth } from '../context/AuthContext';
+import { trackEvent } from '../utils/analytics';
 import { isEmailNotConfirmedError } from '../utils/auth';
 import { usePageMeta } from '../utils/pageMeta';
 import { ROUTES } from '../routes';
@@ -22,6 +23,7 @@ function Login() {
   const handleSubmit = async ({ email, password }) => {
     try {
       await signIn({ email, password });
+      trackEvent('login_completed');
       navigate(from, { replace: true });
     } catch (err) {
       if (isEmailNotConfirmedError(err)) {

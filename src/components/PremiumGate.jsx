@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { interact } from '../utils/haptics';
 import { PREMIUM_FEATURE_COPY } from '../constants/premium';
 import { useAuth } from '../context/AuthContext';
+import { trackEvent } from '../utils/analytics';
 import { ROUTES } from '../routes';
 import Icon from './Icon';
 
@@ -11,6 +13,10 @@ function PremiumGate({ feature, children, compact = false }) {
     title: 'Yarn Trails Plus',
     teaser: 'Unlock the full AI baby book experience.',
   };
+
+  useEffect(() => {
+    if (!isPremium) trackEvent('gate_hit', { feature });
+  }, [isPremium, feature]);
 
   if (isPremium) {
     return children;

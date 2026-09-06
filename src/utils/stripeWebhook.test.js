@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { createHmac } from 'node:crypto';
-import { skuToInterval, verifyStripeSignature, plusUntilFromUnix } from './stripeWebhook';
+import { skuToInterval, verifyStripeSignature, plusUntilFromUnix, recordSubscribeSuccess } from './stripeWebhook';
 
 function sign(body, secret, ts = Math.floor(Date.now() / 1000)) {
   const v1 = createHmac('sha256', secret).update(`${ts}.${body}`, 'utf8').digest('hex');
@@ -32,5 +32,17 @@ describe('stripeWebhook helpers', () => {
     const secret = 'whsec_test';
     const { header } = sign(JSON.stringify({ id: 'evt_1' }), secret);
     expect(() => verifyStripeSignature(JSON.stringify({ id: 'evt_2' }), header, secret)).toThrow(/mismatch/i);
+  });
+
+  it('records subscribe_success without throwing on insert errors', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const supabase = {
+      from: () => ({
+        insert: async () => ({ error: { message: 'blocked' } }),
+      }),
+    };
+    await expect(recordSubscribeSuccess(supabase, { userId: null, sku: 'plus_annual' }))
+      .resolves.toBeUndefined();
+    warn.mockRestore();
   });
 });

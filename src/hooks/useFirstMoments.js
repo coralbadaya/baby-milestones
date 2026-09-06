@@ -7,10 +7,10 @@ import {
 import { countCapturedMoments } from '../data/firsts';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../utils/supabaseClient';
-import { ensurePrimaryBabyProfile } from '../utils/babyCloud';
 import { isDomainMerged, markDomainMerged } from '../utils/cloudMerge';
 import { createSignedUrl, uploadPrivateObject } from '../utils/storageUrl';
 import { dataUrlToBlob, fileToDataUrl, isImageFile, isVideoFile } from '../utils/firstMomentsStorage';
+import { trackEvent } from '../utils/analytics';
 
 function loadFirstMoments() {
   try {
@@ -64,9 +64,9 @@ export function useFirstMoments(babyProfileId) {
     let cancelled = false;
 
     async function sync() {
-      if (!user?.id) return;
-      const profileId = babyProfileId || (await ensurePrimaryBabyProfile(user.id))?.id;
-      if (!profileId || cancelled) return;
+      if (!user?.id || !babyProfileId) return;
+      const profileId = babyProfileId;
+      if (cancelled) return;
 
       const { data: rows, error } = await supabase
         .from('first_moments')
@@ -149,8 +149,10 @@ export function useFirstMoments(babyProfileId) {
       if (file.size > FIRST_MOMENT_CLOUD_MAX_FILE_BYTES) {
         throw new Error('File must be under 15MB. Try a shorter clip or smaller photo.');
       }
-      const profileId = babyProfileId || (await ensurePrimaryBabyProfile(user.id))?.id;
-      if (!profileId) throw new Error('Baby profile required');
+      if (!babyProfileId) {
+        throw new Error('Baby profile is still syncing. Try again in a moment.');
+      }
+      const profileId = babyProfileId;
       const ext = mediaType === 'video' ? 'webm' : 'jpg';
       const path = `${user.id}/${profileId}/${firstId}.${ext}`;
       await uploadPrivateObject(supabase, 'first-moments', path, file, file.type);
@@ -174,6 +176,7 @@ export function useFirstMoments(babyProfileId) {
         videoDataUrl: mediaType === 'video' ? url : undefined,
       };
       setFirstMoments((prev) => ({ ...prev, [firstId]: { ...prev[firstId], ...patch } }));
+      trackEvent('first_saved', { media_type: mediaType });
       return;
     }
 
@@ -186,6 +189,7 @@ export function useFirstMoments(babyProfileId) {
       videoDataUrl: mediaType === 'video' ? dataUrl : undefined,
     };
     setFirstMoments((prev) => ({ ...prev, [firstId]: { ...prev[firstId], ...patch } }));
+    trackEvent('first_saved', { media_type: mediaType });
   }, [user, babyProfileId]);
 
   const updateNote = useCallback((firstId, note) => {

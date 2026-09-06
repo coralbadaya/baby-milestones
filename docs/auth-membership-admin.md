@@ -57,6 +57,7 @@ Tables:
 | `first_moments` | Life firsts metadata (private bucket `first-moments`) |
 | `user_saved_recipes` / `user_helpful_tips` | Community saves |
 | `stripe_events` | Webhook idempotency (service role only) |
+| `analytics_events` / `analytics_daily` | Staff Insights warehouse (service-role ingest; not in `export_my_data`) |
 
 Apply locally or to remote:
 
@@ -67,7 +68,9 @@ supabase db push
 
 Migration `20250629130000_fix_rls_and_contact_insert.sql` fixes **RLS recursion** on `is_staff()` / `is_admin()` (stack depth errors) and reaffirms **anonymous contact form inserts**.
 
-Migration `20250701150000_contact_submit_rpc.sql` adds `submit_contact_form()` RPC — used by `/contact` so submissions succeed without anon SELECT on `contact_submissions`.
+Migration `20250701150000_contact_submit_rpc.sql` adds `submit_contact_form()` RPC — used by `/contact` and `/feedback` so submissions succeed without anon SELECT on `contact_submissions`.
+
+Migration `20260906061741_feedback_subjects.sql` extends the RPC subject allowlist with feedback topics (`love`, `suggestion`, `bug`, `content`, `billing`, `other`). Legacy `feedback` remains valid. Until that migration is applied, `/feedback` retries as subject `feedback` with the topic in the message.
 
 ### Bootstrap first admin
 
@@ -91,18 +94,19 @@ update public.profiles set role = 'admin' where id = (
 | `src/components/auth/OtpVerifyForm.jsx` | 6-digit OTP entry + resend |
 | `src/components/auth/RequireRole.jsx` | Staff/admin guard |
 | `src/pages/Login.jsx`, `SignUp.jsx`, `VerifyEmail.jsx` | Auth pages |
-| `src/pages/admin/*` | Admin center (overview, inbox, users, promos, newsletter, DIY images) |
+| `src/pages/admin/*` | Admin center (overview, insights, inbox, users, promos, newsletter, DIY images) |
 
-Routes: `/login`, `/signup`, `/verify-email`, `/account`, `/admin`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/newsletter`, `/admin/diy`, `/newsletter/unsubscribe`.
+Routes: `/login`, `/signup`, `/verify-email`, `/account`, `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/newsletter`, `/admin/diy`, `/newsletter/unsubscribe`.
 
 ### Admin UI
 
 - Professional ops portal spec: [`docs/admin-portal-design.md`](admin-portal-design.md) — dark sidebar shell, theme tokens, component patterns.
 - Phased implementation plan: [`docs/admin-portal-plan.md`](admin-portal-plan.md) — tasks, acceptance criteria, status by phase.
 - Implementation skill + copy-paste prompt: [`.cursor/skills/admin-portal/SKILL.md`](../.cursor/skills/admin-portal/SKILL.md).
-- Current shell: full-width layout in `AdminLayout.jsx`; styles migrating to `src/styles/admin-portal.css`.
+- Current shell: full-width layout in `AdminLayout.jsx`; styles in `src/styles/admin-portal.css`.
+- Insights: [`docs/product-analytics.md`](product-analytics.md) — first-party events, 30-day IP then hash, staff RPCs.
 - Main content panel is elevated white; tables use muted headers and highlight **new** inbox rows.
-- Contact subjects display human-readable labels (shared with `/contact` form).
+- Contact subjects display human-readable labels (shared with `/contact` and `/feedback`).
 
 ## Email verification (OTP)
 

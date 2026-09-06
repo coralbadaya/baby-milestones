@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildCanonicalUrl, isCanonicalProductionUrl, normalizePath } from './urls.js';
 import { formatPageTitle, buildPageMetadata, ROBOTS_INDEX, ROBOTS_NOINDEX } from './metadata.js';
-import { getIndexableEntries, isNonIndexablePath, INDEXABLE_STATIC_PAGES } from './routes.js';
+import { getIndexableEntries, isNonIndexablePath, INDEXABLE_STATIC_PAGES, SPA_SHELL_PAGES } from './routes.js';
 import { buildSitemapDocuments, sanitizeSitemapEntries, buildUrlsetXml } from './sitemap.js';
 import { buildRobotsTxt } from './robots.js';
 import { applySeoToHtml } from './prerenderHtml.js';
@@ -50,6 +50,8 @@ describe('indexable inventory', () => {
     const paths = entries.map((e) => e.path);
     expect(paths).toContain('/');
     expect(paths).toContain('/about');
+    expect(paths).toContain('/contact');
+    expect(paths).toContain('/feedback');
     expect(paths).toContain('/guides/3-month-old-milestones');
     expect(paths).toContain('/month/1');
     expect(paths).toContain('/community/recipes');
@@ -131,6 +133,20 @@ describe('robots.txt', () => {
     expect(txt).not.toContain('Disallow: /guides');
     expect(txt).not.toContain('Disallow: /assets');
     expect(txt).not.toContain('Disallow: /css');
+  });
+});
+
+describe('SPA shells', () => {
+  it('covers login and admin without putting them in the sitemap', () => {
+    const paths = SPA_SHELL_PAGES.map((page) => page.path);
+    expect(paths).toContain('/login');
+    expect(paths).toContain('/admin');
+    expect(paths).toContain('/account');
+    const sitemapPaths = getIndexableEntries([], []).map((entry) => entry.path);
+    for (const path of paths) {
+      expect(isNonIndexablePath(path)).toBe(true);
+      expect(sitemapPaths).not.toContain(path);
+    }
   });
 });
 

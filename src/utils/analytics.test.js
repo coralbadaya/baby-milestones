@@ -1,21 +1,29 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+vi.mock('./analyticsIngest.js', () => ({
+  ingestAnalyticsEvent: vi.fn(),
+}));
+
 describe('analytics', () => {
   afterEach(() => {
     vi.unstubAllEnvs();
+    vi.clearAllMocks();
     delete globalThis.window?.gtag;
     delete globalThis.window?.dataLayer;
   });
 
-  it('is disabled when measurement ID is unset', async () => {
+  it('is disabled for GA when measurement ID is unset but still ingests', async () => {
     vi.stubEnv('VITE_GA_MEASUREMENT_ID', '');
     vi.resetModules();
     const { isAnalyticsEnabled, trackPageView } = await import('./analytics.js');
+    const { ingestAnalyticsEvent } = await import('./analyticsIngest.js');
+    globalThis.window = globalThis.window || {};
     expect(isAnalyticsEnabled()).toBe(false);
     expect(() => trackPageView('/')).not.toThrow();
+    expect(ingestAnalyticsEvent).toHaveBeenCalledWith('page_view', {}, { path: '/' });
   });
 
-  it('tracks page views when enabled', async () => {
+  it('tracks page views when GA is enabled', async () => {
     vi.stubEnv('VITE_GA_MEASUREMENT_ID', 'G-TEST123');
     vi.resetModules();
     const { trackPageView } = await import('./analytics.js');
@@ -35,10 +43,11 @@ describe('analytics', () => {
     }]);
   });
 
-  it('skips admin routes', async () => {
+  it('skips admin routes for GA and ingest', async () => {
     vi.stubEnv('VITE_GA_MEASUREMENT_ID', 'G-TEST123');
     vi.resetModules();
     const { trackPageView } = await import('./analytics.js');
+    const { ingestAnalyticsEvent } = await import('./analyticsIngest.js');
 
     globalThis.window = globalThis.window || {};
     const calls = [];
@@ -46,5 +55,6 @@ describe('analytics', () => {
 
     trackPageView('/admin/inbox');
     expect(calls).toHaveLength(0);
+    expect(ingestAnalyticsEvent).not.toHaveBeenCalled();
   });
 });

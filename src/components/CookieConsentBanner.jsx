@@ -32,14 +32,16 @@ function CookieConsentBanner() {
           <p id="cookie-consent-desc" className="cookie-consent-desc">
             {isUpdating ? (
               <>
-                Choose whether Yarn Trails may use optional analytics cookies to understand aggregate
-                usage. Essential storage for your entries always stays on your device.
+                Choose whether Yarn Trails may collect first-party usage analytics (and optional
+                Google Analytics, when configured) to understand aggregate product use. Essential
+                storage for your entries always stays on your device. We do not sell this data.
               </>
             ) : (
               <>
                 We use essential storage so the app works on your device. With your permission,
-                we also use Google Analytics for anonymous, aggregate usage insights — helpful
-                for EU/UK visitors and anyone who prefers an opt-in choice.
+                we also collect first-party operational analytics for staff (page views and key
+                product events; IP kept 30 days then hashed). Google Analytics may load as well
+                when configured. We do not sell this data.
                 {' '}
                 <Link to={ROUTES.cookies} className="cookie-consent-link">Cookie Policy</Link>
               </>

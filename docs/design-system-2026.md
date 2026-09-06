@@ -222,7 +222,7 @@ Display headings use `letter-spacing: -0.02em`.
 
 ### Mark
 
-**"N" monogram cradling a golden bean** (the baby in the nest): two terracotta (`--coral-primary`) stems + diagonal form the N; a honey-gold (`--gold-dark`) bean with a small head rests in the cradle. Legible at 16px.
+**"Yarn ball and heart trail"** — sage moss yarn (`--coral-primary`) with winding strands; a terracotta thread (`--brand-heart`) forms a heart. Legible at 32px; 16px favicon keeps the circle + heart.
 
 | Asset | Path |
 |-------|------|

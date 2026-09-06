@@ -32,6 +32,7 @@ export const ROUTES = {
   // Company / trust
   about: '/about',
   contact: '/contact',
+  feedback: '/feedback',
   editorialPolicy: '/editorial-policy',
   reviewers: '/medical-reviewers',
 
@@ -50,6 +51,7 @@ export const ROUTES = {
 
   // Admin (staff / admin roles)
   admin: '/admin',
+  adminInsights: '/admin/insights',
   adminInbox: '/admin/inbox',
   adminUsers: '/admin/users',
   adminPromos: '/admin/promos',
@@ -123,6 +125,7 @@ export const FOOTER_SECTIONS = [
       { to: ROUTES.reviewers, label: 'Medical Reviewers' },
       { to: ROUTES.sources, label: 'Sources & Citations' },
       { to: ROUTES.contact, label: 'Contact' },
+      { to: ROUTES.feedback, label: 'Feedback' },
       { to: ROUTES.premium, label: 'Premium' },
     ],
   },

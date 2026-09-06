@@ -8,6 +8,7 @@ import {
   mergeBabyIdentity,
 } from '../utils/cloudMerge';
 import { loadStoredBabyName, saveStoredBabyName } from '../utils/babyName';
+import { trackEvent } from '../utils/analytics';
 
 const BabyIdentityContext = createContext(null);
 
@@ -58,7 +59,7 @@ function useBabyIdentityState() {
               })
               .eq('id', profile.id);
           }
-          setBirthDateState(merged.birthDate || '');
+          setBirthDateState(merged.birthDate || profile.birth_date || '');
           if (merged.name && merged.name !== 'Baby') setBabyNameState(merged.name);
           markDomainMerged(user.id, 'identity');
         } else {
@@ -81,17 +82,32 @@ function useBabyIdentityState() {
   }, [user?.id, authLoading]);
 
   const persistProfile = useCallback(async (patch) => {
-    if (!user?.id || !babyProfileId) return;
-    await supabase
-      .from('baby_profiles')
-      .update({ ...patch, updated_at: new Date().toISOString() })
-      .eq('id', babyProfileId);
-  }, [user?.id, babyProfileId]);
+    if (!user?.id) return;
+    try {
+      let id = babyProfileId;
+      if (!id) {
+        const profile = await ensurePrimaryBabyProfile(user.id, {
+          name: babyName,
+          birthDate,
+        });
+        id = profile?.id || null;
+        if (id) setBabyProfileId(id);
+      }
+      if (!id) return;
+      await supabase
+        .from('baby_profiles')
+        .update({ ...patch, updated_at: new Date().toISOString() })
+        .eq('id', id);
+    } catch {
+      /* keep local */
+    }
+  }, [user?.id, babyProfileId, babyName, birthDate]);
 
   const setBirthDate = useCallback((value) => {
     const next = typeof value === 'function' ? value(birthDate) : value;
     setBirthDateState(next);
     persistProfile({ birth_date: next || null });
+    if (next) trackEvent('birth_date_set');
   }, [birthDate, persistProfile]);
 
   const setBabyName = useCallback((value) => {

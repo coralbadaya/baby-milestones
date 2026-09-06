@@ -9,6 +9,7 @@ import { COMMUNITY_TAGLINE } from '../constants/brand';
 import { usePageMeta } from '../utils/pageMeta';
 import { COMMUNITY_CREATE_META, getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
+import { trackEvent } from '../utils/analytics';
 import { useMemories } from '../hooks/useMemories';
 import { useCommunityRecipes } from '../hooks/useCommunityRecipes';
 import { useCommunityTips } from '../hooks/useCommunityTips';
@@ -68,6 +69,10 @@ function Community({ currentMonth, tab }) {
   } = useMemories();
   const { recipes, loading: recipesLoading } = useCommunityRecipes();
   const { tips, loading: tipsLoading } = useCommunityTips();
+
+  useEffect(() => {
+    if (tab) trackEvent('community_tab', { tab });
+  }, [tab]);
 
   useEffect(() => {
     if (tab !== 'create') clearSubmitStatus();

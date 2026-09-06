@@ -1,10 +1,17 @@
 /** @typedef {Record<string, string | number | boolean | undefined>} AnalyticsParams */
 
+import { ingestAnalyticsEvent } from './analyticsIngest';
+
 const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
 /** @returns {boolean} */
 export function isAnalyticsEnabled() {
   return typeof GA_ID === 'string' && GA_ID.trim().length > 0;
+}
+
+/** First-party Insights ingest is always available; GA is optional. */
+export function isFirstPartyAnalyticsEnabled() {
+  return true;
 }
 
 /** @returns {string | undefined} */
@@ -41,9 +48,12 @@ export function initAnalytics() {
  * @param {string} [title]
  */
 export function trackPageView(path, title) {
-  if (!isAnalyticsEnabled() || typeof window === 'undefined' || !window.gtag) return;
+  if (typeof window === 'undefined') return;
   if (path.startsWith('/admin')) return;
 
+  ingestAnalyticsEvent('page_view', {}, { path });
+
+  if (!isAnalyticsEnabled() || !window.gtag) return;
   window.gtag('event', 'page_view', {
     page_path: path,
     page_title: title || document.title,
@@ -51,11 +61,13 @@ export function trackPageView(path, title) {
 }
 
 /**
- * Track a custom GA4 event.
+ * Track a custom event (GA4 when configured + first-party ingest).
  * @param {string} name
  * @param {AnalyticsParams} [params]
  */
 export function trackEvent(name, params = {}) {
-  if (!isAnalyticsEnabled() || typeof window === 'undefined' || !window.gtag) return;
+  if (typeof window === 'undefined') return;
+  ingestAnalyticsEvent(name, params);
+  if (!isAnalyticsEnabled() || !window.gtag) return;
   window.gtag('event', name, params);
 }
