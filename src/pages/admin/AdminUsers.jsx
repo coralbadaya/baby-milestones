@@ -7,7 +7,7 @@ import AdminPanel from '../../components/admin/AdminPanel';
 import AdminToolbar from '../../components/admin/AdminToolbar';
 import Select from '../../components/Select';
 import { useAuth } from '../../context/AuthContext';
-import { ROUTES } from '../../routes';
+import { formatAdminDateTime } from '../../utils/adminFormat';
 import { supabase } from '../../utils/supabaseClient';
 import { interact } from '../../utils/haptics';
 
@@ -27,36 +27,37 @@ const STATUS_OPTIONS = [
 
 const USER_COLUMNS = [
   { key: 'name', header: 'Name' },
-  { key: 'id', header: 'User ID' },
+  { key: 'email', header: 'Email' },
   { key: 'role', header: 'Role' },
   { key: 'membership', header: 'Membership' },
-  { key: 'joined', header: 'Joined' },
+  { key: 'joined', header: 'Joined', className: 'admin-cell-date' },
+  { key: 'lastLogin', header: 'Last login', className: 'admin-cell-date' },
 ];
 
 function AdminUsers() {
   const { isAdmin } = useAuth();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
 
   const load = useCallback(async () => {
     setLoading(true);
-    const { data: profiles, error } = await supabase
-      .from('profiles')
-      .select('id, display_name, role, created_at')
-      .order('created_at', { ascending: false })
-      .limit(200);
+    setError(null);
 
-    if (error || !profiles) {
+    const { data: profiles, error: listError } = await supabase.rpc('admin_list_users');
+
+    if (listError || !profiles) {
+      setRows([]);
+      setError(listError?.message || 'Could not load users.');
       setLoading(false);
       return;
     }
 
     const ids = profiles.map((p) => p.id);
-    const { data: memberships } = await supabase
-      .from('memberships')
-      .select('*')
-      .in('user_id', ids);
+    const { data: memberships } = ids.length
+      ? await supabase.from('memberships').select('*').in('user_id', ids)
+      : { data: [] };
 
     const memMap = Object.fromEntries((memberships || []).map((m) => [m.user_id, m]));
 
@@ -69,7 +70,9 @@ function AdminUsers() {
   const filtered = rows.filter((r) => {
     if (!query.trim()) return true;
     const q = query.toLowerCase();
-    return (r.display_name || '').toLowerCase().includes(q) || r.id.includes(q);
+    return (r.display_name || '').toLowerCase().includes(q)
+      || (r.email || '').toLowerCase().includes(q)
+      || r.id.includes(q);
   });
 
   const updateRole = async (userId, role) => {
@@ -97,8 +100,14 @@ function AdminUsers() {
     switch (col.key) {
       case 'name':
         return row.display_name || '—';
-      case 'id':
-        return <span className="admin-mono">{row.id.slice(0, 8)}…</span>;
+      case 'email':
+        return row.email ? (
+          <a href={`mailto:${row.email}`} className="admin-users-email" title={row.id}>
+            {row.email}
+          </a>
+        ) : (
+          '—'
+        );
       case 'role':
         return isAdmin ? (
           <Select
@@ -122,7 +131,19 @@ function AdminUsers() {
           row.membership?.status || 'free'
         );
       case 'joined':
-        return new Date(row.created_at).toLocaleDateString();
+        return (
+          <time dateTime={row.created_at || undefined}>
+            {formatAdminDateTime(row.created_at)}
+          </time>
+        );
+      case 'lastLogin':
+        return row.last_sign_in_at ? (
+          <time dateTime={row.last_sign_in_at}>
+            {formatAdminDateTime(row.last_sign_in_at)}
+          </time>
+        ) : (
+          '—'
+        );
       default:
         return null;
     }
@@ -135,8 +156,12 @@ function AdminUsers() {
         <span className="admin-card-value">{row.display_name || '—'}</span>
       </div>
       <div className="admin-card-row">
-        <span className="admin-card-label">User ID</span>
-        <span className="admin-card-value admin-mono">{row.id.slice(0, 8)}…</span>
+        <span className="admin-card-label">Email</span>
+        <span className="admin-card-value">
+          {row.email ? (
+            <a href={`mailto:${row.email}`} className="admin-users-email">{row.email}</a>
+          ) : '—'}
+        </span>
       </div>
       <div className="admin-card-row">
         <span className="admin-card-label">Role</span>
@@ -148,7 +173,11 @@ function AdminUsers() {
       </div>
       <div className="admin-card-row">
         <span className="admin-card-label">Joined</span>
-        <span className="admin-card-value">{new Date(row.created_at).toLocaleDateString()}</span>
+        <span className="admin-card-value">{formatAdminDateTime(row.created_at)}</span>
+      </div>
+      <div className="admin-card-row">
+        <span className="admin-card-label">Last login</span>
+        <span className="admin-card-value">{formatAdminDateTime(row.last_sign_in_at)}</span>
       </div>
     </>
   );
@@ -157,7 +186,7 @@ function AdminUsers() {
     <div className="admin-page">
       <AdminPageHeader
         title="Users"
-        description="Search profiles, roles, and membership status."
+        description="Search profiles, emails, roles, and membership status."
       />
 
       <AdminToolbar
@@ -165,7 +194,7 @@ function AdminUsers() {
           <input
             type="search"
             className="admin-search"
-            placeholder="Search by name or ID"
+            placeholder="Search by name or email"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -175,6 +204,8 @@ function AdminUsers() {
 
       {loading ? (
         <AdminLoading variant="table" message="Loading users…" />
+      ) : error ? (
+        <AdminEmpty message={error} />
       ) : filtered.length === 0 ? (
         <AdminEmpty message={query.trim() ? 'No users match your search.' : 'No users found.'} />
       ) : (

@@ -157,7 +157,7 @@
 ### 3.3 Users (`AdminUsers.jsx`)
 
 - [x] `AdminPageHeader` + search input in `AdminToolbar`
-- [x] Table: display name, email, role, membership status, created date
+- [x] Table: display name, email, role, membership status, joined datetime, last login
 - [x] Role/membership edits admin-only (`isAdmin` guard — existing logic preserved)
 - [x] Mobile: stacked user cards
 

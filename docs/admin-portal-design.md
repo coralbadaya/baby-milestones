@@ -213,7 +213,7 @@ Contact form submissions from visitors.
 |------|--------|-----------------|-------|
 | Overview | Dashboard | — | Stat grid + quick links |
 | Inbox | Inbox | Refresh | Status filter; highlight `new` |
-| Users | Users | Search | Role + membership columns |
+| Users | Users | Search | Name, email, role, membership, joined, last login |
 | Promo codes | Promo codes | Create code | Inline form + table |
 | Newsletter | Newsletter | New campaign | Tabs: Campaigns · Compose · Templates · Subscribers |
 | DIY images | DIY images | Upload | Thumbnail grid, pagination |
