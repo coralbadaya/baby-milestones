@@ -18,15 +18,17 @@ Baby milestone tracker and mom care (React + Vite). Use this file for **fast age
 
 - **Frontend:** React 19, Vite 8, Vitest, React Router 7
 - **Backend:** Supabase (auth, Postgres, storage)
-- **Hosting:** Vercel
+- **Hosting:** Vercel (GitHub `main` → production). Team **nestmile**, project **baby-milestones**, domain yarntrails.com.
 - **Brand:** Yarn Trails — `src/constants/brand.js`
+
+**Deploy:** commit + `git push origin main`. Do not `vercel deploy --prod` unless explicitly asked. Never enable `cleanUrls` in `vercel.json` (it 404s `/admin`, `/login`, `/account`).
 
 ---
 
 ## Commands
 
 ```bash
-npm run dev              # local dev
+npm run dev              # local dev (Vite also serves POST /api/analytics)
 npm test                 # unit tests (excludes integration)
 npm run test:it          # Supabase integration (migration + seed required)
 npm run verify:data      # milestone + mom-milestone integrity
@@ -107,6 +109,18 @@ Full list: [`memory.md`](memory.md#localstorage-keys)
 | `src/components/AssistantPanel.jsx` | UI on Home + Month Detail |
 
 **Extend KB:** update `memory.md`, `assistantResponses.js`, `assistantMatch.js`, `assistantMatch.test.js` — see [`.cursor/rules/claude.mdc`](.cursor/rules/claude.mdc)
+
+### Staff Insights
+
+| File | Role |
+|------|------|
+| `src/pages/admin/AdminInsights.jsx` | Staff dashboard (`/admin/insights`) |
+| `api/analytics.js` | Consented event ingest (`POST /api/analytics`) |
+| `api/analytics-rollup.js` | Daily rollup + IP scrub cron |
+| `scripts/vite-dev-api.mjs` | Local Vite middleware so `/api/analytics` works in `npm run dev` |
+| `docs/product-analytics.md` | Event list, retention, env vars |
+
+Parents never see Insights. Ingest skips `/admin`. Server secrets: `SUPABASE_SERVICE_ROLE_KEY`, `ANALYTICS_IP_SALT`, `CRON_SECRET` (never `VITE_`).
 
 ### Auth & membership
 

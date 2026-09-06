@@ -41,6 +41,19 @@
 - **Auth** — Email + password signup with **OTP verification** before session
 - **Premium** — Early-access membership, promo codes, teaser gates
 - **Admin** — Staff console: overview, insights, inbox, users, promos, DIY images, newsletter (`/admin/*`)
+- **Insights** — Staff-only first-party analytics at `/admin/insights` (parents never see it). Spec: [`docs/product-analytics.md`](docs/product-analytics.md)
+
+---
+
+## Production
+
+Live site: [yarntrails.com](https://yarntrails.com)
+
+**Deploy with Git only.** Commit locally, then `git push` to `main` on `coralbadaya/baby-milestones`. Vercel (team **nestmile**, project **baby-milestones**) builds that commit. Do not use `vercel deploy --prod` unless someone explicitly asks for a CLI deploy.
+
+SPA routes such as `/admin`, `/login`, and `/account` must rewrite to `index.html`. Keep `cleanUrls` **off** in `vercel.json` — turning it on 404s those URLs on Vercel.
+
+Staff login credentials: [`docs/development-workflow.md`](docs/development-workflow.md).
 
 ---
 
@@ -48,7 +61,7 @@
 
 ```bash
 npm install
-npm run dev          # http://localhost:5173
+npm run dev          # http://localhost:5173 (also serves POST /api/analytics)
 npm test             # unit tests
 npm run test:it      # Supabase integration tests
 npm run verify:data  # milestone + mom-milestone data integrity
@@ -75,6 +88,7 @@ Full index: [`.cursor/rules/coral.mdc`](.cursor/rules/coral.mdc)
 - [`docs/development-workflow.md`](docs/development-workflow.md) — beginner workflow, login credentials
 - [`docs/auth-membership-admin.md`](docs/auth-membership-admin.md) — Supabase auth, OTP, membership, admin
 - [`docs/admin-portal-design.md`](docs/admin-portal-design.md) — staff console layout & theme
+- [`docs/product-analytics.md`](docs/product-analytics.md) — staff Insights events, ingest, retention
 - [`docs/information-architecture.md`](docs/information-architecture.md) — nav order, page hierarchy
 - [`docs/brand-identity.md`](docs/brand-identity.md) — logo, palette, SEO assets
 - [`memory.md`](memory.md) — file map, localStorage keys, parenting assistant KB
@@ -84,7 +98,7 @@ Full index: [`.cursor/rules/coral.mdc`](.cursor/rules/coral.mdc)
 
 ## Stack
 
-React 19 · Vite 8 · Vitest · React Router 7 · Supabase (auth, Postgres, storage) · Vercel (hosting)
+React 19 · Vite 8 · Vitest · React Router 7 · Supabase (auth, Postgres, storage) · Vercel (hosting; GitHub → production)
 
 Brand source of truth: `src/constants/brand.js`
 
