@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Select from '../../Select';
 import AdminBadge from '../AdminBadge';
 import AdminDataTable from '../AdminDataTable';
@@ -7,6 +8,7 @@ import AdminPanel from '../AdminPanel';
 import AdminTagPicker from '../AdminTagPicker';
 import AdminToolbar from '../AdminToolbar';
 import { rowToTip } from '../../../utils/community';
+import { communityItemPath } from '../../../utils/communityUrls';
 import { TIP_SUGGESTED_TAGS } from './tipTagSuggestions';
 
 const TIP_CATEGORIES = [
@@ -127,25 +129,36 @@ function AdminCommunityTipsTab({
           </AdminBadge>
         );
       case 'actions':
-        if (!isAdmin) return null;
         return (
           <div className="admin-actions">
-            <button type="button" className="admin-btn admin-btn--ghost admin-btn--sm" onClick={() => openEdit(row)}>Edit</button>
-            <button type="button" className="admin-btn admin-btn--ghost admin-btn--sm" onClick={() => onTogglePublish(row.id, !row.published)}>
-              {row.published ? 'Unpublish' : 'Publish'}
-            </button>
-            <button type="button" className="admin-btn admin-btn--ghost admin-btn--sm" onClick={() => onToggleFeatured(row.id, !row.featured)}>
-              {row.featured ? 'Unfeature' : 'Feature'}
-            </button>
-            <button
-              type="button"
-              className="admin-btn admin-btn--danger admin-btn--sm"
-              onClick={() => {
-                if (window.confirm(`Delete tip “${row.title}”?`)) onDelete(row.id);
-              }}
+            <Link
+              to={communityItemPath('tips', row.id)}
+              className="admin-btn admin-btn--ghost admin-btn--sm"
+              target="_blank"
+              rel="noreferrer"
             >
-              Delete
-            </button>
+              View live
+            </Link>
+            {isAdmin ? (
+              <>
+                <button type="button" className="admin-btn admin-btn--ghost admin-btn--sm" onClick={() => openEdit(row)}>Edit</button>
+                <button type="button" className="admin-btn admin-btn--ghost admin-btn--sm" onClick={() => onTogglePublish(row.id, !row.published)}>
+                  {row.published ? 'Unpublish' : 'Publish'}
+                </button>
+                <button type="button" className="admin-btn admin-btn--ghost admin-btn--sm" onClick={() => onToggleFeatured(row.id, !row.featured)}>
+                  {row.featured ? 'Unfeature' : 'Feature'}
+                </button>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--danger admin-btn--sm"
+                  onClick={() => {
+                    if (window.confirm(`Delete tip “${row.title}”?`)) onDelete(row.id);
+                  }}
+                >
+                  Delete
+                </button>
+              </>
+            ) : null}
           </div>
         );
       default:
@@ -261,6 +274,16 @@ function AdminCommunityTipsTab({
                 </label>
               </div>
               <div className="admin-modal-actions">
+                {form.id ? (
+                  <Link
+                    to={communityItemPath('tips', form.id)}
+                    className="admin-btn admin-btn--ghost"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View live
+                  </Link>
+                ) : null}
                 <button type="button" className="admin-btn admin-btn--ghost" onClick={() => setEditorOpen(false)}>Cancel</button>
                 <button type="submit" className="admin-btn admin-btn--primary" disabled={saving}>{saving ? 'Saving…' : 'Save tip'}</button>
               </div>

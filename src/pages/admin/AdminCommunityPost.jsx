@@ -13,6 +13,7 @@ import {
 } from '../../components/admin/community/communityAdminHelpers';
 import { useAuth } from '../../context/AuthContext';
 import { ROUTES } from '../../routes';
+import { communityItemPath, communityItemUrl, memoryPublicSlug } from '../../utils/communityUrls';
 import { MEMORY_TYPES } from '../../utils/communityHelpers';
 import {
   deleteMemory,
@@ -75,6 +76,7 @@ function AdminCommunityPost() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [notice, setNotice] = useState(null);
+  const [copiedUrl, setCopiedUrl] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [commentDraft, setCommentDraft] = useState({ text: '', author_name: '' });
 
@@ -113,6 +115,21 @@ function AdminCommunityPost() {
     () => (post ? formatReactions(post.reactions) : null),
     [post],
   );
+
+  const publicSlug = post ? memoryPublicSlug(post) : '';
+  const publicPath = publicSlug ? communityItemPath('feed', publicSlug) : ROUTES.communityTab('feed');
+  const publicUrl = publicSlug ? communityItemUrl('feed', publicSlug) : communityItemUrl('feed');
+
+  const copyPublicUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(publicUrl);
+      interact('check', 'success');
+      setCopiedUrl(true);
+      window.setTimeout(() => setCopiedUrl(false), 2000);
+    } catch {
+      interact('tap', 'error');
+    }
+  };
 
   const setField = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -267,12 +284,12 @@ function AdminCommunityPost() {
               Back to list
             </Link>
             <Link
-              to={ROUTES.communityTab('feed')}
+              to={publicPath}
               className="admin-btn admin-btn--ghost"
               target="_blank"
               rel="noreferrer"
             >
-              View feed
+              View public post
             </Link>
             {isAdmin ? (
               <button
@@ -511,6 +528,30 @@ function AdminCommunityPost() {
                 <dt>Post ID</dt>
                 <dd className="admin-mono">{post.id}</dd>
               </div>
+              {publicSlug ? (
+                <div>
+                  <dt>Public URL</dt>
+                  <dd>
+                    <div className="admin-public-url">
+                      <a href={publicPath} target="_blank" rel="noreferrer" className="admin-mono">
+                        {publicUrl}
+                      </a>
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn--ghost admin-btn--sm"
+                        onClick={copyPublicUrl}
+                      >
+                        {copiedUrl ? 'Copied' : 'Copy'}
+                      </button>
+                    </div>
+                    {post.status !== 'published' ? (
+                      <p className="admin-muted admin-public-url-note">
+                        Not on the public feed until published.
+                      </p>
+                    ) : null}
+                  </dd>
+                </div>
+              ) : null}
               {post.legacy_id ? (
                 <div>
                   <dt>Legacy ID</dt>

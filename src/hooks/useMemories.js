@@ -88,10 +88,7 @@ async function fetchPublishedMemories() {
   }
 
   return rows.map((row) => {
-    const memory = rowToMemory(
-      { ...row, id: row.legacy_id || row.id },
-      byMemory[row.id] || [],
-    );
+    const memory = rowToMemory(row, byMemory[row.id] || []);
     memory._dbId = row.id;
     memory._fromSupabase = true;
     return memory;

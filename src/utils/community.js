@@ -1,3 +1,5 @@
+import { memoryPublicSlug } from './communityUrls';
+
 /** @typedef {import('../types/community').Recipe} Recipe */
 /** @typedef {import('../types/community').ParentingTip} ParentingTip */
 /** @typedef {import('../types/community').Memory} Memory */
@@ -99,7 +101,7 @@ export function rowToMemory(row, comments = []) {
     : { heart: 0, celebrate: 0, support: 0 };
 
   return {
-    id: row.legacy_id || row.id,
+    id: memoryPublicSlug(row),
     type: row.type,
     title: row.title,
     content: row.content,

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Select from '../../Select';
 import AdminBadge from '../AdminBadge';
 import AdminDataTable from '../AdminDataTable';
@@ -6,6 +7,7 @@ import AdminEmpty from '../AdminEmpty';
 import AdminPanel from '../AdminPanel';
 import AdminToolbar from '../AdminToolbar';
 import { rowToRecipe } from '../../../utils/community';
+import { communityItemPath } from '../../../utils/communityUrls';
 import { splitLines } from './communityAdminHelpers';
 
 const MEAL_TYPES = [
@@ -141,33 +143,44 @@ function AdminCommunityRecipesTab({
           </AdminBadge>
         );
       case 'actions':
-        if (!isAdmin) return null;
         return (
           <div className="admin-actions">
-            <button type="button" className="admin-btn admin-btn--ghost admin-btn--sm" onClick={() => openEdit(row)}>Edit</button>
-            <button
-              type="button"
+            <Link
+              to={communityItemPath('recipes', row.id)}
               className="admin-btn admin-btn--ghost admin-btn--sm"
-              onClick={() => onTogglePublish(row.id, !row.published)}
+              target="_blank"
+              rel="noreferrer"
             >
-              {row.published ? 'Unpublish' : 'Publish'}
-            </button>
-            <button
-              type="button"
-              className="admin-btn admin-btn--ghost admin-btn--sm"
-              onClick={() => onToggleFeatured(row.id, !row.featured)}
-            >
-              {row.featured ? 'Unfeature' : 'Feature'}
-            </button>
-            <button
-              type="button"
-              className="admin-btn admin-btn--danger admin-btn--sm"
-              onClick={() => {
-                if (window.confirm(`Delete recipe “${row.title}”?`)) onDelete(row.id);
-              }}
-            >
-              Delete
-            </button>
+              View live
+            </Link>
+            {isAdmin ? (
+              <>
+                <button type="button" className="admin-btn admin-btn--ghost admin-btn--sm" onClick={() => openEdit(row)}>Edit</button>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--ghost admin-btn--sm"
+                  onClick={() => onTogglePublish(row.id, !row.published)}
+                >
+                  {row.published ? 'Unpublish' : 'Publish'}
+                </button>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--ghost admin-btn--sm"
+                  onClick={() => onToggleFeatured(row.id, !row.featured)}
+                >
+                  {row.featured ? 'Unfeature' : 'Feature'}
+                </button>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--danger admin-btn--sm"
+                  onClick={() => {
+                    if (window.confirm(`Delete recipe “${row.title}”?`)) onDelete(row.id);
+                  }}
+                >
+                  Delete
+                </button>
+              </>
+            ) : null}
           </div>
         );
       default:
@@ -315,6 +328,16 @@ function AdminCommunityRecipesTab({
                 </label>
               </div>
               <div className="admin-modal-actions">
+                {form.id ? (
+                  <Link
+                    to={communityItemPath('recipes', form.id)}
+                    className="admin-btn admin-btn--ghost"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View live
+                  </Link>
+                ) : null}
                 <button type="button" className="admin-btn admin-btn--ghost" onClick={() => setEditorOpen(false)}>Cancel</button>
                 <button type="submit" className="admin-btn admin-btn--primary" disabled={saving}>
                   {saving ? 'Saving…' : 'Save recipe'}

@@ -165,6 +165,7 @@
 - [x] Share options: WhatsApp, Twitter/X, Facebook, Copy Link
 - [x] **Icon-first row** (Phosphor brand logos + Link/Check); 44px circular buttons; optional section label
 - [x] Used on recipe modal, memory cards, and expanded tip cards
+- [x] Share URL is the item permalink (`/community/feed/:slug`, `/community/recipes/:id`, `/community/tips/:id`), not the tab URL
 
 ### 5.2b Recipe modal header (editorial)
 - [x] `RecipeMetaChips` — prep time + age shown **once** in modal header (not duplicated in body)
@@ -182,6 +183,7 @@
 - [x] Comments persist in localStorage
 - [x] Share button opens native share sheet on mobile
 - [x] Shared links include preview text
+- [x] Opening `/community/feed/:slug` highlights that memory; recipe/tip permalinks open or expand the item
 
 ---
 

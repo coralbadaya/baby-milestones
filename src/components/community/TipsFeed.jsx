@@ -1,10 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TipCard from './TipCard';
 import TagFilterBar from './TagFilterBar';
 import Icon from '../Icon';
 import { useHelpfulTips } from '../../hooks/useHelpfulTips';
 import { AGE_FILTERS, tipMatchesAge } from '../../utils/tipFilters';
 import { buildTagOptions, matchesTag } from '../../utils/tagFilters';
+import { ROUTES } from '../../routes';
+import { communityItemPath } from '../../utils/communityUrls';
 
 const CATEGORIES = [
   { id: 'all', label: 'All' },
@@ -14,10 +17,12 @@ const CATEGORIES = [
   { id: 'play', label: 'Play' },
 ];
 
-function TipsFeed({ tips }) {
+function TipsFeed({ tips, itemId }) {
+  const navigate = useNavigate();
   const [category, setCategory] = useState('all');
   const [ageFilter, setAgeFilter] = useState('all');
   const [tagFilter, setTagFilter] = useState('all');
+  const [expandedId, setExpandedId] = useState(itemId || null);
   const { markHelpful, getCount } = useHelpfulTips();
 
   const tagOptions = useMemo(
@@ -35,6 +40,33 @@ function TipsFeed({ tips }) {
   }, [tips, category, ageFilter, tagFilter]);
 
   const hasFilters = category !== 'all' || ageFilter !== 'all' || tagFilter !== 'all';
+
+  useEffect(() => {
+    setExpandedId(itemId || null);
+  }, [itemId]);
+
+  useEffect(() => {
+    if (!itemId) return;
+    const match = tips.find((t) => t.id === itemId);
+    if (!match) return;
+    if (!filtered.some((t) => t.id === match.id)) {
+      setCategory('all');
+      setAgeFilter('all');
+      setTagFilter('all');
+    }
+  }, [itemId, tips, filtered]);
+
+  useEffect(() => {
+    if (!itemId) return;
+    const el = document.getElementById(`community-tip-${itemId}`);
+    el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [itemId, filtered]);
+
+  const toggleTip = (id) => {
+    const next = expandedId === id ? null : id;
+    setExpandedId(next);
+    navigate(next ? communityItemPath('tips', next) : ROUTES.communityTab('tips'), { replace: true });
+  };
 
   if (tips.length === 0) {
     return (
@@ -117,6 +149,9 @@ function TipsFeed({ tips }) {
             <TipCard
               key={tip.id}
               tip={tip}
+              expanded={expandedId === tip.id}
+              highlighted={itemId === tip.id}
+              onToggleExpand={() => toggleTip(tip.id)}
               helpfulCount={getCount(tip.id)}
               onHelpful={markHelpful}
             />

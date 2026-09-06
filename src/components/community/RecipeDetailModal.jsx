@@ -1,6 +1,7 @@
 import DetailModal from '../DetailModal';
 import ShareButton from './ShareButton';
 import RecipeMetaChips from './RecipeMetaChips';
+import { communityItemUrl } from '../../utils/communityUrls';
 
 function RecipeDetailBody({ recipe }) {
   return (
@@ -33,6 +34,7 @@ function RecipeDetailBody({ recipe }) {
         <ShareButton
           title={recipe.title}
           text={`${recipe.title} — ${recipe.description || ''}`.trim()}
+          url={communityItemUrl('recipes', recipe.id)}
           label="Share this recipe"
         />
       </div>

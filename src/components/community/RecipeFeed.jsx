@@ -1,9 +1,12 @@
 import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSwipe } from '../../hooks/useSwipe';
 import { useSavedRecipes } from '../../hooks/useSavedRecipes';
 import { interact } from '../../utils/haptics';
 import { AGE_FILTERS, filterRecipe } from '../../utils/recipeFilters';
 import { buildTagOptions } from '../../utils/tagFilters';
+import { ROUTES } from '../../routes';
+import { communityItemPath } from '../../utils/communityUrls';
 import TagFilterBar from './TagFilterBar';
 import Icon from '../Icon';
 import ImageWithFallback from '../ImageWithFallback';
@@ -164,12 +167,33 @@ function RecipeFilters({
   );
 }
 
-function RecipeFeed({ recipes }) {
+function RecipeFeed({ recipes, itemId }) {
+  const navigate = useNavigate();
   const [skipped, setSkipped] = useState([]);
   const [detailRecipe, setDetailRecipe] = useState(null);
   const [ageFilter, setAgeFilter] = useState('all');
   const [tagFilter, setTagFilter] = useState('all');
   const { savedIds, saveRecipe } = useSavedRecipes();
+
+  const openRecipe = useCallback((recipe) => {
+    if (!recipe) return;
+    setDetailRecipe(recipe);
+    navigate(communityItemPath('recipes', recipe.id), { replace: true });
+  }, [navigate]);
+
+  const closeRecipe = useCallback(() => {
+    setDetailRecipe(null);
+    navigate(ROUTES.communityTab('recipes'), { replace: true });
+  }, [navigate]);
+
+  useEffect(() => {
+    if (!itemId) {
+      setDetailRecipe(null);
+      return;
+    }
+    const match = recipes.find((r) => r.id === itemId);
+    setDetailRecipe(match || null);
+  }, [itemId, recipes]);
 
   const filters = useMemo(
     () => ({ age: ageFilter, tag: tagFilter }),
@@ -259,7 +283,7 @@ function RecipeFeed({ recipes }) {
                 recipe={current}
                 offset={offset}
                 isActive
-                onTap={setDetailRecipe}
+                onTap={openRecipe}
               />
             </div>
           </div>
@@ -277,13 +301,13 @@ function RecipeFeed({ recipes }) {
       <SavedRecipeList
         recipes={recipes}
         savedIds={savedIds}
-        onSelect={setDetailRecipe}
+        onSelect={openRecipe}
       />
 
       {detailRecipe && (
         <RecipeDetailModal
           recipe={detailRecipe}
-          onClose={() => setDetailRecipe(null)}
+          onClose={closeRecipe}
         />
       )}
     </div>

@@ -41,6 +41,7 @@
 - `AdminPromos.jsx` — promo code CRUD
 - `AdminNewsletter.jsx` — campaigns, compose, templates, subscribers
 - `AdminDiyImages.jsx` — per-activity image config
+- `AdminCommunity.jsx` / `AdminCommunityPost.jsx` — recipes, tips, memories; post overview includes copyable public URL (`/community/feed/:slug`)
 
 **Nav order** (match `AdminLayout.jsx`): Overview · Insights · Inbox · Users · Promo codes · Newsletter · Community · DIY images *(admin only)*
 

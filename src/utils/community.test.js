@@ -14,7 +14,12 @@ describe('rowToMemory', () => {
     reactions: { heart: 5, celebrate: 2, support: 3 },
   };
 
-  it('maps Supabase row to feed memory with legacy id preferred', () => {
+  it('maps Supabase row to feed memory with slug preferred over legacy id', () => {
+    const memory = rowToMemory({ ...baseRow, slug: 'baby-teething-what-worked' });
+    expect(memory.id).toBe('baby-teething-what-worked');
+  });
+
+  it('maps Supabase row to feed memory with legacy id when slug is absent', () => {
     const memory = rowToMemory(baseRow);
     expect(memory.id).toBe('memory-seed-teething');
     expect(memory.type).toBe('tip');
@@ -52,9 +57,10 @@ describe('rowToMemory', () => {
     });
   });
 
-  it('uses uuid id when legacy_id is absent', () => {
+  it('uses uuid id when slug and legacy_id are absent', () => {
     const memory = rowToMemory({
       ...baseRow,
+      slug: null,
       legacy_id: null,
       id: '550e8400-e29b-41d4-a716-446655440000',
     });

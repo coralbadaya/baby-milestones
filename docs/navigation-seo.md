@@ -84,6 +84,8 @@ metadata live in `src/seo/` and are applied at build time plus in the client.
   Private surfaces use `noindex, nofollow`: `/login`, `/signup`, `/verify-email`,
   `/account`, `/admin/*`, `/baby/book`, `/story/preview`, `/book/voice-invite`,
   `/newsletter/unsubscribe`, `/community/create`.
+  Community item permalinks (`/community/feed/:slug`, `/community/recipes/:id`,
+  `/community/tips/:id`) are SPA deep links; sitemap stays at the tab URLs only.
 - **Homepage:** `index.html` + Home share the same title/description (The Art of
   Early Motherhood). Do **not** swap homepage meta for logged-out conversion copy.
   Logged-out welcome H1 is the brand tagline (*The art of early motherhood*);

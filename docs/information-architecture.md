@@ -32,7 +32,10 @@
 - `/month/:n` — month detail (nav highlights **My Baby**)
 - `/baby#moments` — life firsts journal (deep link from Today)
 - `/shopping`, `/vaccination`, `/travel` — reachable from hubs
-- `/community/:tab` — community sub-tabs
+- `/community/:tab` — community sub-tabs (`feed`, `recipes`, `tips`, `create`)
+- `/community/feed/:slug` — memory permalink (highlights that post)
+- `/community/recipes/:id` — recipe permalink (opens the recipe modal)
+- `/community/tips/:id` — tip permalink (expands that tip)
 
 ---
 

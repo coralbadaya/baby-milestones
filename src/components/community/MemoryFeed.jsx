@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import MemoryCard from './MemoryCard';
 import TagFilterBar from './TagFilterBar';
 import Icon from '../Icon';
 import { buildTagOptions } from '../../utils/tagFilters';
 import { MEMORY_TYPE_FILTERS, filterMemory } from '../../utils/memoryFilters';
+import { memoryMatchesPermalink } from '../../utils/communityUrls';
 
-function MemoryFeed({ memories, onReact, onAddComment }) {
+function MemoryFeed({ memories, itemId, onReact, onAddComment }) {
   const [typeFilter, setTypeFilter] = useState('all');
   const [tagFilter, setTagFilter] = useState('all');
 
@@ -20,6 +21,24 @@ function MemoryFeed({ memories, onReact, onAddComment }) {
     );
     return sorted.filter((m) => filterMemory(m, { type: typeFilter, tag: tagFilter }));
   }, [memories, typeFilter, tagFilter]);
+
+  useEffect(() => {
+    if (!itemId) return;
+    const match = memories.find((m) => memoryMatchesPermalink(m, itemId));
+    if (!match) return;
+    if (!filtered.some((m) => m.id === match.id)) {
+      setTypeFilter('all');
+      setTagFilter('all');
+    }
+  }, [itemId, memories, filtered]);
+
+  useEffect(() => {
+    if (!itemId) return;
+    const match = memories.find((m) => memoryMatchesPermalink(m, itemId));
+    if (!match) return;
+    const el = document.getElementById(`community-memory-${match.id}`);
+    el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [itemId, memories, filtered]);
 
   const hasFilters = typeFilter !== 'all' || tagFilter !== 'all';
   const showTagSidebar = tagOptions.length > 1;
@@ -82,6 +101,7 @@ function MemoryFeed({ memories, onReact, onAddComment }) {
             <MemoryCard
               key={memory.id}
               memory={memory}
+              highlighted={memoryMatchesPermalink(memory, itemId)}
               onReact={onReact}
               onAddComment={onAddComment}
             />

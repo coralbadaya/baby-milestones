@@ -257,6 +257,12 @@ function App() {
         />
         <Route path={ROUTES.community} element={<Navigate to={ROUTES.communityTab('feed')} replace />} />
         <Route
+          path="/community/:tab/:itemId"
+          element={(
+            <CommunityTabRoute currentMonth={getCurrentMonth()} />
+          )}
+        />
+        <Route
           path="/community/:tab"
           element={(
             <CommunityTabRoute currentMonth={getCurrentMonth()} />
@@ -329,11 +335,14 @@ function App() {
 }
 
 function CommunityTabRoute({ currentMonth }) {
-  const { tab } = useParams();
+  const { tab, itemId } = useParams();
   if (!isCommunityTab(tab)) {
     return <Navigate to={ROUTES.communityTab('feed')} replace />;
   }
-  return <Community currentMonth={currentMonth} tab={tab} />;
+  if (tab === 'create' && itemId) {
+    return <Navigate to={ROUTES.communityTab('create')} replace />;
+  }
+  return <Community currentMonth={currentMonth} tab={tab} itemId={itemId} />;
 }
 
 export default App;

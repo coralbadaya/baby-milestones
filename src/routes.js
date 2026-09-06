@@ -21,6 +21,7 @@ export const ROUTES = {
   momCareTab: (topic) => `/mom-care#${topic}`,
   community: '/community',
   communityTab: (tab) => `/community/${tab}`,
+  communityItem: (tab, slug) => `/community/${tab}/${encodeURIComponent(slug)}`,
   progress: '/progress',
   sources: '/sources',
 

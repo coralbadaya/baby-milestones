@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { interact } from '../../utils/haptics';
 import { getMemoryTypeConfig, formatRelativeTime } from '../../utils/communityHelpers';
+import { communityItemUrl } from '../../utils/communityUrls';
 import Icon from '../Icon';
 import CommentSection from './CommentSection';
 import ShareButton from './ShareButton';
 
-function MemoryCard({ memory, onReact, onAddComment }) {
+function MemoryCard({ memory, highlighted, onReact, onAddComment }) {
   const [showComments, setShowComments] = useState(false);
   const typeCfg = getMemoryTypeConfig(memory.type);
 
@@ -16,7 +17,8 @@ function MemoryCard({ memory, onReact, onAddComment }) {
 
   return (
     <article
-      className="content-card memory-card card-accent-top"
+      id={`community-memory-${memory.id}`}
+      className={`content-card memory-card card-accent-top${highlighted ? ' memory-card--permalink' : ''}`}
       style={{ '--cat-color': 'var(--coral-primary)' }}
     >
       <header className="memory-card-header">
@@ -73,6 +75,7 @@ function MemoryCard({ memory, onReact, onAddComment }) {
         <ShareButton
           title={memory.title}
           text={`${memory.content.slice(0, 120)}…`}
+          url={communityItemUrl('feed', memory.id)}
           label="Share"
         />
       </div>

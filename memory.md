@@ -144,7 +144,9 @@ Travel types: `car`, `air`, `train`, `dayOuting`, `hotel` — parsed in `assista
 | Stripe | `api/checkout.js`, `api/stripe-webhook.js`, `src/utils/stripeCheckout.js` |
 | Admin | `src/pages/admin/*`, `docs/auth-membership-admin.md`, `docs/admin-portal-design.md`, `docs/product-analytics.md` |
 
-Admin routes: `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/diy`, `/admin/newsletter`, `/admin/community`
+Admin routes: `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/diy`, `/admin/newsletter`, `/admin/community`, `/admin/community/posts/:id`
+
+Public community permalinks: `/community/feed/:slug`, `/community/recipes/:id`, `/community/tips/:id`
 
 Roles: `user` · `support` (inbox) · `admin` (full)
 

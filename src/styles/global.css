@@ -4736,6 +4736,11 @@ a {
 
 .memory-card {
   padding: var(--space-4);
+  scroll-margin-top: 6rem;
+}
+
+.memory-card--permalink {
+  box-shadow: 0 0 0 2px var(--coral-primary);
 }
 
 .memory-card-header {
@@ -5168,6 +5173,11 @@ a {
 
 .tip-card {
   padding: var(--space-4);
+  scroll-margin-top: 6rem;
+}
+
+.tip-card--permalink {
+  box-shadow: 0 0 0 2px var(--lavender-dark);
 }
 
 .tip-card-header {

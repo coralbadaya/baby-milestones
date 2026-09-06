@@ -9,6 +9,7 @@ import { COMMUNITY_TAGLINE } from '../constants/brand';
 import { usePageMeta } from '../utils/pageMeta';
 import { COMMUNITY_CREATE_META, getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
+import { communityItemPath } from '../utils/communityUrls';
 import { trackEvent } from '../utils/analytics';
 import { useMemories } from '../hooks/useMemories';
 import { useCommunityRecipes } from '../hooks/useCommunityRecipes';
@@ -49,14 +50,14 @@ const TAB_META = {
   },
 };
 
-function Community({ currentMonth, tab }) {
+function Community({ currentMonth, tab, itemId }) {
   const navigate = useNavigate();
   const tabMeta = tab === 'create'
     ? COMMUNITY_CREATE_META
     : (getStaticMeta(ROUTES.communityTab(tab)) || TAB_META[tab] || TAB_META.feed);
   usePageMeta({
     ...tabMeta,
-    path: ROUTES.communityTab(tab),
+    path: itemId ? communityItemPath(tab, itemId) : ROUTES.communityTab(tab),
   });
   const {
     memories,
@@ -143,6 +144,7 @@ function Community({ currentMonth, tab }) {
             ) : (
               <MemoryFeed
                 memories={memories}
+                itemId={itemId}
                 onReact={reactToMemory}
                 onAddComment={addComment}
               />
@@ -152,14 +154,14 @@ function Community({ currentMonth, tab }) {
             recipesLoading ? (
               <p className="community-loading">Loading recipes…</p>
             ) : (
-              <RecipeFeed recipes={recipes} />
+              <RecipeFeed recipes={recipes} itemId={itemId} />
             )
           )}
           {tab === 'tips' && (
             tipsLoading ? (
               <p className="community-loading">Loading tips…</p>
             ) : (
-              <TipsFeed tips={tips} />
+              <TipsFeed tips={tips} itemId={itemId} />
             )
           )}
           {tab === 'create' && (

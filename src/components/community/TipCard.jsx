@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { interact } from '../../utils/haptics';
 import ShareButton from './ShareButton';
 import Icon from '../Icon';
+import { communityItemUrl } from '../../utils/communityUrls';
 
 const CATEGORY_ICONS = {
   health: 'stethoscope',
@@ -10,9 +10,7 @@ const CATEGORY_ICONS = {
   play: 'balloon',
 };
 
-function TipCard({ tip, helpfulCount = 0, onHelpful }) {
-  const [expanded, setExpanded] = useState(false);
-
+function TipCard({ tip, helpfulCount = 0, onHelpful, expanded = false, highlighted = false, onToggleExpand }) {
   const paragraphs = tip.content.split('\n\n');
 
   const handleHelpful = () => {
@@ -22,7 +20,8 @@ function TipCard({ tip, helpfulCount = 0, onHelpful }) {
 
   return (
     <article
-      className="content-card tip-card card-accent-top"
+      id={`community-tip-${tip.id}`}
+      className={`content-card tip-card card-accent-top${highlighted ? ' tip-card--permalink' : ''}`}
       style={{ '--cat-color': 'var(--lavender-dark)' }}
     >
       <header className="tip-card-header">
@@ -59,7 +58,7 @@ function TipCard({ tip, helpfulCount = 0, onHelpful }) {
           className="tip-expand-btn"
           onClick={() => {
             interact('tap', 'light');
-            setExpanded((v) => !v);
+            onToggleExpand?.();
           }}
         >
           {expanded ? 'Show less' : 'Read tip'}
@@ -71,7 +70,12 @@ function TipCard({ tip, helpfulCount = 0, onHelpful }) {
 
       {expanded && (
         <div className="tip-share-row">
-          <ShareButton title={tip.title} text={`${tip.preview} — ${tip.tagline}`} label="Share this tip" />
+          <ShareButton
+            title={tip.title}
+            text={`${tip.preview} — ${tip.tagline}`}
+            url={communityItemUrl('tips', tip.id)}
+            label="Share this tip"
+          />
         </div>
       )}
     </article>
