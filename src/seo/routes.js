@@ -75,8 +75,8 @@ export const INDEXABLE_STATIC_PAGES = [
   },
   {
     path: ROUTES.premium,
-    title: 'Yarn Trails Plus — AI Baby Book',
-    description: 'Basic milestone tracking is free. Plus unlocks AI stories, the interactive flip-book, and HD memories.',
+    title: 'Yarn Trails Plus — Baby Book',
+    description: 'Basic milestone tracking is free. Plus unlocks the baby book: stories, the interactive flip-book, and HD memories.',
     changefreq: 'monthly',
     priority: 0.7,
   },

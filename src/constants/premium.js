@@ -11,6 +11,74 @@ export const ENTITLEMENT_LIMITS = {
   viewerSeats: 2,
 };
 
+/**
+ * Side-by-side limits on /premium. Values come from ENTITLEMENT_LIMITS
+ * so the page and the gates stay in step.
+ * tone: cap = a hard Basic/Plus ceiling, open = unlimited, none = not included.
+ */
+export const PLAN_LIMIT_ROWS = [
+  {
+    id: 'photos',
+    label: 'Album photos',
+    basic: { value: `${ENTITLEMENT_LIMITS.photosPerMonth} per month`, tone: 'cap' },
+    plus: { value: 'Unlimited HD', tone: 'open' },
+  },
+  {
+    id: 'stories',
+    label: 'AI stories',
+    basic: { value: `${ENTITLEMENT_LIMITS.storiesTotal} total`, tone: 'cap' },
+    plus: { value: 'Unlimited', tone: 'open' },
+  },
+  {
+    id: 'voiceNotes',
+    label: 'Voice notes',
+    basic: {
+      value: `${ENTITLEMENT_LIMITS.voiceNotesStored} notes, ${ENTITLEMENT_LIMITS.voiceNoteMaxSeconds} seconds each`,
+      tone: 'cap',
+    },
+    plus: {
+      value: `Unlimited, ${ENTITLEMENT_LIMITS.voiceNoteMaxSeconds} seconds each`,
+      tone: 'open',
+    },
+  },
+  {
+    id: 'flipBook',
+    label: 'Flip-book',
+    basic: { value: 'Preview, watermarked', tone: 'cap' },
+    plus: { value: 'Full 3D, no watermark', tone: 'open' },
+  },
+  {
+    id: 'voiceClone',
+    label: 'Your-voice narration',
+    basic: { value: 'Not included', tone: 'none' },
+    plus: { value: 'Every story', tone: 'open' },
+  },
+  {
+    id: 'export4k',
+    label: '4K export',
+    basic: { value: 'Not included', tone: 'none' },
+    plus: { value: 'Album and stories', tone: 'open' },
+  },
+  {
+    id: 'print',
+    label: 'Print',
+    basic: { value: 'Full price', tone: 'cap' },
+    plus: { value: '20% off + free shipping', tone: 'open' },
+  },
+  {
+    id: 'viewers',
+    label: 'Viewer seats',
+    basic: { value: 'Not included', tone: 'none' },
+    plus: { value: `${ENTITLEMENT_LIMITS.viewerSeats} seats`, tone: 'cap' },
+  },
+  {
+    id: 'guides',
+    label: 'Guides',
+    basic: { value: 'Not included', tone: 'none' },
+    plus: { value: 'Travel, shopping, records', tone: 'open' },
+  },
+];
+
 /** Display-only regional rates (until Stripe checkout). USD is anchor. */
 export const PREMIUM_CURRENCIES = {
   USD: {
@@ -40,6 +108,7 @@ export const PLANS = {
     priceMonthly: 0,
     priceAnnual: 0,
     currency: 'USD',
+    /** Short marketing lines. /premium renders PLAN_LIMIT_ROWS instead. */
     features: [
       'Unlimited milestone tracking with captions',
       '2 photos per month in your album',

@@ -6,7 +6,7 @@ import EditorialBand from '../components/EditorialBand';
 import TrustStrip from '../components/TrustStrip';
 import Icon from '../components/Icon';
 import { interact } from '../utils/haptics';
-import { PLANS } from '../constants/premium';
+import { PLANS, PLAN_LIMIT_ROWS } from '../constants/premium';
 import { useAuth } from '../context/AuthContext';
 import { membershipExpiry, membershipLabel } from '../utils/membership';
 import { readLocalPremium } from '../utils/localPremium';
@@ -16,6 +16,27 @@ import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
 import { startCheckout } from '../utils/stripeCheckout';
 import { trackEvent } from '../utils/analytics';
+
+function PlanLimits({ tier }) {
+  return (
+    <div className="premium-plan__limits-block">
+      <h3 className="premium-plan__limits-heading">Limits</h3>
+      <dl className="premium-plan__limits">
+        {PLAN_LIMIT_ROWS.map((row) => {
+          const cell = row[tier];
+          return (
+            <div key={row.id} className="premium-plan__limit">
+              <dt>{row.label}</dt>
+              <dd className={`premium-plan__limit-value premium-plan__limit-value--${cell.tone}`}>
+                {cell.value}
+              </dd>
+            </div>
+          );
+        })}
+      </dl>
+    </div>
+  );
+}
 
 function Premium() {
   usePageMeta(getStaticMeta(ROUTES.premium) || {});
@@ -93,7 +114,7 @@ function Premium() {
       <PageHero
         imageKey="premium"
         layout="split"
-        eyebrow="AI baby book"
+        eyebrow="Baby book"
         title="Turn milestones into their story"
         subtitle="Log photos and milestones free forever. Plus unlocks the magic — AI stories, the full flip-book, and keepsakes worth sharing."
         size="md"
@@ -152,42 +173,47 @@ function Premium() {
               )}
               <div className="premium-compare">
                 <div className="premium-compare__col card-accent-top">
-                  <p className="premium-plan__eyebrow">{PLANS.basic.name}</p>
-                  <p className="premium-plan__price">
-                    <span className="premium-plan__amount">Free</span>
-                    <span className="premium-plan__period"> forever</span>
-                  </p>
-                  <ul className="premium-plan__features">
-                    {PLANS.basic.features.map((f) => (
-                      <li key={f}>{f}</li>
-                    ))}
-                  </ul>
-                  {!user && (
-                    <Link
-                      to={ROUTES.signup}
-                      className="btn-ghost premium-plan__cta"
-                      onClick={() => interact('tap', 'light')}
-                    >
-                      Create free account
-                    </Link>
-                  )}
+                  <h2 className="premium-plan__name font-display">{PLANS.basic.name}</h2>
+                  <div className="premium-plan__offer">
+                    <p className="premium-plan__kicker">Always free</p>
+                    <p className="premium-plan__price">
+                      <span className="premium-plan__amount">Free</span>
+                      <span className="premium-plan__period"> forever</span>
+                    </p>
+                    <p className="premium-plan__savings">
+                      Milestone tracking stays open. No card required.
+                    </p>
+                  </div>
+                  <PlanLimits tier="basic" />
+                  <div className="premium-plan__actions">
+                    {!user && (
+                      <Link
+                        to={ROUTES.signup}
+                        className="btn-ghost premium-plan__cta"
+                        onClick={() => interact('tap', 'light')}
+                      >
+                        Create free account
+                      </Link>
+                    )}
+                  </div>
                 </div>
 
                 <div className="premium-compare__col premium-compare__col--featured card-accent-top">
-                  <p className="premium-plan__eyebrow">{plusPlan.name}</p>
-                  <p className="premium-plan__badge">First Year Plan — {pricing.savingsPct}% off monthly</p>
-                  <p className="premium-plan__price">
-                    <span className="premium-plan__amount">{pricing.annual}</span>
-                    <span className="premium-plan__period">/yr</span>
-                  </p>
-                  <p className="premium-plan__annual">{pricing.line}</p>
-                  <p className="premium-plan__region">{pricing.regionNote}</p>
-                  <ul className="premium-plan__features">
-                    {plusPlan.features.map((f) => (
-                      <li key={f}>{f}</li>
-                    ))}
-                  </ul>
-
+                  <h2 className="premium-plan__name premium-plan__name--plus font-display">{plusPlan.name}</h2>
+                  <div className="premium-plan__offer">
+                    <p className="premium-plan__kicker premium-plan__kicker--plus">First Year Plan</p>
+                    <p className="premium-plan__price">
+                      <span className="premium-plan__amount">{pricing.annual}</span>
+                      <span className="premium-plan__period"> / year</span>
+                    </p>
+                    <p className="premium-plan__savings">
+                      About <span className="premium-plan__savings-figure">{pricing.monthlyEquiv}</span> a month.
+                      That is <span className="premium-plan__savings-figure">{pricing.savingsPct}% less</span> than
+                      paying <span className="premium-plan__savings-figure">{pricing.monthly}</span> every month.
+                    </p>
+                  </div>
+                  <PlanLimits tier="plus" />
+                  <div className="premium-plan__actions">
                   <button
                     type="button"
                     className="btn-primary premium-plan__cta"
@@ -260,8 +286,10 @@ function Premium() {
                       </p>
                     </>
                   )}
+                  </div>
                 </div>
               </div>
+              <p className="premium-plan__region">{pricing.regionNote}</p>
 
               <p className="premium-trial-note">
                 <Icon name="sparkles" size={18} />

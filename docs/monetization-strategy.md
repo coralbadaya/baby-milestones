@@ -69,6 +69,10 @@ Implementation: `src/utils/entitlements.js`, `PremiumGate`, `AuthContext` + Supa
 - Emotional-preview paywall after first story (annual trial offer)
 - Tone: invitation — *"Turn this month into a page in their story"*
 
+### Plan selection (`/premium`)
+
+The hero labels the product **Baby book** (Newsreader, gold rule). Each card leads with the plan name as a Newsreader headline (`Yarn Trails Basic`, `Yarn Trails Plus`). Plus uses a yarn-gold rule under the name. The First Year Plan states the yearly price, the monthly equivalent, and how that compares with paying every month (for example, about $4.17 a month — 48% less than $7.99). The two cards share one grid, so the Limits headings start on the same row. Limits come from `PLAN_LIMIT_ROWS` in `src/constants/premium.js`, which reads `ENTITLEMENT_LIMITS`.
+
 ---
 
 ## KPI targets (day 90)
@@ -94,9 +98,9 @@ Events: `story_generated`, `trial_started`, `guide_cta_click`, `install_banner_c
 | `src/hooks/useEntitlements.js` | React hook |
 | `src/context/AuthContext.jsx` | Session, membership, usage fetch |
 | `src/components/PremiumGate.jsx` | Teaser overlay |
-| `src/pages/Premium.jsx` | Basic vs Plus comparison, annual-first |
+| `src/pages/Premium.jsx` | Basic vs Plus comparison — display names + labeled limits, annual-first |
 | `api/checkout.js` / `api/stripe-webhook.js` | Stripe Checkout + signed webhook (`stripe_events` idempotency) |
 
 ---
 
-*Last updated: July 2026*
+*Last updated: November 2026*

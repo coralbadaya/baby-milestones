@@ -695,22 +695,25 @@
 @media (max-width: 768px) {
   .page-hero--split {
     position: relative;
-    display: flex;
-    align-items: flex-end;
-    min-height: 260px;
+    display: block;
+    min-height: 0;
   }
 
-  .page-hero--split.page-hero--lg {
-    min-height: 280px;
-  }
-
+  .page-hero--split.page-hero--lg,
   .page-hero--split.page-hero--md {
-    min-height: 220px;
+    min-height: 0;
   }
 
   .page-hero__split {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 260px;
+  }
+
+  .page-hero--split.page-hero--md .page-hero__split {
+    min-height: 220px;
   }
 
   .page-hero__split-copy {

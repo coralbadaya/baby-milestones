@@ -36,7 +36,7 @@ describe('page metadata', () => {
     expect(about.canonical).toBe('https://yarntrails.com/about');
     expect(home.robots).toBe(ROBOTS_INDEX);
     expect(formatPageTitle('My Baby')).toBe('My Baby | Yarn Trails');
-    expect(formatPageTitle('Yarn Trails Plus — AI Baby Book')).toBe('Yarn Trails Plus — AI Baby Book');
+    expect(formatPageTitle('Yarn Trails Plus — Baby Book')).toBe('Yarn Trails Plus — Baby Book');
   });
 });
 
