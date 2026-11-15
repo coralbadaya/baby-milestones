@@ -1,66 +1,115 @@
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { buildAlbumHtml } from '../../book/albumHtml';
+import { BOOK_CHAPTERS } from '../../data/bookChapters';
 import { useEntitlements } from '../../hooks/useEntitlements';
-import PremiumGate from '../PremiumGate';
 import { PREMIUM_FEATURES } from '../../constants/premium';
-import { ROUTES } from '../../routes';
-import { playTurn } from '../../utils/pageTurnFeel';
-import RenderStyleSelector from './RenderStyleSelector';
-import BookSpreadViewer from './BookSpreadViewer';
+import PremiumGate from '../PremiumGate';
 
-function FlipBookViewer({ albumPhotos = [], personalAlbum = null }) {
-  const navigate = useNavigate();
+function chapterAlbum({ babyName, birthDate, photos }) {
+  const pictures = photos.map((photo) => photo?.data_url).filter(Boolean);
+  const pages = BOOK_CHAPTERS.map((chapter, index) => ({
+    file: pictures[index] || '',
+    src: pictures[index] || '',
+    monthLabel: `Month ${chapter.month}`,
+    title: chapter.title,
+    caption: chapter.caption,
+    when: chapter.milestone,
+  }));
+  pages.push({
+    ending: true,
+    file: '',
+    monthLabel: 'The close',
+    title: 'The close',
+    caption: 'One year of you. The next chapter is still being lived.',
+    when: babyName || '',
+  });
+  return {
+    title: babyName ? `${babyName}'s first year` : 'The first year',
+    babyName: babyName || 'Your little one',
+    dob: birthDate || '',
+    pages,
+  };
+}
+
+function saveHtml(filename, html) {
+  const url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function FlipBookViewer({
+  albumPhotos = [],
+  personalAlbum = null,
+  albumReady = true,
+  babyName = '',
+  birthDate = '',
+  downloadSlot = null,
+}) {
   const { isPlus } = useEntitlements();
-  const [renderStyle, setRenderStyle] = useState('parallax');
-  const [pageIndex, setPageIndex] = useState(0);
-
-  const reducedMotion = useMemo(
-    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-    [],
+  const [downloading, setDownloading] = useState(false);
+  const personal = Boolean(personalAlbum?.pages?.length);
+  const album = useMemo(
+    () => (personal ? personalAlbum : chapterAlbum({ babyName, birthDate, photos: albumPhotos })),
+    [personal, personalAlbum, babyName, birthDate, albumPhotos],
+  );
+  const html = useMemo(
+    () => (albumReady ? buildAlbumHtml(album, { embedded: true, inlinePhotos: true }) : ''),
+    [album, albumReady],
   );
 
-  const personalPages = personalAlbum?.pages || null;
-  const pageCount = personalPages?.length || 12;
+  const downloadAlbum = useCallback(async () => {
+    setDownloading(true);
+    try {
+      if (personal) {
+        const response = await fetch('/api/personal-album/export');
+        if (!response.ok) return;
+        const blob = await response.blob();
+        const match = /filename="([^"]+)"/.exec(response.headers.get('Content-Disposition') || '');
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = match?.[1] || 'first-year-3d-album.html';
+        link.click();
+        URL.revokeObjectURL(url);
+        return;
+      }
+      saveHtml('first-year-3d-album.html', buildAlbumHtml(album));
+    } finally {
+      setDownloading(false);
+    }
+  }, [album, personal]);
+
+  const downloadButton = (
+    <button
+      type="button"
+      className="baby-book-btn baby-book-btn--ghost"
+      onClick={downloadAlbum}
+      disabled={!albumReady || downloading}
+    >
+      {downloading ? 'Preparing…' : 'Download'}
+    </button>
+  );
+
+  if (!albumReady) {
+    return <p className="baby-book-section-sub">Opening the book…</p>;
+  }
 
   const viewer = (
-    <div>
-      <h2 className="baby-book-section-title">
-        {personalAlbum ? personalAlbum.title : 'The 3D Keepsake'}
-      </h2>
-      <p className="baby-book-section-sub">
-        {personalAlbum
-          ? 'Ordered by the time each photo was taken, from the morning of 22 January 2026. Parallax, pop-up, and snow-globe use the same pages.'
-          : 'Your year, in your hands — pick a render style and turn the pages.'}
-      </p>
-
-      <RenderStyleSelector
-        activeStyle={renderStyle}
-        onChange={(id) => {
-          playTurn(id === 'snowglobe' ? 'style-globe' : `style-${id}`);
-          setRenderStyle(id);
-        }}
+    <div className="baby-book-album">
+      {downloadSlot ? createPortal(downloadButton, downloadSlot) : downloadButton}
+      <iframe
+        className="baby-book-album-frame"
+        title={album.title}
+        srcDoc={html}
       />
-
-      <BookSpreadViewer
-        pageIndex={pageIndex}
-        pageCount={pageCount}
-        renderStyle={renderStyle}
-        albumPhotos={albumPhotos}
-        personalPages={personalPages}
-        reducedMotion={reducedMotion}
-        onPageChange={setPageIndex}
-        onOrderPrint={() => navigate(ROUTES.babyBookTab('family'))}
-      />
-
-      {!isPlus && !personalPages && (
-        <p className="baby-book-section-sub baby-book-spread-viewer__gate-note">
-          Basic: 2D preview with watermark. Plus unlocks full 3D parallax export.
-        </p>
-      )}
     </div>
   );
 
-  if (!isPlus && !personalPages) {
+  if (!isPlus && !personal) {
     return (
       <PremiumGate feature={PREMIUM_FEATURES.flipBookFull}>
         {viewer}

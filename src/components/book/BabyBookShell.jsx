@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Icon from '../Icon';
 import { ROUTES } from '../../routes';
@@ -30,7 +31,7 @@ function BabyBookShell({
 }) {
   const navigate = useNavigate();
   const { photos } = useMonthlyAlbum();
-  const personalAlbum = usePersonalAlbum();
+  const { album: personalAlbum, ready: albumReady } = usePersonalAlbum();
   const { blessings } = useVoiceProfiles();
   const { ideas, generateIdea, generating } = useBookIdeas(
     photos,
@@ -38,6 +39,7 @@ function BabyBookShell({
     { birthDate, currentMonth },
   );
 
+  const [downloadSlot, setDownloadSlot] = useState(null);
   const goTab = (tabId) => {
     navigate(ROUTES.babyBookTab(tabId));
   };
@@ -48,7 +50,7 @@ function BabyBookShell({
     <div className="baby-book-shell">
       <StarfieldCanvas />
 
-      <div className="baby-book-shell__inner">
+      <div className={`baby-book-shell__inner${activeTab === 'book' ? ' baby-book-shell__inner--book' : ''}`}>
         <header className="baby-book-shell__topbar">
           <button
             type="button"
@@ -58,7 +60,7 @@ function BabyBookShell({
             ← My Baby
           </button>
           <h1 className="baby-book-shell__title">Baby Book</h1>
-          <span style={{ width: 72 }} aria-hidden="true" />
+          <span className="baby-book-shell__end" ref={setDownloadSlot} />
         </header>
 
         {activeTab === 'home' && (
@@ -91,7 +93,14 @@ function BabyBookShell({
         )}
 
         {activeTab === 'book' && (
-          <FlipBookViewer albumPhotos={photos} personalAlbum={personalAlbum} />
+          <FlipBookViewer
+            albumPhotos={photos}
+            personalAlbum={personalAlbum}
+            albumReady={albumReady}
+            babyName={babyName}
+            birthDate={birthDate}
+            downloadSlot={downloadSlot}
+          />
         )}
 
         {activeTab === 'family' && (

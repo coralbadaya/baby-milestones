@@ -4,7 +4,9 @@
 
 ---
 
-## Top navigation (6 journey links + header chrome)
+## Top bar (desktop) and bottom bar (phone)
+
+Six journey links in one 56px row, plus account and Plus. A section that holds more than one page opens a square menu, and each row uses that page's name. On a phone the five jobs stay in the bottom bar, and Guides stays out of that bar.
 
 | Label | Route | Section key | Purpose |
 |-------|-------|-------------|---------|
@@ -13,9 +15,18 @@
 | **My Care** | `/mom-care` | `momCare` | Postpartum timeline + self-care topics |
 | **Essentials** | `/essentials` | `essentials` | Shopping + travel hub |
 | **Community** | `/community/feed` | `community` | Feed, recipes, tips |
-| **Guides** | `/guides` | `guides` | Editorial articles (desktop top nav only) |
+| **Guides** | `/guides` | `guides` | Editorial articles (desktop top bar only). The page title is Guides & Articles. |
 
-**Header chrome (desktop):** Sign in / Account (auth) + **Premium** filled CTA pill — not in `PRIMARY_NAV` data.
+**Named pages inside a section** (desktop menu, same words as the page):
+
+| Section | Pages |
+|---------|--------|
+| Today | Today, Progress |
+| My Baby | My Baby, Vaccination tracker, Baby book |
+| Essentials | Essentials, Shopping, Travel |
+| Community | Mom Feed, Baby Recipes, Parenting Tips |
+
+**Bar end (desktop):** Sign in / Account + **Plus** square button — not in `PRIMARY_NAV` data.
 
 **Mobile bottom bar (5 items):** Today · Baby · Care · Essentials · Community — Guides and Premium elsewhere.
 
@@ -94,7 +105,7 @@ Today (what matters now)
 
 ## Account & auth (not in primary nav)
 
-Reachable via Premium CTAs, account links, and direct URLs. Not in top nav or mobile bottom bar.
+Reachable from the top bar and from direct URLs. They are not in the mobile bottom bar.
 
 | Label | Route | Purpose |
 |-------|-------|---------|
@@ -111,7 +122,7 @@ See [`docs/auth-membership-admin.md`](auth-membership-admin.md) for OTP flow and
 
 ## Mobile bottom nav
 
-Same 5 items as desktop header. Sound toggle remains. Progress, Sources, Premium in footer only.
+Same 5 items as the desktop bar, without Guides. Progress, Vaccination tracker, Baby book, Shopping, and Travel are in the desktop section menus and in the footer. Sources and Premium stay in the footer.
 
 ---
 

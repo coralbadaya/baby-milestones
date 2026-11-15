@@ -115,19 +115,24 @@ Edge Function: `generate-book-idea` (layout job stub).
 
 ## 3D book (Book tab)
 
-[`BookSpreadViewer.jsx`](../src/components/book/BookSpreadViewer.jsx) — open-book spread with CSS page-turn; left page photo/parallax, right page chapter copy from [`bookChapters.js`](../src/data/bookChapters.js).
+The 3D Book tab plays the same album as `personal/first-year-3d-album.html`. [`src/book/albumHtml.js`](../src/book/albumHtml.js) builds that document, and [`FlipBookViewer.jsx`](../src/components/book/FlipBookViewer.jsx) shows it in the page. A private folder still feeds localhost. Without it, the tab uses the first-year chapters and any monthly album photos.
 
 | Style | Status |
 |-------|--------|
-| **Parallax** | Shipped — Three.js in left page via [`ParallaxPage.jsx`](../src/components/book/ParallaxPage.jsx) |
-| Pop-up | Photo lifts off a darkened copy of the same frame |
-| Snow-globe | Photo sits in a glass orb |
+| Printed | Photograph flat on the page |
+| Parallax | That photograph lifts off a darkened copy |
+| Pop-up | The photograph lifts further off the page |
+| Snow-globe | The photograph sits in a glass orb |
 
-The page turn is one engine, [`src/book/pageFold.js`](../src/book/pageFold.js). A turn takes 1.9 seconds and stops on four poses: the page is picked up, folded through the spine, carried over, and laid flat. The in-app spread and the downloaded album both use those poses.
+The page turn is one engine, [`src/book/pageFold.js`](../src/book/pageFold.js). The downloaded album turns one sheet for 1.9 seconds. Until it is edge-on you see the right-hand page. After that you see its back, the next left page, right-reading. There is no crease line and no mirrored text. Going back reverses that. The open book stays a left page and a right page, and each page carries its number.
+
+On a settled page, **Edit page** turns the spread into a slide: drag a photograph, the words, the month, or the name; resize from the corner; add a text line; nudge with the arrow keys. Those positions stay in the browser for that file (`yt-album-pieces`). Reset page clears the two pages on screen. The reel still uses a smooth rigid turn, because a story is one full-screen card.
+
+Each spread has a layout from [`src/book/pageLayouts.js`](../src/book/pageLayouts.js): photo and story, story and photo, two facing photographs, two photographs with the words beside them, or a chapter page. The phone book uses the same five.
 
 Parallax, Pop-up, and Snow-globe are modes of that same album, not separate books. The downloaded file keeps all three, plus hand turns, a timer, a closing page, and a vertical reel for an Instagram Reel, a WhatsApp Status, or a Facebook Story.
 
-A private folder `personal/` (gitignored) feeds this tab on localhost only. `personal/album.json` orders photos by capture time. The dev server serves them at `/api/personal-album` and writes `personal/first-year-3d-album.html` beside the photos. Those files are never bundled or deployed.
+A private folder `personal/` (gitignored) feeds this tab on localhost. `personal/album.json` orders photos by capture time. The dev server serves them at `/api/personal-album`. Download writes `personal/first-year-3d-album.html` beside the photos. Those photos are never bundled or deployed. The player itself is part of the app.
 
 Plus books are generated per login. [`src/book/albumStore.js`](../src/book/albumStore.js) is the store: `save(accountId, book)` and `read(accountId)`. The local driver writes `data/books/{accountId}/` (gitignored). `publishBook` in [`scripts/personal-album.mjs`](../scripts/personal-album.mjs) fills that folder with `book.json` and `book.html`. Image files stay beside that HTML; `page.file` is the file name. A Supabase or Vercel Blob driver can replace the local one later if it keeps the same two methods. The local preview account is `local-preview` and only records a manifest, because its HTML has to stay next to the photos.
 
@@ -219,7 +224,7 @@ Base tables: [`20250702120000_plus_entitlements.sql`](../supabase/migrations/202
 | Shell | `src/pages/BabyBook.jsx`, `src/components/book/BabyBookShell.jsx` |
 | Home | `BookHomeTab.jsx`, `home/BookHomeHero.jsx`, `home/BookAlbumHero.jsx`, `home/BookMonthList.jsx` |
 | Stories | `StoryStudio.jsx`, `story/*`, `LanguageSwitchDemo.jsx`, `FolkTaleToggle.jsx`, `AnnualTrialOffer.jsx` |
-| 3D | `FlipBookViewer.jsx`, `BookSpreadViewer.jsx`, `ParallaxPage.jsx`, `RenderStyleSelector.jsx` |
+| 3D | `FlipBookViewer.jsx`, `src/book/albumHtml.js` |
 | Family | `FamilyCircleTab.jsx`, `FamilyCirclePanel.jsx`, `PrintTierCards.jsx`, `VoiceBlessingsFeed.jsx` |
 | Hooks | `useBabyStories.js`, `useVoiceProfiles.js`, `useBookIdeas.js`, `useBabyProfiles.js`, `useMonthlyAlbum.js` |
 | Data | `storyLanguages.js`, `storyScenes.js`, `bookChapters.js`, `folkTaleTemplates.js`, `festivalCalendar.js` |

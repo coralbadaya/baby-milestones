@@ -70,13 +70,59 @@ export function isCommunityTab(tab) {
   return COMMUNITY_TABS.includes(tab);
 }
 
-/** Primary nav labels (journey order) */
+/**
+ * Primary nav (journey order). `pages` lists the named destinations inside a
+ * section, using the title that page shows. The bar label is the section.
+ */
 export const PRIMARY_NAV = [
-  { key: 'today', to: ROUTES.home, label: 'Today', mobileLabel: 'Today', icon: 'home' },
-  { key: 'baby', to: ROUTES.baby, label: 'My Baby', mobileLabel: 'Baby', icon: 'baby' },
+  {
+    key: 'today',
+    to: ROUTES.home,
+    label: 'Today',
+    mobileLabel: 'Today',
+    icon: 'home',
+    pages: [
+      { to: ROUTES.home, label: 'Today' },
+      { to: ROUTES.progress, label: 'Progress' },
+    ],
+  },
+  {
+    key: 'baby',
+    to: ROUTES.baby,
+    label: 'My Baby',
+    mobileLabel: 'Baby',
+    icon: 'baby',
+    pages: [
+      { to: ROUTES.baby, label: 'My Baby' },
+      { to: ROUTES.vaccination, label: 'Vaccination tracker' },
+      { to: ROUTES.babyBook, label: 'Baby book' },
+    ],
+  },
   { key: 'momCare', to: ROUTES.momCare, label: 'My Care', mobileLabel: 'Care', icon: 'heart' },
-  { key: 'essentials', to: ROUTES.essentials, label: 'Essentials', mobileLabel: 'Essentials', icon: 'shopping-cart' },
-  { key: 'community', to: ROUTES.communityTab('feed'), label: 'Community', mobileLabel: 'Community', icon: 'speech-bubble' },
+  {
+    key: 'essentials',
+    to: ROUTES.essentials,
+    label: 'Essentials',
+    mobileLabel: 'Essentials',
+    icon: 'shopping-cart',
+    pages: [
+      { to: ROUTES.essentials, label: 'Essentials' },
+      { to: ROUTES.shopping, label: 'Shopping' },
+      { to: ROUTES.travel, label: 'Travel' },
+    ],
+  },
+  {
+    key: 'community',
+    to: ROUTES.communityTab('feed'),
+    label: 'Community',
+    mobileLabel: 'Community',
+    icon: 'speech-bubble',
+    pages: [
+      { to: ROUTES.communityTab('feed'), label: 'Mom Feed' },
+      { to: ROUTES.communityTab('recipes'), label: 'Baby Recipes' },
+      { to: ROUTES.communityTab('tips'), label: 'Parenting Tips' },
+    ],
+  },
   { key: 'guides', to: ROUTES.guides, label: 'Guides', mobileLabel: 'Guides', icon: 'book-open' },
 ];
 

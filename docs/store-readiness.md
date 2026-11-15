@@ -1,6 +1,6 @@
 # Store readiness
 
-Yarn Trails will list on the App Store and Google Play later. This website is the product those listings describe. Native binaries, store screenshots, and Sign in with Apple wait for that wrapper. The rules below already apply here.
+Yarn Trails will list on the App Store and Google Play. The phone app is planned in [`mobile-app-plan.md`](mobile-app-plan.md) and started in [`mobile/`](../mobile/). This website is still the product those listings describe. The rules below already apply here.
 
 ## Already true
 

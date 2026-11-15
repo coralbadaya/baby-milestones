@@ -17,7 +17,7 @@ Last updated: September 2026
 
 ### Journey nav (primary)
 
-Today · My Baby · My Care · Essentials · Community · Guides (desktop top nav; Guides not in mobile bottom bar)
+Today · My Baby · My Care · Essentials · Community · Guides (desktop top bar; each section opens its named pages; Guides not in the mobile bottom bar)
 
 Footer-only: Progress · Sources · Premium (also header CTA)
 
@@ -140,7 +140,8 @@ Travel types: `car`, `air`, `train`, `dayOuting`, `hotel` — parsed in `assista
 | Auth | `src/context/AuthContext.jsx`, `src/pages/Login.jsx`, `SignUp.jsx`, `VerifyEmail.jsx`, `Account.jsx` |
 | Guards | `src/components/auth/RequireAuth.jsx`, `RequireRole.jsx`, `OtpVerifyForm.jsx` |
 | Premium / Plus | `src/pages/Premium.jsx`, `PremiumGate`, `src/constants/premium.js`, `src/utils/entitlements.js` |
-| AI baby book | `src/components/book/*`, `src/book/pageFold.js` (four-pose fold), `src/book/albumStore.js` (per-account local store), `scripts/personal-album.mjs` |
+| AI baby book | `src/components/book/*`, `src/book/albumHtml.js` (3D album document, used by the Book tab and the download), `src/book/pageFold.js` (one-sheet turn, next page right-reading, no crease, 1.9s), `src/book/pageLayouts.js` (open-book spreads), `src/book/albumStore.js` (per-account local store), `scripts/personal-album.mjs` (private photos, page editor file) |
+| iOS / Android | `mobile/` (Expo), plan in `docs/mobile-app-plan.md`. Birth date key `babyBirthDate` matches the website |
 | Stripe | `api/checkout.js`, `api/stripe-webhook.js`, `src/utils/stripeCheckout.js` |
 | Admin | `src/pages/admin/*`, `docs/auth-membership-admin.md`, `docs/admin-portal-design.md`, `docs/product-analytics.md` |
 

@@ -19,7 +19,7 @@
 | `docs/mom-milestones-ui-design.md` | Mom's postpartum timeline tab (`#timeline`), read-only guidance, birth-date personalization |
 | `docs/month-detail-ui-design.md` | DIY & Care grids, detail modal |
 | `docs/vaccination-ui-design.md` | Vaccination tracker: chart-first timeline, India/CDC/custom, CRUD, reminders/export/print |
-| `docs/navigation-seo.md` | Navigation IA, top nav + Premium CTA, multi-column footer, SEO/GEO structured data, sitemap/robots |
+| `docs/navigation-seo.md` | Navigation IA, top bar + page menus + Plus, multi-column footer, SEO/GEO structured data, sitemap/robots |
 
 ---
 
@@ -44,7 +44,7 @@ Rendered once in `App.jsx` on every route:
 
 | Piece | Component | Notes |
 |-------|-----------|-------|
-| Header | `Header.jsx` | Sticky top; `CoralLogo` lockup + desktop nav + mobile bottom nav |
+| Header | `Header.jsx` | 56px top bar. Phone: logo bar + bottom nav |
 | Main | `<main className="app-main">` | Route content; `flex: 1` |
 | Footer | `Footer.jsx` | `CoralLogo`, nav links, disclaimer, copyright |
 

@@ -47,7 +47,7 @@ At `max-width: 768px`, fixed bottom nav is shown. Page bodies use:
 
 Token: `--mobile-nav-height: 64px` in `:root`.
 
-Desktop (`≥769px`): normal `padding-bottom: var(--space-12)`.
+Desktop (`≥769px`): normal `padding-bottom: var(--space-12)`. The primary nav is a 56px top bar (`--header-height`), so the hero starts on the next line and keeps the full width.
 
 ### Horizontal padding
 

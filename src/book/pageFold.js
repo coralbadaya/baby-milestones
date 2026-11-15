@@ -1,7 +1,6 @@
 /**
- * Page-fold engine. Four poses — pick up, fold, carry, lay down —
- * shared by the in-app book and the downloaded album.
- * A later driver can import these poses; do not copy the numbers.
+ * Page-fold engine. The downloaded album bends one sheet into strips
+ * (curlAngles). The rigid poses stay for the reel and the in-app book.
  */
 
 export const FOLD_MS = 1900;
@@ -44,6 +43,45 @@ export function poseTransform(pose, forward = true) {
   return 'rotateY(' + (sign * pose.y) + 'deg) translateZ(' + pose.z + 'px) rotateX(' + (sign * pose.x) + 'deg) rotateZ(' + (sign * pose.roll) + 'deg)';
 }
 
+/** Enough slices that the bend reads as a curve, not a straight crease. */
+export const CURL_STRIPS = 36;
+
+export function curlAngles(progress) {
+  const p = Math.min(1, Math.max(0, progress));
+  const flat = p >= 1 ? 180 : 0;
+  if (p <= 0 || p >= 1) return Array.from({ length: CURL_STRIPS }, () => flat);
+  const eased = p * p * (3 - 2 * p);
+  const bow = Math.sin(eased * Math.PI);
+  const angles = [];
+  for (let i = 0; i < CURL_STRIPS; i += 1) {
+    const across = i / (CURL_STRIPS - 1);
+    angles.push(eased * 180 + bow * 58 * across * across);
+  }
+  return angles;
+}
+
+export function curlLift(progress) {
+  const p = Math.min(1, Math.max(0, progress));
+  return Math.sin(p * Math.PI) * 42;
+}
+
+/** Each strip starts where the previous one ends, so the sheet stays one piece. */
+export function curlPose(progress, pageWidth) {
+  const angles = curlAngles(progress);
+  const width = pageWidth > 0 ? pageWidth : 1;
+  const seg = 100 / angles.length;
+  const segPx = width / angles.length;
+  let x = 0;
+  let z = 0;
+  return angles.map((angle) => {
+    const pose = { angle, x, z };
+    const rad = (angle * Math.PI) / 180;
+    x += Math.cos(rad) * seg;
+    z += Math.sin(rad) * segPx;
+    return pose;
+  });
+}
+
 /** Plain script for the standalone album. No imports, so the file still opens offline. */
 export function foldPlayerScript() {
   return [
@@ -63,6 +101,44 @@ export function foldPlayerScript() {
     'function poseTransform(pose, forward) {',
     '  const sign = forward ? -1 : 1;',
     '  return "rotateY(" + (sign * pose.y) + "deg) translateZ(" + pose.z + "px) rotateX(" + (sign * pose.x) + "deg) rotateZ(" + (sign * pose.roll) + "deg)";',
+    '}',
+    'const CURL_STRIPS = ' + CURL_STRIPS + ';',
+    'function curlAngles(progress) {',
+    '  const p = Math.min(1, Math.max(0, progress));',
+    '  const angles = [];',
+    '  const flat = p >= 1 ? 180 : 0;',
+    '  if (p <= 0 || p >= 1) {',
+    '    for (let i = 0; i < CURL_STRIPS; i += 1) angles.push(flat);',
+    '    return angles;',
+    '  }',
+    '  const eased = p * p * (3 - 2 * p);',
+    '  const bow = Math.sin(eased * Math.PI);',
+    '  for (let i = 0; i < CURL_STRIPS; i += 1) {',
+    '    const across = i / (CURL_STRIPS - 1);',
+    '    angles.push(eased * 180 + bow * 58 * across * across);',
+    '  }',
+    '  return angles;',
+    '}',
+    'function curlLift(progress) {',
+    '  const p = Math.min(1, Math.max(0, progress));',
+    '  return Math.sin(p * Math.PI) * 42;',
+    '}',
+    'function curlPose(progress, pageWidth) {',
+    '  const angles = curlAngles(progress);',
+    '  const width = pageWidth > 0 ? pageWidth : 1;',
+    '  const seg = 100 / angles.length;',
+    '  const segPx = width / angles.length;',
+    '  let x = 0;',
+    '  let z = 0;',
+    '  const poses = [];',
+    '  for (let i = 0; i < angles.length; i += 1) {',
+    '    const angle = angles[i];',
+    '    const rad = (angle * Math.PI) / 180;',
+    '    poses.push({ angle: angle, x: x, z: z });',
+    '    x += Math.cos(rad) * seg;',
+    '    z += Math.sin(rad) * segPx;',
+    '  }',
+    '  return poses;',
     '}',
   ].join('\n');
 }

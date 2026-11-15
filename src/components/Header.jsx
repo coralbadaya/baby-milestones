@@ -5,13 +5,26 @@ import { useAuth } from '../context/AuthContext';
 import Icon from './Icon';
 import CoralLogo from './CoralLogo';
 
+function pagePath(to) {
+  return String(to).split('#')[0];
+}
+
+function isNamedPage(pathname, to) {
+  const path = pagePath(to);
+  if (path === ROUTES.home) return pathname === ROUTES.home;
+  if (path === ROUTES.baby) return pathname === ROUTES.baby;
+  if (path === ROUTES.communityTab('feed')) {
+    return pathname === path || pathname.startsWith(`${path}/`);
+  }
+  return pathname === path || pathname.startsWith(`${path}/`);
+}
+
 function Header() {
   const { pathname } = useLocation();
   const section = navSectionFromPath(pathname);
   const { user, loading } = useAuth();
 
   const navClass = (key) => (section === key ? 'active' : '');
-
   const onNav = () => interact('tap', 'selection');
 
   return (
@@ -19,51 +32,69 @@ function Header() {
       <header className="header">
         <div className="header-inner">
           <Link to={PRIMARY_NAV[0].to} className="header-logo" onClick={onNav}>
-            <CoralLogo variant="lockup" size={32} tagline="for parents" />
+            <CoralLogo variant="lockup" size={24} tagline={null} />
           </Link>
           <nav className="header-nav" aria-label="Primary">
-            {PRIMARY_NAV.map(({ key, to, label }) => (
-              <Link key={key} to={to} className={navClass(key)} onClick={onNav}>
-                {label}
+            <div className="header-nav-links">
+              {PRIMARY_NAV.map((item) => (
+                <div key={item.key} className="header-item">
+                  <Link to={item.to} className={navClass(item.key)} onClick={onNav}>
+                    {item.label}
+                  </Link>
+                  {item.pages ? (
+                    <div className="header-menu" role="group" aria-label={`${item.label} pages`}>
+                      {item.pages.map((page) => (
+                        <Link
+                          key={page.to}
+                          to={page.to}
+                          className={isNamedPage(pathname, page.to) ? 'active' : ''}
+                          onClick={onNav}
+                        >
+                          {page.label}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            <div className="header-nav-foot">
+              {!loading && (
+                user ? (
+                  <Link
+                    to={ROUTES.account}
+                    className={`header-auth ${pathname === ROUTES.account ? 'active' : ''}`}
+                    onClick={onNav}
+                  >
+                    Account
+                  </Link>
+                ) : (
+                  <>
+                    <Link
+                      to={ROUTES.signup}
+                      className={`header-auth ${pathname === ROUTES.signup ? 'active' : ''}`}
+                      onClick={onNav}
+                    >
+                      Sign up
+                    </Link>
+                    <Link
+                      to={ROUTES.login}
+                      className={`header-auth ${pathname === ROUTES.login ? 'active' : ''}`}
+                      onClick={onNav}
+                    >
+                      Sign in
+                    </Link>
+                  </>
+                )
+              )}
+              <Link
+                to={PREMIUM_NAV.to}
+                className={`header-cta ${navClass(PREMIUM_NAV.key)}`}
+                onClick={onNav}
+              >
+                {PREMIUM_NAV.label}
               </Link>
-            ))}
-            {!loading && (
-              user ? (
-                <Link
-                  to={ROUTES.account}
-                  className={`header-auth ${pathname === ROUTES.account ? 'active' : ''}`}
-                  onClick={onNav}
-                >
-                  <Icon name="user" size={16} />
-                  Account
-                </Link>
-              ) : (
-                <>
-                  <Link
-                    to={ROUTES.signup}
-                    className={`header-auth ${pathname === ROUTES.signup ? 'active' : ''}`}
-                    onClick={onNav}
-                  >
-                    Sign up
-                  </Link>
-                  <Link
-                    to={ROUTES.login}
-                    className={`header-auth ${pathname === ROUTES.login ? 'active' : ''}`}
-                    onClick={onNav}
-                  >
-                    Sign in
-                  </Link>
-                </>
-              )
-            )}
-            <Link
-              to={PREMIUM_NAV.to}
-              className={`header-cta ${navClass(PREMIUM_NAV.key)}`}
-              onClick={onNav}
-            >
-              <Icon name={PREMIUM_NAV.icon} size={16} />
-              {PREMIUM_NAV.label}
-            </Link>
+            </div>
           </nav>
         </div>
       </header>

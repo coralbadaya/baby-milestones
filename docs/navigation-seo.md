@@ -11,7 +11,8 @@ Information architecture, navigation chrome, and SEO/GEO infrastructure for Yarn
 ## Information architecture
 
 ```
-Top nav (lean):   Today · My Baby · My Care · Essentials · Community · Guides · Sign up · Sign in/Account · [Premium CTA]
+Top bar:          Today · My Baby · My Care · Essentials · Community · Guides · Sign up · Sign in/Account · [Plus]
+                  A section with more than one page opens a square menu of those page names.
 Mobile bottom bar: Today · Baby · Care · Essentials · Community   (Guides/Premium live elsewhere)
 
 Footer (4 columns):
@@ -31,7 +32,7 @@ Footer (4 columns):
 
 - `ROUTES` — all paths (incl. `guides`, `guide(slug)`, `faq`, `about`, `contact`,
   `feedback`, `login`, `signup`, `verifyEmail`, `account`, `admin`, legal/trust routes).
-- `PRIMARY_NAV` — desktop top-nav items (includes `guides`). **Premium is NOT here.**
+- `PRIMARY_NAV` — desktop top-bar items (includes `guides`). A `pages` list names the destinations inside that section. **Premium is NOT here.**
 - `MOBILE_NAV` — `PRIMARY_NAV` minus `guides` (bottom bar stays at 5 for ergonomics).
 - `PREMIUM_NAV` — single object rendered as the distinct CTA button.
 - `FOOTER_SECTIONS` — data-driven `[{ heading, links: [{to, label}] }]`.
@@ -39,9 +40,10 @@ Footer (4 columns):
 
 ## Components
 
-- **`Header.jsx`** — renders `PRIMARY_NAV` links + Sign up / Sign in (logged out) or Account + a `.header-cta` Premium pill.
-  On mobile, `.header-nav` is hidden; `.mobile-nav` renders `MOBILE_NAV`.
-  Desktop link chrome: subtle hover tint, active = inset underline (not solid pill); Premium alone stays filled.
+- **`Header.jsx`** — a 56px top bar (`--header-height`): logo, `PRIMARY_NAV`, Sign up / Sign in or Account, and a square `.header-cta` Plus button.
+  Sections with a `pages` list open a square menu of the page titles (My Baby → Vaccination tracker, Baby book; Essentials → Shopping, Travel; Community → Mom Feed, Baby Recipes, Parenting Tips; Today → Progress).
+  On a phone, `.header-nav` is hidden and `.mobile-nav` renders `MOBILE_NAV` at the bottom.
+  The current section is a 2px trail rule along the bottom edge of the bar. Corners stay square. Plus is a filled square, not a pill.
 - **`Footer.jsx`** — renders `FOOTER_SECTIONS` columns + a bottom bar with
   `SOCIAL_LINKS`, a local-only newsletter capture, disclaimer, and copyright.
 - **`ContentPage.jsx`** — renders structured legal/company pages from
@@ -152,7 +154,7 @@ AI search (answer engines, assistants, and generative overviews) should meet the
 
 ## Conventions
 
-- Keep the **top nav ≤ 6 items**; Premium is always a CTA, never a plain link.
+- Keep the **top bar ≤ 6 journey items**; further pages live in that section's menu, under the name the page itself uses. Premium is always a CTA, never a plain link.
 - Keep the **mobile bottom bar at 5 items**.
 - Footer is **data-driven** — add links via `FOOTER_SECTIONS`, never hard-code `<Link>`s.
 - After adding a page/guide: add it to `FOOTER_SECTIONS`/nav as appropriate and run

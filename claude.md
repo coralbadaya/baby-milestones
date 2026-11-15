@@ -17,6 +17,7 @@ Baby milestone tracker and mom care (React + Vite). Use this file for **fast age
 ## Stack
 
 - **Frontend:** React 19, Vite 8, Vitest, React Router 7
+- **Phone:** Expo in `mobile/` — iOS and Android. Plan: `docs/mobile-app-plan.md`. Needs Node 22 or newer.
 - **Backend:** Supabase (auth, Postgres, storage)
 - **Hosting:** Vercel (GitHub `main` → production). Team **nestmile**, project **baby-milestones**, domain yarntrails.com.
 - **Brand:** Yarn Trails — `src/constants/brand.js`

@@ -95,6 +95,7 @@
 
   /* Mobile bottom nav clearance (see docs/page-layout-standardization.md) */
   --mobile-nav-height: 72px;
+  --header-height: 56px;
   
   /* Typography — Newsreader display + Manrope body */
   --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
@@ -206,6 +207,11 @@ a {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+}
+
+.app--admin,
+.app--baby-book {
+  --header-height: 0px;
 }
 
 .app-main {
@@ -743,11 +749,11 @@ a {
   line-height: 1.6;
 }
 
-/* Header */
+/* Header — one 56px row. The page starts immediately under it. */
 .header {
   background: var(--white);
   border-bottom: 1px solid var(--mushroom);
-  padding: var(--space-4) 0;
+  height: var(--header-height);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -755,11 +761,12 @@ a {
 
 .header-inner {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 var(--space-5);
+  align-items: stretch;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 var(--space-3);
+  gap: var(--space-3);
 }
 
 /* App icons — Phosphor Light SVG */
@@ -925,7 +932,28 @@ a {
 
 .header-nav {
   display: flex;
-  gap: var(--space-1);
+  align-items: stretch;
+  flex: 1;
+  min-width: 0;
+  gap: var(--space-2);
+}
+
+.header-nav-links,
+.header-nav-foot {
+  display: flex;
+  align-items: stretch;
+}
+
+.header-nav-foot {
+  margin-left: auto;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.header-item {
+  position: relative;
+  display: flex;
+  align-items: stretch;
 }
 
 .header-nav button,
@@ -935,55 +963,103 @@ a {
   background: transparent;
   color: var(--text-secondary);
   transition: color var(--motion-fast) var(--ease-out),
-    background var(--motion-fast) var(--ease-out),
-    box-shadow var(--motion-fast) var(--ease-out);
+    background var(--motion-fast) var(--ease-out);
   text-decoration: none;
   border: none;
+  border-radius: 0;
   cursor: pointer;
 }
 
-/* Desktop primary nav — quiet luxury (journey links + auth) */
-.header-nav a:not(.header-cta),
-.header-nav button:not(.header-cta) {
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-xs);
+/* Bar links. The current section is a square rule on the header edge. */
+.header-item > a,
+.header-nav-foot > a.header-auth {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  white-space: nowrap;
 }
 
-.header-nav a:not(.header-cta):hover,
-.header-nav button:not(.header-cta):hover {
-  background: color-mix(in srgb, var(--coral-sand) 35%, transparent);
+.header-item > a:hover,
+.header-nav-foot > a.header-auth:hover {
   color: var(--text-primary);
+  background: transparent;
 }
 
-.header-nav a:not(.header-cta).active,
-.header-nav button:not(.header-cta).active {
-  background: color-mix(in srgb, var(--coral-primary-light) 25%, transparent);
+.header-item > a.active,
+.header-nav-foot > a.header-auth.active {
   color: var(--text-primary);
-  box-shadow: inset 0 -2px 0 var(--coral-primary);
+  background: transparent;
+  border-bottom-color: var(--coral-primary);
+  box-shadow: none;
 }
 
-.header-nav a:not(.header-cta):focus-visible,
-.header-nav button:not(.header-cta):focus-visible {
+.header-item > a:focus-visible,
+.header-nav-foot > a:focus-visible,
+.header-menu a:focus-visible {
   outline: 2px solid var(--coral-primary);
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 
-/* Premium CTA — distinct filled accent pill */
+/* Named pages inside a section. Square panel, no rounded corners. */
+.header-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 13.5rem;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--mushroom);
+  border-radius: 0;
+  padding: var(--space-1) 0;
+  z-index: 2;
+}
+
+.header-item:hover .header-menu,
+.header-item:focus-within .header-menu {
+  display: flex;
+}
+
+.header-menu a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: 0;
+  border-left: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.header-menu a:hover {
+  background: var(--wool-mist, var(--cream));
+  color: var(--text-primary);
+}
+
+.header-menu a.active {
+  background: color-mix(in srgb, var(--coral-primary-light) 35%, var(--white));
+  color: var(--text-primary);
+  border-left-color: var(--coral-primary);
+  box-shadow: none;
+}
+
+/* Plus — square filled button, not a pill. */
 .header-nav a.header-cta,
 .header-nav a.header-cta:hover {
-  margin-left: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  margin: 0;
+  padding: 0 var(--space-4);
+  border-radius: 0;
+  border-bottom: none;
   background: var(--coral-primary);
   color: var(--white);
   font-weight: 700;
-  box-shadow: var(--shadow-sm);
 }
 
-.header-nav a.header-cta:hover {
-  background: var(--coral-primary-dark);
-}
-
+.header-nav a.header-cta:hover,
 .header-nav a.header-cta.active {
   background: var(--coral-primary-dark);
   color: var(--white);
@@ -995,9 +1071,6 @@ a {
 }
 
 .header-nav a.header-auth {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
   font-weight: 500;
 }
 

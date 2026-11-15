@@ -267,18 +267,21 @@ import CoralLogo from './CoralLogo';
 | Min size 24px for mark | Heavy gradients or 3D effects |
 | Keep clear space ~8px around mark | Storks, pacifiers, stock baby clipart |
 
-### Header navigation (desktop, shipped)
+### Top navigation (desktop, shipped)
 
-Journey links + Sign in/Account use **quiet luxury** chrome — not filled pills.
+One row, 56px tall (`--header-height`). Logo, six journey links, Sign in/Account, and Plus. The page uses the full width under the bar. Phones keep this short logo bar and the bottom nav.
+
+A section with several pages opens a square menu. Each row is the page's own title. The panel has square corners and a 1px border.
 
 | State | Treatment |
 |-------|-----------|
-| Default | `--text-secondary`, transparent background |
-| Hover | Light sand tint (`color-mix` ~35%), `--text-primary` |
-| Active | Subtle peach tint (~25%) + **2px inset underline** in `--coral-primary` |
-| Premium CTA | Only filled accent — `.header-cta` coral pill, unchanged |
+| Default | `--text-secondary`, no fill |
+| Hover | `--text-primary`, no chip |
+| Active | `--text-primary` and a **2px trail rule** on the bottom edge of the bar |
+| Menu row, current page | Square wool wash and a 2px trail rule on the left |
+| Plus | Filled square — `.header-cta`, no pill radius |
 
-CSS: `.header-nav a:not(.header-cta)` in `global.css` — padding `--space-1` × `--space-2`, radius `--radius-xs` (8px). Mobile `.mobile-nav`: color-only active (no pill).
+CSS: `.header`, `.header-item`, `.header-menu` in `global.css`. Mobile `.mobile-nav`: color-only active.
 
 ---
 
@@ -889,7 +892,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 |------------|-------|-------|
 | Mobile | < 640px | Single column, bottom nav |
 | Tablet | 640–1024px | 2 columns, adapt nav |
-| Desktop | > 1024px | 3+ columns, sidebar nav |
+| Desktop | > 1024px | 3+ columns, top nav |
 
 ```css
 /* Mobile-first approach */

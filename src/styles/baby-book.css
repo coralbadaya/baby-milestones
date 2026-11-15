@@ -70,6 +70,47 @@
   padding: 1rem 1rem 5.5rem;
 }
 
+.baby-book-shell__inner--book {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-width: none;
+  height: 100dvh;
+  padding: 0.55rem 0.85rem 4.6rem;
+}
+
+.baby-book-shell__inner--book .baby-book-shell__topbar {
+  flex: none;
+  padding: 0.1rem 0 0.35rem;
+}
+
+.baby-book-shell__end {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 72px;
+}
+
+.baby-book-shell__end .baby-book-btn {
+  min-height: 40px;
+  padding: 0 0.8rem;
+}
+
+.baby-book-album {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.baby-book-album-frame {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  border-radius: 12px;
+  background: #120c22;
+}
+
 .baby-book-shell__topbar {
   display: flex;
   align-items: center;

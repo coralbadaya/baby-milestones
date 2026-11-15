@@ -79,6 +79,7 @@ npm run build        # before merge
 | Nav / routes | [`information-architecture.md`](information-architecture.md) |
 | Search, GEO, AISO | [`navigation-seo.md`](navigation-seo.md) |
 | App Store / Play readiness | [`store-readiness.md`](store-readiness.md) |
+| iPhone and Android app | [`mobile-app-plan.md`](mobile-app-plan.md) · [`mobile/`](../mobile/) |
 | Auth / admin | [`auth-membership-admin.md`](auth-membership-admin.md) |
 | Staff Insights | [`product-analytics.md`](product-analytics.md) |
 | Code conventions | [`CLAUDE.md`](../CLAUDE.md) · [`memory.md`](../memory.md) · `.cursor/rules/coral.mdc` |

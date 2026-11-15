@@ -11,7 +11,7 @@
 
 ## Navigation
 
-- **Desktop:** `Header.jsx` top nav — "Mom Care" with heart icon, between Travel and Community.
+- **Desktop:** top bar in `Header.jsx` — "My Care", between My Baby and Essentials.
 - **Mobile:** `mobile-nav` bottom bar — same position.
 - **Footer:** `Footer.jsx` — listed between Travel and Community.
 

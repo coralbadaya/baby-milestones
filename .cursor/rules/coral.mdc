@@ -66,8 +66,9 @@ Parent features are designed on a **390px** screen first. Desktop widens that la
 | `docs/first-moments-ui-design.md` | Life firsts photo journal — carousel (Today) + journal (My Baby) |
 | `docs/vaccination-ui-design.md` | Vaccination tracker |
 | `docs/community-feature-plan.md` | Community feature — phased plan |
-| `docs/navigation-seo.md` | Navigation, footer & SEO — IA, top nav + Premium CTA, footer columns, structured data, sitemap/robots, GEO, AISO |
+| `docs/navigation-seo.md` | Navigation, footer & SEO — IA, top bar + page menus + Plus, footer columns, structured data, sitemap/robots, GEO, AISO |
 | `docs/store-readiness.md` | App Store and Play listing rules the website must already satisfy |
+| `docs/mobile-app-plan.md` | **iOS and Android** — Expo app, daily open, OTP, Plus billing |
 | `docs/development-workflow.md` | **Beginner workflow** — Git, Vercel, Supabase, local dev, **login credentials** |
 | `docs/auth-membership-admin.md` | **Auth** — Supabase login, OTP signup, membership, admin, test users |
 | `docs/admin-portal-design.md` | **Admin portal** — staff console layout, theme tokens, component patterns |

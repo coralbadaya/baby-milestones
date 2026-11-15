@@ -42,6 +42,16 @@ describe('local album store', () => {
     expect(html).toContain('data-style="popup"');
     expect(html).toContain('data-style="snowglobe"');
     expect(html).toContain('const FOLD_MS = 1900');
+    expect(html).toContain('function sheetTransform');
+    expect(html).toContain("folio.className = 'folio '");
+    expect(html).toContain('data-style="plain"');
+    expect(html).toContain('group-name">Turn');
+    expect(html).toContain('id="addText"');
+    expect(html).toContain('yt-album-pieces');
+    expect(html.slice(html.indexOf('<script>'))).not.toContain('`');
+    expect(html).toContain('class="book"');
+    expect(html).toContain('data-layout="facing"');
+    expect(html).toContain('data-layout="pair"');
     expect(store.read('plus-user').pageCount).toBe(1);
   });
 });
