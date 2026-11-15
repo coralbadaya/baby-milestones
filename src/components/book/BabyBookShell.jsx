@@ -5,7 +5,7 @@ import { ROUTES } from '../../routes';
 import StarfieldCanvas from './StarfieldCanvas';
 import BookHomeTab from './BookHomeTab';
 import StoryStudio from './StoryStudio';
-import IdeasGrid from './IdeasGrid';
+import IdeaStudio from './idea-studio/IdeaStudio';
 import FlipBookViewer from './FlipBookViewer';
 import FamilyCircleTab from './FamilyCircleTab';
 import VoiceBlessingsFeed from './VoiceBlessingsFeed';
@@ -33,7 +33,7 @@ function BabyBookShell({
   const { photos } = useMonthlyAlbum();
   const { album: personalAlbum, ready: albumReady } = usePersonalAlbum();
   const { blessings } = useVoiceProfiles();
-  const { ideas, generateIdea, generating } = useBookIdeas(
+  const { ideas, generateIdea, generating, loading: ideasLoading } = useBookIdeas(
     photos,
     firstMoments,
     { birthDate, currentMonth },
@@ -81,14 +81,15 @@ function BabyBookShell({
         )}
 
         {activeTab === 'ideas' && (
-          <IdeasGrid
+          <IdeaStudio
             ideas={ideas}
-            totalPhotoCount={
-              photos.filter((p) => p.data_url).length
-              + Object.values(firstMoments || {}).filter((m) => m?.dataUrl || m?.videoDataUrl).length
-            }
+            ideasLoading={ideasLoading}
+            albumPhotos={photos}
+            firstMoments={firstMoments}
+            currentMonth={babyAgeMonths}
+            birthDate={birthDate}
             generating={generating}
-            onGenerate={(idea) => generateIdea(idea.id, idea.matchedPhotoIds)}
+            onGenerate={generateIdea}
           />
         )}
 

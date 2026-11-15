@@ -34,7 +34,7 @@ export function useBookIdeas(albumPhotos, firstMoments, context = {}) {
     refresh();
   }, [refresh]);
 
-  const generateIdea = useCallback(async (conceptId, matchedPhotoIds) => {
+  const generateIdea = useCallback(async (conceptId, matchedPhotoIds, _meta) => {
     if (!user?.id) return null;
     setGenerating(conceptId);
     try {

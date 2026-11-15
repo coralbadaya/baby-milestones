@@ -140,7 +140,7 @@ Travel types: `car`, `air`, `train`, `dayOuting`, `hotel` — parsed in `assista
 | Auth | `src/context/AuthContext.jsx`, `src/pages/Login.jsx`, `SignUp.jsx`, `VerifyEmail.jsx`, `Account.jsx` |
 | Guards | `src/components/auth/RequireAuth.jsx`, `RequireRole.jsx`, `OtpVerifyForm.jsx` |
 | Premium / Plus | `src/pages/Premium.jsx`, `PremiumGate`, `src/constants/premium.js`, `src/utils/entitlements.js` |
-| AI baby book | `src/components/book/*`, `src/book/albumHtml.js` (3D album document, used by the Book tab and the download), `src/book/pageFold.js` (one-sheet turn, next page right-reading, no crease, 1.9s), `src/book/pageLayouts.js` (open-book spreads), `src/book/albumStore.js` (per-account local store), `scripts/personal-album.mjs` (private photos, page editor file) |
+| AI baby book | `src/components/book/*`, `src/book/albumHtml.js` (3D album document, used by the Book tab and the download), `src/book/engine` (shared sheet, reel, and phone poses, 1.9s), `src/book/pageFold.js` (legacy names plus the offline script), `src/book/pageLayouts.js` (open-book spreads), `src/book/albumStore.js` (per-account local store), `scripts/personal-album.mjs` (private photos, page editor file), **dev QA** `src/pages/dev/PageTurnPlayground.jsx` at `/dev/page-turn-playground` (Vite dev only — see `docs/page-turn-qa.md`) |
 | iOS / Android | `mobile/` (Expo), plan in `docs/mobile-app-plan.md`. Birth date key `babyBirthDate` matches the website |
 | Stripe | `api/checkout.js`, `api/stripe-webhook.js`, `src/utils/stripeCheckout.js` |
 | Admin | `src/pages/admin/*`, `docs/auth-membership-admin.md`, `docs/admin-portal-design.md`, `docs/product-analytics.md` |

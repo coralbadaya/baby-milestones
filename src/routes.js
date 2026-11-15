@@ -12,6 +12,8 @@ export const ROUTES = {
   premium: '/premium',
   storyPreview: (token) => `/story/preview/${token}`,
   milestoneCardsTool: '/tools/milestone-cards',
+  /** Vite `import.meta.env.DEV` only — not in production builds */
+  devPageTurnPlayground: '/dev/page-turn-playground',
   month: (n) => `/month/${n}`,
   shopping: '/shopping',
   vaccination: '/vaccination',

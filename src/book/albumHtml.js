@@ -349,6 +349,11 @@ let selectedPiece = null;
 let soundOn = true;
 ${foldPlayerScript()}
 ${layoutPlayerScript()}
+const foldDriver = createAnimationDriver({
+  now: function () { return performance.now(); },
+  requestFrame: function (fn) { return requestAnimationFrame(fn); },
+  cancelFrame: function (id) { cancelAnimationFrame(id); }
+});
 
 function textEl(tag, className, text) {
   const node = document.createElement(tag);
@@ -699,6 +704,7 @@ function paintChrome() {
 function cancelFold() {
   if (foldFrame) cancelAnimationFrame(foldFrame);
   foldFrame = 0;
+  foldDriver.cancel();
   clearTimeout(foldTimer);
   clearTimeout(helloTimer);
 }
@@ -739,13 +745,16 @@ function buildCurl() {
   }
   flap.dataset.pageWidth = String(flap.offsetWidth || 1);
 }
-function restLeaf() {
-  cancelFold();
+function flattenLeaf() {
   flap.classList.remove('curling');
   flap.style.transition = 'none';
   flap.style.transform = 'none';
   flap.style.setProperty('--shade', '0');
   clearCurl();
+}
+function restLeaf() {
+  cancelFold();
+  flattenLeaf();
 }
 function applyCurl(progress) {
   const p = Math.min(1, Math.max(0, progress));
@@ -763,10 +772,10 @@ function applyCurl(progress) {
 }
 function renderProgress(progress, forward, animate) {
   if (document.body.classList.contains('reel')) {
-    const pose = poseAt(progress);
+    const pose = getReelPose(progress, forward);
     flap.style.transition = animate && !reduced ? 'transform 70ms linear' : 'none';
-    flap.style.transform = poseTransform(pose, forward);
-    flap.style.setProperty('--shade', Math.sin((pose.y * Math.PI) / 180).toFixed(3));
+    flap.style.transform = reelCss(pose);
+    flap.style.setProperty('--shade', pose.shadow.toFixed(3));
     return;
   }
   if (progress <= 0.001) {
@@ -776,26 +785,26 @@ function renderProgress(progress, forward, animate) {
   sheetTransform(progress);
 }
 function sheetTransform(progress) {
-  const p = Math.min(1, Math.max(0, progress));
-  const eased = p * p * (3 - 2 * p);
-  const lift = Math.sin(p * Math.PI);
+  const pose = getSheetPose(progress);
   flap.classList.remove('curling');
   flap.style.transition = 'none';
-  flap.style.transform = 'rotateX(' + (lift * 7).toFixed(2) + 'deg) rotateY(' + (-eased * 180).toFixed(2) + 'deg) translateZ(' + (lift * 22).toFixed(1) + 'px)';
-  flap.style.setProperty('--shade', lift.toFixed(3));
+  flap.style.transform = sheetCss(pose);
+  flap.style.setProperty('--shade', pose.shadow.toFixed(3));
 }
 function renderAngle(deg, animate) {
   renderProgress(Math.min(1, Math.abs(deg) / 180), deg <= 0, animate);
 }
+function runOnDriver(from, to, onProgress, done) {
+  foldDriver.start({
+    from: from,
+    to: to,
+    duration: FOLD_MS,
+    onUpdate: onProgress,
+    onComplete: done
+  });
+}
 function runRigid(from, to, forward, done) {
-  const t0 = performance.now();
-  const step = function (now) {
-    const u = Math.min(1, (now - t0) / FOLD_MS);
-    renderProgress(from + (to - from) * u, forward, false);
-    if (u < 1) foldFrame = requestAnimationFrame(step);
-    else done();
-  };
-  foldFrame = requestAnimationFrame(step);
+  runOnDriver(from, to, function (p) { renderProgress(p, forward, false); }, done);
 }
 function runCurl(from, to, done) {
   buildCurl();
@@ -812,16 +821,10 @@ function runCurl(from, to, done) {
 }
 function runSheet(from, to, done) {
   sheetTransform(from);
-  const t0 = performance.now();
-  const step = function (now) {
-    const u = Math.min(1, (now - t0) / FOLD_MS);
-    const p = from + (to - from) * u;
-    if (p <= 0.001) restLeaf();
+  runOnDriver(from, to, function (p) {
+    if (p <= 0.001) flattenLeaf();
     else sheetTransform(p);
-    if (u < 1) foldFrame = requestAnimationFrame(step);
-    else done();
-  };
-  foldFrame = requestAnimationFrame(step);
+  }, done);
 }
 function playFold(forward, done) {
   if (document.body.classList.contains('reel')) runRigid(0, 1, forward, done);
@@ -838,8 +841,16 @@ function settle(next) {
   if (playing) arm();
 }
 function turnTo(next, kind) {
-  if (busy) return;
-  if (next === index || next < 0 || next >= PAGES.length) {
+  const plan = planTurn({
+    busy: busy,
+    index: index,
+    next: next,
+    pageCount: PAGES.length,
+    reducedMotion: reduced,
+    mode: document.body.classList.contains('reel') ? 'reel' : 'open-book'
+  });
+  if (plan.action === 'ignore') return;
+  if (plan.action === 'show') {
     showSpread();
     return;
   }
@@ -847,9 +858,9 @@ function turnTo(next, kind) {
   cancelFold();
   busy = true;
   feel(kind);
-  const forward = next > index;
-  const reel = document.body.classList.contains('reel');
-  if (reduced) { settle(next); return; }
+  const forward = plan.direction === 'forward';
+  const reel = plan.mode === 'reel';
+  if (plan.action === 'settle') { settle(plan.next); return; }
   if (reel) {
     const page = PAGES[next];
     fill(back, page && page.ending ? { role: 'ending', page: page } : { role: 'photo', page: page }, next);
@@ -1035,8 +1046,8 @@ stage.addEventListener('pointermove', function (event) {
   if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
   drag.moved = true;
   const width = stage.getBoundingClientRect().width || 320;
-  drag.angle = Math.max(-180, Math.min(180, (dx / width) * 180));
-  if (drag.angle < -8 && drag.prepared !== 'next') {
+  drag.angle = pointerAngle(dx, width, document.documentElement.dir === 'rtl');
+  if (armDirection(drag.angle) === 'next' && drag.prepared !== 'next') {
     drag.prepared = 'next';
     clearCurl();
     if (document.body.classList.contains('reel')) {
@@ -1049,7 +1060,7 @@ stage.addEventListener('pointermove', function (event) {
       fill(rightRest, dest.right, destAt);
     }
   }
-  if (drag.angle > 8 && drag.prepared !== 'prev') {
+  if (armDirection(drag.angle) === 'prev' && drag.prepared !== 'prev') {
     drag.prepared = 'prev';
     clearCurl();
     if (document.body.classList.contains('reel')) {
@@ -1065,8 +1076,8 @@ stage.addEventListener('pointermove', function (event) {
       fill(rightRest, here.right, index);
     }
   }
-  if (drag.prepared === 'prev' && !document.body.classList.contains('reel')) renderProgress(Math.max(0, 1 - drag.angle / 180), true, false);
-  else renderAngle(drag.angle, false);
+  const sample = dragSample(drag.angle, drag.prepared, document.body.classList.contains('reel') ? 'reel' : 'open-book');
+  renderProgress(sample.progress, sample.forward, false);
 });
 stage.addEventListener('pointerup', function (event) {
   if (editDrag) {
@@ -1087,8 +1098,9 @@ stage.addEventListener('pointerup', function (event) {
     turnTo(left ? stepBack() : stepForward(), left ? 'swipe-back' : 'swipe-next');
     return;
   }
-  if (info.prepared === 'prev' && info.angle > 50) turnTo(stepBack(), 'swipe-back');
-  else if (info.angle < -50) turnTo(stepForward(), 'swipe-next');
+  const action = releaseAction(info.angle, info.prepared);
+  if (action === 'back') turnTo(stepBack(), 'swipe-back');
+  else if (action === 'next') turnTo(stepForward(), 'swipe-next');
   else showSpread();
 });
 document.addEventListener('keydown', function (event) {

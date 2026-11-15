@@ -1,80 +1,16 @@
 import { detectFestivalFromDate } from '../data/festivalCalendar';
+import { getBookIdeaConceptList } from '../data/bookIdeasConfig';
 
 /** @typedef {{ id: string, photoDataUrl?: string, videoDataUrl?: string, capturedAt?: string, note?: string }} FirstMoment */
 /** @typedef {{ id: string, caption?: string, photo_month?: number, captured_at?: string, data_url?: string }} AlbumPhoto */
 
-export const BOOK_IDEA_CONCEPTS = [
-  {
-    id: 'sameSpotSeries',
-    emoji: '🪑',
-    title: 'Same-spot series',
-    tagLine: 'Monthly growth',
-    description: 'Baby in the same chair or blanket each month — AI aligns growth.',
-  },
-  {
-    id: 'littleHandsFeet',
-    emoji: '🤲',
-    title: 'Little hands, little feet',
-    tagLine: 'Crop & arrange',
-    description: 'AI crops and arranges a hands-and-feet-only spread.',
-  },
-  {
-    id: 'thenAndNow',
-    emoji: '🪞',
-    title: 'Then & Now mirror',
-    tagLine: 'Grandparent gift',
-    description: 'Your baby photo beside your own — a grandparent gift gold.',
-  },
-  {
-    id: 'sleepGallery',
-    emoji: '🌙',
-    title: 'Twelve dreams',
-    tagLine: 'Sleep gallery',
-    description: 'Sleeping photos clustered into a "12 dreams" spread.',
-  },
-  {
-    id: 'firstTastes',
-    emoji: '🥑',
-    title: 'First tastes',
-    tagLine: 'Solids era',
-    description: 'Solids-era mess montage with AI-cleaned backgrounds.',
-  },
-  {
-    id: 'letterAt18',
-    emoji: '✉️',
-    title: 'Letter to you at 18',
-    tagLine: 'Time capsule',
-    description: 'Write or record now; sealed page in the printed book.',
-  },
-  {
-    id: 'familyConstellation',
-    emoji: '✨',
-    title: 'Family constellation',
-    tagLine: 'From Family Circle',
-    description: 'Family faces stylized as a star map — fits the night-sky brand.',
-  },
-  {
-    id: 'festivalFirsts',
-    emoji: '🪔',
-    title: 'Festival firsts',
-    tagLine: 'Auto-detected',
-    description: 'First Diwali, Christmas, or Eid auto-detected by date.',
-  },
-  {
-    id: 'growthChart',
-    emoji: '🚀',
-    title: 'Growth rocket',
-    tagLine: 'From milestones',
-    description: 'Weight and height plotted as a climbing vine or rocket trail.',
-  },
-  {
-    id: 'alphabetOfYou',
-    emoji: '🔤',
-    title: 'Alphabet of you',
-    tagLine: 'One tap',
-    description: 'A is for Avocado face, B is for Bath time — AI picks photos.',
-  },
-];
+export const BOOK_IDEA_CONCEPTS = getBookIdeaConceptList().map((def) => ({
+  id: def.id,
+  emoji: def.emoji,
+  title: def.title,
+  tagLine: def.category,
+  description: def.description,
+}));
 
 const SLEEP_KEYWORDS = ['sleep', 'nap', 'asleep', 'bed', 'crib', 'dream'];
 const HANDS_FEET_KEYWORDS = ['hand', 'foot', 'feet', 'toe', 'finger', 'palm'];

@@ -105,6 +105,8 @@ Entry points: baby book Stories tab · My Baby teaser · [`GuideStoryCta.jsx`](.
 
 ## AI photo-book ideas (Ideas tab)
 
+**Idea Studio UI:** [`src/components/book/idea-studio/`](../src/components/book/idea-studio/) — hero, memory sources, four editorial collections, per-idea creation modal (photo select, letter, milestones, festival confirm). Metadata in [`src/data/bookIdeasConfig.js`](../src/data/bookIdeasConfig.js).
+
 10 concepts — detection in [`src/utils/bookIdeaDetection.js`](../src/utils/bookIdeaDetection.js):
 
 `sameSpotSeries` · `littleHandsFeet` · `thenAndNow` · `sleepGallery` · `firstTastes` · `letterAt18` · `familyConstellation` · `festivalFirsts` · `growthChart` · `alphabetOfYou`
@@ -124,7 +126,7 @@ The 3D Book tab plays the same album as `personal/first-year-3d-album.html`. [`s
 | Pop-up | The photograph lifts further off the page |
 | Snow-globe | The photograph sits in a glass orb |
 
-The page turn is one engine, [`src/book/pageFold.js`](../src/book/pageFold.js). The downloaded album turns one sheet for 1.9 seconds. Until it is edge-on you see the right-hand page. After that you see its back, the next left page, right-reading. There is no crease line and no mirrored text. Going back reverses that. The open book stays a left page and a right page, and each page carries its number.
+The page turn is one engine, [`src/book/engine`](../src/book/engine). The open book eases one sheet for 1.9 seconds. The reel uses the five rigid poses. The phone uses those Y angles and its own X curve, still for 1.9 seconds, with cubic in-out on the native driver. [`src/book/pageFold.js`](../src/book/pageFold.js) keeps the old names and writes the same math into the downloaded album, which has to open with no imports. Until the sheet is edge-on you see the right-hand page. After that you see its back, the next left page, right-reading. There is no crease line and no mirrored text. Going back reverses that. The open book stays a left page and a right page, and each page carries its number.
 
 On a settled page, **Edit page** turns the spread into a slide: drag a photograph, the words, the month, or the name; resize from the corner; add a text line; nudge with the arrow keys. Those positions stay in the browser for that file (`yt-album-pieces`). Reset page clears the two pages on screen. The reel still uses a smooth rigid turn, because a story is one full-screen card.
 

@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { lazy, Suspense, useEffect, useCallback } from 'react';
 import { Routes, Route, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -52,6 +52,10 @@ import { useShoppingChecks } from './hooks/useShoppingChecks';
 import { useVaccination } from './hooks/useVaccination';
 import { interact } from './utils/haptics';
 import { ROUTES, isCommunityTab } from './routes';
+
+const PageTurnPlayground = import.meta.env.DEV
+  ? lazy(() => import('./pages/dev/PageTurnPlayground.jsx'))
+  : null;
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -282,6 +286,16 @@ function App() {
         <Route path={ROUTES.guides} element={<Guides />} />
         <Route path="/guides/:slug" element={<GuideArticle />} />
         <Route path={ROUTES.milestoneCardsTool} element={<MilestoneCardsTool />} />
+        {import.meta.env.DEV && PageTurnPlayground ? (
+          <Route
+            path={ROUTES.devPageTurnPlayground}
+            element={(
+              <Suspense fallback={<p style={{ padding: '1rem' }}>Loading QA playground…</p>}>
+                <PageTurnPlayground />
+              </Suspense>
+            )}
+          />
+        ) : null}
         <Route path="/story/preview/:token" element={<StoryPreview />} />
         <Route path={ROUTES.faq} element={<Faq />} />
 

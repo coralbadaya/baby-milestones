@@ -1,6 +1,7 @@
 /**
  * Left page and right page for one open spread.
- * Keep this in step with src/book/pageLayouts.js. The phone app does not import the website.
+ * Keep this in step with src/book/pageLayouts.js. The phone app does not import the website bundle.
+ * Turn math: mobile/lib/bookEngine.ts ↔ src/book/engine.
  */
 
 export type LayoutId = 'photo-story' | 'story-photo' | 'facing' | 'pair' | 'chapter';

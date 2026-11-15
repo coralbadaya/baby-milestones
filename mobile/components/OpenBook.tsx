@@ -3,8 +3,7 @@ import { Animated, Easing, Image, Pressable, StyleSheet, Text, View } from 'reac
 
 import { colors, fonts } from '@/constants/theme';
 import { Slot, SpreadPage, composeSpread } from '@/lib/pageLayouts';
-
-const TURN_MS = 1900;
+import { FOLD_MS, MOBILE_INPUT, MOBILE_ROTATE_X, MOBILE_ROTATE_Y, planTurn } from '@/lib/bookEngine';
 
 function Words({ page, light }: { page: SpreadPage; light?: boolean }) {
   return (
@@ -84,22 +83,34 @@ export function OpenBook({
   const spread = composeSpread(pages, index);
   const landing = composeSpread(pages, dest ?? index);
   const rotateY = turn.interpolate({
-    inputRange: [0, 0.24, 0.5, 0.76, 1],
-    outputRange: ['0deg', '-16deg', '-74deg', '-146deg', '-180deg'],
+    inputRange: MOBILE_INPUT,
+    outputRange: MOBILE_ROTATE_Y.map((deg) => `${deg}deg`),
   });
   const rotateX = turn.interpolate({
-    inputRange: [0, 0.24, 0.5, 0.76, 1],
-    outputRange: ['0deg', '-14deg', '-8deg', '6deg', '0deg'],
+    inputRange: MOBILE_INPUT,
+    outputRange: MOBILE_ROTATE_X.map((deg) => `${deg}deg`),
   });
 
   function go(next: number) {
-    if (busy.current || next === index || next < 0 || next >= pages.length) return;
+    const plan = planTurn({
+      busy: busy.current,
+      index,
+      next,
+      pageCount: pages.length,
+      reducedMotion: false,
+      mode: 'mobile',
+    });
+    if (plan.action === 'ignore' || plan.action === 'show') return;
+    if (plan.action === 'settle') {
+      onIndex(next);
+      return;
+    }
     busy.current = true;
     setDest(next);
     turn.setValue(0);
     Animated.timing(turn, {
       toValue: 1,
-      duration: TURN_MS,
+      duration: FOLD_MS,
       easing: Easing.inOut(Easing.cubic),
       useNativeDriver: true,
     }).start(() => {
