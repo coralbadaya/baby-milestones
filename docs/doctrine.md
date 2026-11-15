@@ -22,6 +22,17 @@ We are not a social network, a medical device, or a gamified checklist. We are a
 
 **Always design for the worst case:** half asleep, holding a baby, one hand free, low light at 3am. Premium positioning does not excuse small touch targets or deep navigation.
 
+### Mobile-first, elite
+
+The phone is the product. Desktop widens the same layout; it is not a second design.
+
+- Start every parent feature at **390px**. The primary job is one thumb, one tap from Today or the bottom bar.
+- Touch targets at least **56px**. Type readable at arm’s length. Generous vertical rhythm — elite means calm space, not a dense icon grid.
+- Heroes and sheets grow with their copy. A control that is clipped does not ship.
+- Parent flows are the audience. Admin stays a staff console.
+
+Store listing rules for a later iOS or Android wrapper: [`store-readiness.md`](store-readiness.md). Search, GEO, and AISO: [`navigation-seo.md`](navigation-seo.md).
+
 **Voice:** Confident, calm, never condescending. No "mama" clichés, no gamification, no achievement pressure.
 
 → Audience & UX context: [`design-system-2026.md`](design-system-2026.md)  
@@ -180,7 +191,7 @@ Future Stripe integration updates `memberships` via webhooks; until then, Supaba
 When choosing between options, apply in order:
 
 1. **Safety** — Does it respect medical boundaries and user privacy?
-2. **Exhaustion-aware UX** — Can it be used one-handed at 3am?
+2. **Phone-first 3am UX** — Can it be used one-handed at 3am on a 390px screen, with the primary job one tap away and nothing clipped?
 3. **Journey fit** — Does it belong in the sequence (Today → … → Community)?
 4. **Craft** — Does it feel editorial and calm, not cluttered?
 5. **Scope** — Is this the smallest shippable slice?
@@ -208,7 +219,7 @@ If a feature fails **Safety** or **Exhaustion-aware UX**, it does not ship until
 |-------|----------|------|
 | **Constitution** | **`doctrine.md` (this file)** | Principles & non‑negotiables |
 | **Onboarding** | **`doctrine-summary.md`** | One-page quick reference |
-| **System** | `design-system-2026.md`, `information-architecture.md`, `editorial-page-system.md` | Cross-cutting design & IA |
+| **System** | `design-system-2026.md`, `information-architecture.md`, `editorial-page-system.md`, `navigation-seo.md`, `store-readiness.md` | Cross-cutting design, IA, search, store listing |
 | **Feature** | `home-redesign.md`, `mom-care-ui-design.md`, etc. | Per-surface specs |
 | **Operations** | `development-workflow.md`, `auth-membership-admin.md` | How we build & run |
 | **Agent** | `CLAUDE.md`, `memory.md`, `.cursor/rules/coral.mdc` | Cursor quick guide + living file map & assistant KB |

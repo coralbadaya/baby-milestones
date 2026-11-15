@@ -25,3 +25,9 @@ dist-ssr
 .vercel
 .env*
 supabase/.temp/
+
+# Private family photos and the generated album. Never commit.
+/personal/
+
+# Per-account 3D books from the local store. Swap the driver later; do not commit books.
+/data/books/

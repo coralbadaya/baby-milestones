@@ -94,7 +94,7 @@ Signed-in users: Supabase `memberships` is source of truth for premium (not loca
 
 | Area | Key files |
 |------|-----------|
-| Home | `src/pages/Home.jsx`, `docs/home-redesign.md` |
+| Home | `src/pages/Home.jsx`, `src/components/HomeJobs.jsx`, `docs/home-redesign.md` |
 | Baby hub | `src/pages/Baby.jsx` |
 | Month detail | `src/pages/MonthDetail.jsx`, `src/data/milestones.js` |
 | Timeline | `src/components/Timeline.jsx` (carousel on Home, grid on Baby) |
@@ -140,7 +140,7 @@ Travel types: `car`, `air`, `train`, `dayOuting`, `hotel` — parsed in `assista
 | Auth | `src/context/AuthContext.jsx`, `src/pages/Login.jsx`, `SignUp.jsx`, `VerifyEmail.jsx`, `Account.jsx` |
 | Guards | `src/components/auth/RequireAuth.jsx`, `RequireRole.jsx`, `OtpVerifyForm.jsx` |
 | Premium / Plus | `src/pages/Premium.jsx`, `PremiumGate`, `src/constants/premium.js`, `src/utils/entitlements.js` |
-| AI baby book | `src/components/book/*`, `src/hooks/useMonthlyAlbum.js`, `useBabyStories.js`, `useVoiceNotes.js` |
+| AI baby book | `src/components/book/*`, `src/book/pageFold.js` (four-pose fold), `src/book/albumStore.js` (per-account local store), `scripts/personal-album.mjs` |
 | Stripe | `api/checkout.js`, `api/stripe-webhook.js`, `src/utils/stripeCheckout.js` |
 | Admin | `src/pages/admin/*`, `docs/auth-membership-admin.md`, `docs/admin-portal-design.md`, `docs/product-analytics.md` |
 

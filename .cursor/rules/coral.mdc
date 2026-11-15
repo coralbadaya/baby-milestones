@@ -23,6 +23,15 @@ alwaysApply: true
 - [`.cursor/skills/image-curation/SKILL.md`](.cursor/skills/image-curation/SKILL.md) — hero images, AI prompts, legal sourcing.
 - [`.cursor/skills/brand-assets/SKILL.md`](.cursor/skills/brand-assets/SKILL.md) — logo, favicon/app icons, palette, SEO/PWA.
 
+## Mobile-first, elite
+
+Parent features are designed on a **390px** screen first. Desktop widens that layout.
+
+- One thumb, one tap from Today or the bottom bar to the primary job.
+- Touch targets ≥ 56px. Type readable at arm’s length. Generous vertical rhythm — calm space, not a dense app grid.
+- Heroes grow with their copy. Do not ship a clipped button, field, or label.
+- Admin stays a staff console.
+
 **After** UI changes in the same session:
 
 1. Update the relevant design doc(s) so they match the code.
@@ -57,7 +66,8 @@ alwaysApply: true
 | `docs/first-moments-ui-design.md` | Life firsts photo journal — carousel (Today) + journal (My Baby) |
 | `docs/vaccination-ui-design.md` | Vaccination tracker |
 | `docs/community-feature-plan.md` | Community feature — phased plan |
-| `docs/navigation-seo.md` | Navigation, footer & SEO — IA, top nav + Premium CTA, footer columns, structured data, sitemap/robots |
+| `docs/navigation-seo.md` | Navigation, footer & SEO — IA, top nav + Premium CTA, footer columns, structured data, sitemap/robots, GEO, AISO |
+| `docs/store-readiness.md` | App Store and Play listing rules the website must already satisfy |
 | `docs/development-workflow.md` | **Beginner workflow** — Git, Vercel, Supabase, local dev, **login credentials** |
 | `docs/auth-membership-admin.md` | **Auth** — Supabase login, OTP signup, membership, admin, test users |
 | `docs/admin-portal-design.md` | **Admin portal** — staff console layout, theme tokens, component patterns |

@@ -11,6 +11,7 @@ import VoiceBlessingsFeed from './VoiceBlessingsFeed';
 import { useVoiceProfiles } from '../../hooks/useVoiceProfiles';
 import { useBookIdeas } from '../../hooks/useBookIdeas';
 import { useMonthlyAlbum } from '../../hooks/useMonthlyAlbum';
+import { usePersonalAlbum } from '../../hooks/usePersonalAlbum';
 
 const TABS = [
   { id: 'home', label: 'Home', icon: 'home' },
@@ -29,6 +30,7 @@ function BabyBookShell({
 }) {
   const navigate = useNavigate();
   const { photos } = useMonthlyAlbum();
+  const personalAlbum = usePersonalAlbum();
   const { blessings } = useVoiceProfiles();
   const { ideas, generateIdea, generating } = useBookIdeas(
     photos,
@@ -89,7 +91,7 @@ function BabyBookShell({
         )}
 
         {activeTab === 'book' && (
-          <FlipBookViewer albumPhotos={photos} />
+          <FlipBookViewer albumPhotos={photos} personalAlbum={personalAlbum} />
         )}
 
         {activeTab === 'family' && (

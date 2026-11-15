@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
+import HealthDisclaimerNote from '../components/HealthDisclaimerNote';
 import Icon from '../components/Icon';
 import DetailModal from '../components/DetailModal';
 import PremiumGate from '../components/PremiumGate';
@@ -270,6 +271,7 @@ function Vaccination({
       />
 
       <PageSection surface="ivory" width="wide" className="vaccination-page">
+      <HealthDisclaimerNote />
       <section className="vaccination-toolbar vaccination-print-hide">
         <div className="vaccination-toolbar-left">
           <VaccineScheduleSelect value={scheduleType} onChange={onScheduleTypeChange} />

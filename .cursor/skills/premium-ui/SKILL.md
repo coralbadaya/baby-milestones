@@ -26,6 +26,8 @@ Use when elevating Yarn Trails UI for affluent tier-1 new mothers — quiet luxu
 | Left-align body copy | Center long paragraphs |
 | Invitation tone for Premium | Aggressive paywalls on health tracking |
 | Trail moss CTAs (`--coral-primary`) | Terracotta / purple gradients |
+| Phone first at 390px; desktop widens it | A separate desktop layout squeezed onto a phone |
+| 56px targets, heroes that grow with copy | Clipped buttons, dense icon grids |
 
 ## Typography
 

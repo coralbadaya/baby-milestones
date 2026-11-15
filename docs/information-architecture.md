@@ -1,6 +1,6 @@
 # Information Architecture
 
-> Journey-ordered navigation for affluent new mothers. **Sequence over surface.**
+> Journey-ordered navigation for affluent new mothers. **Sequence over surface.** The phone is the product: Today is the front door, and every parent job is one tap from Today or the bottom bar.
 
 ---
 
@@ -55,13 +55,15 @@ Today (what matters now)
 
 ### Today (`/`)
 
-1. PageHero — editorial mother+baby, personalized greeting
-2. Birth date / baby name (onboarding if missing)
-3. This week's focus — 1–3 cards (milestone, mom care, editorial)
-4. Current month preview + DIY strip
-5. Life firsts carousel — link to `/baby#moments`
-6. Month timeline carousel — current month ±2, link to full timeline
-7. Assistant panel (existing)
+1. Purpose line — what Yarn Trails is, in one sentence
+2. One-tap jobs — My Baby, Baby book, My Care, Vaccination, Guides, Plus
+3. PageHero — editorial mother+baby, personalized greeting
+4. Birth date / baby name (onboarding if missing)
+5. This week's focus — 1–3 cards (milestone, mom care, editorial)
+6. Current month preview + DIY strip
+7. Life firsts carousel — link to `/baby#moments`
+8. Month timeline carousel — current month ±2, link to full timeline
+9. Assistant panel (existing)
 
 ### My Baby (`/baby`)
 

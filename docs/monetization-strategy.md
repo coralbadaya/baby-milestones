@@ -97,7 +97,7 @@ Events: `story_generated`, `trial_started`, `guide_cta_click`, `install_banner_c
 | `src/utils/entitlements.js` | Quota checks |
 | `src/hooks/useEntitlements.js` | React hook |
 | `src/context/AuthContext.jsx` | Session, membership, usage fetch |
-| `src/components/PremiumGate.jsx` | Teaser overlay |
+| `src/components/PremiumGate.jsx` | Teaser overlay. On the baby book, the cream card uses dark ink so the title stays readable; the flip-book gate shows an open-book illustration. |
 | `src/pages/Premium.jsx` | Basic vs Plus comparison — display names + labeled limits, annual-first |
 | `api/checkout.js` / `api/stripe-webhook.js` | Stripe Checkout + signed webhook (`stripe_events` idempotency) |
 

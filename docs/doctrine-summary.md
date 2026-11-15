@@ -13,7 +13,7 @@ A quiet-luxury companion for affluent new mothers (0–36 months). Editorial gui
 
 ## Who we build for
 
-Educated, time-poor mothers in tier‑1 cities. **Design for 3am:** one hand, low light, half asleep. Premium ≠ cluttered.
+Educated, time-poor mothers in tier‑1 cities. **Design for 3am:** one hand, low light, half asleep. The phone is the product — start at 390px. Premium means calm space, not a dense grid.
 
 ---
 
@@ -35,7 +35,8 @@ Educated, time-poor mothers in tier‑1 cities. **Design for 3am:** one hand, lo
 - Signup → email OTP before session  
 - Premium = invitation tone, not punishment  
 - Reuse shared components (`Select`, `PageHero`, `Footer`, `PremiumGate`)  
-- Update design docs when UI changes  
+- Update design docs when UI changes
+- Phone first: 56px targets, heroes that grow with their copy, one tap from Today to each parent job  
 
 ---
 
@@ -43,7 +44,7 @@ Educated, time-poor mothers in tier‑1 cities. **Design for 3am:** one hand, lo
 
 When stuck, prioritize:
 
-**Safety → 3am UX → Journey fit → Craft → Smallest scope → Maintainability**
+**Safety → phone-first 3am UX → Journey fit → Craft → Smallest scope → Maintainability**
 
 If Safety or 3am UX fails, don't ship.
 
@@ -74,8 +75,10 @@ npm run build        # before merge
 |------------|------|
 | Understand principles in depth | [`doctrine.md`](doctrine.md) |
 | Set up Git, Vercel, Supabase | [`development-workflow.md`](development-workflow.md) |
-| Change UI | [`design-system-2026.md`](design-system-2026.md) + feature doc |
+| Change UI | [`design-system-2026.md`](design-system-2026.md) + feature doc — phone first |
 | Nav / routes | [`information-architecture.md`](information-architecture.md) |
+| Search, GEO, AISO | [`navigation-seo.md`](navigation-seo.md) |
+| App Store / Play readiness | [`store-readiness.md`](store-readiness.md) |
 | Auth / admin | [`auth-membership-admin.md`](auth-membership-admin.md) |
 | Staff Insights | [`product-analytics.md`](product-analytics.md) |
 | Code conventions | [`CLAUDE.md`](../CLAUDE.md) · [`memory.md`](../memory.md) · `.cursor/rules/coral.mdc` |

@@ -152,6 +152,7 @@ Parents never see Insights. Ingest skips `/admin`. Server secrets: `SUPABASE_SER
 - Mom milestones: educational only; postpartum emergencies → obstetrician / local emergency number
 - Contact form: `submit_contact_form` RPC (not direct table insert). `/feedback` uses the same RPC with topic subjects.
 - UI changes: read design docs first, update docs after — see `.cursor/rules/coral.mdc`
+- **Phone first.** Design and check every parent feature at 390px before desktop: 56px targets, calm space, heroes that grow with their copy, primary job one tap from Today. Desktop widens the same layout. Elite means room, not a dense grid. Admin is a staff console.
 - Data changes: `npm run verify:data` + `npm test`
 
 ---

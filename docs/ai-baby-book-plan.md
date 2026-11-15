@@ -120,8 +120,16 @@ Edge Function: `generate-book-idea` (layout job stub).
 | Style | Status |
 |-------|--------|
 | **Parallax** | Shipped — Three.js in left page via [`ParallaxPage.jsx`](../src/components/book/ParallaxPage.jsx) |
-| Pop-up | CSS depth mock on spread |
-| Snow-globe | CSS orb spin mock on spread |
+| Pop-up | Photo lifts off a darkened copy of the same frame |
+| Snow-globe | Photo sits in a glass orb |
+
+The page turn is one engine, [`src/book/pageFold.js`](../src/book/pageFold.js). A turn takes 1.9 seconds and stops on four poses: the page is picked up, folded through the spine, carried over, and laid flat. The in-app spread and the downloaded album both use those poses.
+
+Parallax, Pop-up, and Snow-globe are modes of that same album, not separate books. The downloaded file keeps all three, plus hand turns, a timer, a closing page, and a vertical reel for an Instagram Reel, a WhatsApp Status, or a Facebook Story.
+
+A private folder `personal/` (gitignored) feeds this tab on localhost only. `personal/album.json` orders photos by capture time. The dev server serves them at `/api/personal-album` and writes `personal/first-year-3d-album.html` beside the photos. Those files are never bundled or deployed.
+
+Plus books are generated per login. [`src/book/albumStore.js`](../src/book/albumStore.js) is the store: `save(accountId, book)` and `read(accountId)`. The local driver writes `data/books/{accountId}/` (gitignored). `publishBook` in [`scripts/personal-album.mjs`](../scripts/personal-album.mjs) fills that folder with `book.json` and `book.html`. Image files stay beside that HTML; `page.file` is the file name. A Supabase or Vercel Blob driver can replace the local one later if it keeps the same two methods. The local preview account is `local-preview` and only records a manifest, because its HTML has to stay next to the photos.
 
 Depth segmentation: Edge Function `segment-photo-depth` (Replicate when `REPLICATE_API_TOKEN` set). Cache: `book_page_layers` table.
 

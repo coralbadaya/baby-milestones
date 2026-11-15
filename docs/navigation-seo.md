@@ -140,6 +140,16 @@ This remains a client-rendered app. Prerendered HTML in `dist/` is the GEO
 mitigation for crawlers that do not execute JavaScript. Google still hydrates the
 SPA. Users see an ivory canvas, then the designed UI — never a plain-text stub.
 
+## AISO
+
+AI search (answer engines, assistants, and generative overviews) should meet the same page a person sees.
+
+- The visible sentence and the prerendered sentence are the same. Do not write a crawler-only pitch.
+- Homepage entity copy names the product, who it is for, and the jobs: My Baby, baby book, My Care, vaccination, Guides, Plus. Source of truth: `src/data/homepageCopy.js` and `SEO_DEFAULT_DESCRIPTION`.
+- Headings answer a question (“What Yarn Trails is”, “What you can track”). Add `FAQPage` schema only for questions that are on the page.
+- Health pages state that the guidance is educational and link the medical disclaimer. Do not imply diagnosis or treatment.
+- After copy changes, run `npm run audit:seo`.
+
 ## Conventions
 
 - Keep the **top nav ≤ 6 items**; Premium is always a CTA, never a plain link.

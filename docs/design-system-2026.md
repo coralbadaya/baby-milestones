@@ -48,6 +48,18 @@ The primary usage state:
 
 **Every screen must assume this context** — even in premium positioning.
 
+### Mobile-first, elite
+
+The phone is the layout. Check a parent screen at **390px** before widening it.
+
+| Do | Don't |
+|----|--------|
+| One primary job, one tap from Today or the bottom bar | Bury the job under a long article or a second nav |
+| Touch targets ≥ 56px, type readable at arm’s length | Targets that need a precise tap |
+| Generous `--space-6` / `--space-8` even on a phone | Cramming the desktop page into the width |
+| Heroes and sheets that grow with their copy | Fixed-height heroes that clip buttons |
+| Calm space — a few large choices | A dense grid of every feature |
+
 ---
 
 ## Quiet Luxury (shipped)

@@ -31,6 +31,14 @@
 
 **Logged-out conversion bands** (`!user`): `ConversionBand` after focus, DIY, and inside `EditorialBand` (ink band). See `ConversionBand.jsx`, `TrustStrip.jsx`.
 
+### 1b. What Yarn Trails does (`HomeJobs.jsx`)
+
+Same on welcome and Today, directly under the hero. Purpose sentence from `HOMEPAGE_COPY.purpose`. Six taps, 56px minimum, two columns on a phone:
+
+My Baby · Baby book · My Care · Vaccination · Guides · Plus
+
+Labels match the crawler links in `homepageBodyHtml()`.
+
 ### 2. This week's focus (`TodayFocus.jsx`)
 
 Three cards max, age-aware:

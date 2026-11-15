@@ -1,5 +1,6 @@
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
+import HealthDisclaimerNote from '../components/HealthDisclaimerNote';
 import MomCareTips from '../components/MomCareTips';
 import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
@@ -18,6 +19,7 @@ function MomCare({ birthDate }) {
         size="md"
       />
       <PageSection surface="lavender" width="wide" className="mom-care-page page-body--with-mobile-nav">
+        <HealthDisclaimerNote />
         <MomCareTips birthDate={birthDate} />
       </PageSection>
     </>

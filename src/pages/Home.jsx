@@ -9,6 +9,7 @@ import DIYPreviewStrip from '../components/DIYPreviewStrip';
 import EditorialBand from '../components/EditorialBand';
 import ConversionBand from '../components/ConversionBand';
 import WelcomeHero from '../components/WelcomeHero';
+import HomeJobs from '../components/HomeJobs';
 import Timeline from '../components/Timeline';
 import FirstsCarousel from '../components/firsts/FirstsCarousel';
 import FirstMomentCapture from '../components/firsts/FirstMomentCapture';
@@ -141,8 +142,10 @@ function Home({
               </>
             )}
           </div>
-      </PageHero>
+        </PageHero>
       )}
+
+      <HomeJobs />
 
       {isWelcomeMode && (
         <PageSection

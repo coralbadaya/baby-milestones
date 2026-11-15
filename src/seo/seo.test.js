@@ -220,6 +220,9 @@ describe('prerender HTML', () => {
     expect(html).toContain('<div id="root"></div>');
     expect(html).toMatch(/<div id="seo-prerender" hidden>[\s\S]*<h1>The art of early motherhood<\/h1>/);
     expect(html).toContain('baby milestone tracker');
+    expect(html).toContain('private baby book');
+    expect(html).toContain('href="/baby/book"');
+    expect(html).toContain('href="/premium"');
     expect(html).toContain('<h2>What Yarn Trails is</h2>');
     expect(html).toContain('href="/guides"');
     expect(html).not.toContain('<div id="root"><article');

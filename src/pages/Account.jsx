@@ -276,6 +276,10 @@ function AccountContent() {
       {error && <p className="auth-error" role="alert">{error}</p>}
 
       <footer className="account-footer">
+        <p className="account-legal-links">
+          <Link to={ROUTES.privacy} onClick={() => interact('tap', 'light')}>Privacy</Link>
+          <Link to={ROUTES.medicalDisclaimer} onClick={() => interact('tap', 'light')}>Medical disclaimer</Link>
+        </p>
         <p className="account-feedback-link">
           <Link to={ROUTES.feedback} onClick={() => interact('tap', 'light')}>
             Share feedback
