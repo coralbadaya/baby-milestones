@@ -1,7 +1,6 @@
-import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
 import { SymbolView } from 'expo-symbols';
 import { Tabs } from 'expo-router';
-import { ColorValue, Pressable } from 'react-native';
+import { ColorValue, View } from 'react-native';
 
 import { colors, fonts } from '@/constants/theme';
 
@@ -13,25 +12,26 @@ const ICONS = {
   community: { ios: 'person.2', android: 'groups', web: 'groups' },
 } as const;
 
-function TabIcon({ name, color }: { name: (typeof ICONS)[keyof typeof ICONS]; color: ColorValue }) {
-  return <SymbolView name={name} tintColor={color} size={24} />;
-}
-
-function TabButton({ style, accessibilityState, ...rest }: BottomTabBarButtonProps) {
-  const selected = accessibilityState?.selected;
+function TabIcon({
+  name,
+  color,
+  focused,
+}: {
+  name: (typeof ICONS)[keyof typeof ICONS];
+  color: ColorValue;
+  focused: boolean;
+}) {
   return (
-    <Pressable
-      accessibilityState={accessibilityState}
-      {...rest}
-      style={[
-        style,
-        {
-          borderRadius: 0,
-          borderTopWidth: 2,
-          borderTopColor: selected ? colors.trail : 'transparent',
-        },
-      ]}
-    />
+    <View style={{ alignItems: 'center', gap: 4, borderRadius: 0 }}>
+      <View
+        style={{
+          width: 28,
+          height: 2,
+          backgroundColor: focused ? colors.trail : 'transparent',
+        }}
+      />
+      <SymbolView name={name} tintColor={color} size={22} />
+    </View>
   );
 }
 
@@ -44,7 +44,6 @@ export default function TabLayout() {
         headerTitleStyle: { fontFamily: fonts.bodyStrong, color: colors.text },
         tabBarActiveTintColor: colors.trail,
         tabBarInactiveTintColor: colors.textSecondary,
-        tabBarButton: (props) => <TabButton {...props} />,
         tabBarStyle: {
           backgroundColor: colors.cream,
           borderTopColor: colors.border,
@@ -58,35 +57,35 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Today',
-          tabBarIcon: ({ color }) => <TabIcon name={ICONS.today} color={color} />,
+          tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.today} color={color} focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="baby"
         options={{
           title: 'My Baby',
-          tabBarIcon: ({ color }) => <TabIcon name={ICONS.baby} color={color} />,
+          tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.baby} color={color} focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="care"
         options={{
           title: 'My Care',
-          tabBarIcon: ({ color }) => <TabIcon name={ICONS.care} color={color} />,
+          tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.care} color={color} focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="essentials"
         options={{
           title: 'Essentials',
-          tabBarIcon: ({ color }) => <TabIcon name={ICONS.essentials} color={color} />,
+          tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.essentials} color={color} focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="community"
         options={{
           title: 'Community',
-          tabBarIcon: ({ color }) => <TabIcon name={ICONS.community} color={color} />,
+          tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.community} color={color} focused={focused} />,
         }}
       />
     </Tabs>
