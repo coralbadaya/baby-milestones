@@ -26,6 +26,12 @@ export function composeSpread(pages, index, layoutId) {
   if (!page) {
     return { id: 'photo-story', take: 1, next: index, left: slot('blank'), right: slot('blank') };
   }
+  if (page.cover) {
+    return { id: 'cover', take: 1, next: index, left: slot('endpaper', page), right: slot('cover', page) };
+  }
+  if (page.index) {
+    return { id: 'index', take: 1, next: index, left: slot('endpaper', page), right: slot('index', page) };
+  }
   if (page.ending) {
     return { id: 'chapter', take: 1, next: index, left: slot('chapter', page), right: slot('ending', page) };
   }
@@ -106,6 +112,48 @@ export function assignLayouts(pages) {
   return next;
 }
 
+/** Cover, then contents, then the photographs. Page numbers start at the first story spread. */
+export function coverAndIndex(pages, meta = {}) {
+  const body = assignLayouts((pages || []).filter((page) => !page.cover && !page.index));
+  const entries = [];
+  let cursor = 0;
+  let sheet = 1;
+  let hops = 0;
+  while (cursor < body.length && hops <= body.length) {
+    const spread = composeSpread(body, cursor);
+    const page = body[cursor];
+    entries.push({
+      label: page.ending ? (page.title || 'The close') : (page.title || page.monthLabel || 'Page'),
+      page: sheet,
+    });
+    sheet += 2;
+    const step = cursor + (spread.take || 1);
+    if (step <= cursor) break;
+    cursor = step;
+    hops += 1;
+  }
+  return [
+    {
+      cover: true,
+      title: meta.title || 'First year',
+      caption: meta.babyName || '',
+      when: meta.when || '',
+      monthLabel: 'Cover',
+      file: '',
+    },
+    {
+      index: true,
+      title: 'Contents',
+      caption: 'Where each part of the hardcover sits.',
+      when: '',
+      monthLabel: 'Index',
+      file: '',
+      entries,
+    },
+    ...body,
+  ];
+}
+
 /** Plain script for the standalone album. No imports, so the file still opens offline. */
 export function layoutPlayerScript() {
   return [
@@ -118,6 +166,8 @@ export function layoutPlayerScript() {
     'function composeSpread(pages, index, layoutId) {',
     '  const page = pages[index] || null;',
     '  if (!page) return { id: "photo-story", take: 1, next: index, left: slot("blank"), right: slot("blank") };',
+    '  if (page.cover) return { id: "cover", take: 1, next: index, left: slot("endpaper", page), right: slot("cover", page) };',
+    '  if (page.index) return { id: "index", take: 1, next: index, left: slot("endpaper", page), right: slot("index", page) };',
     '  if (page.ending) return { id: "chapter", take: 1, next: index, left: slot("chapter", page), right: slot("ending", page) };',
     '  let layout = layoutById(page.layout || layoutId || "photo-story");',
     '  const upcoming = pages[index + 1] || null;',

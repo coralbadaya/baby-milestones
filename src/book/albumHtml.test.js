@@ -24,6 +24,9 @@ describe('buildAlbumHtml', () => {
     expect(html).toContain('/api/personal-album/file/close.jpg');
     expect(html).not.toContain('keep this file beside the photos');
     expect(html).toContain('const FOLD_MS = 1900');
+    expect(html).toContain('Linen hardcover');
+    expect(html).toContain('"index":true');
+    expect(html).toContain('classList.toggle(\'closed\'');
     expect(html.slice(html.indexOf('<script>'))).not.toContain('`');
   });
 

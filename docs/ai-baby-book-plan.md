@@ -117,7 +117,7 @@ Edge Function: `generate-book-idea` (layout job stub).
 
 ## 3D book (Book tab)
 
-The 3D Book tab plays the same album as `personal/first-year-3d-album.html`. [`src/book/albumHtml.js`](../src/book/albumHtml.js) builds that document, and [`FlipBookViewer.jsx`](../src/components/book/FlipBookViewer.jsx) shows it in the page. A private folder still feeds localhost. Without it, the tab uses the first-year chapters and any monthly album photos.
+The 3D Book tab plays the same album as `personal/first-year-3d-album.html`. [`src/book/albumHtml.js`](../src/book/albumHtml.js) builds that document, and [`FlipBookViewer.jsx`](../src/components/book/FlipBookViewer.jsx) shows it in the page. It opens on the linen hardcover, then the contents, then the photographs. **E-copy** downloads that same book. The closed cover is how the printed hardcover looks. A private folder still feeds localhost. Without it, the tab uses the first-year chapters and any monthly album photos.
 
 | Style | Status |
 |-------|--------|

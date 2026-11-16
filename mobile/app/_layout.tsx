@@ -49,7 +49,7 @@ export default function RootLayout() {
       <Stack.Screen name="birth" options={{ title: 'Birth date' }} />
       <Stack.Screen name="login" options={{ title: 'Sign in' }} />
       <Stack.Screen name="plus" options={{ title: 'Plus' }} />
-      <Stack.Screen name="book" options={{ title: 'Baby book' }} />
+      <Stack.Screen name="book" options={{ headerShown: false }} />
       <Stack.Screen name="vaccination" options={{ title: 'Vaccination tracker' }} />
       <Stack.Screen name="guides" options={{ title: 'Guides & Articles' }} />
       <Stack.Screen name="progress" options={{ title: 'Progress' }} />

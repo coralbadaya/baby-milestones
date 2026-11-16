@@ -133,9 +133,12 @@ Configure in **Authentication** for your project:
    - **Site URL**: production origin (e.g. `https://yarntrails.com`)
    - **Redirect URLs**: include `http://localhost:5173/**` for local dev
 3. **Email templates**
-   - Customize **Confirm signup** copy for Yarn Trails brand
+   - **Confirm sign up** uses the Yarn Trails OTP layout in [`supabase/templates/confirm-signup.html`](../supabase/templates/confirm-signup.html).
+   - Subject: `Your Yarn Trails verification code`
+   - Paste the file into **Authentication → Emails → Confirm sign up**. Keep `{{ .Token }}`. Do **not** include `{{ .ConfirmationURL }}` (Gmail prefetch verifies the account before the parent types the code).
+   - Preview with sample digits: [`supabase/templates/confirm-signup.preview.html`](../supabase/templates/confirm-signup.preview.html).
 4. **SMTP** (production)
-   - Configure a custom sender; Supabase default mail is fine for dev only
+   - Custom sender via Resend: `Yarn Trails <no-reply@yarntrails.com>`, host `smtp.resend.com`, port `465`, user `resend`, password = `RESEND_API_KEY`.
 
 If **Confirm email** is disabled locally, signup may return a session immediately and skip `/verify-email` — enable confirm email in the linked project to test the full flow.
 

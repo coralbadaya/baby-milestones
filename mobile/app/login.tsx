@@ -1,48 +1,125 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { Button } from '@/components/Button';
+import { DevAuthAssist } from '@/components/DevAuthAssist';
 import { Body, Screen, Title } from '@/components/Screen';
+import { TEST_USER, isMailinatorAddress } from '@/content/testCredentials';
 import { colors, fonts, space } from '@/constants/theme';
+import { fetchDevInboxOtp } from '@/lib/fetchDevInboxOtp';
+import { supabase, supabaseConfigured } from '@/lib/supabase';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(__DEV__ ? TEST_USER.email : '');
+  const [password, setPassword] = useState(__DEV__ ? TEST_USER.password : '');
   const [code, setCode] = useState('');
-  const [step, setStep] = useState<'email' | 'code'>('email');
+  const [step, setStep] = useState<'password' | 'otp'>('password');
   const [note, setNote] = useState('');
+  const [busy, setBusy] = useState(false);
 
-  function sendCode() {
+  async function signInWithPassword() {
     if (!EMAIL.test(email.trim())) {
       setNote('Enter the email you use for Yarn Trails.');
       return;
     }
-    setStep('code');
-    setNote('The code will come from the same Yarn Trails account as the website. Sending it is the next connection.');
-  }
-
-  function confirmCode() {
-    if (code.trim().length < 6) {
-      setNote('Enter the six-digit code from the email.');
+    if (!password || password.length < 8) {
+      setNote('Enter your password (8+ characters).');
       return;
     }
-    setNote('This phone will accept that code once it is connected to your account. It does not sign you in yet.');
+    if (!supabaseConfigured || !supabase) {
+      setNote('Add EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY to mobile/.env (same as web).');
+      return;
+    }
+    setBusy(true);
+    setNote('');
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (error) throw error;
+      if (data.session) {
+        router.replace('/(tabs)');
+        return;
+      }
+      setStep('otp');
+      setNote('Check your email for a code, or use Fill OTP from Mailinator.');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Sign-in failed';
+      if (/confirm|verified/i.test(message)) {
+        setStep('otp');
+        setNote('Email not verified yet. Enter the code or fetch from Mailinator.');
+      } else {
+        setNote(message);
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function verifyOtp() {
+    const token = code.replace(/\D/g, '').slice(0, 6);
+    if (token.length < 6) {
+      setNote('Enter the 6-digit code from your email.');
+      return;
+    }
+    if (!supabase) return;
+    setBusy(true);
+    setNote('');
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email: email.trim(),
+        token,
+        type: 'signup',
+      });
+      if (error) throw error;
+      if (data.session) router.replace('/(tabs)');
+      else setNote('Verified. Sign in with your password.');
+    } catch (err) {
+      setNote(err instanceof Error ? err.message : 'Invalid or expired code.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function resendCode() {
+    if (!supabase || !EMAIL.test(email.trim())) return;
+    setBusy(true);
+    try {
+      const { error } = await supabase.auth.resend({ type: 'signup', email: email.trim() });
+      if (error) throw error;
+      setNote('A new code was sent.');
+    } catch (err) {
+      setNote(err instanceof Error ? err.message : 'Could not resend.');
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
     <Screen
       footer={
-        <Button
-          label={step === 'email' ? 'Email me a code' : 'Confirm the code'}
-          onPress={step === 'email' ? sendCode : confirmCode}
-        />
+        <View style={styles.actions}>
+          {step === 'password' ? (
+            <Button label={busy ? 'Signing in…' : 'Sign in'} onPress={signInWithPassword} />
+          ) : (
+            <>
+              <Button label={busy ? 'Verifying…' : 'Verify code'} onPress={verifyOtp} />
+              <Button label="Resend code" onPress={resendCode} tone="quiet" />
+              <Button label="Back to password" onPress={() => setStep('password')} tone="quiet" />
+            </>
+          )}
+        </View>
       }
     >
       <Title>One account.</Title>
       <Body>
-        Use the email you already use on yarntrails.com. The app will ask for the same code. Sign in with Apple comes before any other social button.
+        Same Supabase login as yarntrails.com. Seeded test users use password only — no OTP at login.
       </Body>
+
       <TextInput
         value={email}
         onChangeText={setEmail}
@@ -54,24 +131,48 @@ export default function LoginScreen() {
         style={styles.input}
         accessibilityLabel="Email"
       />
-      {step === 'code' ? (
+
+      {step === 'password' ? (
+        <TextInput
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Password"
+          placeholderTextColor={colors.textSecondary}
+          secureTextEntry
+          style={styles.input}
+          accessibilityLabel="Password"
+        />
+      ) : (
         <TextInput
           value={code}
           onChangeText={setCode}
-          placeholder="123456"
+          placeholder="6-digit code"
           placeholderTextColor={colors.textSecondary}
           keyboardType="number-pad"
           maxLength={6}
           style={styles.input}
           accessibilityLabel="Email code"
         />
-      ) : null}
+      )}
+
       {note ? <Text style={styles.note}>{note}</Text> : null}
+
+      <DevAuthAssist
+        email={email}
+        onFillCredentials={(preset) => {
+          setEmail(preset.email);
+          setPassword(preset.password);
+          setStep('password');
+        }}
+        onFillOtp={setCode}
+        fetchOtp={isMailinatorAddress(email) ? fetchDevInboxOtp : undefined}
+      />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  actions: { gap: 10 },
   input: {
     minHeight: space.target,
     borderRadius: 0,

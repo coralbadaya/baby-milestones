@@ -112,7 +112,7 @@ Reachable from the top bar and from direct URLs. They are not in the mobile bott
 | Sign in | `/login` | Password login; unverified → `/verify-email` |
 | Create account | `/signup` | Email + password; sends OTP |
 | Verify email | `/verify-email` | 6-digit OTP entry + resend (post-signup) |
-| Account | `/account` | Profile, membership, promo codes (`RequireAuth`) |
+| Account | `/account` | Parent hub: snapshot KPIs, app shortcuts, profile, baby, membership, data (`RequireAuth`) |
 | Feedback | `/feedback` | Product feedback — topic cards + optional note; footer + Account |
 | Admin | `/admin` | Staff/admin center |
 

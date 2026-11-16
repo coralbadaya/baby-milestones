@@ -194,6 +194,7 @@ Requires `VITE_SUPABASE_URL` and `SUPABASE_SECRET_KEY` in `.env` (see [auth-memb
 **Notes:**
 
 - Seeded users are **pre-verified** — no OTP step at login.
+- **Dev shortcuts** on `/login`, `/signup`, and `/verify-email`: **Test parent** / **Test admin** autofill. On verify, **Fill OTP from Mailinator** needs `MAILINATOR_API_KEY` in `.env` and a `@mailinator.com` signup email (`GET /api/dev-inbox-otp`). Disabled on production.
 - Override emails/passwords with `SUPABASE_TEST_USER_EMAIL`, `SUPABASE_TEST_USER_PASSWORD`, `SUPABASE_TEST_ADMIN_EMAIL`, and `SUPABASE_TEST_ADMIN_PASSWORD` in `.env`.
 - Manual promo-code testing: **`FOUNDING30`** (see auth doc).
 - For a fresh signup + OTP test, use a real inbox at `/signup` — not the seeded accounts above.

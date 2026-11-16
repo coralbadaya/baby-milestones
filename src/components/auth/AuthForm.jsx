@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 import { interact } from '../../utils/haptics';
 import { ROUTES } from '../../routes';
 import Icon from '../Icon';
+import DevAuthAssist from './DevAuthAssist';
 
 /**
  * @param {{
@@ -89,6 +89,14 @@ function AuthForm({ mode, onSubmit, error: externalError }) {
       <button type="submit" className="btn-primary auth-submit" disabled={submitting}>
         {submitting ? 'Please wait…' : mode === 'signup' ? 'Create account' : 'Sign in'}
       </button>
+
+      <DevAuthAssist
+        onFillCredentials={({ email: e, password: p, displayName: name }) => {
+          setEmail(e);
+          setPassword(p);
+          if (name) setDisplayName(name);
+        }}
+      />
     </form>
   );
 }

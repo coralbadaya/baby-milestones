@@ -7,7 +7,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { loadAlbum, photoPath, writeAlbumHtml } from './personal-album.mjs';
 
-const ALLOWED = new Set(['analytics', 'analytics-rollup']);
+const ALLOWED = new Set(['analytics', 'analytics-rollup', 'dev-inbox-otp']);
 
 function readJsonBody(req) {
   return new Promise((resolveBody, reject) => {
@@ -151,6 +151,7 @@ export function viteDevApiPlugin(env = {}) {
 
           await handler({
             method: req.method,
+            url: req.url,
             headers: req.headers,
             body,
             socket: req.socket,

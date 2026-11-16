@@ -40,7 +40,7 @@ The phone uses the same Wool & Trail colors as the site. Pages are wool mist, ac
 | Essentials | Shopping and travel | Free |
 | Guides | Read by month | Free |
 | Community | Recipes and tips | Free to read |
-| Baby book | The screen is the open book. Empty, it asks for one photograph. With pages, the spread, the layout, and the line on the page sit under it. Photographs stay on the device | Plus, once the store is connected. The shell already keeps the pages locally |
+| Baby book | **`/book/home`** — same five tabs as the web baby book: **Home · Stories · Ideas · 3D Book · Family** (twilight shell inside the stack). **3D Book** keeps local spreads on the device; Stories/Ideas/Family explain web/Plus flows until account sync ships | Plus, once the store is connected. The 3D tab already keeps pages locally |
 | Plus | The membership list: HD photos, stories, the full book, voice, export, print, two viewers | The offer. Nothing is charged from the phone yet |
 
 Core tracking and emergency guidance stay free. Plus is an invitation, not a lock on the milestone list.

@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { Href, Link } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { colors, fonts, space } from '@/constants/theme';
@@ -9,21 +9,7 @@ export function JobLink({
   detail,
   accent = false,
 }: {
-  href:
-    | '/baby'
-    | '/book'
-    | '/care'
-    | '/vaccination'
-    | '/guides'
-    | '/plus'
-    | '/birth'
-    | '/login'
-    | '/shopping'
-    | '/travel'
-    | '/progress'
-    | '/mom-feed'
-    | '/recipes'
-    | '/tips';
+  href: Href;
   label: string;
   detail: string;
   accent?: boolean;

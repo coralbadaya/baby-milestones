@@ -6,9 +6,12 @@ import AdminLoading from '../../components/admin/AdminLoading';
 import AdminPageHeader from '../../components/admin/AdminPageHeader';
 import AdminPanel from '../../components/admin/AdminPanel';
 import AdminStatCard from '../../components/admin/AdminStatCard';
+import AdminInsightsSummary from '../../components/admin/AdminInsightsSummary';
+import AdminMetricChart from '../../components/admin/AdminMetricChart';
 import Select from '../../components/Select';
 import { useAuth } from '../../context/AuthContext';
 import { analyticsRange, bounceRate, formatRate } from '../../utils/analyticsAdmin';
+import { buildInsightsSummary } from '../../utils/analyticsInsights';
 import { interact } from '../../utils/haptics';
 import { supabase } from '../../utils/supabaseClient';
 
@@ -36,6 +39,26 @@ const FUNNEL_LABELS = {
 };
 
 const EMPTY_MESSAGE = 'No events yet — consent + ingest not live.';
+
+const METRICS_BY_TAB = {
+  traffic: ['sessions', 'pageviews'],
+  acquisition: ['sessions', 'pageviews'],
+  conversion: ['signups', 'paid', 'gate_hits'],
+  habit: ['birth_dates', 'milestones'],
+  content: [],
+};
+
+const DEFAULT_METRIC_RANGES = {
+  sessions: '7',
+  pageviews: '7',
+  signups: '7',
+  paid: '7',
+  birth_dates: '7',
+  milestones: '7',
+  gate_hits: '7',
+};
+
+const SERIES_LOOKBACK_DAYS = 90;
 
 function num(value) {
   return Number(value) || 0;
@@ -86,8 +109,22 @@ function AdminInsights() {
   const [lookupRows, setLookupRows] = useState([]);
   const [lookupError, setLookupError] = useState(null);
   const [lookupBusy, setLookupBusy] = useState(false);
+  const [timeseries, setTimeseries] = useState([]);
+  const [metricRanges, setMetricRanges] = useState(DEFAULT_METRIC_RANGES);
 
   const { from, to } = useMemo(() => analyticsRange(Number(days)), [days]);
+  const seriesRange = useMemo(() => analyticsRange(SERIES_LOOKBACK_DAYS), []);
+
+  const insightsBullets = useMemo(
+    () => buildInsightsSummary({
+      overview,
+      routes,
+      funnel,
+      habit,
+      days,
+    }),
+    [overview, routes, funnel, habit, days],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -105,6 +142,7 @@ function AdminInsights() {
         habitRes,
         contentRes,
         membershipsRes,
+        timeseriesRes,
       ] = await Promise.all([
         supabase.rpc('analytics_overview', { p_from: from, p_to: to }),
         supabase.rpc('analytics_top_routes', { p_from: from, p_to: to }),
@@ -117,6 +155,10 @@ function AdminInsights() {
         supabase.rpc('analytics_habit', { p_from: from, p_to: to }),
         supabase.rpc('analytics_content', { p_from: from, p_to: to }),
         supabase.from('memberships').select('status'),
+        supabase.rpc('analytics_timeseries', {
+          p_from: seriesRange.from,
+          p_to: seriesRange.to,
+        }),
       ]);
       if (cancelled) return;
 
@@ -135,13 +177,18 @@ function AdminInsights() {
         trials: rows.filter((row) => row.status === 'trial').length,
         active: rows.filter((row) => row.status === 'active' || row.status === 'comp').length,
       });
+      setTimeseries(timeseriesRes.data || []);
       setLoading(false);
     }
     load();
     return () => {
       cancelled = true;
     };
-  }, [from, to]);
+  }, [from, to, seriesRange.from, seriesRange.to]);
+
+  const setMetricRange = (metricId, next) => {
+    setMetricRanges((prev) => ({ ...prev, [metricId]: next }));
+  };
 
   const setTab = (next) => {
     interact('tap', 'selection');
@@ -221,6 +268,23 @@ function AdminInsights() {
         </AdminPanel>
       ) : (
         <>
+          <AdminInsightsSummary bullets={insightsBullets} />
+
+          {METRICS_BY_TAB[tab]?.length > 0 ? (
+            <section className="admin-metric-chart-grid" aria-label="Trend charts">
+              {METRICS_BY_TAB[tab].map((metricId) => (
+                <AdminMetricChart
+                  key={metricId}
+                  metricId={metricId}
+                  seriesRows={timeseries}
+                  rangeDays={metricRanges[metricId]}
+                  onRangeChange={(next) => setMetricRange(metricId, next)}
+                  maxRangeDays={SERIES_LOOKBACK_DAYS}
+                />
+              ))}
+            </section>
+          ) : null}
+
           {tab === 'traffic' ? (
             <>
               <div className="admin-stat-grid admin-stat-grid--flat">

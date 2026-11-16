@@ -4,6 +4,7 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-
 
 import { Button } from '@/components/Button';
 import { OpenBook } from '@/components/OpenBook';
+import { bookColors } from '@/constants/babyBookTheme';
 import { colors, fonts, space } from '@/constants/theme';
 import { PAGE_LAYOUTS, SpreadPage, composeSpread } from '@/lib/pageLayouts';
 import { readBirthDate } from '@/lib/birthDate';
@@ -45,7 +46,8 @@ function pagesFrom(photos: StoredPhoto[], dob: string | null): SpreadPage[] {
   return pages;
 }
 
-export default function BookScreen() {
+/** 3D Book tab — local spreads (web sync when signed in). */
+export function BookAlbumTab() {
   const [photos, setPhotos] = useState<StoredPhoto[]>([]);
   const [dob, setDob] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
@@ -176,7 +178,7 @@ export default function BookScreen() {
 }
 
 const styles = StyleSheet.create({
-  fill: { flex: 1, width: '100%', backgroundColor: colors.cream },
+  fill: { flex: 1, width: '100%', backgroundColor: 'transparent' },
   empty: {
     flex: 1,
     width: '100%',
@@ -189,8 +191,10 @@ const styles = StyleSheet.create({
   stage: {
     width: '100%',
     height: 320,
-    borderRadius: 8,
-    backgroundColor: colors.trailDark,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: bookColors.border,
+    backgroundColor: 'rgba(15, 10, 26, 0.85)',
     padding: 10,
     flexDirection: 'row',
   },
@@ -218,13 +222,13 @@ const styles = StyleSheet.create({
     left: '50%',
     width: 14,
     marginLeft: -7,
-    backgroundColor: 'rgba(47,74,64,0.18)',
+    backgroundColor: 'rgba(201, 162, 75, 0.22)',
   },
   emptyTitle: {
     fontFamily: fonts.displayItalic,
     fontSize: 28,
     lineHeight: 34,
-    color: colors.text,
+    color: bookColors.text,
   },
   filled: {
     width: '100%',

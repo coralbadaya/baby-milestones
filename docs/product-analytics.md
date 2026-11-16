@@ -2,7 +2,7 @@
 
 First-party operational analytics for Yarn Trails staff. **Parents never see this.** Events fire only after cookie consent. Raw IP is a 30-day fraud/debug field, then hashed. Analytics rows are **not** included in `export_my_data`.
 
-**Console:** [`/admin/insights`](../src/pages/admin/AdminInsights.jsx) (staff). IP lookup is **admin** only.  
+**Console:** [`/admin/insights`](../src/pages/admin/AdminInsights.jsx) (staff). IP lookup is **admin** only. Key insights summary at the top; per-metric **7 / 14 / 30 / 90 day** charts use `analytics_timeseries` (global header range still drives tables and KPI totals).  
 **Ingest:** `POST /api/analytics` (Vercel, service role insert). Clients cannot `SELECT` `analytics_events`.  
 **Rollup/scrub:** `GET/POST /api/analytics-rollup` (cron `15 1 * * *`) calls `analytics_rollup_and_scrub()`.
 
@@ -71,4 +71,5 @@ Migration: `supabase/migrations/20260906090000_analytics.sql`
 
 - `analytics_events` — hot log (service-role insert only)
 - `analytics_daily` — staff-selectable rollups
-- RPCs: `analytics_overview`, `analytics_top_routes`, `analytics_geo`, `analytics_devices`, `analytics_funnel`, `analytics_utm`, `analytics_entry_pages`, `analytics_gates`, `analytics_habit`, `analytics_content`, `analytics_lookup_ip` (admin), `analytics_rollup_and_scrub` (cron / service role)
+- RPCs: `analytics_overview`, `analytics_timeseries` (daily chart series, last 90d on Insights), `analytics_top_routes`, `analytics_geo`, `analytics_devices`, `analytics_funnel`, `analytics_utm`, `analytics_entry_pages`, `analytics_gates`, `analytics_habit`, `analytics_content`, `analytics_lookup_ip` (admin), `analytics_rollup_and_scrub` (cron / service role)
+- Migration `supabase/migrations/20260906110000_analytics_timeseries.sql` — daily counts: sessions, pageviews, signups, paid, birth_dates, milestones, gate_hits

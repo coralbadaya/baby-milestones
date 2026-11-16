@@ -90,7 +90,7 @@ function FlipBookViewer({
       onClick={downloadAlbum}
       disabled={!albumReady || downloading}
     >
-      {downloading ? 'Preparing…' : 'Download'}
+      {downloading ? 'Preparing…' : 'E-copy'}
     </button>
   );
 

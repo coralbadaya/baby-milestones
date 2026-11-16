@@ -1,6 +1,6 @@
 export const JOBS = [
   { href: '/baby', label: 'My Baby', detail: 'Milestones' },
-  { href: '/book', label: 'Baby book', detail: 'Stories and photos' },
+  { href: '/book/home', label: 'Baby book', detail: 'Home · Stories · Ideas · 3D Book · Family' },
   { href: '/care', label: 'My Care', detail: 'Postpartum' },
   { href: '/vaccination', label: 'Vaccination tracker', detail: 'Schedule and log' },
   { href: '/guides', label: 'Guides & Articles', detail: 'Read by month' },

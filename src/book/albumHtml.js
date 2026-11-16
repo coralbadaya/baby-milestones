@@ -2,7 +2,7 @@
  * The 3D album document. The Baby Book tab and the downloaded file share this player.
  */
 import { BOOK_MODES, foldPlayerScript } from './pageFold.js';
-import { PAGE_LAYOUTS, assignLayouts, layoutPlayerScript } from './pageLayouts.js';
+import { PAGE_LAYOUTS, coverAndIndex, layoutPlayerScript } from './pageLayouts.js';
 
 function htmlEscape(value) {
   return String(value)
@@ -25,12 +25,20 @@ export function buildAlbumHtml(album, options = {}) {
   const bornLine = born
     ? `Born ${htmlEscape(born)}${embedded ? '' : ' · keep this file beside the photos'}`
     : 'Turn the pages of this year.';
-  const laidOut = assignLayouts(album.pages || []);
+  const coverWhen = born ? `Born ${born}` : '';
+  const laidOut = coverAndIndex(album.pages || [], {
+    title: album.title,
+    babyName: album.babyName,
+    when: coverWhen,
+  });
   const payload = {
     title: album.title,
     baby: album.babyName,
     pages: laidOut.map((page) => ({
       ending: Boolean(page.ending),
+      cover: Boolean(page.cover),
+      index: Boolean(page.index),
+      entries: page.entries || [],
       file: (options.inlinePhotos ? (page.src || page.file) : page.file) || '',
       monthLabel: page.monthLabel,
       title: page.title,
@@ -183,6 +191,32 @@ export function buildAlbumHtml(album, options = {}) {
   .ending { height: 100%; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 1.6rem;
     background: radial-gradient(circle at 50% 20%, #fffaf2, #f0e4cc 70%); }
   .ending h2 { font-size: 2rem; }
+  .face[data-role="cover"] {
+    background:
+      linear-gradient(165deg, rgba(255,244,220,0.18), transparent 32%),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 4px),
+      linear-gradient(165deg, #6d5640, #3d2c1c 55%, #24180f);
+    color: #f6ecd8;
+  }
+  .face[data-role="cover"] .words {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 2.4rem 1.15rem 1.35rem;
+    background: linear-gradient(transparent, rgba(20,12,6,0.5));
+  }
+  .face[data-role="cover"] .kicker { color: #e4c56a; }
+  .face[data-role="cover"] .rule { background: #e4c56a; }
+  .face[data-role="cover"] h2 { color: #f6ecd8; font-size: clamp(1.7rem, 4vw, 2.5rem); }
+  .face[data-role="cover"] .cap, .face[data-role="cover"] .when { color: rgba(246,236,216,0.86); }
+  .face[data-role="endpaper"] { background: radial-gradient(circle at 18% 0%, #fbf6ec, #e6d3b4 78%); }
+  .face[data-role="index"] { display: flex; flex-direction: column; padding: 0.95rem 0.9rem 1rem; }
+  .face[data-role="index"] .words { padding: 0 0 0.35rem; }
+  .index-list { flex: 1; min-height: 0; overflow: auto; }
+  .index-row { display: flex; gap: 0.45rem; align-items: baseline; margin: 0.32rem 0; font: 0.84rem/1.3 system-ui, sans-serif; color: #1e2a26; }
+  .index-row i { flex: 1; border-bottom: 1px dotted rgba(138,106,34,0.55); transform: translateY(-0.18rem); }
+  .index-row b { font-weight: 650; letter-spacing: 0.06em; }
+  body.closed .board.left, body.closed .gutter, body.closed .book::before { visibility: hidden; }
+  body.closed .board.right, body.closed .leaf { left: 0; width: 100%; border-radius: 3px 8px 8px 3px; }
+  body.closed .book { width: auto; height: 92%; aspect-ratio: 3 / 4; max-width: 100%; transform: rotateX(6deg) rotateY(-14deg); }
+  body.closed .cover { inset: -8px -18px -20px -22px; border-radius: 4px 12px 12px 4px; }
   .bars { display: none; gap: 4px; position: absolute; top: 0.55rem; left: 0.6rem; right: 0.6rem; z-index: 3; }
   .bars i { flex: 1; height: 3px; border-radius: 99px; background: rgba(255,255,255,0.35); overflow: hidden; }
   .bars i.done { background: #fff; }
@@ -266,6 +300,7 @@ export function buildAlbumHtml(album, options = {}) {
     <p class="group-name">Turn</p>
     <p class="group-note">Previous, next, or play. The seconds are how long each spread rests before the next turn.</p>
     <div class="group-row">
+      <button type="button" id="cover">Cover</button>
       <button type="button" id="prev" aria-label="Previous page">‹</button>
       <button type="button" id="play">Play</button>
       <button type="button" id="next" aria-label="Next page">›</button>
@@ -534,6 +569,36 @@ function fill(node, slot, folioAt) {
       node.append(mark(stack, 'photo'), mark(wordsBlock(page), 'words'));
     } else if (role === 'story') {
       node.append(mark(wordsBlock(page), 'words'));
+    } else if (role === 'cover') {
+      const words = wordsBlock(page);
+      const kick = words.querySelector('.kicker');
+      if (kick) kick.textContent = 'Linen hardcover';
+      const note = words.querySelector('.when');
+      if (note) note.textContent = (page.when ? page.when + ' · ' : '') + 'Foil title. The printed copy, and this e-copy.';
+      node.append(mark(words, 'words'));
+    } else if (role === 'endpaper') {
+      const wrap = document.createElement('div');
+      wrap.className = 'ending';
+      wrap.append(
+        textEl('p', 'kicker', 'Yarn Trails'),
+        textEl('p', 'cap', 'The e-copy opens like the linen book.')
+      );
+      node.append(wrap);
+    } else if (role === 'index') {
+      const list = document.createElement('div');
+      list.className = 'index-list';
+      (page.entries || []).forEach(function (entry) {
+        const row = document.createElement('p');
+        row.className = 'index-row';
+        const name = document.createElement('span');
+        name.textContent = entry.label || '';
+        const dots = document.createElement('i');
+        const num = document.createElement('b');
+        num.textContent = String(entry.page || '');
+        row.append(name, dots, num);
+        list.append(row);
+      });
+      node.append(mark(wordsBlock(page), 'words'), list);
     } else if (role === 'chapter') {
       node.append(
         mark(textEl('span', 'ghost', String(page.monthLabel || '').replace('Month ', '')), 'month'),
@@ -550,6 +615,7 @@ function fill(node, slot, folioAt) {
     }
   }
   applyPieces(node);
+  if (role === 'cover' || role === 'endpaper' || role === 'index') return;
   if (typeof folioAt === 'number') {
     const nums = bookPages(folioAt);
     const onLeft = sideOf(node) === 'L';
@@ -679,17 +745,19 @@ function markLayouts() {
 }
 function showSpread() {
   const reel = document.body.classList.contains('reel');
+  const spread = spreadNow();
   if (reel) {
     const page = PAGES[index];
-    fill(front, page && page.ending ? { role: 'ending', page: page } : { role: 'photo', page: page }, index);
+    const role = page && page.ending ? 'ending' : page && page.cover ? 'cover' : page && page.index ? 'index' : 'photo';
+    fill(front, { role: role, page: page }, index);
   } else {
-    const spread = spreadNow();
     fill(leftRest, spread.left, index);
     fill(front, spread.right, index);
     fill(rightRest, spread.right, index);
   }
   renderAngle(0, false);
   markLayouts();
+  document.body.classList.toggle('closed', !reel && spread.id === 'cover');
 }
 function paintChrome() {
   const reel = document.body.classList.contains('reel');
@@ -697,7 +765,10 @@ function paintChrome() {
   const nums = bookPages(index);
   const label = reel ? String(index + 1) : nums.left + '–' + nums.right;
   const name = reel ? '' : ' · ' + layoutLabel(spread.id);
-  document.getElementById('status').textContent = 'Pages ' + label + ' · ' + (index + 1) + ' of ' + PAGES.length + name;
+  const status = document.getElementById('status');
+  if (!reel && spread.id === 'cover') status.textContent = 'Hardcover · how the printed copy looks';
+  else if (!reel && spread.id === 'index') status.textContent = 'Contents';
+  else status.textContent = 'Pages ' + label + ' · ' + (index + 1) + ' of ' + PAGES.length + name;
   document.getElementById('play').textContent = playing ? 'Pause' : 'Play';
   bars();
 }
@@ -860,6 +931,7 @@ function turnTo(next, kind) {
   feel(kind);
   const forward = plan.direction === 'forward';
   const reel = plan.mode === 'reel';
+  if (forward && spreadNow().id === 'cover') document.body.classList.remove('closed');
   if (plan.action === 'settle') { settle(plan.next); return; }
   if (reel) {
     const page = PAGES[next];
@@ -888,6 +960,15 @@ function arm() {
   if (stepForward() >= PAGES.length) { playing = false; paintChrome(); return; }
   timer = window.setTimeout(function () { turnTo(stepForward(), 'auto'); }, speed * 1000);
 }
+document.getElementById('cover').onclick = function () {
+  playing = false;
+  clearTimeout(timer);
+  cancelFold();
+  busy = false;
+  index = 0;
+  showSpread();
+  paintChrome();
+};
 document.getElementById('prev').onclick = function () { turnTo(stepBack(), 'button-back'); };
 document.getElementById('next').onclick = function () { turnTo(stepForward(), 'button-next'); };
 document.getElementById('play').onclick = function () {
@@ -969,6 +1050,9 @@ document.getElementById('resetPage').onclick = function () {
 document.getElementById('reel').onclick = function () {
   document.body.classList.toggle('reel');
   this.classList.toggle('on', document.body.classList.contains('reel'));
+  if (document.body.classList.contains('reel') && PAGES[index] && (PAGES[index].cover || PAGES[index].index)) {
+    index = Math.min(2, PAGES.length - 1);
+  }
   showSpread();
   if (document.body.classList.contains('reel') && !playing) {
     playing = true;
@@ -1278,7 +1362,7 @@ document.getElementById('save').onclick = async function () {
 
 showSpread();
 paintChrome();
-if (!reduced && !sessionStorage.getItem('yt-album-hello')) {
+if (!reduced && !sessionStorage.getItem('yt-album-hello') && !(PAGES[0] && PAGES[0].cover)) {
   sessionStorage.setItem('yt-album-hello', '1');
   feel('hello');
   const helloStart = performance.now();

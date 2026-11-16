@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { Animated, Easing, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { bookColors } from '@/constants/babyBookTheme';
 import { colors, fonts } from '@/constants/theme';
 import { Slot, SpreadPage, composeSpread } from '@/lib/pageLayouts';
 import { FOLD_MS, MOBILE_INPUT, MOBILE_ROTATE_X, MOBILE_ROTATE_Y, planTurn } from '@/lib/bookEngine';
@@ -186,15 +187,22 @@ function previousSafe(pages: SpreadPage[], index: number) {
 
 const styles = StyleSheet.create({
   stage: {
-    height: 250,
-    borderRadius: 8,
-    backgroundColor: colors.trailDark,
+    height: 280,
+    borderRadius: 12,
+    backgroundColor: 'rgba(15, 10, 26, 0.85)',
+    borderWidth: 1,
+    borderColor: bookColors.border,
     padding: 8,
+    shadowColor: bookColors.accent,
+    shadowOpacity: 0.25,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
   },
   cover: {
     ...StyleSheet.absoluteFill,
-    borderRadius: 8,
-    backgroundColor: colors.trailDark,
+    borderRadius: 12,
+    backgroundColor: 'transparent',
   },
   leftPage: {
     position: 'absolute',
@@ -243,9 +251,9 @@ const styles = StyleSheet.create({
     top: 8,
     bottom: 8,
     left: '50%',
-    width: 14,
-    marginLeft: -7,
-    backgroundColor: 'rgba(47,74,64,0.2)',
+    width: 12,
+    marginLeft: -6,
+    backgroundColor: 'rgba(201, 162, 75, 0.22)',
   },
   paper: { flex: 1, backgroundColor: colors.paper },
   photo: { flex: 1, width: '100%', backgroundColor: colors.flax },
@@ -297,12 +305,13 @@ const styles = StyleSheet.create({
   control: {
     flex: 1,
     minHeight: 56,
-    borderRadius: 0,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: colors.trail,
+    borderColor: bookColors.border,
+    backgroundColor: bookColors.surface,
     alignItems: 'center',
     justifyContent: 'center',
   },
   controlOff: { opacity: 0.35 },
-  controlLabel: { fontFamily: fonts.bodyStrong, fontSize: 16, color: colors.trailDark },
+  controlLabel: { fontFamily: fonts.bodyStrong, fontSize: 16, color: bookColors.text },
 });

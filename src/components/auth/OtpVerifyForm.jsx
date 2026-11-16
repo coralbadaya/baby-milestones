@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Icon from '../Icon';
 import { interact } from '../../utils/haptics';
 import { ROUTES } from '../../routes';
+import DevAuthAssist from './DevAuthAssist';
+import { fetchDevInboxOtp } from '../../utils/fetchDevInboxOtp';
 
 const RESEND_COOLDOWN_SEC = 60;
 
@@ -154,6 +156,12 @@ function OtpVerifyForm({ email, onEmailChange, onVerify, onResend }) {
           Back to sign in
         </Link>
       </p>
+
+      <DevAuthAssist
+        email={email}
+        onFillOtp={(otp) => setToken(otp.replace(/\D/g, '').slice(0, 6))}
+        fetchOtp={fetchDevInboxOtp}
+      />
     </form>
   );
 }

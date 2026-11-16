@@ -33,7 +33,7 @@ export default function PlusScreen() {
         <Text key={way} style={styles.way}>{way}</Text>
       ))}
 
-      <JobLink href="/book" label="Open the book" detail="Photographs stay on this phone" accent />
+      <JobLink href="/book/home" label="Open baby book" detail="Home · Stories · Ideas · 3D Book · Family" accent />
       <JobLink href="/login" label="Sign in first" detail="Plus follows the account" />
     </Screen>
   );

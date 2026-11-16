@@ -4,7 +4,7 @@
  * Turn math: mobile/lib/bookEngine.ts ↔ src/book/engine.
  */
 
-export type LayoutId = 'photo-story' | 'story-photo' | 'facing' | 'pair' | 'chapter';
+export type LayoutId = 'photo-story' | 'story-photo' | 'facing' | 'pair' | 'chapter' | 'cover' | 'index';
 
 export const PAGE_LAYOUTS: { id: LayoutId; label: string; detail: string; take: 1 | 2 }[] = [
   { id: 'photo-story', label: 'Photo & story', detail: 'Photograph on the left, the words on the right', take: 1 },
@@ -16,6 +16,8 @@ export const PAGE_LAYOUTS: { id: LayoutId; label: string; detail: string; take: 
 
 export type SpreadPage = {
   ending?: boolean;
+  cover?: boolean;
+  index?: boolean;
   uri?: string;
   monthLabel: string;
   title: string;
@@ -25,7 +27,7 @@ export type SpreadPage = {
 };
 
 export type Slot = {
-  role: 'blank' | 'photo' | 'story' | 'pair' | 'chapter' | 'ending';
+  role: 'blank' | 'photo' | 'story' | 'pair' | 'chapter' | 'ending' | 'cover' | 'index' | 'endpaper';
   page: SpreadPage | null;
   extra: SpreadPage | null;
 };
@@ -50,6 +52,12 @@ export function composeSpread(pages: SpreadPage[], index: number, layoutId?: str
   const page = pages[index];
   if (!page) {
     return { id: 'photo-story', take: 1, next: index, left: slot('blank'), right: slot('blank') };
+  }
+  if (page.cover) {
+    return { id: 'cover', take: 1, next: index, left: slot('endpaper', page), right: slot('cover', page) };
+  }
+  if (page.index) {
+    return { id: 'index', take: 1, next: index, left: slot('endpaper', page), right: slot('index', page) };
   }
   if (page.ending) {
     return { id: 'chapter', take: 1, next: index, left: slot('chapter', page), right: slot('ending', page) };

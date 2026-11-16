@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   assignLayouts,
   composeSpread,
+  coverAndIndex,
   layoutPlayerScript,
   previousSpreadIndex,
   walkSpreads,
@@ -55,6 +56,17 @@ describe('page layouts', () => {
       'story-photo',
       'chapter',
     ]);
+  });
+
+  it('opens on a hardcover and lists the story pages in the contents', () => {
+    const book = coverAndIndex([photo('One'), { ending: true, title: 'Close' }], { title: 'First year', babyName: 'A' });
+    expect(book[0].cover).toBe(true);
+    expect(book[1].index).toBe(true);
+    expect(book[1].entries.map((entry) => entry.label)).toEqual(['One', 'Close']);
+    expect(book[1].entries.map((entry) => entry.page)).toEqual([1, 3]);
+    expect(composeSpread(book, 0).id).toBe('cover');
+    expect(composeSpread(book, 0).right.role).toBe('cover');
+    expect(composeSpread(book, 1).right.role).toBe('index');
   });
 
   it('ships the same layouts into the standalone album', () => {

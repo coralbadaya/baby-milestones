@@ -219,7 +219,7 @@ Touch targets ≥ 56px. Two columns from 641px; stacked at 375px.
 
 ## Account (`Account.jsx`)
 
-`/account` uses `.account-card` + `.account-input` (same field chrome as auth). Sections: membership, promo, display name, baby name/DOB, data export, delete account (two-step confirm). Quiet **Share feedback** link above sign out. Baby identity writes `baby_profiles` via `useBabyIdentity`.
+Parent hub at `/account` (`RequireAuth`): split **PageHero** (`momCare`), **snapshot** tiles (membership, baby age, milestones, firsts/vaccines), dense **hub-quick-links** to primary journeys, two-column layout (forms + aside). Main column: profile, baby DOB/name, privacy export & delete (`<details>`). Aside: membership CTA, promo redeem, vaccine nudge when due, staff admin link, trust links, sign out. Classes: `.account-hub`, `.account-snapshot`, `.account-panel`, `.account-membership`. Fields reuse `.account-input` / auth labels. Baby identity syncs via `useBabyIdentity`.
 
 ---
 
