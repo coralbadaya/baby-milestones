@@ -4,7 +4,9 @@ create index if not exists analytics_events_user_occurred_idx
   on public.analytics_events (user_id, occurred_at desc)
   where user_id is not null;
 
--- Replace list users with last-active + 30d session counts
+-- Replace list users with last-active + 30d session counts (OUT shape change → drop first)
+drop function if exists public.admin_list_users();
+
 create or replace function public.admin_list_users()
 returns table (
   id uuid,
