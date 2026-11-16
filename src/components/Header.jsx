@@ -4,6 +4,7 @@ import { PRIMARY_NAV, MOBILE_NAV, PREMIUM_NAV, ROUTES, navSectionFromPath } from
 import { useAuth } from '../context/AuthContext';
 import Icon from './Icon';
 import CoralLogo from './CoralLogo';
+import HeaderMobileActions from './HeaderMobileActions';
 
 function pagePath(to) {
   return String(to).split('#')[0];
@@ -96,6 +97,7 @@ function Header() {
               </Link>
             </div>
           </nav>
+          <HeaderMobileActions />
         </div>
       </header>
       <nav className="mobile-nav" aria-label="Primary">

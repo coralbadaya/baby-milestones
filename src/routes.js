@@ -139,6 +139,22 @@ export const MOBILE_NAV = PRIMARY_NAV.filter((item) => item.key !== 'guides');
 export const PREMIUM_NAV = { key: 'premium', to: ROUTES.premium, label: 'Plus', icon: 'sparkles' };
 
 /**
+ * Mobile header “You” menu — auth links stay out of the five-tab bottom bar.
+ * @type {{ guest: { key: string, to: string, label: string }[], member: { key: string, to: string, label: string }[] }}
+ */
+export const MOBILE_USER_MENU = {
+  guest: [
+    { key: 'login', to: ROUTES.login, label: 'Sign in' },
+    { key: 'signup', to: ROUTES.signup, label: 'Sign up' },
+    { key: 'premium', to: PREMIUM_NAV.to, label: PREMIUM_NAV.label },
+  ],
+  member: [
+    { key: 'account', to: ROUTES.account, label: 'Profile & account' },
+    { key: 'premium', to: PREMIUM_NAV.to, label: PREMIUM_NAV.label },
+  ],
+};
+
+/**
  * Grouped footer columns (data-driven). E-E-A-T / trust surface for a YMYL site.
  * @type {{ heading: string, links: { to: string, label: string }[] }[]}
  */

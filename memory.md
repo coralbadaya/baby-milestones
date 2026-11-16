@@ -17,7 +17,7 @@ Last updated: September 2026
 
 ### Journey nav (primary)
 
-Today · My Baby · My Care · Essentials · Community · Guides (desktop top bar; each section opens its named pages; Guides not in the mobile bottom bar)
+Today · My Baby · My Care · Essentials · Community · Guides (desktop top bar; each section opens its named pages; Guides not in the mobile bottom bar). **Mobile top bar:** logo + Plus + account menu (`HeaderMobileActions.jsx`, `MOBILE_USER_MENU` in `routes.js`); bottom bar stays five journey tabs.
 
 Footer-only: Progress · Sources · Premium (also header CTA)
 
@@ -85,7 +85,7 @@ Signed-in users: Supabase `memberships` is source of truth for premium (not loca
 
 | Area | Key files |
 |------|-----------|
-| Shell | `src/App.jsx`, `src/components/Header.jsx`, `src/components/Footer.jsx` |
+| Shell | `src/App.jsx`, `src/components/Header.jsx`, `src/components/HeaderMobileActions.jsx`, `src/components/Footer.jsx` |
 | Routes | `src/routes.js` |
 | Brand / SEO | `src/constants/brand.js`, `src/data/homepageCopy.js`, `src/seo/`, `src/utils/pageMeta.js`, `src/components/StructuredData.jsx` |
 | Styles | `src/styles/global.css`, `src/styles/editorial-system.css` |

@@ -13,7 +13,8 @@ Information architecture, navigation chrome, and SEO/GEO infrastructure for Yarn
 ```
 Top bar:          Today · My Baby · My Care · Essentials · Community · Guides · Sign up · Sign in/Account · [Plus]
                   A section with more than one page opens a square menu of those page names.
-Mobile bottom bar: Today · Baby · Care · Essentials · Community   (Guides/Premium live elsewhere)
+Mobile top bar:   Logo · [Plus] · You menu (Sign in / Sign up / Plus for guests; Profile & account / Plus when signed in)
+Mobile bottom bar: Today · Baby · Care · Essentials · Community   (Guides still in top footer / desktop nav)
 
 Footer (4 columns):
   Explore  | Learn              | Company            | Legal & Trust
@@ -42,7 +43,7 @@ Footer (4 columns):
 
 - **`Header.jsx`** — a 56px top bar (`--header-height`): logo, `PRIMARY_NAV`, Sign up / Sign in or Account, and a square `.header-cta` Plus button.
   Sections with a `pages` list open a square menu of the page titles (My Baby → Vaccination tracker, Baby book; Essentials → Shopping, Travel; Community → Mom Feed, Baby Recipes, Parenting Tips; Today → Progress).
-  On a phone, `.header-nav` is hidden and `.mobile-nav` renders `MOBILE_NAV` at the bottom.
+  On a phone, `.header-nav` is hidden; `.header-mobile-actions` shows Plus and the account menu (`HeaderMobileActions.jsx`, `MOBILE_USER_MENU` in `routes.js`). `.mobile-nav` still renders `MOBILE_NAV` at the bottom.
   The current section is a 2px trail rule along the bottom edge of the bar. Corners stay square. Plus is a filled square, not a pill.
 - **`Footer.jsx`** — renders `FOOTER_SECTIONS` columns + a bottom bar with
   `SOCIAL_LINKS`, a local-only newsletter capture, disclaimer, and copyright.
