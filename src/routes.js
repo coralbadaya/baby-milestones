@@ -57,6 +57,7 @@ export const ROUTES = {
   adminInsights: '/admin/insights',
   adminInbox: '/admin/inbox',
   adminUsers: '/admin/users',
+  adminUser: (userId) => `/admin/users/${userId}`,
   adminPromos: '/admin/promos',
   adminDiy: '/admin/diy',
   adminDiyImage: (activityId) => `/admin/diy/${activityId}`,

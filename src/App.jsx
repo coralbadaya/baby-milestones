@@ -29,6 +29,7 @@ import AdminOverview from './pages/admin/AdminOverview';
 import AdminInsights from './pages/admin/AdminInsights';
 import AdminInbox from './pages/admin/AdminInbox';
 import AdminUsers from './pages/admin/AdminUsers';
+import AdminUserDetail from './pages/admin/AdminUserDetail';
 import AdminPromos from './pages/admin/AdminPromos';
 import AdminDiyImages from './pages/admin/AdminDiyImages';
 import AdminDiyImageEdit from './pages/admin/AdminDiyImageEdit';
@@ -321,6 +322,7 @@ function App() {
           <Route path="insights" element={<AdminInsights />} />
           <Route path="inbox" element={<AdminInbox />} />
           <Route path="users" element={<AdminUsers />} />
+          <Route path="users/:userId" element={<AdminUserDetail />} />
           <Route path="promos" element={<AdminPromos />} />
           <Route path="diy" element={<AdminDiyImages />} />
           <Route path="diy/:activityId" element={<AdminDiyImageEdit />} />

@@ -8,6 +8,7 @@ export const ANALYTICS_EVENT_NAMES = [
   'signup_view',
   'signup_completed',
   'login_completed',
+  'logout_completed',
   'premium_view',
   'begin_checkout',
   'subscribe_success',

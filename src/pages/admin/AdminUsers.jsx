@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminDataTable from '../../components/admin/AdminDataTable';
 import AdminEmpty from '../../components/admin/AdminEmpty';
 import AdminLoading from '../../components/admin/AdminLoading';
 import AdminPageHeader from '../../components/admin/AdminPageHeader';
 import AdminPanel from '../../components/admin/AdminPanel';
+import AdminStatCard from '../../components/admin/AdminStatCard';
 import AdminToolbar from '../../components/admin/AdminToolbar';
+import { ROUTES } from '../../routes';
 import Select from '../../components/Select';
 import { useAuth } from '../../context/AuthContext';
 import { formatAdminDateTime } from '../../utils/adminFormat';
@@ -32,11 +35,15 @@ const USER_COLUMNS = [
   { key: 'membership', header: 'Membership' },
   { key: 'joined', header: 'Joined', className: 'admin-cell-date' },
   { key: 'lastLogin', header: 'Last login', className: 'admin-cell-date' },
+  { key: 'lastActive', header: 'Last on site', className: 'admin-cell-date' },
+  { key: 'sessions30d', header: 'Sessions (30d)' },
 ];
 
 function AdminUsers() {
   const { isAdmin } = useAuth();
+  const navigate = useNavigate();
   const [rows, setRows] = useState([]);
+  const [metrics, setMetrics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
@@ -45,7 +52,10 @@ function AdminUsers() {
     setLoading(true);
     setError(null);
 
-    const { data: profiles, error: listError } = await supabase.rpc('admin_list_users');
+    const [{ data: profiles, error: listError }, { data: userMetrics }] = await Promise.all([
+      supabase.rpc('admin_list_users'),
+      supabase.rpc('admin_users_metrics'),
+    ]);
 
     if (listError || !profiles) {
       setRows([]);
@@ -62,6 +72,7 @@ function AdminUsers() {
     const memMap = Object.fromEntries((memberships || []).map((m) => [m.user_id, m]));
 
     setRows(profiles.map((p) => ({ ...p, membership: memMap[p.id] || null })));
+    setMetrics(userMetrics || null);
     setLoading(false);
   }, []);
 
@@ -99,10 +110,26 @@ function AdminUsers() {
   const renderCell = (row, col) => {
     switch (col.key) {
       case 'name':
-        return row.display_name || '—';
+        return (
+          <button
+            type="button"
+            className="admin-link-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(ROUTES.adminUser(row.id));
+            }}
+          >
+            {row.display_name || '—'}
+          </button>
+        );
       case 'email':
         return row.email ? (
-          <a href={`mailto:${row.email}`} className="admin-users-email" title={row.id}>
+          <a
+            href={`mailto:${row.email}`}
+            className="admin-users-email"
+            title={row.id}
+            onClick={(e) => e.stopPropagation()}
+          >
             {row.email}
           </a>
         ) : (
@@ -110,23 +137,27 @@ function AdminUsers() {
         );
       case 'role':
         return isAdmin ? (
-          <Select
-            id={`role-${row.id}`}
-            value={row.role}
-            onChange={(v) => updateRole(row.id, v)}
-            options={ROLE_OPTIONS}
-          />
+          <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            <Select
+              id={`role-${row.id}`}
+              value={row.role}
+              onChange={(v) => updateRole(row.id, v)}
+              options={ROLE_OPTIONS}
+            />
+          </div>
         ) : (
           row.role
         );
       case 'membership':
         return isAdmin ? (
-          <Select
-            id={`mem-${row.id}`}
-            value={row.membership?.status || 'free'}
-            onChange={(v) => updateMembership(row.id, v)}
-            options={STATUS_OPTIONS}
-          />
+          <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            <Select
+              id={`mem-${row.id}`}
+              value={row.membership?.status || 'free'}
+              onChange={(v) => updateMembership(row.id, v)}
+              options={STATUS_OPTIONS}
+            />
+          </div>
         ) : (
           row.membership?.status || 'free'
         );
@@ -144,6 +175,16 @@ function AdminUsers() {
         ) : (
           '—'
         );
+      case 'lastActive':
+        return row.last_active_at ? (
+          <time dateTime={row.last_active_at}>
+            {formatAdminDateTime(row.last_active_at)}
+          </time>
+        ) : (
+          '—'
+        );
+      case 'sessions30d':
+        return Number(row.sessions_30d || 0).toLocaleString();
       default:
         return null;
     }
@@ -179,6 +220,17 @@ function AdminUsers() {
         <span className="admin-card-label">Last login</span>
         <span className="admin-card-value">{formatAdminDateTime(row.last_sign_in_at)}</span>
       </div>
+      <div className="admin-card-row">
+        <span className="admin-card-label">Last on site</span>
+        <span className="admin-card-value">{formatAdminDateTime(row.last_active_at)}</span>
+      </div>
+      <button
+        type="button"
+        className="admin-btn admin-btn--ghost admin-users-view-btn"
+        onClick={() => navigate(ROUTES.adminUser(row.id))}
+      >
+        View activity
+      </button>
     </>
   );
 
@@ -186,8 +238,18 @@ function AdminUsers() {
     <div className="admin-page">
       <AdminPageHeader
         title="Users"
-        description="Search profiles, emails, roles, and membership status."
+        description="Select a row for sessions, event log, and on-site activity. Metrics use consented analytics (90-day retention)."
       />
+
+      {metrics ? (
+        <div className="admin-stat-grid admin-stat-grid--flat">
+          <AdminStatCard value={(metrics.total_users ?? 0).toLocaleString()} label="Total accounts" />
+          <AdminStatCard value={(metrics.active_7d ?? 0).toLocaleString()} label="Active (7d)" />
+          <AdminStatCard value={(metrics.active_30d ?? 0).toLocaleString()} label="Active (30d)" />
+          <AdminStatCard value={(metrics.sessions_7d ?? 0).toLocaleString()} label="Signed-in sessions (7d)" />
+          <AdminStatCard value={(metrics.with_plus ?? 0).toLocaleString()} label="Plus / trial / comp" />
+        </div>
+      ) : null}
 
       <AdminToolbar
         left={(
@@ -216,6 +278,10 @@ function AdminUsers() {
             rowKey={(row) => row.id}
             renderCell={renderCell}
             mobileCard={mobileCard}
+            onRowClick={(row) => {
+              interact('tap', 'light');
+              navigate(ROUTES.adminUser(row.id));
+            }}
           />
         </AdminPanel>
       )}

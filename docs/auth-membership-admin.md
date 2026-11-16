@@ -96,7 +96,7 @@ update public.profiles set role = 'admin' where id = (
 | `src/pages/Login.jsx`, `SignUp.jsx`, `VerifyEmail.jsx` | Auth pages |
 | `src/pages/admin/*` | Admin center (overview, insights, inbox, users, promos, newsletter, DIY images) |
 
-Routes: `/login`, `/signup`, `/verify-email`, `/account`, `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/newsletter`, `/admin/diy`, `/newsletter/unsubscribe`.
+Routes: `/login`, `/signup`, `/verify-email`, `/account`, `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/users/:userId` (activity drill-down), `/admin/promos`, `/admin/newsletter`, `/admin/diy`, `/newsletter/unsubscribe`.
 
 ### Admin UI
 

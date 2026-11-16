@@ -2249,3 +2249,92 @@ a.admin-stat-card:hover {
   .admin-bar-track { grid-area: track; }
   .admin-bar-value { grid-area: value; }
 }
+
+.admin-dl {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.admin-dl > div {
+  display: grid;
+  grid-template-columns: minmax(6rem, 8rem) 1fr;
+  gap: var(--space-3);
+  font-size: 0.875rem;
+}
+
+.admin-dl dt {
+  margin: 0;
+  color: var(--admin-text-muted);
+  font-weight: 500;
+}
+
+.admin-dl dd {
+  margin: 0;
+  color: var(--admin-text-primary);
+}
+
+.admin-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8125rem;
+  word-break: break-all;
+}
+
+.admin-hint {
+  margin: var(--space-3) 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--admin-text-muted);
+}
+
+.admin-panel-title-row {
+  padding: var(--space-4) var(--space-5) 0;
+}
+
+.admin-panel-title-row--toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.admin-cell-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.admin-cell-muted {
+  color: var(--admin-text-muted);
+  font-size: 0.8125rem;
+}
+
+.admin-link-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: var(--admin-sidebar-accent);
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.admin-link-btn:hover {
+  text-decoration: underline;
+}
+
+.admin-users-view-btn {
+  width: 100%;
+  margin-top: var(--space-3);
+}
+
+.admin-user-detail__back {
+  margin: var(--space-4) var(--space-5) var(--space-8);
+}
+
+.admin-user-detail__split {
+  margin: var(--space-4) var(--space-5);
+}

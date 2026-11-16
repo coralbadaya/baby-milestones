@@ -41,7 +41,7 @@ Salt: `ANALYTICS_IP_SALT` (Vercel/Supabase secrets — never `VITE_`). Cron auth
 
 Traffic: `page_view`, `session_start`, `consent_accepted`, `consent_rejected`
 
-Auth/revenue: `signup_view`, `signup_completed`, `login_completed`, `premium_view`, `begin_checkout`, `subscribe_success` (Stripe webhook, not the browser), `trial_started`, `gate_hit`
+Auth/revenue: `signup_view`, `signup_completed`, `login_completed`, `logout_completed`, `premium_view`, `begin_checkout`, `subscribe_success` (Stripe webhook, not the browser), `trial_started`, `gate_hit`
 
 Habit: `birth_date_set`, `milestone_checked` (`month` only), `first_saved` (`media_type` only)
 
@@ -71,5 +71,5 @@ Migration: `supabase/migrations/20260906090000_analytics.sql`
 
 - `analytics_events` — hot log (service-role insert only)
 - `analytics_daily` — staff-selectable rollups
-- RPCs: `analytics_overview`, `analytics_timeseries` (daily chart series, last 90d on Insights), `analytics_top_routes`, `analytics_geo`, `analytics_devices`, `analytics_funnel`, `analytics_utm`, `analytics_entry_pages`, `analytics_gates`, `analytics_habit`, `analytics_content`, `analytics_lookup_ip` (admin), `analytics_rollup_and_scrub` (cron / service role)
+- RPCs: `analytics_overview`, `analytics_timeseries` (daily chart series, last 90d on Insights), `analytics_top_routes`, `analytics_geo`, `analytics_devices`, `analytics_funnel`, `analytics_utm`, `analytics_entry_pages`, `analytics_gates`, `analytics_habit`, `analytics_content`, `analytics_lookup_ip` (admin), `admin_users_metrics`, `admin_user_detail` (per-user sessions + event log on `/admin/users/:id`), `analytics_rollup_and_scrub` (cron / service role)
 - Migration `supabase/migrations/20260906110000_analytics_timeseries.sql` — daily counts: sessions, pageviews, signups, paid, birth_dates, milestones, gate_hits

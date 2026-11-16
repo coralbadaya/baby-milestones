@@ -121,6 +121,11 @@ export function AuthProvider({ children }) {
   }, []);
 
   const signOut = useCallback(async () => {
+    try {
+      await trackEvent('logout_completed');
+    } catch {
+      /* still sign out */
+    }
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
   }, []);
