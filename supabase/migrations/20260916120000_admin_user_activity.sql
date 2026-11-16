@@ -97,7 +97,7 @@ begin
 end;
 $$;
 
-create or replace function public.admin_user_detail(p_user_id uuid, p_days int default 90)
+create or replace function public.admin_user_detail(p_days int, p_user_id uuid)
 returns jsonb
 language plpgsql
 stable
@@ -305,6 +305,6 @@ end;
 $$;
 
 revoke all on function public.admin_users_metrics() from public, anon;
-revoke all on function public.admin_user_detail(uuid, int) from public, anon;
+revoke all on function public.admin_user_detail(int, uuid) from public, anon;
 grant execute on function public.admin_users_metrics() to authenticated;
-grant execute on function public.admin_user_detail(uuid, int) to authenticated;
+grant execute on function public.admin_user_detail(int, uuid) to authenticated;

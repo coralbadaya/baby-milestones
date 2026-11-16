@@ -57,8 +57,8 @@ function AdminUserDetail() {
     setLoading(true);
     setError(null);
     const { data, error: rpcError } = await supabase.rpc('admin_user_detail', {
-      p_user_id: userId,
       p_days: Number(days) || 30,
+      p_user_id: userId,
     });
     if (rpcError) {
       setDetail(null);

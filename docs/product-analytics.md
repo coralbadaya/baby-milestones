@@ -73,3 +73,4 @@ Migration: `supabase/migrations/20260906090000_analytics.sql`
 - `analytics_daily` — staff-selectable rollups
 - RPCs: `analytics_overview`, `analytics_timeseries` (daily chart series, last 90d on Insights), `analytics_top_routes`, `analytics_geo`, `analytics_devices`, `analytics_funnel`, `analytics_utm`, `analytics_entry_pages`, `analytics_gates`, `analytics_habit`, `analytics_content`, `analytics_lookup_ip` (admin), `admin_users_metrics`, `admin_user_detail` (per-user sessions + event log on `/admin/users/:id`), `analytics_rollup_and_scrub` (cron / service role)
 - Migration `supabase/migrations/20260906110000_analytics_timeseries.sql` — daily counts: sessions, pageviews, signups, paid, birth_dates, milestones, gate_hits
+- `admin_user_detail(p_days, p_user_id)` — parameter order is alphabetical for PostgREST; apply `20260916120000` + `20260916130000` on Supabase if the user activity page 404s the RPC
