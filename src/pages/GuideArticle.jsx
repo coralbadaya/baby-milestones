@@ -8,7 +8,9 @@ import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
 import GuideStoryCta from '../components/book/GuideStoryCta';
-import { articleSchema, breadcrumbSchema } from '../utils/structuredData';
+import GuideQuickLinks from '../components/GuideQuickLinks';
+import GuideFaqSection from '../components/GuideFaqSection';
+import { articleSchema, breadcrumbSchema, faqSchema } from '../utils/structuredData';
 import { trackEvent } from '../utils/analytics';
 import NotFound from './NotFound';
 
@@ -56,19 +58,7 @@ function GuideArticle() {
           {guide.readMinutes} min read
         </p>
         <p className="content-page-intro">{guide.intro}</p>
-        {guide.milestoneMonth ? (
-          <p className="month-related-links">
-            <Link to={ROUTES.month(guide.milestoneMonth)}>
-              Month {guide.milestoneMonth} tracker
-            </Link>
-            {' · '}
-            <Link to={ROUTES.vaccination}>Vaccination schedule</Link>
-            {' · '}
-            <Link to={ROUTES.momCare}>Postpartum care</Link>
-            {' · '}
-            <Link to={ROUTES.sources}>Sources & citations</Link>
-          </p>
-        ) : null}
+        <GuideQuickLinks guide={guide} />
       </header>
 
       <div className="content-page-body">
@@ -88,6 +78,8 @@ function GuideArticle() {
           </section>
         ))}
       </div>
+
+      <GuideFaqSection faqs={guide.faqs} />
 
       <GuideStoryCta month={guide.milestoneMonth} />
 
@@ -123,6 +115,9 @@ function GuideArticle() {
       )}
 
       <StructuredData id={`article-${guide.slug}`} data={articleSchema(guide, pathname)} />
+      {guide.faqs?.length ? (
+        <StructuredData id={`faq-${guide.slug}`} data={faqSchema(guide.faqs)} />
+      ) : null}
       <StructuredData
         id={`breadcrumb-${guide.slug}`}
         data={breadcrumbSchema([

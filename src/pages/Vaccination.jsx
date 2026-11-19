@@ -24,6 +24,8 @@ import {
 import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
+import ProductPageFaq from '../components/ProductPageFaq';
+import { getProductPageFaqs } from '../data/productPageFaqs';
 
 const FILTERS = ['all', 'due', 'upcoming', 'overdue', 'done', 'skipped'];
 
@@ -259,6 +261,8 @@ function Vaccination({
     }
   };
 
+  const vaccinationFaq = getProductPageFaqs(ROUTES.vaccination);
+
   return (
     <>
       <PageHero
@@ -375,6 +379,10 @@ function Vaccination({
         />
       )}
       </PageSection>
+
+      {vaccinationFaq ? (
+        <ProductPageFaq pathname={ROUTES.vaccination} title={vaccinationFaq.title} faqs={vaccinationFaq.faqs} />
+      ) : null}
     </>
   );
 }

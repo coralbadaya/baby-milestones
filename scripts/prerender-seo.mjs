@@ -9,6 +9,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { homepageBodyHtml } from '../src/data/homepageCopy.js';
+import { PRODUCT_PAGE_FAQS } from '../src/data/productPageFaqs.js';
 import guides from '../src/data/guides.js';
 import { PAGES, FAQS } from '../src/data/legalContent.js';
 import milestones from '../src/data/milestones.js';
@@ -52,14 +53,43 @@ function blocksToHtml(blocks = []) {
   }).join('');
 }
 
-function guideRelatedLinksHtml(guide) {
-  if (!guide.milestoneMonth) return '';
-  return `<p>
-    <a href="${ROUTES.month(guide.milestoneMonth)}">Month ${guide.milestoneMonth} tracker</a>
-    · <a href="${ROUTES.vaccination}">Vaccination schedule</a>
-    · <a href="${ROUTES.momCare}">Postpartum care</a>
-    · <a href="${ROUTES.sources}">Sources &amp; citations</a>
-  </p>`;
+function guideQuickLinksHtml(guide) {
+  /** @type {{ href: string, label: string }[]} */
+  const items = [];
+  if (guide.milestoneMonth) {
+    items.push(
+      { href: ROUTES.month(guide.milestoneMonth), label: `Month ${guide.milestoneMonth} tracker` },
+      { href: ROUTES.vaccination, label: 'Vaccination schedule' },
+      { href: ROUTES.momCare, label: 'Postpartum care' },
+      { href: ROUTES.sources, label: 'Sources & citations' },
+    );
+  }
+  for (const link of guide.productLinks || []) {
+    items.push({ href: link.to, label: link.label });
+  }
+  const seen = new Set();
+  const unique = items.filter((item) => {
+    if (seen.has(item.href)) return false;
+    seen.add(item.href);
+    return true;
+  });
+  if (!unique.length) return '';
+  const anchors = unique
+    .map((item) => `<a href="${item.href}">${escapeHtml(item.label)}</a>`)
+    .join(' · ');
+  return `<p>${anchors}</p>`;
+}
+
+function faqListBodyHtml(faqs, heading = 'Common questions') {
+  if (!faqs?.length) return '';
+  const items = faqs
+    .map((f) => `<section><h2>${escapeHtml(f.q)}</h2><p>${escapeHtml(f.a)}</p></section>`)
+    .join('');
+  return `<h2>${escapeHtml(heading)}</h2>${items}`;
+}
+
+function guideFaqBodyHtml(guide) {
+  return faqListBodyHtml(guide.faqs);
 }
 
 function guideBodyHtml(guide) {
@@ -67,8 +97,9 @@ function guideBodyHtml(guide) {
     <nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/guides">Guides</a> / ${escapeHtml(guide.title)}</nav>
     <h1>${escapeHtml(guide.title)}</h1>
     <p>${escapeHtml(guide.intro || guide.description || '')}</p>
-    ${guideRelatedLinksHtml(guide)}
+    ${guideQuickLinksHtml(guide)}
     ${blocksToHtml(guide.body)}
+    ${guideFaqBodyHtml(guide)}
   </article>`;
 }
 
@@ -143,6 +174,9 @@ for (const entry of entries) {
       { name: 'Guides', path: ROUTES.guides },
       { name: guide.title, path: entry.path },
     ]));
+    if (guide.faqs?.length) {
+      jsonLd['@graph'].push(faqSchema(guide.faqs));
+    }
     bodyHtml = guideBodyHtml(guide);
   } else if (entry.path === ROUTES.faq) {
     jsonLd = pageGraph(faqSchema(FAQS));
@@ -160,6 +194,18 @@ for (const entry of entries) {
       { name: `Month ${monthData.month}`, path: entry.path },
     ]));
     bodyHtml = monthBodyHtml(monthData);
+  } else if (PRODUCT_PAGE_FAQS[entry.path]) {
+    const productFaq = PRODUCT_PAGE_FAQS[entry.path];
+    jsonLd = pageGraph(breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: entry.title || 'Yarn Trails', path: entry.path },
+    ]));
+    jsonLd['@graph'].push(faqSchema(productFaq.faqs));
+    bodyHtml = `<article>
+      <h1>${escapeHtml(entry.title || 'Yarn Trails')}</h1>
+      <p>${escapeHtml(entry.description || '')}</p>
+      ${faqListBodyHtml(productFaq.faqs, productFaq.title)}
+    </article>`;
   } else {
     jsonLd = pageGraph(breadcrumbSchema([
       { name: 'Home', path: '/' },

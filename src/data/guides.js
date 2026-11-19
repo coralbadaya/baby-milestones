@@ -6,12 +6,16 @@
 import guidesBase from './guidesBase.js';
 import { allMilestoneGuides } from './milestoneGuides.js';
 import comparisonGuides from './comparisonGuides.js';
+import contentGapGuides from './contentGapGuides.js';
+import { applyGuideSeo } from './guideSeoEnrichment.js';
+import { applyContentGapExpansion } from './contentGapGuideExpansions.js';
 
 const guides = [
   ...guidesBase,
   ...allMilestoneGuides(),
   ...comparisonGuides,
-];
+  ...contentGapGuides.map(applyContentGapExpansion),
+].map(applyGuideSeo);
 
 export default guides;
 

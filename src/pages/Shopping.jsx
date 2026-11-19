@@ -6,9 +6,12 @@ import { PREMIUM_FEATURES } from '../constants/premium';
 import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
+import ProductPageFaq from '../components/ProductPageFaq';
+import { getProductPageFaqs } from '../data/productPageFaqs';
 
 function Shopping({ checkedItems, toggleCheck, currentMonth }) {
   usePageMeta(getStaticMeta(ROUTES.shopping) || {});
+  const shoppingFaq = getProductPageFaqs(ROUTES.shopping);
   return (
     <>
       <PageHero
@@ -32,6 +35,9 @@ function Shopping({ checkedItems, toggleCheck, currentMonth }) {
           </section>
         </PremiumGate>
       </PageSection>
+      {shoppingFaq ? (
+        <ProductPageFaq pathname={ROUTES.shopping} title={shoppingFaq.title} faqs={shoppingFaq.faqs} />
+      ) : null}
     </>
   );
 }

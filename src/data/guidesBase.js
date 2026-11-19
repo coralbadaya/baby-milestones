@@ -15,6 +15,8 @@
  *   body: GuideBlock[],
  *   relatedSlugs?: string[],
  *   milestoneMonth?: number,
+ *   productLinks?: { to: string, label: string }[],
+ *   faqs?: { q: string, a: string }[],
  * }} Guide
  */
 

@@ -105,6 +105,93 @@ const MONTH_COPY = {
   },
 };
 
+/** Extra editorial sections per month (~2× guide depth). */
+const MONTH_BODY_EXTRA = {
+  1: {
+    sleepFeeding:
+      'Feeding still dominates the first month — cluster nursing or formula pacing on demand is typical. Total sleep is fragmented; safe back sleeping on a firm surface applies even when naps are only twenty minutes.',
+    social:
+      'Brief eye contact during care routines builds connection. Narrate nappy changes and walks to the window — it sounds one-sided now; it is setting up back-and-forth later.',
+  },
+  2: {
+    sleepFeeding:
+      'Some families notice slightly longer night stretches; others still feed hourly. Track wet nappies and weight at visits instead of chasing a schedule screenshot from an app.',
+    social:
+      'Social smiling changes the emotional load — celebrate it without comparing timing to a cousin’s baby. Respond to coos with pauses so baby learns turn-taking.',
+  },
+  4: {
+    sleepFeeding:
+      'Rolling may wake babies when they practice at night. Keep the crib clear and return them to back sleep if they settle. Milk remains the core diet.',
+    social:
+      'Laughing, reaching, and batting turn tummy time into play. One toy at a time beats a busy gym.',
+  },
+  5: {
+    sleepFeeding:
+      'Teething discomfort can appear as drool and fuss without a tooth in sight. Offer a clean ring; avoid unproven gels unless your clinician recommends them.',
+    social:
+      'Preference for familiar faces is healthy — introduce new people slowly and let baby warm up.',
+  },
+  6: {
+    sleepFeeding:
+      'Interest in your plate often coincides with readiness conversations for solids. Milk feeds still anchor nutrition; solids start as small tastes.',
+    social:
+      'Repetitive babbling deserves your copy — repeat “ba-ba” back and vary vowels. Reading a short board book daily still helps.',
+  },
+  7: {
+    sleepFeeding:
+      'Movement burns calories — feeds may stay frequent. Offer extra contact during nap regressions tied to rolling practice.',
+    social:
+      'Responding to their name with a smile reinforces listening. Hide-and-reveal games reward object permanence emerging.',
+  },
+  8: {
+    sleepFeeding:
+      'Sitting practice can tire backs quickly — alternate supported sitting with floor time. Choking hazards matter more once mouthing is intentional.',
+    social:
+      'Stranger wariness is not bad behaviour — hold baby close and model calm hellos.',
+  },
+  9: {
+    sleepFeeding:
+      'Pulling to stand can shorten naps. Lower the crib mattress; remove bumpers and loose bedding.',
+    social:
+      'Gestures like reaching up when they want held are early communication — honour them when safe.',
+  },
+  10: {
+    sleepFeeding:
+      'Cruisers explore every corner — advance child-proofing before speed picks up. Snacks on the go only when already on solids and supervised.',
+    social:
+      'Imitate claps and waves; praise attempts, not perfection.',
+  },
+  11: {
+    sleepFeeding:
+      'Standing drops can bungle sleep schedules — stay nearby at bedtime. Iron-rich foods matter as solids expand (per clinician).',
+    social:
+      'Simple instructions (“give the ball”) may work with gesture support. Name emotions in plain words.',
+  },
+  12: {
+    sleepFeeding:
+      'First birthday meals are festive; still avoid choking hazards like whole grapes or hard sweets. Cow’s milk as a drink may be discussed at the check-up.',
+    social:
+      'Parallel play with adults remains the norm — toddlers learn by copying and short cooperative games.',
+  },
+};
+
+const MILESTONE_GUIDE_MONTHS = new Set([1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+
+/** @param {number} month */
+function milestoneRelatedSlugs(month) {
+  const slugs = [];
+  if (month === 1) {
+    slugs.push('2-month-old-milestones', 'newborn-dos-and-donts');
+  } else if (month === 2) {
+    slugs.push('1-month-old-milestones', '3-month-old-milestones');
+  } else {
+    const prev = month === 4 ? 2 : month - 1;
+    if (MILESTONE_GUIDE_MONTHS.has(prev)) slugs.push(`${prev}-month-old-milestones`);
+    if (month < 12) slugs.push(`${month + 1}-month-old-milestones`);
+  }
+  return slugs;
+}
+
 /** @param {number} month */
 export function buildMilestoneGuide(month) {
   const copy = MONTH_COPY[month];
@@ -116,7 +203,7 @@ export function buildMilestoneGuide(month) {
     description: `Evidence-informed milestones for ${month}-month-old babies — physical, social, and cognitive development, plus when to call your pediatrician.`,
     category: 'Baby Development',
     icon: 'baby',
-    readMinutes: 5 + (month % 3),
+    readMinutes: 8 + (month % 3),
     author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending medical review',
     updated: '2026-07-02',
@@ -126,13 +213,36 @@ export function buildMilestoneGuide(month) {
       {
         heading: 'Typical milestones this month',
         list: copy.highlights,
+        paragraphs: [
+          `${copy.summary} If your baby has not done every item on this list, compare trends over the next two to four weeks rather than a single afternoon.`,
+        ],
       },
+      {
+        heading: 'Physical and motor development',
+        paragraphs: [
+          `${copy.highlights[0]} Supervised floor time links most motor skills this month — avoid long stretches in seats or swings that limit wriggling.`,
+          'If your baby was born preterm, your pediatrician may use an adjusted age for milestones — ask which window applies.',
+        ],
+      },
+      ...(MONTH_BODY_EXTRA[month]
+        ? [
+            {
+              heading: 'Sleep and feeding this month',
+              paragraphs: [MONTH_BODY_EXTRA[month].sleepFeeding],
+            },
+            {
+              heading: 'Social connection and early language',
+              paragraphs: [MONTH_BODY_EXTRA[month].social],
+            },
+          ]
+        : []),
       {
         heading: 'How to support development',
         list: [
           'Plenty of floor time and supervised tummy time',
           'Talk, sing, and respond to coos — back-and-forth builds language',
           'Offer safe toys at their reach to encourage exploration',
+          'Open Month ' + month + ' in My Baby for DIY ideas tied to this stage',
         ],
       },
       {
@@ -148,7 +258,7 @@ export function buildMilestoneGuide(month) {
         ],
       },
     ],
-    relatedSlugs: month > 1 ? [`${month - 1}-month-old-milestones`] : ['3-month-old-milestones'],
+    relatedSlugs: milestoneRelatedSlugs(month),
   };
 }
 

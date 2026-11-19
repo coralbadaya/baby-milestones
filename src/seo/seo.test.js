@@ -9,6 +9,7 @@ import { articleSchema, breadcrumbSchema, faqSchema, organizationSchema, website
 import { SITE_URL } from '../constants/brand.js';
 import { homepageBodyHtml } from '../data/homepageCopy.js';
 import { getGuideBySlug } from '../data/guides.js';
+import { KEYWORD_PILLARS } from './keywordSeeds.js';
 
 describe('canonical URLs', () => {
   it('normalizes trailing slashes, query, and hash', () => {
@@ -228,6 +229,65 @@ describe('prerender HTML', () => {
     expect(html).toContain('<h2>What Yarn Trails is</h2>');
     expect(html).toContain('href="/guides"');
     expect(html).not.toContain('<div id="root"><article');
+  });
+});
+
+describe('keyword seeds', () => {
+  it('defines sixteen priority pillars with unique ids', () => {
+    expect(KEYWORD_PILLARS.length).toBe(16);
+    const ids = KEYWORD_PILLARS.map((p) => p.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).toContain('vaccination-india');
+    expect(ids).toContain('baby-recipes');
+  });
+});
+
+const CONTENT_GAP_GUIDE_SLUGS = [
+  'nursery-rhymes-for-babies',
+  'lullabies-for-babies',
+  'best-books-for-babies-by-age',
+  'baby-photoshoot-ideas-at-home',
+  'starting-solids-guide',
+  'indian-baby-food-recipes',
+  'newborn-dos-and-donts',
+];
+
+describe('milestone guide SEO', () => {
+  it('adds FAQs for months 1–12 milestone slugs', () => {
+    for (const month of [1, 2, 4, 6, 12]) {
+      const guide = getGuideBySlug(`${month}-month-old-milestones`);
+      expect(guide?.faqs?.length, `month ${month}`).toBeGreaterThanOrEqual(4);
+      expect(guide?.productLinks?.length, `month ${month} links`).toBeGreaterThanOrEqual(5);
+    }
+    const three = getGuideBySlug('3-month-old-milestones');
+    expect(three?.faqs?.length).toBeGreaterThanOrEqual(4);
+  });
+});
+
+describe('content gap guides', () => {
+  it('publishes seven SEO gap guides with meta', () => {
+    for (const slug of CONTENT_GAP_GUIDE_SLUGS) {
+      const guide = getGuideBySlug(slug);
+      expect(guide, slug).toBeTruthy();
+      expect(guide.title.length).toBeGreaterThan(10);
+      expect(guide.description.length).toBeGreaterThan(40);
+      expect(guide.body?.length).toBeGreaterThan(3);
+      expect(guide.faqs?.length, `${slug} faqs`).toBeGreaterThanOrEqual(4);
+      expect(guide.productLinks?.length, `${slug} links`).toBeGreaterThanOrEqual(4);
+    }
+  });
+
+  it('includes gap guides in the sitemap inventory', () => {
+    const entries = getIndexableEntries(
+      CONTENT_GAP_GUIDE_SLUGS.map((slug) => {
+        const g = getGuideBySlug(slug);
+        return { slug, title: g.title, description: g.description, updated: g.updated };
+      }),
+    );
+    const paths = entries.map((e) => e.path);
+    for (const slug of CONTENT_GAP_GUIDE_SLUGS) {
+      expect(paths).toContain(`/guides/${slug}`);
+    }
   });
 });
 

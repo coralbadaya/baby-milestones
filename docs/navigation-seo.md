@@ -154,6 +154,17 @@ AI search (answer engines, assistants, and generative overviews) should meet the
 - Health pages state that the guidance is educational and link the medical disclaimer. Do not imply diagnosis or treatment.
 - After copy changes, run `npm run audit:seo`.
 
+### Keyword inventory (content planning)
+
+- **Strategy:** [`seo-keywords.md`](seo-keywords.md) — fifteen priority pillars (milestones, vaccination India, recipes, DIY, mom care, photoshoot, stories, rhymes, lullabies, products, dos/don'ts), canonical URL map, YMYL rules.
+- **Matrix:** [`seo-keywords-matrix.md`](seo-keywords-matrix.md) — ~14k generated phrase permutations from `src/seo/keywordSeeds.js`; refresh with `npm run generate:seo-keywords`.
+- **Agents:** [`.cursor/skills/seo-keywords/SKILL.md`](../.cursor/skills/seo-keywords/SKILL.md).
+
+Do not add `<meta name="keywords">`; use phrases in titles, headings, prerender body, and guides.
+
+- **Guide FAQs:** `src/data/guideSeoEnrichment.js` + `GuideFaqSection` (visible) + `FAQPage` JSON-LD; prerender mirrors FAQ HTML in `scripts/prerender-seo.mjs`.
+- **Internal links:** `GuideQuickLinks` on every enriched guide; footer Learn column lists pillar guides.
+
 ## Conventions
 
 - Keep the **top bar ≤ 6 journey items**; further pages live in that section's menu, under the name the page itself uses. Premium is always a CTA, never a plain link.

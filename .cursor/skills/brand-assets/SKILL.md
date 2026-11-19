@@ -40,6 +40,7 @@ Edit tokens in `src/styles/global.css` `:root`. Wool & Trail anchors: `--brand-t
 
 ## SEO / PWA checklist
 
+- Keyword pillars and phrase matrix: `docs/seo-keywords.md` + `npm run generate:seo-keywords` — see [seo-keywords/SKILL.md](../seo-keywords/SKILL.md)
 - `index.html`: title, description, canonical, OG/Twitter, theme-color, JSON-LD
 - `public/manifest.webmanifest`: name, icons, theme_color
 - `public/robots.txt` + `public/sitemap.xml`

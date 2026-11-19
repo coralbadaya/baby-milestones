@@ -346,4 +346,28 @@ export const FAQS = [
     q: `Is ${BRAND_NAME} free?`,
     a: 'Core features are free. A Premium tier offers additional tools — see the Premium page for what is included.',
   },
+  {
+    q: 'Where can I read about starting solids and baby food?',
+    a: `See the Starting solids guide at ${SITE_URL}/guides/starting-solids-guide for readiness signs and safety. Indian first-food ideas are in the Indian baby food recipes guide at ${SITE_URL}/guides/indian-baby-food-recipes. Community recipes are on the app under Community.`,
+  },
+  {
+    q: 'Does Yarn Trails have a vaccination tracker for India?',
+    a: `Yes. Open Vaccination in the app to log doses with an India (IAP/UIP-style), CDC, or custom schedule. The first-year vaccination guide at ${SITE_URL}/guides/first-year-vaccination-schedule explains how schedules are organized — always follow your pediatrician.`,
+  },
+  {
+    q: 'Where are nursery rhymes and lullabies for babies?',
+    a: `Free editorial guides: nursery rhymes at ${SITE_URL}/guides/nursery-rhymes-for-babies and lullabies at ${SITE_URL}/guides/lullabies-for-babies. Pair them with the best books by age guide at ${SITE_URL}/guides/best-books-for-babies-by-age.`,
+  },
+  {
+    q: 'How do I take monthly baby photos at home?',
+    a: `Use the baby photoshoot ideas at home guide at ${SITE_URL}/guides/baby-photoshoot-ideas-at-home and download free printable milestone cards at ${SITE_URL}/tools/milestone-cards.`,
+  },
+  {
+    q: 'What are newborn dos and don’ts on Yarn Trails?',
+    a: `The newborn safety guide at ${SITE_URL}/guides/newborn-dos-and-donts covers sleep, feeding, bathing, and visitors. It is educational only — see the medical disclaimer and your pediatrician for personal advice.`,
+  },
+  {
+    q: 'Is milestone tracking the same as a baby book?',
+    a: `Basic milestone tracking on My Baby is free forever. Yarn Trails Plus adds AI stories and a flip-book — see ${SITE_URL}/premium and the digital baby book guide at ${SITE_URL}/guides/digital-baby-book-guide.`,
+  },
 ];

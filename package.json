@@ -30,6 +30,7 @@
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "prerender:seo": "node scripts/prerender-seo.mjs",
     "audit:seo": "node scripts/audit-seo.mjs",
+    "generate:seo-keywords": "node scripts/generate-seo-keyword-matrix.mjs",
     "build:seo": "node scripts/generate-sitemap.mjs && vite build && node scripts/prerender-seo.mjs"
   },
   "dependencies": {
