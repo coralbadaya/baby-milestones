@@ -11,6 +11,7 @@ const ICONS = {
   book: { ios: 'book', android: 'menu_book', web: 'menu_book' },
   essentials: { ios: 'bag', android: 'shopping_bag', web: 'shopping_bag' },
   community: { ios: 'person.2', android: 'groups', web: 'groups' },
+  guides: { ios: 'text.book.closed', android: 'menu_book', web: 'auto_stories' },
 } as const;
 
 function TabIcon({
@@ -38,25 +39,28 @@ function TabIcon({
 
 function PaidTabIcon({
   name,
-  focused,
 }: {
   name: (typeof ICONS)[keyof typeof ICONS];
   focused: boolean;
 }) {
   return (
-    <View style={{ alignItems: 'center', gap: 4, borderRadius: 0 }}>
+    <View style={{ alignItems: 'center', marginTop: -18 }}>
       <View
         style={{
-          width: 36,
-          height: 36,
+          width: 56,
+          height: 56,
+          borderRadius: 28,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: focused ? colors.trailDark : colors.trail,
-          borderTopWidth: 2,
-          borderTopColor: colors.gold,
+          backgroundColor: '#2d1f4e',
+          shadowColor: '#1a1432',
+          shadowOpacity: 0.35,
+          shadowRadius: 10,
+          shadowOffset: { width: 0, height: 4 },
+          elevation: 6,
         }}
       >
-        <SymbolView name={name} tintColor={colors.cream} size={20} />
+        <SymbolView name={name} tintColor="#f5f0eb" size={22} />
       </View>
     </View>
   );
@@ -83,6 +87,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
+          href: null,
           title: 'Today',
           tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.today} color={color} focused={focused} />,
         }}
@@ -114,6 +119,13 @@ export default function TabLayout() {
         options={{
           title: 'Community',
           tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.community} color={color} focused={focused} />,
+        }}
+      />
+      <Tabs.Screen
+        name="guides"
+        options={{
+          title: 'Guides',
+          tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.guides} color={color} focused={focused} />,
         }}
       />
       <Tabs.Screen

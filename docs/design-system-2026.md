@@ -71,7 +71,7 @@ Extension of warm minimalism for affluent tier-1 mothers.
 | Display type | **Newsreader** serif — `--font-display` |
 | Body type | **Manrope** — `--font-body` |
 | Heroes | `<PageHero>` with AI art-directed photography |
-| Nav | 6 journey links (desktop): Today · My Baby · My Care · Essentials · Community · Guides; mobile bottom bar: Today · Baby · Care · Book · Community |
+| Nav | 6 journey links (desktop): Today · My Baby · My Care · Essentials · Community · Guides; mobile bottom bar: Baby · Care · Book · Community · Guides |
 | Spacing | Generous `--space-8` section gaps |
 | Premium | Teaser gates, invitation tone — see `docs/monetization-strategy.md` |
 

@@ -108,7 +108,13 @@ function Header() {
             className={`${navClass(key)}${paid ? ' mobile-nav__paid' : ''}`}
             onClick={onNav}
           >
-            <Icon name={icon} size={18} />
+            {paid ? (
+              <span className="mobile-nav__paid-disc" aria-hidden="true">
+                <Icon name={icon} size={22} />
+              </span>
+            ) : (
+              <Icon name={icon} size={18} />
+            )}
             <span>{mobileLabel}</span>
           </Link>
         ))}

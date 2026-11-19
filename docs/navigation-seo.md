@@ -14,7 +14,7 @@ Information architecture, navigation chrome, and SEO/GEO infrastructure for Yarn
 Top bar:          Today · My Baby · My Care · Essentials · Community · Guides · Sign up · Sign in/Account · [Plus]
                   A section with more than one page opens a square menu of those page names.
 Mobile top bar:   Logo · [Plus] · You menu (Sign in / Sign up / Plus for guests; Profile & account / Plus when signed in)
-Mobile bottom bar: Today · Baby · Care · Book · Community   (Essentials + Guides in desktop nav / footer; Book is Plus)
+Mobile bottom bar: Baby · Care · Book · Community · Guides   (Today is the logo; Essentials in desktop nav / footer; Book is the Plus circle)
 
 Footer (4 columns):
   Explore  | Learn              | Company            | Legal & Trust
@@ -34,7 +34,7 @@ Footer (4 columns):
 - `ROUTES` — all paths (incl. `guides`, `guide(slug)`, `faq`, `about`, `contact`,
   `feedback`, `login`, `signup`, `verifyEmail`, `account`, `admin`, legal/trust routes).
 - `PRIMARY_NAV` — desktop top-bar items (includes `guides`). A `pages` list names the destinations inside that section. **Premium is NOT here.**
-- `MOBILE_NAV` — Today, Baby, Care, Book (paid), Community. Essentials and Guides stay out of the bottom bar.
+- `MOBILE_NAV` — Baby, Care, Book (center circle), Community, Guides. Today is the logo. Essentials stays out of the bottom bar.
 - `PREMIUM_NAV` — single object rendered as the distinct CTA button.
 - `FOOTER_SECTIONS` — data-driven `[{ heading, links: [{to, label}] }]`.
 - `navSectionFromPath(pathname)` — active-state resolver (adds `guides`).
@@ -173,7 +173,7 @@ Do not add `<meta name="keywords">`; use phrases in titles, headings, prerender 
 ## Conventions
 
 - Keep the **top bar ≤ 6 journey items**; further pages live in that section's menu, under the name the page itself uses. Premium is always a CTA, never a plain link.
-- Keep the **mobile bottom bar at 5 items** (Today · Baby · Care · Book · Community).
+- Keep the **mobile bottom bar at 5 items** (Baby · Care · Book · Community · Guides).
 - Footer is **data-driven** — add links via `FOOTER_SECTIONS`, never hard-code `<Link>`s.
 - After adding a page/guide: add it to `FOOTER_SECTIONS`/nav as appropriate and run
   `npm run generate:sitemap`.

@@ -6,7 +6,7 @@
 
 ## Top bar (desktop) and bottom bar (phone)
 
-Six journey links in one 56px row, plus account and Plus. A section that holds more than one page opens a square menu, and each row uses that page's name. On a phone the five jobs stay in the bottom bar, and Guides stays out of that bar.
+Six journey links in one 56px row, plus account and Plus. A section that holds more than one page opens a square menu, and each row uses that page's name. On a phone the five jobs are Baby · Care · Book · Community · Guides; Today is the logo.
 
 | Label | Route | Section key | Purpose |
 |-------|-------|-------------|---------|
@@ -15,7 +15,7 @@ Six journey links in one 56px row, plus account and Plus. A section that holds m
 | **My Care** | `/mom-care` | `momCare` | Postpartum timeline + self-care topics |
 | **Essentials** | `/essentials` | `essentials` | Shopping + travel hub |
 | **Community** | `/community/feed` | `community` | Feed, recipes, tips |
-| **Guides** | `/guides` | `guides` | Editorial articles (desktop top bar only). The page title is Guides & Articles. |
+| **Guides** | `/guides` | `guides` | Editorial articles. The page title is Guides & Articles. On a phone this is the fifth bottom-bar item. |
 
 **Named pages inside a section** (desktop menu, same words as the page):
 
@@ -28,7 +28,7 @@ Six journey links in one 56px row, plus account and Plus. A section that holds m
 
 **Bar end (desktop):** Sign in / Account + **Plus** square button — not in `PRIMARY_NAV` data.
 
-**Mobile bottom bar (5 items):** Today · Baby · Care · **Book** (Plus) · Community — Essentials and Guides stay in the desktop top bar + footer. Book is the paid centerpiece after Care.
+**Mobile bottom bar (5 items):** Baby · Care · **Book** (center circle) · Community · Guides. Today is the logo. Essentials stays in the desktop top bar + footer.
 
 ### Demoted to footer
 
@@ -122,7 +122,7 @@ See [`docs/auth-membership-admin.md`](auth-membership-admin.md) for OTP flow and
 
 ## Mobile bottom nav
 
-Same 5 items as the desktop bar, without Guides. Progress, Vaccination tracker, Baby book, Shopping, and Travel are in the desktop section menus and in the footer. Sources and Premium stay in the footer.
+Baby · Care · **Book** (raised twilight circle) · Community · Guides. Today is the logo, not a tab. Essentials, Progress, Vaccination tracker, Shopping, and Travel stay in the desktop section menus and in the footer. Sources and Premium stay in the footer.
 
 ---
 

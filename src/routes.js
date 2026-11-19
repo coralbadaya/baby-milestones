@@ -129,24 +129,26 @@ export const PRIMARY_NAV = [
   { key: 'guides', to: ROUTES.guides, label: 'Guides', mobileLabel: 'Guides', icon: 'book-open' },
 ];
 
-/** Paid baby book — mobile bottom bar only (Plus). Not a desktop top-bar item. */
+/** Paid baby book — raised center control on the mobile bottom bar. */
 export const MOBILE_BOOK_NAV = {
   key: 'book',
   to: ROUTES.babyBook,
   label: 'Baby book',
   mobileLabel: 'Book',
-  icon: 'book-open',
+  icon: 'books',
   paid: true,
 };
 
 /**
- * Compact mobile bottom bar (5 items). Book sits after Care as the paid centerpiece.
- * Essentials and Guides stay in the desktop top bar + footer.
+ * Compact mobile bottom bar (5 items, Book in the center).
+ * Today stays on the logo. Essentials stays in the desktop top bar + footer.
  */
 export const MOBILE_NAV = [
-  ...PRIMARY_NAV.filter((item) => item.key === 'today' || item.key === 'baby' || item.key === 'momCare'),
+  PRIMARY_NAV.find((item) => item.key === 'baby'),
+  PRIMARY_NAV.find((item) => item.key === 'momCare'),
   MOBILE_BOOK_NAV,
   PRIMARY_NAV.find((item) => item.key === 'community'),
+  PRIMARY_NAV.find((item) => item.key === 'guides'),
 ];
 
 /** Premium upsell — rendered as a distinct CTA button, not a plain nav link. */

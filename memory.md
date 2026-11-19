@@ -17,7 +17,7 @@ Last updated: September 2026
 
 ### Journey nav (primary)
 
-Today · My Baby · My Care · Essentials · Community · Guides (desktop top bar; each section opens its named pages). **Mobile top bar:** logo + Plus + account menu (`HeaderMobileActions.jsx`, `MOBILE_USER_MENU` in `routes.js`). **Mobile bottom bar (5):** Today · Baby · Care · Book (Plus) · Community — Essentials and Guides are not in that bar.
+Today · My Baby · My Care · Essentials · Community · Guides (desktop top bar; each section opens its named pages). **Mobile top bar:** logo + Plus + account menu (`HeaderMobileActions.jsx`, `MOBILE_USER_MENU` in `routes.js`). **Mobile bottom bar (5):** Baby · Care · Book (center circle) · Community · Guides. Today is the logo.
 
 Footer-only: Progress · Sources · Premium (also header CTA)
 
