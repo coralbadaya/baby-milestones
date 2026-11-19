@@ -2,7 +2,14 @@
  * Builders for JSON-LD structured data (schema.org). Keep these pure so they
  * can be rendered via <StructuredData /> or prerendered into HTML.
  */
-import { BRAND_NAME, BRAND_TAGLINE, LOGO_URL, SEO_DEFAULT_DESCRIPTION, SITE_URL } from '../constants/brand.js';
+import {
+  BRAND_ALTERNATE_NAMES,
+  BRAND_NAME,
+  BRAND_TAGLINE,
+  LOGO_URL,
+  SEO_DEFAULT_DESCRIPTION,
+  SITE_URL,
+} from '../constants/brand.js';
 import { buildCanonicalUrl } from '../seo/urls.js';
 
 const MEDICAL_CATEGORIES = new Set(['Baby Development', 'Mom Care', 'Health & Safety']);
@@ -17,6 +24,7 @@ export function organizationSchema() {
     '@type': 'Organization',
     '@id': `${SITE_URL}/#organization`,
     name: BRAND_NAME,
+    alternateName: [...BRAND_ALTERNATE_NAMES],
     url: `${SITE_URL}/`,
     logo: { '@type': 'ImageObject', url: LOGO_URL },
     slogan: BRAND_TAGLINE,
@@ -30,6 +38,7 @@ export function websiteSchema() {
     '@id': `${SITE_URL}/#website`,
     url: `${SITE_URL}/`,
     name: BRAND_NAME,
+    alternateName: [...BRAND_ALTERNATE_NAMES],
     description: SEO_DEFAULT_DESCRIPTION,
     inLanguage: 'en-GB',
     publisher: { '@id': `${SITE_URL}/#organization` },
@@ -41,6 +50,7 @@ export function webApplicationSchema() {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: BRAND_NAME,
+    alternateName: [...BRAND_ALTERNATE_NAMES],
     url: `${SITE_URL}/`,
     applicationCategory: 'HealthApplication',
     operatingSystem: 'Web, iOS, Android',

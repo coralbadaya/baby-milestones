@@ -92,6 +92,8 @@ To produce native app icons later (iOS `.icns`, Android mipmaps), feed `icon-sto
 
 **Live domain:** `https://yarntrails.com` (wired in `SITE_URL`, `index.html`, `robots.txt`, `sitemap.xml`). Point Namecheap DNS at Vercel (`A @ → 76.76.21.21`, `CNAME www → cname.vercel-dns.com`).
 
+**SEO aliases:** `BRAND_NAME` = Yarn Trails · `BRAND_SLUG` = yarntrails · schema `alternateName` includes yarntrails, YarnTrails, yarntrails.com (see `navigation-seo.md`).
+
 ---
 
 *Last updated: September 2026*

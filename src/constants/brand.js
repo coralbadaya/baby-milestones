@@ -1,6 +1,19 @@
 /** Public brand name and SEO defaults (user-facing). */
 export const BRAND_NAME = 'Yarn Trails';
 
+/** Handle, domain slug, and social — no space (pair with spaced display name). */
+export const BRAND_SLUG = 'yarntrails';
+
+/**
+ * Additional names for schema.org and crawlers (primary name stays {@link BRAND_NAME}).
+ * @type {readonly string[]}
+ */
+export const BRAND_ALTERNATE_NAMES = Object.freeze([
+  BRAND_SLUG,
+  'YarnTrails',
+  'yarntrails.com',
+]);
+
 export const BRAND_TAGLINE = 'The art of early motherhood';
 
 /** Short tagline for compact placements (e.g. header lockup). */

@@ -96,6 +96,7 @@ metadata live in `src/seo/` and are applied at build time plus in the client.
   prerendered into `dist/index.html` so crawlers see a real article body
   (what it is, who it is for, what you can track). Welcome-mode Home renders
   the same intro; logged-in Today does not.
+- **Brand aliases:** Display name **Yarn Trails**; handle/domain **yarntrails**. `BRAND_ALTERNATE_NAMES` in `src/constants/brand.js` feeds `alternateName` in Organization/WebSite/WebApplication JSON-LD. Homepage and About copy mention `yarntrails.com` so spaced and one-word queries map to the same product.
 - **JSON-LD:** `index.html` carries Organization + WebSite + WebApplication for
   non-JS crawlers. Per-page builders in `src/utils/structuredData.js`:
   - Guides → `MedicalWebPage` or `Article` (by category) + `BreadcrumbList`

@@ -172,7 +172,9 @@ describe('structured data', () => {
       expect(() => JSON.parse(JSON.stringify(data))).not.toThrow();
     }
     expect(org.url).toBe(`${SITE_URL}/`);
+    expect(org.alternateName).toContain('yarntrails');
     expect(site.url).toBe(`${SITE_URL}/`);
+    expect(site.alternateName).toContain('yarntrails.com');
     expect(article.url).toBe('https://yarntrails.com/guides/postpartum-recovery-week-by-week');
     expect(article.reviewedBy).toBeUndefined();
     expect(article.datePublished).toBeUndefined();

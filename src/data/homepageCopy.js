@@ -2,7 +2,7 @@
  * Logged-out welcome copy — shared by WelcomeHero, Home intro, and prerender.
  * Keep crawler HTML and the visible welcome UI in lockstep (no cloaking).
  */
-import { BRAND_NAME, BRAND_TAGLINE } from '../constants/brand.js';
+import { BRAND_NAME, BRAND_SLUG, BRAND_TAGLINE, SITE_URL } from '../constants/brand.js';
 import { ROUTES } from '../routes.js';
 import { escapeHtml } from '../seo/prerenderHtml.js';
 
@@ -15,7 +15,8 @@ export const HOMEPAGE_COPY = {
     'Yarn Trails follows your baby’s month and your recovery — milestones, care, and a private baby book.',
   intro:
     BRAND_NAME
-    + ' is a quiet companion for early motherhood. It is a baby milestone tracker and editorial guide for the first three years — not a feed, not a medical app, and not a race. Set a birth date to see what typically unfolds this month, or read the guides first.',
+    + ` is a quiet companion for early motherhood — also easy to find as ${BRAND_SLUG} at ${SITE_URL.replace('https://', '')}. `
+    + 'It is a baby milestone tracker and editorial guide for the first three years — not a feed, not a medical app, and not a race. Set a birth date to see what typically unfolds this month, or read the guides first.',
   sections: [
     {
       heading: 'What Yarn Trails is',

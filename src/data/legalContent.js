@@ -8,7 +8,7 @@
  * @typedef {{ heading?: string, paragraphs?: string[], list?: string[] }} ContentBlock
  * @typedef {{ title: string, icon: string, updated?: string, intro?: string, note?: string, body: ContentBlock[] }} ContentPage
  */
-import { BRAND_NAME, CONTACT_EMAIL } from '../constants/brand.js';
+import { BRAND_NAME, BRAND_SLUG, CONTACT_EMAIL, SITE_URL } from '../constants/brand.js';
 
 const REVIEW_NOTE =
   'This is drafted starter content for review. Please have it reviewed by a qualified professional before relying on it or publishing.';
@@ -28,6 +28,12 @@ export const PAGES = {
           BRAND_NAME + ' is a quiet-luxury companion for early motherhood: a baby milestone tracker, postpartum care, practical guides, and a private baby book for the first three years. It is an editorial guide and toolkit for new mothers — not a social network, a medical app, or a gamified checklist.',
           'The name is not a knitting yarn trail or a pub crawl with balls of wool. Yarn Trails is a product for parents: the yarn is a metaphor for the thread you follow through the first years, not a craft meetup.',
           'The product is designed for quiet, considered use — including at 3am, with one hand, in low light.',
+        ],
+      },
+      {
+        heading: 'Yarn Trails and yarntrails',
+        paragraphs: [
+          'The brand is written Yarn Trails (two words). The website, app, and social handle use yarntrails (one word) — at yarntrails.com and @yarntrails. Search either spelling; they refer to the same product.',
         ],
       },
       {
@@ -299,6 +305,10 @@ export const FAQS = [
   {
     q: `What is ${BRAND_NAME}?`,
     a: BRAND_NAME + ' is a baby milestone tracker and companion for early motherhood: month-by-month development, postpartum care, parenting guides, and a private baby book. It is not a knitting yarn crawl. It is educational, not medical advice.',
+  },
+  {
+    q: 'Is it Yarn Trails or yarntrails?',
+    a: `Both refer to the same product. The brand is written ${BRAND_NAME} (two words). The website and handle are ${BRAND_SLUG} — one word — at ${SITE_URL.replace('https://', '')} and @${BRAND_SLUG}.`,
   },
   {
     q: `Who is ${BRAND_NAME} for?`,
