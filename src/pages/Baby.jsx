@@ -7,18 +7,14 @@ import Timeline from '../components/Timeline';
 import CurrentMonthPanel from '../components/CurrentMonthPanel';
 import DIYPreviewStrip from '../components/DIYPreviewStrip';
 import CarePreviewTeaser from '../components/CarePreviewTeaser';
-import FirstsJournal from '../components/firsts/FirstsJournal';
+import FirstsCarousel from '../components/firsts/FirstsCarousel';
 import FirstMomentCapture from '../components/firsts/FirstMomentCapture';
-import MonthlyAlbumSection from '../components/book/MonthlyAlbumSection';
-import VoiceNoteRecorder from '../components/book/VoiceNoteRecorder';
-import { ViewerSeatsPanel, PrintDiscountBadge } from '../components/book/PlusExtras';
+import { getSuggestedFirst } from '../data/firsts';
 import Icon from '../components/Icon';
 import { interact } from '../utils/haptics';
 import { ROUTES } from '../routes';
 import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
-import { useAuth } from '../context/AuthContext';
-
 function Baby({
   birthDate,
   currentMonth,
@@ -32,15 +28,15 @@ function Baby({
 }) {
   usePageMeta(getStaticMeta(ROUTES.baby) || {});
   const location = useLocation();
-  const { isPremium } = useAuth();
   const onLink = () => interact('tap', 'light');
   const month = currentMonth || 1;
+  const suggestedId = getSuggestedFirst(currentMonth, firstMoments);
 
   const [detailFirstId, setDetailFirstId] = useState(null);
   const [captureError, setCaptureError] = useState(null);
 
   useEffect(() => {
-    if (location.hash === '#moments' || location.hash === '#album') {
+    if (location.hash === '#moments') {
       const id = location.hash.slice(1);
       requestAnimationFrame(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -166,40 +162,16 @@ function Baby({
         <CarePreviewTeaser month={month} />
       </PageSection>
 
-      <PageSection surface="sand" width="wide" id="album" className="page-section--album">
+      <PageSection surface="sand" width="wide" id="moments" className="page-section--firsts">
         <SectionHeader
-          id="album-heading"
-          eyebrow="Monthly album"
-          title="Two photos a month — their story starts here"
-          subtitle="Standard 2D album on Basic; unlimited HD on Plus."
-        />
-        <MonthlyAlbumSection currentMonth={month} />
-        <PrintDiscountBadge isPlus={isPremium} />
-      </PageSection>
-
-      <PageSection surface="lavender" width="wide" className="page-section--voice">
-        <SectionHeader
-          id="voice-heading"
-          eyebrow="Voice memos"
-          title="30-second voice notes"
-          subtitle="Attach memories to milestones — 3 stored on Basic."
-        />
-        <VoiceNoteRecorder attachType="milestone" attachId={`month-${month}`} />
-      </PageSection>
-
-      <PageSection surface="ivory" width="wide">
-        <ViewerSeatsPanel />
-      </PageSection>
-
-      <PageSection surface="ivory" width="wide" id="moments" className="page-section--firsts-journal">
-        <SectionHeader
-          id="firsts-journal-heading"
+          id="firsts-heading"
           eyebrow="Memories"
-          title="Life firsts journal"
-          subtitle="Seventeen moments worth a photograph — your private baby book."
+          title="Life firsts"
+          subtitle="Seventeen moments worth a photograph — swipe to browse and tap to capture."
         />
-        <FirstsJournal
+        <FirstsCarousel
           firstMoments={firstMoments}
+          suggestedId={suggestedId}
           onSelectFile={handleSelectFile}
           onOpenDetail={setDetailFirstId}
         />

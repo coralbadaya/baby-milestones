@@ -206,7 +206,7 @@ Affluent users perceive quality through **rhythm and restraint**, not more widge
 **Scope:**
 
 - Wire `DIYEditorialCard` or image-top variant into `DIYSection` on month detail (replace or supplement `ActivityIllustration` for grid cards)
-- My Baby: sand band for DIY strip (4 cards), ivory band for **FirstsJournal** (`#moments`), white band for full timeline
+- My Baby: sand band for DIY strip (4 cards), sand band for **FirstsCarousel** (`#moments`), white band for full timeline
 - Optional: one `EditorialBand` (ink) on Home only — brand tagline *“The art of early motherhood.”* — **max one per page**
 - Essentials hub: apply section rhythm to shopping/travel/vaccination teaser cards (image headers from existing heroes or category thumbs)
 

@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import DIYActivityCard from './DIYActivityCard';
+import SmartCarousel from './SmartCarousel';
 import { diyCategoryConfig } from './diyCategoryConfig';
 import { interact } from '../utils/haptics';
 import Icon from './Icon';
 import { useDiyActivitiesContext } from '../context/DiyActivitiesContext';
+import { useMaxWidth } from '../hooks/useMaxWidth';
 
 function DIYSection({ month }) {
   const [activeFilter, setActiveFilter] = useState('all');
   const [openId, setOpenId] = useState(null);
+  const isMobile = useMaxWidth(639);
   const { activitiesByMonth } = useDiyActivitiesContext();
   const monthData = activitiesByMonth.find((d) => d.month === month);
   if (!monthData) return null;
@@ -51,17 +54,36 @@ function DIYSection({ month }) {
         })}
       </div>
 
-      <div className="content-card-grid">
-        {filtered.map((activity) => (
-          <DIYActivityCard
-            key={activity.id}
-            activity={activity}
-            isOpen={openId === activity.id}
-            onOpen={setOpenId}
-            onClose={() => setOpenId(null)}
-          />
-        ))}
-      </div>
+      {isMobile ? (
+        <SmartCarousel
+          items={filtered}
+          getItemId={(a) => a.id}
+          getItemLabel={(a) => a.name}
+          resetKey={`${month}-${activeFilter}`}
+          ariaLabel={`DIY activities for month ${month}`}
+          className="diy-section-carousel"
+          renderItem={(activity) => (
+            <DIYActivityCard
+              activity={activity}
+              isOpen={openId === activity.id}
+              onOpen={setOpenId}
+              onClose={() => setOpenId(null)}
+            />
+          )}
+        />
+      ) : (
+        <div className="content-card-grid">
+          {filtered.map((activity) => (
+            <DIYActivityCard
+              key={activity.id}
+              activity={activity}
+              isOpen={openId === activity.id}
+              onOpen={setOpenId}
+              onClose={() => setOpenId(null)}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

@@ -25,8 +25,8 @@ Same breakpoints as shopping (`content-card-grid`):
 
 | Width | Columns |
 |-------|---------|
-| &lt; 520px | 1 |
-| 520–899px | 2 |
+| &lt; 640px | **Smart carousel** (`SmartCarousel`) — snap, arrows, dots |
+| 520–899px (≥640) | 2 |
 | ≥ 900px | 3 |
 
 **Clothes** card spans full row on ≥520px (`.content-card--span-row`) — chips always visible, no modal.

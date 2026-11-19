@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
@@ -10,9 +10,6 @@ import ConversionBand from '../components/ConversionBand';
 import WelcomeHero from '../components/WelcomeHero';
 import HomeJobs from '../components/HomeJobs';
 import Timeline from '../components/Timeline';
-import FirstsCarousel from '../components/firsts/FirstsCarousel';
-import FirstMomentCapture from '../components/firsts/FirstMomentCapture';
-import { getSuggestedFirst } from '../data/firsts';
 import { HOMEPAGE_COPY } from '../data/homepageCopy';
 import { PLANS } from '../constants/premium';
 import { useAuth } from '../context/AuthContext';
@@ -52,10 +49,6 @@ function Home({
   checkedItems,
   toggleCheck,
   onSelectMonth,
-  firstMoments = {},
-  onFirstMediaSelect,
-  onFirstNoteSave,
-  onFirstRemove,
 }) {
   const { user, loading, startLocalTrial } = useAuth();
   const isWelcomeMode = !loading && !user && !birthDate;
@@ -64,26 +57,11 @@ function Home({
 
   usePageMeta({ homepage: true, path: ROUTES.home });
 
-  const [detailFirstId, setDetailFirstId] = useState(null);
-  const [captureError, setCaptureError] = useState(null);
-
-  const handleSelectFile = useCallback(async (firstId, file) => {
-    try {
-      setCaptureError(null);
-      await onFirstMediaSelect(firstId, file);
-      setDetailFirstId(firstId);
-    } catch (err) {
-      setCaptureError(err.message || 'Could not save media');
-      interact('tap', 'error');
-    }
-  }, [onFirstMediaSelect]);
-
   const onLocalPreview = () => {
     interact('tap', 'light');
     startLocalTrial();
   };
 
-  const suggestedId = getSuggestedFirst(currentMonth, firstMoments);
   const ageLine = birthDate ? formatAge(birthDate) : null;
   const rangeStart = currentMonth ? Math.max(1, currentMonth - 2) : 1;
   const rangeEnd = currentMonth ? Math.min(36, currentMonth + 2) : 5;
@@ -231,25 +209,6 @@ function Home({
       </EditorialBand>
 
       {birthDate && (
-        <PageSection surface="sand" width="wide" className="page-section--firsts" blendEdges>
-          <SectionHeader
-            id="life-firsts-heading"
-            eyebrow="Memories"
-            title="Life firsts"
-            subtitle="Capture the moments you'll want to remember."
-            linkTo={ROUTES.babyMoments}
-            linkLabel="View all firsts →"
-          />
-          <FirstsCarousel
-            firstMoments={firstMoments}
-            suggestedId={suggestedId}
-            onSelectFile={handleSelectFile}
-            onOpenDetail={setDetailFirstId}
-          />
-        </PageSection>
-      )}
-
-      {birthDate && (
         <PageSection surface="ivory" width="wide" className="page-section--timeline" blendEdges>
           <SectionHeader
             id="timeline-collapsed-heading"
@@ -272,16 +231,6 @@ function Home({
         </PageSection>
       )}
 
-      {detailFirstId && (
-        <FirstMomentCapture
-          firstId={detailFirstId}
-          moment={firstMoments[detailFirstId]}
-          onSaveNote={onFirstNoteSave}
-          onRemove={onFirstRemove}
-          onClose={() => { setDetailFirstId(null); setCaptureError(null); }}
-          error={captureError}
-        />
-      )}
     </div>
   );
 }

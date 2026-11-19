@@ -72,18 +72,17 @@ Today (what matters now)
 4. Birth date / baby name (onboarding if missing)
 5. This week's focus — 1–3 cards (milestone, mom care, editorial)
 6. Current month preview
-7. Life firsts carousel — link to `/baby#moments`
-8. Month timeline carousel — current month ±2, link to full timeline
-9. Assistant panel (existing)
+7. Month timeline carousel — current month ±2, link to full timeline
+8. Assistant panel (existing)
 
 ### My Baby (`/baby`)
 
 1. PageHero — developmental moment
-2. Quick links — current month, vaccination
+2. Quick links — current month, vaccination; baby book band (stories / 3D book — album & voice live in book tabs)
 3. **CurrentMonthPanel** — checkable milestone preview for current month
-4. **DIYPreviewStrip** — horizontal DIY cards with YouTube CTAs
+4. **DIYPreviewStrip** — DIY carousel (mobile) or grid (desktop)
 5. **CarePreviewTeaser** — bath/massage guides linking to `#care`
-6. **FirstsJournal** — life firsts photo journal (`#moments`) — 17 numbered moments
+6. **FirstsCarousel** — life firsts (`#moments`) — swipeable 17 moments + capture
 7. Full 36-month Timeline
 
 ### My Care (`/mom-care`)

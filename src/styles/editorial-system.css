@@ -1438,6 +1438,134 @@
   transform: scale(1.25);
 }
 
+/* Smart carousel — DIY on mobile (My Baby + month detail) */
+.smart-carousel {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: var(--space-2) var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.smart-carousel__track {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: var(--space-2) var(--space-9);
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smart-carousel__track {
+    scroll-behavior: auto;
+  }
+}
+
+.smart-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.smart-carousel__track:focus-visible {
+  outline: 2px solid var(--coral-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.smart-carousel__card-wrap {
+  flex: 0 0 min(300px, calc(100vw - var(--space-12) * 2));
+  scroll-snap-align: center;
+  min-width: 0;
+}
+
+.smart-carousel--diy .smart-carousel__card-wrap .diy-editorial-card,
+.smart-carousel--diy .smart-carousel__card-wrap .content-card {
+  height: 100%;
+}
+
+.smart-carousel__nav {
+  grid-row: 1;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: var(--card-border);
+  border-radius: var(--radius-full);
+  background: var(--white);
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.smart-carousel__nav--prev {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.smart-carousel__nav--next {
+  grid-column: 3;
+  justify-self: end;
+}
+
+.smart-carousel__nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.smart-carousel__nav:focus-visible {
+  outline: 2px solid var(--coral-primary);
+  outline-offset: 2px;
+}
+
+.smart-carousel__dots {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: var(--space-2);
+  max-width: 100%;
+}
+
+.smart-carousel__dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--text-light) 40%, transparent);
+  cursor: pointer;
+}
+
+.smart-carousel__dot--active {
+  background: var(--coral-primary);
+  transform: scale(1.25);
+}
+
+.smart-carousel__dot:focus-visible {
+  outline: 2px solid var(--coral-primary);
+  outline-offset: 2px;
+}
+
+.diy-preview-strip--carousel {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.diy-section-carousel {
+  margin-top: var(--space-4);
+}
+
 /* Journal (My Baby) */
 .firsts-journal__progress {
   margin: 0 0 var(--space-5);

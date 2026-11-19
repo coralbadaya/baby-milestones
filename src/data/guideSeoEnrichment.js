@@ -95,7 +95,7 @@ export const GUIDE_SEO_EXTRA = {
     productLinks: [
       { to: '/tools/milestone-cards', label: 'Free printable milestone cards' },
       { to: '/guides/milestone-cards-printable', label: 'Milestone cards guide' },
-      { to: '/baby#moments', label: 'Life firsts journal' },
+      { to: '/baby#moments', label: 'Life firsts' },
       { to: '/premium', label: 'Plus baby book & stories' },
       { to: '/guides/best-baby-book-apps-2026', label: 'Best baby book apps' },
       { to: '/month/6', label: 'Month 6 milestone tracker' },

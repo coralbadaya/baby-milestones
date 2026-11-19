@@ -179,7 +179,6 @@ function App() {
               checkedItems={checkedItems}
               toggleCheck={toggleCheck}
               onSelectMonth={handleSelectMonth}
-              {...firstMomentsProps}
             />
           )}
         />

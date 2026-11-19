@@ -1,6 +1,6 @@
 # Life Firsts — Photo Journal (Option C)
 
-> Curated “first moments” with photo/video capture — carousel on Today, full journal on My Baby.
+> Curated “first moments” with photo/video capture — carousel on My Baby (`/baby#moments`).
 
 **Status:** Shipped (signed-in Storage + `first_moments`; anonymous localStorage)  
 **Last updated:** September 2026
@@ -11,8 +11,7 @@
 
 | Surface | Route | UX |
 |---------|-------|-----|
-| **Carousel peek** | `/` (Today) | Horizontal carousel — circle photo + label; arrows, dots; auto-centers suggested first |
-| **Full journal** | `/baby#moments` | Vertical numbered list (17 items) — reference-inspired layout |
+| **Carousel** | `/baby#moments` | Horizontal carousel — circle photo + label; arrows, dots; auto-centers suggested first; capture modal from tap |
 
 **Separate from:**
 
@@ -57,8 +56,8 @@ Each entry may include `monthHint` (for carousel auto-focus) and `linkedMileston
 |------|------|
 | [`FirstMomentSlot.jsx`](../src/components/firsts/FirstMomentSlot.jsx) | Scalloped circle frame; empty (camera) vs filled (photo/video) |
 | [`FirstMomentCapture.jsx`](../src/components/firsts/FirstMomentCapture.jsx) | Modal — preview, optional note, remove |
-| [`FirstsCarousel.jsx`](../src/components/firsts/FirstsCarousel.jsx) | Today horizontal carousel |
-| [`FirstsJournal.jsx`](../src/components/firsts/FirstsJournal.jsx) | My Baby vertical journal |
+| [`FirstsCarousel.jsx`](../src/components/firsts/FirstsCarousel.jsx) | My Baby horizontal carousel (`#moments`) |
+| [`FirstsJournal.jsx`](../src/components/firsts/FirstsJournal.jsx) | Legacy vertical list — not mounted in production nav |
 
 ### Empty state
 

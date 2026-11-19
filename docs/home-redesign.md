@@ -58,7 +58,7 @@ Three cards max, age-aware:
 
 ### 4. DIY preview strip (`DIYPreviewStrip.jsx`)
 
-- **Not on Home.** Lives on **My Baby** only (grid, 4 cards).
+- **Not on Home.** Lives on **My Baby** only (4 cards). **&lt;640px:** `SmartCarousel` with stack editorial cards; **≥640px:** 2-column grid.
 - Photos via `getDiyImage({ activityId, illustration, category }, overrides, globalDefault)` — per-activity override, else site-wide default, else cream lockup (see [`docs/diy-images-admin.md`](diy-images-admin.md))
 - **Open guide** opens in-app modal; video access inside modal only (no card-face YouTube button); sand section band via `PageSection`
 
@@ -74,12 +74,9 @@ Three cards max, age-aware:
 - Swipe on mobile; keyboard left/right when track is focused
 - Link in section header: **View full timeline →** `/baby`
 
-### 7. Life firsts carousel (`FirstsCarousel`)
+### 7. Life firsts
 
-- Shown when birth date is set — **after** editorial band, **before** month timeline
-- Horizontal carousel of 17 curated firsts — circle photo slot + label
-- Auto-centers suggested first via `getSuggestedFirst(currentMonth)`
-- Link: **View all firsts →** `/baby#moments`
+- **Not on Home** — lives on **My Baby** only (`FirstsCarousel`, `#moments`). Today links to the baby book and full timeline, not firsts capture.
 - Spec: [`docs/first-moments-ui-design.md`](first-moments-ui-design.md)
 
 ### Assistant panel
@@ -106,7 +103,6 @@ Home uses `PageSection` surface bands — see [`docs/editorial-page-system.md`](
 | Milestones | white | `CurrentMonthPanel` |
 | DIY | sand (`#EFE3D4`) | `DIYPreviewStrip` — activity-specific photos, no gray wash |
 | Brand | ink | `EditorialBand` |
-| Life firsts | sand | `FirstsCarousel` |
 | Timeline | ivory | carousel `Timeline` (`variant="carousel"`) |
 
 Hero: `PageHero` with `layout="split"` on desktop.
