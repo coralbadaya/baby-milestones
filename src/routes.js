@@ -129,11 +129,25 @@ export const PRIMARY_NAV = [
   { key: 'guides', to: ROUTES.guides, label: 'Guides', mobileLabel: 'Guides', icon: 'book-open' },
 ];
 
+/** Paid baby book — mobile bottom bar only (Plus). Not a desktop top-bar item. */
+export const MOBILE_BOOK_NAV = {
+  key: 'book',
+  to: ROUTES.babyBook,
+  label: 'Baby book',
+  mobileLabel: 'Book',
+  icon: 'book-open',
+  paid: true,
+};
+
 /**
- * Items shown in the compact mobile bottom bar (kept to 5 for ergonomics).
- * Guides lives in the top nav + footer, not the bottom bar.
+ * Compact mobile bottom bar (5 items). Book sits after Care as the paid centerpiece.
+ * Essentials and Guides stay in the desktop top bar + footer.
  */
-export const MOBILE_NAV = PRIMARY_NAV.filter((item) => item.key !== 'guides');
+export const MOBILE_NAV = [
+  ...PRIMARY_NAV.filter((item) => item.key === 'today' || item.key === 'baby' || item.key === 'momCare'),
+  MOBILE_BOOK_NAV,
+  PRIMARY_NAV.find((item) => item.key === 'community'),
+];
 
 /** Premium upsell — rendered as a distinct CTA button, not a plain nav link. */
 export const PREMIUM_NAV = { key: 'premium', to: ROUTES.premium, label: 'Plus', icon: 'sparkles' };
@@ -211,10 +225,10 @@ export const FOOTER_SECTIONS = [
 /** @param {string} pathname */
 export function navSectionFromPath(pathname) {
   if (pathname === ROUTES.home) return 'today';
+  if (pathname.startsWith(ROUTES.babyBook) || pathname.startsWith('/book/')) return 'book';
   if (pathname.startsWith('/month/') || pathname.startsWith('/baby') || pathname.startsWith('/vaccination')) {
     return 'baby';
   }
-  if (pathname.startsWith('/book/voice-invite')) return 'baby';
   if (pathname.startsWith('/mom-care')) return 'momCare';
   if (pathname.startsWith('/essentials') || pathname.startsWith('/shopping') || pathname.startsWith('/travel')) {
     return 'essentials';

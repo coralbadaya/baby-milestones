@@ -5,7 +5,6 @@ import PageSection from '../components/PageSection';
 import SectionHeader from '../components/SectionHeader';
 import TodayFocus from '../components/TodayFocus';
 import CurrentMonthPanel from '../components/CurrentMonthPanel';
-import DIYPreviewStrip from '../components/DIYPreviewStrip';
 import EditorialBand from '../components/EditorialBand';
 import ConversionBand from '../components/ConversionBand';
 import WelcomeHero from '../components/WelcomeHero';
@@ -88,7 +87,6 @@ function Home({
   const ageLine = birthDate ? formatAge(birthDate) : null;
   const rangeStart = currentMonth ? Math.max(1, currentMonth - 2) : 1;
   const rangeEnd = currentMonth ? Math.min(36, currentMonth + 2) : 5;
-  const month = birthDate && currentMonth ? currentMonth : 1;
   const showPersonalized = Boolean(birthDate && currentMonth);
   const homeRef = useRef(null);
   useScrollSurface(homeRef, { defaultSurface: 'primary', observeKey: birthDate });
@@ -105,7 +103,6 @@ function Home({
         <WelcomeHero
           birthDate={birthDate}
           setBirthDate={setBirthDate}
-          onLocalPreview={onLocalPreview}
         />
       ) : (
       <PageHero
@@ -128,18 +125,13 @@ function Home({
               />
             </div>
             {showLoggedOutHeroCtas && (
-              <>
-                <Link
-                  to={ROUTES.signup}
-                  className="btn-primary welcome-hero__cta"
-                  onClick={() => interact('tap', 'light')}
-                >
-                  Create free account
-                </Link>
-                <button type="button" className="btn-ghost welcome-hero__cta" onClick={onLocalPreview}>
-                  Preview without an account
-                </button>
-              </>
+              <Link
+                to={ROUTES.signup}
+                className="btn-primary welcome-hero__cta"
+                onClick={() => interact('tap', 'light')}
+              >
+                Create a free account to keep it
+              </Link>
             )}
           </div>
         </PageHero>
@@ -222,19 +214,6 @@ function Home({
           <p className="welcome-sample-note">
             Sample content below — enter birth date or create an account to personalize.
           </p>
-        )}
-      </PageSection>
-
-      <PageSection surface="sand" width="wide" className="page-section--diy" blendEdges>
-        <DIYPreviewStrip month={month} limit={2} layout="stack" />
-        {showLoggedOutBands && !isWelcomeMode && (
-          <ConversionBand
-            text="Unlock all months of hands-on play guides — tailored to your baby's age."
-            primaryLabel="Create free account"
-            primaryTo={ROUTES.signup}
-            secondaryLabel="Preview locally"
-            onSecondaryClick={onLocalPreview}
-          />
         )}
       </PageSection>
 

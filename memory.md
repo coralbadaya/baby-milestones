@@ -17,7 +17,7 @@ Last updated: September 2026
 
 ### Journey nav (primary)
 
-Today · My Baby · My Care · Essentials · Community · Guides (desktop top bar; each section opens its named pages; Guides not in the mobile bottom bar). **Mobile top bar:** logo + Plus + account menu (`HeaderMobileActions.jsx`, `MOBILE_USER_MENU` in `routes.js`); bottom bar stays five journey tabs.
+Today · My Baby · My Care · Essentials · Community · Guides (desktop top bar; each section opens its named pages). **Mobile top bar:** logo + Plus + account menu (`HeaderMobileActions.jsx`, `MOBILE_USER_MENU` in `routes.js`). **Mobile bottom bar (5):** Today · Baby · Care · Book (Plus) · Community — Essentials and Guides are not in that bar.
 
 Footer-only: Progress · Sources · Premium (also header CTA)
 
@@ -87,7 +87,7 @@ Signed-in users: Supabase `memberships` is source of truth for premium (not loca
 |------|-----------|
 | Shell | `src/App.jsx`, `src/components/Header.jsx`, `src/components/HeaderMobileActions.jsx`, `src/components/Footer.jsx` |
 | Routes | `src/routes.js` |
-| Brand / SEO | `src/constants/brand.js`, `src/data/homepageCopy.js`, `src/seo/` (incl. `keywordSeeds.js`), `src/data/guideSeoEnrichment.js`, `GuideQuickLinks` / `GuideFaqSection`, `src/utils/pageMeta.js`, `src/components/StructuredData.jsx`, `docs/seo-keywords.md`, `docs/seo-keywords-matrix.md` (`npm run generate:seo-keywords`), `.cursor/skills/seo-keywords/SKILL.md` |
+| Brand / SEO | `src/constants/brand.js`, `src/data/homepageCopy.js`, `src/seo/` (incl. `keywordSeeds.js`), `src/data/guideSeoEnrichment.js`, `GuideQuickLinks` / `GuideFaqSection`, `src/utils/pageMeta.js`, `src/components/StructuredData.jsx`, `docs/seo-keywords.md`, `docs/seo-keywords-matrix.md` (`npm run generate:seo-keywords`), `.cursor/skills/seo-keywords/SKILL.md`, growth baseline in `docs/growth/` |
 | Styles | `src/styles/global.css`, `src/styles/editorial-system.css` |
 
 ### Today & My Baby

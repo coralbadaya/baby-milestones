@@ -6,14 +6,23 @@ import { buildSharePayload, copyShareText } from '../../utils/shareLinks';
 const HAS_NATIVE_SHARE = typeof navigator !== 'undefined' && Boolean(navigator.share);
 
 /**
- * @param {{ title: string, text?: string, url?: string, compact?: boolean, label?: string }} props
+ * @param {{
+ *   title: string,
+ *   text?: string,
+ *   url?: string,
+ *   compact?: boolean,
+ *   label?: string,
+ *   className?: string,
+ *   onShare?: (channel: 'native' | 'whatsapp' | 'x' | 'facebook' | 'copy') => void,
+ * }} props
  */
-function ShareButton({ title, text, url, compact = false, label }) {
+function ShareButton({ title, text, url, compact = false, label, className = '', onShare }) {
   const [copied, setCopied] = useState(false);
   const payload = buildSharePayload({ title, text, url });
 
-  const openLink = (href) => {
+  const openLink = (href, channel) => {
     interact('tap', 'light');
+    onShare?.(channel);
     window.open(href, '_blank', 'noopener,noreferrer');
   };
 
@@ -22,6 +31,7 @@ function ShareButton({ title, text, url, compact = false, label }) {
     if (navigator.share) {
       try {
         await navigator.share({ title, text: payload.text, url: payload.url });
+        onShare?.('native');
         return;
       } catch {
         /* cancelled */
@@ -33,6 +43,7 @@ function ShareButton({ title, text, url, compact = false, label }) {
     try {
       await copyShareText({ title, text, url });
       interact('check', 'success');
+      onShare?.('copy');
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -74,21 +85,21 @@ function ShareButton({ title, text, url, compact = false, label }) {
       icon: 'whatsapp',
       label: 'Share on WhatsApp',
       className: 'share-icon-btn--whatsapp',
-      onClick: () => openLink(payload.whatsapp),
+      onClick: () => openLink(payload.whatsapp, 'whatsapp'),
     },
     {
       key: 'x',
       icon: 'x',
       label: 'Share on X',
       className: 'share-icon-btn--x',
-      onClick: () => openLink(payload.twitter),
+      onClick: () => openLink(payload.twitter, 'x'),
     },
     {
       key: 'facebook',
       icon: 'facebook',
       label: 'Share on Facebook',
       className: 'share-icon-btn--facebook',
-      onClick: () => openLink(payload.facebook),
+      onClick: () => openLink(payload.facebook, 'facebook'),
     },
     {
       key: 'copy',
@@ -100,7 +111,7 @@ function ShareButton({ title, text, url, compact = false, label }) {
   ].filter(Boolean);
 
   return (
-    <div className="share-block">
+    <div className={`share-block ${className}`.trim()}>
       {label && <p className="share-block-label">{label}</p>}
       <div className="share-icon-row" role="group" aria-label={label || 'Share options'}>
         {actions.map((action) => (

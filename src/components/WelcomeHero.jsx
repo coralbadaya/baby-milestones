@@ -10,7 +10,7 @@ import { interact } from '../utils/haptics';
 /**
  * First-visit hero — dedicated layout (avoids split PageHero mobile conflicts).
  */
-function WelcomeHero({ birthDate, setBirthDate, onLocalPreview }) {
+function WelcomeHero({ birthDate, setBirthDate }) {
   const config = pageImages.home;
 
   return (
@@ -41,20 +41,6 @@ function WelcomeHero({ birthDate, setBirthDate, onLocalPreview }) {
           </p>
 
           <div className="welcome-hero__actions">
-            <Link
-              to={ROUTES.signup}
-              className="btn-primary welcome-hero__cta"
-              onClick={() => interact('tap', 'light')}
-            >
-              Create free account
-            </Link>
-            <button type="button" className="btn-ghost welcome-hero__cta" onClick={onLocalPreview}>
-              Preview without an account
-            </button>
-          </div>
-
-          <div className="welcome-hero__personalize">
-            <p className="welcome-hero__or">Or personalize with birth date</p>
             <div className="birth-date-form birth-date-form--welcome">
               <label htmlFor="welcome-birthdate">Baby&apos;s birth date</label>
               <input
@@ -64,7 +50,15 @@ function WelcomeHero({ birthDate, setBirthDate, onLocalPreview }) {
                 onChange={(e) => setBirthDate(e.target.value)}
                 max={new Date().toISOString().split('T')[0]}
               />
+              <p className="welcome-hero__hint">Opens this month on this phone. Free. No account yet.</p>
             </div>
+            <Link
+              to={ROUTES.signup}
+              className="welcome-hero__account"
+              onClick={() => interact('tap', 'light')}
+            >
+              Create a free account to keep it
+            </Link>
           </div>
 
           <TrustStrip className="trust-strip--welcome" showPrivacyNote />

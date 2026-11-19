@@ -25,7 +25,10 @@ import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
 import ProductPageFaq from '../components/ProductPageFaq';
+import ShareButton from '../components/community/ShareButton';
 import { getProductPageFaqs } from '../data/productPageFaqs';
+import { buildCanonicalUrl } from '../seo/urls';
+import { trackEvent } from '../utils/analytics';
 
 const FILTERS = ['all', 'due', 'upcoming', 'overdue', 'done', 'skipped'];
 
@@ -262,6 +265,10 @@ function Vaccination({
   };
 
   const vaccinationFaq = getProductPageFaqs(ROUTES.vaccination);
+  const scheduleLabel = VACCINE_SCHEDULES[scheduleType]?.label || 'vaccination';
+  const shareText = scheduleType === 'india'
+    ? 'India baby vaccination schedule (IAP / UIP), as an educational tracker. Confirm every dose with your pediatrician.'
+    : `${scheduleLabel} baby vaccination schedule, as an educational tracker. Confirm every dose with your pediatrician.`;
 
   return (
     <>
@@ -272,7 +279,19 @@ function Vaccination({
         title="Vaccination tracker"
         subtitle="Track schedules and reminders. Educational organizer only — always follow your pediatrician."
         size="md"
-      />
+      >
+        <ShareButton
+          className="share-block--family"
+          label="Share the schedule"
+          title={`${scheduleLabel} vaccination schedule`}
+          text={shareText}
+          url={buildCanonicalUrl(ROUTES.vaccination)}
+          onShare={(channel) => trackEvent('content_shared', {
+            feature: channel,
+            tab: 'vaccination',
+          })}
+        />
+      </PageHero>
 
       <PageSection surface="ivory" width="wide" className="vaccination-page">
       <HealthDisclaimerNote />

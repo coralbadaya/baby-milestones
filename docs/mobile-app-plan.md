@@ -25,9 +25,9 @@ This is not a second product and not a freelance marketplace. We charge for Yarn
 
 The same journey as the website, in the same order:
 
-**Today → My Baby → My Care → Essentials → Community**
+**Today → My Baby → My Care → Book → Community**
 
-Plus, Guides & Articles, the Vaccination tracker, Progress, and the baby book stay one tap from Today. They are not extra tabs. Essentials opens Shopping and Travel. Community opens Mom Feed, Baby Recipes, and Parenting Tips. Those names match the website.
+Book is the paid tab after Care (trail moss square, gold hairline). Essentials, Guides & Articles, the Vaccination tracker, and Progress stay one tap from Today. Essentials opens Shopping and Travel. Community opens Mom Feed, Baby Recipes, and Parenting Tips. Those names match the website.
 
 The phone uses the same Wool & Trail colors as the site. Pages are wool mist, actions and the selected tab are trail moss, and the type is ink. Buttons, rows, and the selected tab are square. The selected tab carries a trail line on its top edge. Yarn gold stays a hairline on the book, not a text color.
 

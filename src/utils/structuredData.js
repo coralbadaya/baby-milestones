@@ -40,7 +40,7 @@ export function websiteSchema() {
     name: BRAND_NAME,
     alternateName: [...BRAND_ALTERNATE_NAMES],
     description: SEO_DEFAULT_DESCRIPTION,
-    inLanguage: 'en-GB',
+    inLanguage: 'en-IN',
     publisher: { '@id': `${SITE_URL}/#organization` },
   };
 }
@@ -53,8 +53,8 @@ export function webApplicationSchema() {
     alternateName: [...BRAND_ALTERNATE_NAMES],
     url: `${SITE_URL}/`,
     applicationCategory: 'HealthApplication',
-    operatingSystem: 'Web, iOS, Android',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'GBP' },
+    operatingSystem: 'Web',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
     publisher: { '@id': `${SITE_URL}/#organization` },
   };
 }
@@ -79,7 +79,7 @@ export function articleSchema(guide, pathname) {
     description: guide.description,
     url: buildCanonicalUrl(pathname),
     mainEntityOfPage: buildCanonicalUrl(pathname),
-    inLanguage: 'en-GB',
+    inLanguage: 'en-IN',
     author: { '@type': 'Organization', name: guide.author || BRAND_NAME },
     publisher: {
       '@type': 'Organization',

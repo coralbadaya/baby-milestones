@@ -13,6 +13,7 @@ describe('analyticsEvents', () => {
   it('allowlists product events and rejects unknown names', () => {
     expect(isAllowedEventName('page_view')).toBe(true);
     expect(isAllowedEventName('subscribe_success')).toBe(true);
+    expect(isAllowedEventName('content_shared')).toBe(true);
     expect(isAllowedEventName('export_4k_requested')).toBe(false);
   });
 

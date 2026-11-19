@@ -20,6 +20,7 @@ export const ANALYTICS_EVENT_NAMES = [
   'guide_view',
   'community_tab',
   'baby_book_idea',
+  'content_shared',
 ];
 
 const EVENT_SET = new Set(ANALYTICS_EVENT_NAMES);

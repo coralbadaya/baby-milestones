@@ -106,8 +106,8 @@ export const PAGES = {
       {
         heading: 'Review & updates',
         list: [
-          'Content is drafted by our editorial team and reviewed against current guidelines',
-          'Health-related guides are reviewed by qualified clinicians before publication',
+          'Content is drafted by our editorial team and checked against published guidelines',
+          'Health-related guides are not yet reviewed by a named clinician',
           'We date each guide and revisit it as guidance evolves',
           'Corrections are welcome — email us and we will investigate promptly',
         ],
@@ -126,21 +126,20 @@ export const PAGES = {
   reviewers: {
     title: 'Medical Reviewers',
     icon: 'stethoscope',
-    intro: 'Health-related content is reviewed by qualified professionals to help ensure it is accurate and responsible.',
-    note: 'Reviewer profiles are being finalized. Replace the placeholders below with named clinicians, their credentials, and the content areas they review before launch.',
+    intro: `${BRAND_NAME} does not yet have a named clinical review board. Health pages are educational summaries of published guidance. They are not clinician-approved advice for your child.`,
     body: [
       {
-        heading: 'Our review board (placeholder)',
-        list: [
-          'Pediatrician — reviews infant development and vaccination content',
-          'Obstetrician / Midwife — reviews postpartum and maternal health content',
-          'Registered Dietitian — reviews infant feeding and nutrition content',
+        heading: 'What is true today',
+        paragraphs: [
+          'No pediatrician, obstetrician, midwife, or dietitian is listed on this page, because none has been appointed to review this site. Do not read any page as doctor-approved.',
+          'Developmental and vaccination pages cite public guidance from the WHO, the CDC, the AAP, and the Indian Academy of Pediatrics (IAP), including an India IAP/UIP-style schedule in the tracker. Those citations are a starting point for a conversation with your own clinician.',
         ],
       },
       {
-        heading: 'How review works',
+        heading: 'What a review will mean',
         paragraphs: [
-          'Reviewers check content for clinical accuracy and alignment with current guidelines. A medical review does not constitute personal medical advice for any individual reader.',
+          'When a clinician reviews a guide, this page will name them, their credentials, and the topics they reviewed. A medical review still will not be personal medical advice.',
+          'Until then, use How We Research and Sources & Citations to see how a page was written. Decisions about your family belong with your pediatrician or obstetrician.',
         ],
       },
     ],

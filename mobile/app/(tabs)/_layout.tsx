@@ -8,6 +8,7 @@ const ICONS = {
   today: { ios: 'sun.max', android: 'wb_sunny', web: 'wb_sunny' },
   baby: { ios: 'figure.and.child.holdinghands', android: 'child_care', web: 'child_care' },
   care: { ios: 'heart', android: 'favorite', web: 'favorite' },
+  book: { ios: 'book', android: 'menu_book', web: 'menu_book' },
   essentials: { ios: 'bag', android: 'shopping_bag', web: 'shopping_bag' },
   community: { ios: 'person.2', android: 'groups', web: 'groups' },
 } as const;
@@ -31,6 +32,32 @@ function TabIcon({
         }}
       />
       <SymbolView name={name} tintColor={color} size={22} />
+    </View>
+  );
+}
+
+function PaidTabIcon({
+  name,
+  focused,
+}: {
+  name: (typeof ICONS)[keyof typeof ICONS];
+  focused: boolean;
+}) {
+  return (
+    <View style={{ alignItems: 'center', gap: 4, borderRadius: 0 }}>
+      <View
+        style={{
+          width: 36,
+          height: 36,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: focused ? colors.trailDark : colors.trail,
+          borderTopWidth: 2,
+          borderTopColor: colors.gold,
+        }}
+      >
+        <SymbolView name={name} tintColor={colors.cream} size={20} />
+      </View>
     </View>
   );
 }
@@ -75,10 +102,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="essentials"
+        name="book"
         options={{
-          title: 'Essentials',
-          tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.essentials} color={color} focused={focused} />,
+          title: 'Book',
+          tabBarLabel: 'Book',
+          tabBarIcon: ({ focused }) => <PaidTabIcon name={ICONS.book} focused={focused} />,
         }}
       />
       <Tabs.Screen
@@ -86,6 +114,14 @@ export default function TabLayout() {
         options={{
           title: 'Community',
           tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.community} color={color} focused={focused} />,
+        }}
+      />
+      <Tabs.Screen
+        name="essentials"
+        options={{
+          href: null,
+          title: 'Essentials',
+          tabBarIcon: ({ color, focused }) => <TabIcon name={ICONS.essentials} color={color} focused={focused} />,
         }}
       />
     </Tabs>

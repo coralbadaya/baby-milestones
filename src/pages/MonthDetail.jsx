@@ -10,8 +10,11 @@ import CareSection from '../components/CareSection';
 import PageSection from '../components/PageSection';
 import Icon from '../components/Icon';
 import StructuredData from '../components/StructuredData';
+import ShareButton from '../components/community/ShareButton';
 import { usePageMeta } from '../utils/pageMeta';
 import { breadcrumbSchema } from '../utils/structuredData';
+import { buildCanonicalUrl } from '../seo/urls';
+import { trackEvent } from '../utils/analytics';
 import { ROUTES } from '../routes';
 
 function SectionHeading({ icon, children }) {
@@ -167,6 +170,18 @@ function MonthDetail({ month, checkedItems, toggleCheck, onBack, onNavigate, cur
         <div className="month-num-big">{data.month}</div>
         <h1>Month {data.month}: {data.title}</h1>
         <p>{data.summary}</p>
+        <ShareButton
+          className="share-block--family"
+          label="Send this month"
+          title={`Month ${data.month}: ${data.title}`}
+          text={`Month ${data.month} with a baby — ${data.title}. What often shows up, without a deadline.`}
+          url={buildCanonicalUrl(ROUTES.month(month))}
+          onShare={(channel) => trackEvent('content_shared', {
+            feature: channel,
+            tab: 'month',
+            month,
+          })}
+        />
         <p className="month-related-links">
           {guide ? (
             <>

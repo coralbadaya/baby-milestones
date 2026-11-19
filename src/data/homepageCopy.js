@@ -2,41 +2,41 @@
  * Logged-out welcome copy — shared by WelcomeHero, Home intro, and prerender.
  * Keep crawler HTML and the visible welcome UI in lockstep (no cloaking).
  */
-import { BRAND_NAME, BRAND_SLUG, BRAND_TAGLINE, SITE_URL } from '../constants/brand.js';
+import { BRAND_NAME, BRAND_SLUG, SITE_URL } from '../constants/brand.js';
 import { ROUTES } from '../routes.js';
 import { escapeHtml } from '../seo/prerenderHtml.js';
 
 export const HOMEPAGE_COPY = {
   eyebrow: BRAND_NAME,
-  h1: BRAND_TAGLINE,
+  h1: 'See this month with your baby.',
   subtitle:
-    'A calm baby milestone tracker for new mothers — month by month through the first years, with postpartum care beside it.',
+    'Milestones, vaccines, and memories in one place. Free to start. A range, not a race.',
   purpose:
-    'Yarn Trails follows your baby’s month and your recovery — milestones, care, and a private baby book.',
+    'This month: milestones, an India vaccination schedule, recovery, and memories.',
   intro:
     BRAND_NAME
-    + ` is a quiet companion for early motherhood — also easy to find as ${BRAND_SLUG} at ${SITE_URL.replace('https://', '')}. `
-    + 'It is a baby milestone tracker and editorial guide for the first three years — not a feed, not a medical app, and not a race. Set a birth date to see what typically unfolds this month, or read the guides first.',
+    + ` is a baby milestone tracker for families — also easy to find as ${BRAND_SLUG} at ${SITE_URL.replace('https://', '')}. `
+    + 'Set a birth date to open this month: what often shows up, which vaccines are commonly due on an India schedule, and a calm place for memories. Basic tracking stays free on this phone until you create an account.',
   sections: [
     {
       heading: 'What Yarn Trails is',
       paragraphs: [
         BRAND_NAME
-        + ' follows development as a range, not a deadline. Month-by-month baby milestones, Watch For notes, and practical activities sit next to postpartum recovery so the mother is not an afterthought. Guidance is evidence-informed, clearly sourced, and written for considered use — including at 3am, with one hand.',
+        + ' follows development as a range, not a deadline. Month-by-month baby milestones and Watch For notes sit next to an India IAP and UIP style vaccination tracker and postpartum recovery, so the mother’s care is not an afterthought. Guidance is educational, sourced from WHO, CDC, AAP, and IAP, and written for one-handed use at 3am.',
         'The art of early motherhood, here, means sequence: what tends to happen this month, what to watch for without panic, and what can wait until morning.',
       ],
     },
     {
       heading: 'Who it is for',
       paragraphs: [
-        'New and expecting mothers, and the people who care for them, through pregnancy aftermath and the first 36 months. The tone is adult, warm, and unhurried — for parents who want sequence without noise, and evidence without alarm.',
+        'New mothers, fathers, and grandparents through the first 36 months, starting with families in India. The tone is warm and unhurried — a record and a schedule, without a feed, a race, or alarm.',
       ],
     },
     {
-      heading: 'What you can track',
+      heading: 'What you can do free',
       paragraphs: [
-        'Follow baby milestones from newborn to three years, postpartum care, vaccination, and long-form guides on development and recovery. A private baby book on Plus turns photos and firsts you already keep into stories — it is optional, and basic tracking stays free.',
-        'Start from Today: My Baby, the baby book, My Care, vaccination, Guides, or Plus.',
+        'Follow baby milestones from newborn to three years, open the India vaccination schedule, and read guides on development and recovery — without an account. A birth date is enough to see this month. Create a free account when you want that record on another phone.',
+        'Plus adds AI stories, a flip-book, and family viewer seats. It is optional. A private baby book is not required to track the month. Start from Today: My Baby, the baby book, My Care, vaccination, Guides, or Plus.',
       ],
     },
   ],

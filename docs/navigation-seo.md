@@ -14,7 +14,7 @@ Information architecture, navigation chrome, and SEO/GEO infrastructure for Yarn
 Top bar:          Today · My Baby · My Care · Essentials · Community · Guides · Sign up · Sign in/Account · [Plus]
                   A section with more than one page opens a square menu of those page names.
 Mobile top bar:   Logo · [Plus] · You menu (Sign in / Sign up / Plus for guests; Profile & account / Plus when signed in)
-Mobile bottom bar: Today · Baby · Care · Essentials · Community   (Guides still in top footer / desktop nav)
+Mobile bottom bar: Today · Baby · Care · Book · Community   (Essentials + Guides in desktop nav / footer; Book is Plus)
 
 Footer (4 columns):
   Explore  | Learn              | Company            | Legal & Trust
@@ -34,7 +34,7 @@ Footer (4 columns):
 - `ROUTES` — all paths (incl. `guides`, `guide(slug)`, `faq`, `about`, `contact`,
   `feedback`, `login`, `signup`, `verifyEmail`, `account`, `admin`, legal/trust routes).
 - `PRIMARY_NAV` — desktop top-bar items (includes `guides`). A `pages` list names the destinations inside that section. **Premium is NOT here.**
-- `MOBILE_NAV` — `PRIMARY_NAV` minus `guides` (bottom bar stays at 5 for ergonomics).
+- `MOBILE_NAV` — Today, Baby, Care, Book (paid), Community. Essentials and Guides stay out of the bottom bar.
 - `PREMIUM_NAV` — single object rendered as the distinct CTA button.
 - `FOOTER_SECTIONS` — data-driven `[{ heading, links: [{to, label}] }]`.
 - `navSectionFromPath(pathname)` — active-state resolver (adds `guides`).
@@ -67,6 +67,7 @@ Footer (4 columns):
 - **`src/data/legalContent.js`** — `PAGES` (legal + company copy) and `FAQS`.
   > Legal copy is **drafted placeholder** — must be lawyer-reviewed before launch.
   > Replace `reviewedBy: 'Pending medical review'` with named clinicians.
+  > `/medical-reviewers` states that no named review board exists yet. Do not publish role titles as if people had reviewed the site.
 
 ## SEO / GEO infrastructure
 
@@ -82,20 +83,24 @@ metadata live in `src/seo/` and are applied at build time plus in the client.
   files 404 before the rewrite runs. Trailing slashes redirect off
   (`trailingSlash: false`).
 - **Per-page meta:** every page calls `usePageMeta` (`src/utils/pageMeta.js`).
-  Titles follow `Topic | Yarn Trails` (homepage keeps the brand title). Canonical
+  Titles follow `Topic | Yarn Trails` (homepage uses `SEO_DEFAULT_TITLE`). Canonical
   URLs always use the production origin + pathname. Default robots: `index, follow`.
   Private surfaces use `noindex, nofollow`: `/login`, `/signup`, `/verify-email`,
   `/account`, `/admin/*`, `/baby/book`, `/story/preview`, `/book/voice-invite`,
   `/newsletter/unsubscribe`, `/community/create`.
   Community item permalinks (`/community/feed/:slug`, `/community/recipes/:id`,
   `/community/tips/:id`) are SPA deep links; sitemap stays at the tab URLs only.
-- **Homepage:** `index.html` + Home share the same title/description (The Art of
-  Early Motherhood). Do **not** swap homepage meta for logged-out conversion copy.
-  Logged-out welcome H1 is the brand tagline (*The art of early motherhood*);
-  Yarn Trails is the eyebrow. Copy lives in `src/data/homepageCopy.js` and is
-  prerendered into `dist/index.html` so crawlers see a real article body
-  (what it is, who it is for, what you can track). Welcome-mode Home renders
-  the same intro; logged-in Today does not.
+- **Homepage:** `index.html` + Home share the same title and description
+  (`Baby milestones and vaccines | Yarn Trails`, from `brand.js`). Visible
+  welcome H1 and prerender H1 are both *See this month with your baby.*
+  Yarn Trails is the eyebrow. The brand tagline stays on the logo and in
+  Organization `slogan`. Copy lives in `src/data/homepageCopy.js` and is
+  prerendered into `dist/index.html`. Welcome-mode Home renders the same
+  intro; logged-in Today does not.
+- **Locale:** `html lang="en-IN"`, `og:locale` `en_IN`, schema `inLanguage`
+  `en-IN`. WebApplication `operatingSystem` is `Web` and the free offer is
+  `priceCurrency: INR`. Do not claim iOS or Android in schema until those
+  store apps exist. UK and US prices still apply at checkout via `premiumPricing.js`.
 - **Brand aliases:** Display name **Yarn Trails**; handle/domain **yarntrails**. `BRAND_ALTERNATE_NAMES` in `src/constants/brand.js` feeds `alternateName` in Organization/WebSite/WebApplication JSON-LD. Homepage and About copy mention `yarntrails.com` so spaced and one-word queries map to the same product.
 - **JSON-LD:** `index.html` carries Organization + WebSite + WebApplication for
   non-JS crawlers. Per-page builders in `src/utils/structuredData.js`:
@@ -168,7 +173,7 @@ Do not add `<meta name="keywords">`; use phrases in titles, headings, prerender 
 ## Conventions
 
 - Keep the **top bar ≤ 6 journey items**; further pages live in that section's menu, under the name the page itself uses. Premium is always a CTA, never a plain link.
-- Keep the **mobile bottom bar at 5 items**.
+- Keep the **mobile bottom bar at 5 items** (Today · Baby · Care · Book · Community).
 - Footer is **data-driven** — add links via `FOOTER_SECTIONS`, never hard-code `<Link>`s.
 - After adding a page/guide: add it to `FOOTER_SECTIONS`/nav as appropriate and run
   `npm run generate:sitemap`.

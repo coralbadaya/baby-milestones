@@ -221,7 +221,7 @@ describe('prerender HTML', () => {
       bodyHtml: homepageBodyHtml(),
     });
     expect(html).toContain('<div id="root"></div>');
-    expect(html).toMatch(/<div id="seo-prerender" hidden>[\s\S]*<h1>The art of early motherhood<\/h1>/);
+    expect(html).toMatch(/<div id="seo-prerender" hidden>[\s\S]*<h1>See this month with your baby\.<\/h1>/);
     expect(html).toContain('baby milestone tracker');
     expect(html).toContain('private baby book');
     expect(html).toContain('href="/baby/book"');

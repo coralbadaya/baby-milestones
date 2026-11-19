@@ -47,6 +47,8 @@ Habit: `birth_date_set`, `milestone_checked` (`month` only), `first_saved` (`med
 
 Content: `guide_view` (`guide_slug`), `community_tab` (`tab`)
 
+Sharing: `content_shared` (`feature` = channel `whatsapp` | `native` | `x` | `facebook` | `copy`, `tab` = `month` | `vaccination`, optional `month`). A click on a share control, not a confirmed send. The shared URL is the public page. Do not put vaccine names, due dates, or baby names in props.
+
 Baby book ideas: `baby_book_idea` (`tab` = step, `feature` = idea id + creation type)
 
 **Allowed `props` keys:** `month`, `guide_slug`, `sku`, `feature`, `media_type`, `tab`. Unknown keys are dropped. Do not send baby names, notes, photos, vaccine IDs, or birth dates.

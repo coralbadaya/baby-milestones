@@ -101,8 +101,13 @@ function Header() {
         </div>
       </header>
       <nav className="mobile-nav" aria-label="Primary">
-        {MOBILE_NAV.map(({ key, to, mobileLabel, icon }) => (
-          <Link key={key} to={to} className={navClass(key)} onClick={onNav}>
+        {MOBILE_NAV.map(({ key, to, mobileLabel, icon, paid }) => (
+          <Link
+            key={key}
+            to={to}
+            className={`${navClass(key)}${paid ? ' mobile-nav__paid' : ''}`}
+            onClick={onNav}
+          >
             <Icon name={icon} size={18} />
             <span>{mobileLabel}</span>
           </Link>

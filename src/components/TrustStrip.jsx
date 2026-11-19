@@ -11,7 +11,7 @@ function TrustStrip({ className = '', showPrivacyNote = false }) {
   return (
     <aside className={`trust-strip ${className}`.trim()} aria-label="Trust and sources">
       <p className="trust-strip__line">
-        Educational guidance sourced from WHO, CDC, and AAP — not a substitute for your pediatrician.
+        Educational guidance sourced from WHO, CDC, AAP, and IAP. Not a substitute for your pediatrician.
       </p>
       <p className="trust-strip__links">
         <Link to={ROUTES.editorialPolicy} onClick={onLink}>How We Research</Link>

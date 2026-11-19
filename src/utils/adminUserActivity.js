@@ -26,6 +26,7 @@ export const EVENT_LABELS = {
   guide_view: 'Guide view',
   community_tab: 'Community tab',
   baby_book_idea: 'Baby book idea',
+  content_shared: 'Content shared',
 };
 
 export function formatActivityEventName(name) {

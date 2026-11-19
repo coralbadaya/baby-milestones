@@ -28,7 +28,7 @@ Six journey links in one 56px row, plus account and Plus. A section that holds m
 
 **Bar end (desktop):** Sign in / Account + **Plus** square button — not in `PRIMARY_NAV` data.
 
-**Mobile bottom bar (5 items):** Today · Baby · Care · Essentials · Community — Guides and Premium elsewhere.
+**Mobile bottom bar (5 items):** Today · Baby · Care · **Book** (Plus) · Community — Essentials and Guides stay in the desktop top bar + footer. Book is the paid centerpiece after Care.
 
 ### Demoted to footer
 
@@ -71,7 +71,7 @@ Today (what matters now)
 3. PageHero — editorial mother+baby, personalized greeting
 4. Birth date / baby name (onboarding if missing)
 5. This week's focus — 1–3 cards (milestone, mom care, editorial)
-6. Current month preview + DIY strip
+6. Current month preview
 7. Life firsts carousel — link to `/baby#moments`
 8. Month timeline carousel — current month ±2, link to full timeline
 9. Assistant panel (existing)

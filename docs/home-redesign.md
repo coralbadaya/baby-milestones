@@ -21,15 +21,15 @@
 
 - **Component:** `WelcomeHero.jsx` — dedicated layout (photo band + ivory copy), not split `PageHero`
 - **Eyebrow:** "Yarn Trails"
-- **Title (H1):** *"The art of early motherhood"* (`BRAND_TAGLINE` via `src/data/homepageCopy.js`)
-- **Subtitle:** *"A calm baby milestone tracker for new mothers — month by month through the first years, with postpartum care beside it."*
-- **Primary CTA:** **Create free account** → `/signup`; secondary **Preview without an account** (`startLocalTrial`); birth-date form under *"Or personalize with birth date"*; `TrustStrip` with privacy note
+- **Title (H1):** *"See this month with your baby."* (`HOMEPAGE_COPY.h1`). The brand tagline stays on the logo and in Organization schema, not as the homepage H1.
+- **Subtitle:** *"Milestones, vaccines, and memories in one place. Free to start. A range, not a race."*
+- **Primary action:** birth-date field. Hint: *"Opens this month on this phone. Free. No account yet."* Setting a date leaves welcome mode. Quiet link under it: **Create a free account to keep it** → `/signup`. `TrustStrip` with privacy note. The hero does not start a Plus trial.
 - **Welcome intro:** compact ivory `PageSection` (narrow) under the hero — same copy as prerender (`homepageCopy.js`): intro + H2s (what it is, who it is for, what you can track) + links to Guides, My Baby, Mom Care, About. Logged-in Today does **not** show this block.
 - **Visual:** `.home-today--welcome` ivory canvas; mobile stacked image + copy; desktop side-by-side grid (~460px min-height); subtitle `max-width: 46ch`
 - **Funnel:** Single `ConversionBand` in `EditorialBand` only (no mid-page bands in welcome mode); sample banner on month preview
-- **SEO:** `usePageMeta` with **homepage** title/description (`Yarn Trails — The Art of Early Motherhood`). Do not swap meta for conversion copy. Prerender injects the same welcome body into `dist/index.html`.
+- **SEO:** `usePageMeta` with homepage title/description from `SEO_DEFAULT_TITLE` / `SEO_DEFAULT_DESCRIPTION` (`Baby milestones and vaccines | Yarn Trails`). Visible H1 and prerender H1 are the same sentence. Prerender injects the welcome body into `dist/index.html`. Locale signals are `en-IN` / `en_IN`; the free offer in schema is INR. Operating system in schema is Web until store apps ship.
 
-**Logged-out conversion bands** (`!user`): `ConversionBand` after focus, DIY, and inside `EditorialBand` (ink band). See `ConversionBand.jsx`, `TrustStrip.jsx`.
+**Logged-out conversion bands** (`!user`): `ConversionBand` after focus and inside `EditorialBand` (ink band). See `ConversionBand.jsx`, `TrustStrip.jsx`. Home does not show a DIY strip.
 
 ### 1b. What Yarn Trails does (`HomeJobs.jsx`)
 
@@ -58,7 +58,7 @@ Three cards max, age-aware:
 
 ### 4. DIY preview strip (`DIYPreviewStrip.jsx`)
 
-- Uses `DIYEditorialCard` — split layout on Today (2 cards), grid on My Baby (4 cards)
+- **Not on Home.** Lives on **My Baby** only (grid, 4 cards).
 - Photos via `getDiyImage({ activityId, illustration, category }, overrides, globalDefault)` — per-activity override, else site-wide default, else cream lockup (see [`docs/diy-images-admin.md`](diy-images-admin.md))
 - **Open guide** opens in-app modal; video access inside modal only (no card-face YouTube button); sand section band via `PageSection`
 

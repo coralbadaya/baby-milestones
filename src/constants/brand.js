@@ -19,10 +19,10 @@ export const BRAND_TAGLINE = 'The art of early motherhood';
 /** Short tagline for compact placements (e.g. header lockup). */
 export const BRAND_TAGLINE_SHORT = 'early motherhood';
 
-export const SEO_DEFAULT_TITLE = `${BRAND_NAME} — The Art of Early Motherhood`;
+export const SEO_DEFAULT_TITLE = `Baby milestones and vaccines | ${BRAND_NAME}`;
 
 export const SEO_DEFAULT_DESCRIPTION =
-  'A calm baby milestone tracker for new mothers: month-by-month development, postpartum care, parenting guides, and a private baby book for the first years.';
+  'See this month with your baby. Free milestone tracking, an India vaccination schedule, and a private place for memories.';
 
 /** Canonical origin. Always the production hostname — never localhost or staging. */
 export const SITE_URL = 'https://yarntrails.com';

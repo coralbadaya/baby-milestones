@@ -72,7 +72,7 @@ export function applyPageMeta(meta = {}) {
   setMeta('property', 'og:site_name', BRAND_NAME);
   setMeta('property', 'og:image:width', '1200');
   setMeta('property', 'og:image:height', '630');
-  setMeta('property', 'og:locale', 'en_GB');
+  setMeta('property', 'og:locale', 'en_IN');
   setMeta('name', 'twitter:card', 'summary_large_image');
   setMeta('name', 'twitter:site', '@yarntrails');
   setMeta('name', 'twitter:title', title);
