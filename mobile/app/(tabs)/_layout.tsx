@@ -2,6 +2,7 @@ import { SymbolView } from 'expo-symbols';
 import { Tabs } from 'expo-router';
 import { ColorValue, View } from 'react-native';
 
+import { bookColors } from '@/constants/babyBookTheme';
 import { colors, fonts } from '@/constants/theme';
 
 const ICONS = {
@@ -39,6 +40,7 @@ function TabIcon({
 
 function PaidTabIcon({
   name,
+  focused,
 }: {
   name: (typeof ICONS)[keyof typeof ICONS];
   focused: boolean;
@@ -52,15 +54,15 @@ function PaidTabIcon({
           borderRadius: 28,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#2d1f4e',
-          shadowColor: '#1a1432',
+          backgroundColor: focused ? bookColors.bg : bookColors.bgSoft,
+          shadowColor: bookColors.bg,
           shadowOpacity: 0.35,
           shadowRadius: 10,
           shadowOffset: { width: 0, height: 4 },
           elevation: 6,
         }}
       >
-        <SymbolView name={name} tintColor="#f5f0eb" size={22} />
+        <SymbolView name={name} tintColor={bookColors.text} size={22} />
       </View>
     </View>
   );
@@ -78,7 +80,9 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: colors.cream,
           borderTopColor: colors.border,
-          minHeight: 64,
+          minHeight: 72,
+          paddingTop: 8,
+          overflow: 'visible',
         },
         tabBarLabelStyle: { fontFamily: fonts.bodyStrong, fontSize: 11 },
         tabBarItemStyle: { borderRadius: 0 },

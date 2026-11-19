@@ -29,7 +29,7 @@ The same journey as the website, in the same order:
 
 Book is the paid center circle (twilight blue of the book page). Today is the logo, not a tab. Essentials, the Vaccination tracker, and Progress stay one tap from Today. Essentials opens Shopping and Travel. Community opens Mom Feed, Baby Recipes, and Parenting Tips. Those names match the website.
 
-The phone uses the same Wool & Trail colors as the site. Pages are wool mist, actions and the selected tab are trail moss, and the type is ink. Buttons, rows, and the selected tab are square. The selected tab carries a trail line on its top edge. Yarn gold stays a hairline on the book, not a text color.
+The phone uses the same Wool & Trail colors as the site. Pages are wool mist, actions and the selected tab are trail moss, and the type is ink. Buttons, rows, and the selected tab are square except the Book control, which is a raised twilight circle. Other selected tabs carry a trail line on the top edge. Yarn gold stays a hairline on the book, not a text color.
 
 | Surface | On the phone | Free or Plus |
 |---------|----------------|--------------|
