@@ -2,7 +2,7 @@
 
 > Living reference for humans and AI agents. **Principles:** [`docs/doctrine-summary.md`](docs/doctrine-summary.md) · **Full constitution:** [`docs/doctrine.md`](docs/doctrine.md)
 
-Last updated: September 2026
+Last updated: November 2026
 
 ---
 
@@ -12,7 +12,7 @@ Last updated: September 2026
 |---|---|
 | **Name** | Yarn Trails — *The art of early motherhood* |
 | **Audience** | Affluent new mothers, tier‑1 cities; babies 0–36 months |
-| **Positioning** | Quiet-luxury editorial + **AI baby book** (Basic free / Plus magic) |
+| **Positioning** | Quiet-luxury editorial + **AI baby book** (Basic free / Plus magic). **Ambition:** best product in early motherhood and best honest search answer per job — [`docs/seo-page-one.md`](docs/seo-page-one.md) |
 | **Stack** | React 19 · Vite 8 · Vitest · Supabase · Vercel |
 
 ### Journey nav (primary)

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
+import TrustShell from '../components/TrustShell';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../utils/supabaseClient';
 import { interact } from '../utils/haptics';
@@ -75,14 +76,13 @@ function Feedback() {
   };
 
   return (
-    <div className="contact-page fade-in">
-      <header className="content-page-hero">
-        <Icon name="speech-bubble" size={40} className="content-page-icon" />
-        <h1>Share feedback</h1>
-        <p className="content-page-intro">
-          A tap and a note is enough. Tell us what is working, what is missing, or what felt off.
-        </p>
-      </header>
+    <TrustShell
+      icon="speech-bubble"
+      title="Share feedback"
+    >
+      <p className="trust-lead">
+        A tap and a note is enough. Tell us what is working, what is missing, or what felt off.
+      </p>
 
       {sent ? (
         <div className="contact-success card-accent-top" role="status">
@@ -201,7 +201,7 @@ function Feedback() {
           ← Back to Today
         </Link>
       </p>
-    </div>
+    </TrustShell>
   );
 }
 

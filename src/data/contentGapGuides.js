@@ -5,6 +5,84 @@
  */
 const contentGapGuides = [
   {
+    slug: 'baby-monthly-milestones',
+    title: 'Baby Monthly Milestones — Month by Month to Age 3',
+    description:
+      'Baby monthly milestones from newborn to 36 months — typical windows, a free tracker, and when to ask your pediatrician.',
+    category: 'Baby Development',
+    icon: 'baby',
+    readMinutes: 12,
+    author: 'Yarn Trails Editorial Team',
+    reviewedBy: 'Pending medical review',
+    updated: '2026-11-20',
+    intro:
+      'Baby monthly milestones are the skills that often show up around each month of age — lifting the head, a social smile, sitting, first words, first steps. They are a range, not a deadline. Pediatric well-visits often use 2, 4, 6, 9, and 12 month checkpoints; Yarn Trails also tracks every month from newborn to three years so you can see this month without racing the neighbour’s baby. This guide is educational. Your pediatrician decides whether development is on track for your child.',
+    body: [
+      {
+        heading: 'What baby monthly milestones actually measure',
+        paragraphs: [
+          'Developmental milestones sit in four overlapping groups: movement (motor), communication, thinking (cognitive), and social-emotional. A monthly list is a snapshot of what many babies can do around that age — not a test you pass or fail in week four of the month.',
+          'Authorities such as the CDC, AAP, and WHO describe skills that most children can do by a given age (often about three in four). Yarn Trails month pages follow the same idea: typical windows, Watch For notes, and a reminder that late in one area with strength in another is common. If a skill is missing and you are worried, say so at the next well-baby visit rather than waiting for a perfect checklist.',
+        ],
+      },
+      {
+        heading: 'Monthly tracker vs well-visit checkpoints',
+        paragraphs: [
+          'Search results for baby monthly milestones often show 2, 4, 6, 9, and 12 month lists because those ages match routine immunisation and surveillance visits. That is useful. It is not the only way to watch the first year.',
+          'A month-by-month tracker fills the gaps between visits: month 5 sitting practice, month 7 rolling both ways, month 10 cruising. Yarn Trails keeps 36 months on My Baby so toddler years stay in the same place as newborn weeks. Use the well-visit list with your clinician; use the monthly list at home as a calm record, not a diagnosis.',
+        ],
+      },
+      {
+        heading: 'First year — baby monthly milestones 1 to 12',
+        paragraphs: [
+          'These first-year windows match the Yarn Trails month pages. Open the linked guide for sleep, feeding, play, and when to call. Premature babies are often followed on corrected age until your pediatrician says otherwise.',
+        ],
+        list: [
+          'Month 1 — brief head lift on tummy time, faces at 8–12 inches, startles then quiets to a familiar voice',
+          'Month 2 — social smiles, cooing, eyes tracking across midline',
+          'Month 3 — steadier head, hands opening, longer face-to-face stretches',
+          'Month 4 — laughs, reaches, may roll tummy to back',
+          'Month 5 — transferring toys, more intentional batting and mouthing',
+          'Month 6 — supported sitting, babbling, interest in family food',
+          'Month 7 — rolling both ways, name response, exploring by banging and dropping',
+          'Month 8 — sitting without support, hands-and-knees, stranger awareness',
+          'Month 9 — emerging pincer grasp, pulling to stand',
+          'Month 10 — cruising furniture, more gestures',
+          'Month 11 — first words for some, more confident standing',
+          'Month 12 — first steps for many, pointing, simple games of imitation',
+        ],
+      },
+      {
+        heading: 'Year two and three — months 13 to 36',
+        paragraphs: [
+          'After the first birthday, monthly change is still real but less dramatic week to week. Language explodes, pretend play starts, and motor skills shift from first steps to running, climbing, and scribbling. Yarn Trails keeps a page for every month through 36 so the toddler years are not a blank after “first steps.”',
+          'Typical bands: 13–18 months (walking more steadily, more words, following a simple request); 18–24 months (two-word phrases for many, climbing, helping with clothes); 24–36 months (short sentences, pretend play, toilet interest on a wide timetable). None of these is a pass/fail date. Open the month page for that age for Watch For notes and play ideas.',
+        ],
+      },
+      {
+        heading: 'How to track baby monthly milestones at home',
+        paragraphs: [
+          'Set a birth date on Yarn Trails Today. My Baby highlights the current month, with checkboxes you can tick when you see a skill — not when you think you should have seen it. Progress shows the arc without turning development into a scoreboard.',
+          'Photographing a monthly milestone is optional. If you want a keepsake, the free milestone cards tool and life firsts on My Baby sit beside the tracker. Plus adds stories and a flip-book; the checklist itself stays free.',
+        ],
+      },
+      {
+        heading: 'When to talk to your pediatrician',
+        paragraphs: [
+          'Call sooner than the next scheduled visit if your baby loses a skill they had, does not respond to sound or your face in a way that worries you, feels unusually stiff or floppy, or if feeding, breathing, or alertness changes suddenly. Watch For cards on each month page list examples — they are not a diagnosis.',
+          'Early intervention exists because waiting for a birthday does not help a child who needs support. Yarn Trails will not tell you a child is delayed. That call belongs to a clinician who has examined your baby.',
+        ],
+      },
+    ],
+    relatedSlugs: [
+      '3-month-old-milestones',
+      '6-month-old-milestones',
+      '12-month-old-milestones',
+      'first-year-vaccination-schedule',
+      'newborn-dos-and-donts',
+    ],
+  },
+  {
     slug: 'nursery-rhymes-for-babies',
     title: 'Nursery Rhymes for Babies — Simple Songs That Build Language',
     description:
@@ -429,6 +507,195 @@ const contentGapGuides = [
       },
     ],
     relatedSlugs: ['3-month-old-milestones', 'first-year-vaccination-schedule', 'postpartum-recovery-week-by-week'],
+  },
+  {
+    slug: 'vaccination-tracker-india',
+    title: 'Vaccination Tracker India — IAP and UIP Style Schedule',
+    description:
+      'A vaccination tracker for India: how IAP and UIP-style schedules are grouped, what the app logs, and why your pediatrician still decides doses.',
+    category: 'Health & Safety',
+    icon: 'medical',
+    readMinutes: 9,
+    author: 'Yarn Trails Editorial Team',
+    reviewedBy: 'Pending medical review',
+    updated: '2026-11-20',
+    intro:
+      'A vaccination tracker India parents can actually use sits next to the clinic card — it does not replace it. Indian families often hear both IAP (Indian Academy of Pediatrics) recommendations and UIP (Universal Immunization Programme) public doses. Yarn Trails groups an IAP/UIP-style calendar from birth through the toddler years so you can see what is commonly due, tick what was given, and take the summary to the pediatrician. Dates and optional vaccines always follow that clinician, not an app.',
+    body: [
+      {
+        heading: 'IAP, UIP, and what “tracker” means',
+        paragraphs: [
+          'UIP is the government programme: core vaccines offered at public clinics. IAP publishes a broader recommended schedule that many private pediatricians follow, including some doses marked optional in our list (for example PCV or influenza, depending on the year and your doctor).',
+          'Yarn Trails is a log and a reminder surface. It is educational. It is not a prescription, a catch-up calculator for missed years, or a substitute for the immunisation card you keep at home.',
+        ],
+      },
+      {
+        heading: 'How the India schedule is grouped in Yarn Trails',
+        paragraphs: [
+          'The in-app India list is organised the way visits often are — not as 36 duplicate pages. Confirm every dose with your pediatrician; formulations and timing change.',
+        ],
+        list: [
+          'Birth — BCG, OPV birth dose, Hepatitis B birth dose in many protocols',
+          '6, 10, and 14 weeks — OPV and pentavalent series; rotavirus; IPV appears in the 14-week visit in our list; PCV may be optional',
+          '6–9 months — seasonal influenza when your clinician advises it',
+          '9 months — measles-rubella; Japanese encephalitis where recommended',
+          '12–18 months — boosters and additional doses your clinic schedules (PCV booster, MMR, varicella, DPT/OPV boosters, hepatitis A in some plans)',
+          'Around 24 months — second MMR or varicella when your pediatrician uses those slots',
+        ],
+      },
+      {
+        heading: 'How to use the vaccination tracker',
+        paragraphs: [
+          'Open Vaccination, choose India IAP/UIP (or CDC, or a custom list if you live between countries). Log the date a dose was given. The next due item is a prompt for a clinic conversation, not an alarm that you are late.',
+          'Travel, moving city, or a missing card: bring whatever record you have. The tracker can sit beside a paper card; it should not be the only copy. See the first-year vaccination guide for how schedules are structured globally.',
+        ],
+      },
+      {
+        heading: 'When to call the clinic, not the app',
+        paragraphs: [
+          'Fever after a vaccine, a missed series, a child who started vaccines in another country, or a condition that changes which products are used — those are clinician questions. Emergency care is for breathing difficulty, collapse, or anything your local guidance treats as urgent after immunisation.',
+        ],
+      },
+    ],
+    relatedSlugs: [
+      'first-year-vaccination-schedule',
+      'newborn-dos-and-donts',
+      'baby-monthly-milestones',
+      '3-month-old-milestones',
+    ],
+  },
+  {
+    slug: 'diy-baby-activities',
+    title: 'DIY Baby Activities — Sensory Play and Tummy Time at Home',
+    description:
+      'DIY baby activities by month: tummy time, sensory play, and no-prep development ideas you can do at home — educational, not a therapy plan.',
+    category: 'Baby Development',
+    icon: 'sparkles',
+    readMinutes: 8,
+    author: 'Yarn Trails Editorial Team',
+    reviewedBy: 'Pending medical review',
+    updated: '2026-11-20',
+    intro:
+      'DIY baby activities are short, supervised play that matches this month’s body: tummy time for a newborn, sitting games later, sensory baskets when hands can grasp. You do not need a classroom or a shopping list. Yarn Trails puts activities on each month page next to milestones so play stays a range, not a curriculum.',
+    body: [
+      {
+        heading: 'What counts as a development activity',
+        paragraphs: [
+          'Tummy time, face-to-face talk, a wooden spoon on a tin, a walk to the balcony. Montessori-style baby activities at home are mostly the same idea: one or two objects, your attention, stop when they fuss. YouTube steps on month pages are optional; the floor is the point.',
+        ],
+      },
+      {
+        heading: 'No-prep ideas that scale by month',
+        list: [
+          'Newborn — chest-to-chest tummy time, high-contrast card, your voice',
+          '3–4 months — batting a dangling scarf (secure, no loose loops near the neck), supported sitting against you',
+          '6–8 months — treasure basket with kitchen objects too large to swallow, sitting play on a firm mat',
+          '9–12 months — cruising along the sofa with you, putting blocks in a box, peekaboo',
+          'Toddler — simple pouring, stacking, a walk with a bag of leaves — still supervised',
+        ],
+      },
+      {
+        heading: 'Safety while you play',
+        paragraphs: [
+          'Stay within arm’s reach on raised surfaces. Skip small parts, long cords, and honey under one year. If an activity is for “tummy time” it is awake and watched — never sleep on the tummy. Watch For notes on the month page flag when to pause and ask a clinician.',
+        ],
+      },
+      {
+        heading: 'Where the monthly lists live',
+        paragraphs: [
+          'Open My Baby, then the current month for DIY cards. The baby monthly milestones guide explains the skill windows those games sit beside. Printable milestone cards are a photo prop, not a lesson plan.',
+        ],
+      },
+    ],
+    relatedSlugs: ['baby-monthly-milestones', '3-month-old-milestones', 'baby-photoshoot-ideas-at-home', 'nursery-rhymes-for-babies'],
+  },
+  {
+    slug: 'baby-care-first-year',
+    title: 'Baby Care in the First Year — Routine, Sleep, and Daily Care',
+    description:
+      'Baby care and newborn care for the first year: a calm daily routine, sleep and feeding rhythm, and when to call your pediatrician — educational only.',
+    category: 'Baby Development',
+    icon: 'heart',
+    readMinutes: 8,
+    author: 'Yarn Trails Editorial Team',
+    reviewedBy: 'Pending medical review',
+    updated: '2026-11-20',
+    intro:
+      'Baby care in the first year is mostly rhythm: feed, sleep, clean, hold, repeat. Newborn care feels like all night; by six months the day has more play and solids. This guide is a map of ordinary days, not a medical protocol. Pair it with newborn dos and don’ts for safety rules, and My Baby for this month’s milestones.',
+    body: [
+      {
+        heading: 'A first-year daily rhythm (not a timetable)',
+        paragraphs: [
+          'Mornings: light, a feed, a short stretch of awake time that grows with age. Afternoons: another nap window, a walk if weather allows. Evenings: dimmer light, the same bath or song if you have one. Newborns do not “sleep through”; many six-month-olds still wake. Compare your baby to yesterday, not to a chart on social media.',
+        ],
+      },
+      {
+        heading: 'Sleep, feeding, and bath — the three loops',
+        list: [
+          'Sleep — back to sleep, firm flat surface; room-share if you choose; see dos and don’ts for what not to put in the cot',
+          'Feeding — breast, formula, or both as your clinician advised; solids typically enter around six months with signs of readiness (starting solids guide)',
+          'Bath and nappy — warm room, one hand on baby, no unattended water; skin care is usually simple unless a doctor names a condition',
+        ],
+      },
+      {
+        heading: 'What changes month to month',
+        paragraphs: [
+          'Care stays the same jobs; the baby’s motor and social skills change. That is why Yarn Trails is month-paged: month 2 is still mostly holding and feeding, month 8 is sitting and more floor time. Open the month page rather than hunting a new “routine app” each season.',
+        ],
+      },
+      {
+        heading: 'When baby care becomes a clinic visit',
+        paragraphs: [
+          'Fever in a young infant per your clinic’s rule, breathing that worries you, far fewer wet nappies, a baby who will not wake to feed, or your own sense that something is wrong. Mom Care sits beside this guide because her recovery is part of the same day.',
+        ],
+      },
+    ],
+    relatedSlugs: ['newborn-dos-and-donts', 'baby-monthly-milestones', 'starting-solids-guide', 'postpartum-recovery-week-by-week'],
+  },
+  {
+    slug: 'newborn-essentials-checklist',
+    title: 'Newborn Essentials Checklist — Must-Haves Without the Clutter',
+    description:
+      'A newborn must-haves and baby essentials checklist: what to buy first, what can wait, and a month-by-month shopping list — not an affiliate dump.',
+    category: 'Health & Safety',
+    icon: 'shopping-cart',
+    readMinutes: 7,
+    author: 'Yarn Trails Editorial Team',
+    reviewedBy: 'Pending medical review',
+    updated: '2026-11-20',
+    intro:
+      'Newborn must-haves are a short list: a safe sleep surface, a way to feed, nappies, a few layers, a car seat if you use a car. Everything else is optional until you know your baby. Yarn Trails shopping is a checklist by month — investment pieces, not a cart of trends. Confirm safety standards for your country; this is not a product endorsement.',
+    body: [
+      {
+        heading: 'The first bag (true essentials)',
+        list: [
+          'Safe sleep — approved cot or bassinet, firm mattress, fitted sheet; sleep sack instead of loose blankets',
+          'Feeding — whatever your clinician and you chose; extra burp cloths beat extra gadgets',
+          'Nappies and wipes — more than you think for week one',
+          'Layers — onesies, a swaddle or sack, a going-out layer for your climate',
+          'Car seat — installed before the first ride, not on the driveway with a YouTube tab',
+        ],
+      },
+      {
+        heading: 'What can wait',
+        paragraphs: [
+          'Wipe warmers, ten sleep machines, a second stroller, most “must have” lists written for a different climate. India heat, UK damp, and AC bedrooms need different fabrics. Buy the next size when the current one is tight, not in a panic at three months.',
+        ],
+      },
+      {
+        heading: 'Month-by-month shopping without clutter',
+        paragraphs: [
+          'Open Essentials, then Shopping. Tick what you already own. Later months add solids gear, a wider shoe, travel notes — not a new personality. Travel with baby has its own page when a trip is real.',
+        ],
+      },
+      {
+        heading: 'Safety over brand',
+        paragraphs: [
+          'Follow local standards for sleep and car seats. Recalls happen; register products. Yarn Trails may link to retailers; the checklist is still yours to ignore. If a gadget claims to replace supervision, skip it.',
+        ],
+      },
+    ],
+    relatedSlugs: ['newborn-dos-and-donts', 'baby-care-first-year', 'starting-solids-guide', 'baby-photoshoot-ideas-at-home'],
   },
 ];
 

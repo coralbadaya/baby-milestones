@@ -3,6 +3,58 @@
  * @type {Record<string, import('./guidesBase.js').GuideBlock[]>}
  */
 export const CONTENT_GAP_EXTRA_SECTIONS = {
+  'baby-monthly-milestones': [
+    {
+      heading: 'Corrected age after a premature birth',
+      paragraphs: [
+        'If your baby arrived before 37 weeks, many clinicians use corrected age for the first months (and sometimes longer). A monthly milestone list on the calendar birthday can look “late” when the due-date age is still on track. Ask your pediatrician which age to use on Yarn Trails; you can set the birth date you were given and still treat the list as a range.',
+      ],
+    },
+    {
+      heading: 'India well-visits and the monthly list',
+      paragraphs: [
+        'Families in India often pair an IAP or UIP-style vaccination calendar with developmental surveillance at the same visits. The Yarn Trails vaccination tracker logs doses; this milestone guide does not replace that card. Bring concerns about sitting, hearing, or social smile to the same clinician who sees the immunisation schedule.',
+      ],
+    },
+  ],
+  'vaccination-tracker-india': [
+    {
+      heading: 'Optional vaccines on the India list',
+      paragraphs: [
+        'Some rows in Yarn Trails are marked optional (for example PCV, influenza, JE, extra MMR or varicella in some plans). Optional means “ask the pediatrician,” not “unimportant” and not “skip forever.” Cost, local disease risk, and stock change.',
+      ],
+    },
+    {
+      heading: 'Keeping one record',
+      paragraphs: [
+        'Photograph the clinic card, keep the app log, and tell grandparents which copy is canonical. Two conflicting dates help no one at the next visit.',
+      ],
+    },
+  ],
+  'diy-baby-activities': [
+    {
+      heading: 'Play when you are exhausted',
+      paragraphs: [
+        'One song on the changing table is a development activity. You do not owe a Pinterest tray. If you can only do tummy time on your chest today, that still counts.',
+      ],
+    },
+  ],
+  'baby-care-first-year': [
+    {
+      heading: 'Partners and grandparents',
+      paragraphs: [
+        'The same three loops — sleep safety, feeding, clean — transfer to anyone who has been shown them. Write the pediatrician’s fever rule on the fridge. Yarn Trails Plus viewer seats are for the book; the care rules should be spoken aloud.',
+      ],
+    },
+  ],
+  'newborn-essentials-checklist': [
+    {
+      heading: 'Gifts versus essentials',
+      paragraphs: [
+        'Let visitors bring muslins and meals. You buy the sleep surface and the car seat. A registry that is mostly toys at month one is clutter with wrapping paper.',
+      ],
+    },
+  ],
   'nursery-rhymes-for-babies': [
     {
       heading: 'Rhymes for bedtime vs playtime',

@@ -35,7 +35,7 @@ export const HOMEPAGE_COPY = {
     {
       heading: 'What you can do free',
       paragraphs: [
-        'Follow baby milestones from newborn to three years, open the India vaccination schedule, and read guides on development and recovery — without an account. A birth date is enough to see this month. Create a free account when you want that record on another phone.',
+        'Follow baby monthly milestones from newborn to three years, open the India vaccination schedule, and read guides on development and recovery — without an account. A birth date is enough to see this month. Create a free account when you want that record on another phone.',
         'Plus adds AI stories, a flip-book, and family viewer seats. It is optional. A private baby book is not required to track the month. Start from Today: My Baby, the baby book, My Care, vaccination, Guides, or Plus.',
       ],
     },
@@ -45,12 +45,13 @@ export const HOMEPAGE_COPY = {
     { to: ROUTES.babyBook, label: 'Baby book' },
     { to: ROUTES.momCare, label: 'My Care' },
     { to: ROUTES.vaccination, label: 'Vaccination' },
+    { to: ROUTES.guide('baby-monthly-milestones'), label: 'Baby monthly milestones' },
     { to: ROUTES.guides, label: 'Guides' },
     { to: ROUTES.premium, label: 'Plus' },
   ],
 };
 
-/** One-tap jobs on Today. Labels match `HOMEPAGE_COPY.links`. */
+/** One-tap jobs on Today. Welcome intro may list extra crawler links (milestone guide). */
 export const HOME_JOBS = [
   { to: ROUTES.baby, label: 'My Baby', detail: 'Milestones', icon: 'baby' },
   { to: ROUTES.babyBook, label: 'Baby book', detail: 'Stories and photos', icon: 'books' },

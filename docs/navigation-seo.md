@@ -48,17 +48,21 @@ Footer (4 columns):
 - **`Footer.jsx`** — renders `FOOTER_SECTIONS` columns + a bottom bar with
   `SOCIAL_LINKS`, a local-only newsletter capture, disclaimer, and copyright.
 - **`ContentPage.jsx`** — renders structured legal/company pages from
-  `src/data/legalContent.js` `PAGES`. Optional `breadcrumb` slot sits **inside**
-  `.content-page` so crumbs share the 760px column (never full-bleed under `<main>`).
+  `src/data/legalContent.js` `PAGES` through `TrustShell`: ivory hero, then brief
+  cards or policy hairlines. The `breadcrumb` slot sits inside the narrow hero
+  (never full-bleed under `<main>`). `layout`, block `tone`, source links, and
+  `related` links live on the page record. `intro` is the meta description only.
+  Guide articles do not use this shell.
 - **`PageBreadcrumb.jsx`** — quiet trail for guides, FAQ, legal/company. Centered
-  on `.content-page`; left-aligned in `PageSection` (Guides hub). Phosphor caret separator.
+  on `.content-page` (guide articles); left-aligned inside `TrustShell` and other
+  `PageSection` heroes. Phosphor caret separator.
 - **`StructuredData.jsx`** — injects/removes a JSON-LD `<script>` by id.
 
 ### Key CSS classes (`global.css`)
 
 `.header-cta` · `.header-nav` (quiet hover/active on journey links) · `.site-footer-columns` · `.site-footer-col` · `.site-footer-heading` ·
 `.site-footer-newsletter*` · `.site-footer-bottom` · `.site-footer-social` ·
-`.content-page*` · `.guides-grid` · `.guide-card*` · `.guide-article` · `.faq-*`
+`.content-page*` · `.trust-page` · `.trust-hero` · `.trust-status` · `.trust-block` · `.guides-grid` · `.guide-card*` · `.guide-article` · `.faq-*`
 
 ## Content data
 
@@ -161,7 +165,8 @@ AI search (answer engines, assistants, and generative overviews) should meet the
 
 ### Keyword inventory (content planning)
 
-- **Strategy:** [`seo-keywords.md`](seo-keywords.md) — fifteen priority pillars (milestones, vaccination India, recipes, DIY, mom care, photoshoot, stories, rhymes, lullabies, products, dos/don'ts), canonical URL map, YMYL rules.
+- **Page one:** [`seo-page-one.md`](seo-page-one.md) — market ambition, one URL per head term, GSC.
+- **Strategy:** [`seo-keywords.md`](seo-keywords.md) — sixteen pillars, canonical URL map, YMYL rules.
 - **Matrix:** [`seo-keywords-matrix.md`](seo-keywords-matrix.md) — ~14k generated phrase permutations from `src/seo/keywordSeeds.js`; refresh with `npm run generate:seo-keywords`.
 - **Agents:** [`.cursor/skills/seo-keywords/SKILL.md`](../.cursor/skills/seo-keywords/SKILL.md).
 

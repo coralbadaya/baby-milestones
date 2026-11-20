@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Select from '../components/Select';
 import Icon from '../components/Icon';
+import TrustShell from '../components/TrustShell';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../utils/supabaseClient';
 import { interact } from '../utils/haptics';
@@ -55,18 +56,17 @@ function Contact() {
   };
 
   return (
-    <div className="contact-page fade-in">
-      <header className="content-page-hero">
-        <Icon name="envelope" size={40} className="content-page-icon" />
-        <h1>Contact Us</h1>
-        <p className="content-page-intro">
-          Questions, partnership ideas, or just a hello. For product thoughts,{' '}
-          <Link to={ROUTES.feedback} onClick={() => interact('tap', 'light')}>
-            share feedback
-          </Link>
-          .
-        </p>
-      </header>
+    <TrustShell
+      icon="envelope"
+      title="Contact Us"
+    >
+      <p className="trust-lead">
+        Questions, partnership ideas, or just a hello. For product thoughts,{' '}
+        <Link to={ROUTES.feedback} onClick={() => interact('tap', 'light')}>
+          share feedback
+        </Link>
+        .
+      </p>
 
       {sent ? (
         <div className="contact-success card-accent-top" role="status">
@@ -169,7 +169,7 @@ function Contact() {
           ← Back to Today
         </Link>
       </p>
-    </div>
+    </TrustShell>
   );
 }
 

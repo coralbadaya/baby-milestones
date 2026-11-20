@@ -45,11 +45,14 @@ const STATIC_PAGE_BY_PATH = {
 function blocksToHtml(blocks = []) {
   return blocks.map((block) => {
     const heading = block.heading ? `<h2>${escapeHtml(block.heading)}</h2>` : '';
+    const chips = block.sources?.length
+      ? `<ul>${block.sources.map((source) => `<li><a href="${source.to}">${escapeHtml(source.label)}</a></li>`).join('')}</ul>`
+      : '';
     const paragraphs = (block.paragraphs || []).map((p) => `<p>${escapeHtml(p)}</p>`).join('');
     const list = block.list?.length
       ? `<ul>${block.list.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
       : '';
-    return `${heading}${paragraphs}${list}`;
+    return `${heading}${chips}${paragraphs}${list}`;
   }).join('');
 }
 
@@ -104,10 +107,13 @@ function guideBodyHtml(guide) {
 }
 
 function legalBodyHtml(page) {
+  const related = page.related?.length
+    ? `<p>${page.related.map((link) => `<a href="${link.to}">${escapeHtml(link.label)}</a>`).join(' · ')}</p>`
+    : '';
   return `<article>
     <h1>${escapeHtml(page.title)}</h1>
-    ${page.intro ? `<p>${escapeHtml(page.intro)}</p>` : ''}
     ${blocksToHtml(page.body)}
+    ${related}
   </article>`;
 }
 

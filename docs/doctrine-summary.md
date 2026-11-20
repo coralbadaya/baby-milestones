@@ -9,6 +9,8 @@
 **Yarn Trails** — *The art of early motherhood.*  
 A quiet-luxury companion for affluent new mothers (0–36 months). Editorial guide + practical tools. Not a social network, medical app, or gamified checklist.
 
+**Ambition:** the best product in this market — tracker, India schedule, mom care, baby book — and the **best honest answer** on Google and AI search for every job we claim. One canonical page per head term. Trust before rankings. Playbook: [`seo-page-one.md`](seo-page-one.md).
+
 ---
 
 ## Who we build for
@@ -77,7 +79,7 @@ npm run build        # before merge
 | Set up Git, Vercel, Supabase | [`development-workflow.md`](development-workflow.md) |
 | Change UI | [`design-system-2026.md`](design-system-2026.md) + feature doc — phone first |
 | Nav / routes | [`information-architecture.md`](information-architecture.md) |
-| Search, GEO, AISO | [`navigation-seo.md`](navigation-seo.md) |
+| Search, GEO, AISO | [`navigation-seo.md`](navigation-seo.md) · **page one:** [`seo-page-one.md`](seo-page-one.md) |
 | App Store / Play readiness | [`store-readiness.md`](store-readiness.md) |
 | iPhone and Android app | [`mobile-app-plan.md`](mobile-app-plan.md) · [`mobile/`](../mobile/) |
 | Auth / admin | [`auth-membership-admin.md`](auth-membership-admin.md) |

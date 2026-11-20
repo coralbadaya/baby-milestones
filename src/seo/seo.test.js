@@ -228,6 +228,8 @@ describe('prerender HTML', () => {
     expect(html).toContain('href="/premium"');
     expect(html).toContain('<h2>What Yarn Trails is</h2>');
     expect(html).toContain('href="/guides"');
+    expect(html).toContain('href="/guides/baby-monthly-milestones"');
+    expect(html).toContain('baby monthly milestones');
     expect(html).not.toContain('<div id="root"><article');
   });
 });
@@ -243,6 +245,11 @@ describe('keyword seeds', () => {
 });
 
 const CONTENT_GAP_GUIDE_SLUGS = [
+  'baby-monthly-milestones',
+  'vaccination-tracker-india',
+  'diy-baby-activities',
+  'baby-care-first-year',
+  'newborn-essentials-checklist',
   'nursery-rhymes-for-babies',
   'lullabies-for-babies',
   'best-books-for-babies-by-age',
@@ -265,7 +272,7 @@ describe('milestone guide SEO', () => {
 });
 
 describe('content gap guides', () => {
-  it('publishes seven SEO gap guides with meta', () => {
+  it('publishes SEO gap guides with meta', () => {
     for (const slug of CONTENT_GAP_GUIDE_SLUGS) {
       const guide = getGuideBySlug(slug);
       expect(guide, slug).toBeTruthy();

@@ -5,6 +5,7 @@ Yarn Trails does **not** use `<meta name="keywords">`. Keywords inform **titles,
 | Artifact | Role |
 |----------|------|
 | **This doc** | Pillars, URL mapping, copy patterns, YMYL rules |
+| [`seo-page-one.md`](./seo-page-one.md) | **#1 program** — ambition, one URL per head term, GSC, scoreboard |
 | [`seo-keywords-matrix.md`](./seo-keywords-matrix.md) | **~14.8k** generated phrase rows (`npm run generate:seo-keywords`) |
 | [`src/seo/keywordSeeds.js`](../src/seo/keywordSeeds.js) | Source of truth for pillars, ages, intents, templates |
 | [`.cursor/skills/seo-keywords/SKILL.md`](../.cursor/skills/seo-keywords/SKILL.md) | Agent workflow when writing SEO copy or new guides |
@@ -69,13 +70,15 @@ Use **one canonical URL** per intent cluster; link siblings in-body.
 |-----------------|---------------|-----------------|
 | `{n} month old milestones` | `/guides/{n}-month-old-milestones` | `/month/{n}`, `/baby`, `/progress` |
 | `baby milestones` / `milestone tracker` | `/baby` | `/progress`, month guides |
+| `baby monthly milestones` | `/guides/baby-monthly-milestones` | `/baby`, `/month/:n`, month guides |
 | `vaccination tracker` / `baby vaccination` | `/vaccination` | `/guides/first-year-vaccination-schedule` |
-| `vaccination tracker india` / `iap schedule` | `/vaccination` (mention IAP/UIP in meta + H1) | FAQ vaccination question |
+| `vaccination tracker india` / `iap schedule` | `/guides/vaccination-tracker-india` | `/vaccination`, first-year guide |
+| `diy activities` / `sensory play` / `tummy time` | `/guides/diy-baby-activities` | `/month/:n`, `/baby` |
+| `baby care` / `newborn care` | `/guides/baby-care-first-year` | dos and don’ts, `/mom-care` |
+| `newborn must haves` / `baby essentials` | `/guides/newborn-essentials-checklist` | `/shopping`, `/essentials` |
 | `postpartum` / `mother care` | `/mom-care` | `/guides/postpartum-recovery-week-by-week` |
-| `baby essentials` / `recommended products` | `/shopping` | `/essentials` |
 | `travel with baby` | `/travel` | Essentials hub |
 | `baby recipes` / `baby food` | `/community/recipes` | Month weaning tips where relevant |
-| `diy activities` / `sensory play` | `/month/{n}` (DIY section) | `/baby` |
 | `baby photoshoot` / `milestone cards` | `/tools/milestone-cards` | `/premium` (book) |
 | `baby story` / `baby book` | `/premium` | `/baby/book` (gated) |
 | `nursery rhymes` / `lullabies` | `/guides/nursery-rhymes-for-babies`, `/guides/lullabies-for-babies` | Month tips, mom-care sleep |
@@ -118,6 +121,11 @@ Canonical long-form URLs in `src/data/contentGapGuides.js`:
 | `starting-solids-guide` | baby foods, 6 months, weaning |
 | `indian-baby-food-recipes` | recipes, indian, vegetarian |
 | `newborn-dos-and-donts` | dos and donts, safety |
+| `baby-monthly-milestones` | baby monthly milestones, month by month milestones |
+| `vaccination-tracker-india` | vaccination tracker india, IAP, UIP |
+| `diy-baby-activities` | DIY baby activities, tummy time, sensory play |
+| `baby-care-first-year` | baby care, newborn care, daily routine |
+| `newborn-essentials-checklist` | newborn must haves, baby essentials |
 
 When adding another guide: extend `contentGapGuides.js` or `guidesBase.js`, run `npm run generate:sitemap` + `npm run audit:seo`, update this table.
 

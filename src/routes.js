@@ -191,6 +191,9 @@ export const FOOTER_SECTIONS = [
     heading: 'Learn',
     links: [
       { to: ROUTES.guides, label: 'Guides & Articles' },
+      { to: ROUTES.guide('baby-monthly-milestones'), label: 'Baby Monthly Milestones' },
+      { to: ROUTES.guide('vaccination-tracker-india'), label: 'Vaccination Tracker India' },
+      { to: ROUTES.guide('diy-baby-activities'), label: 'DIY Baby Activities' },
       { to: ROUTES.guide('starting-solids-guide'), label: 'Starting Solids' },
       { to: ROUTES.guide('newborn-dos-and-donts'), label: 'Newborn Dos & Don’ts' },
       { to: ROUTES.guide('nursery-rhymes-for-babies'), label: 'Nursery Rhymes' },

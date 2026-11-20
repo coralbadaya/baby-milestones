@@ -5,10 +5,26 @@
  * pages (Privacy, Terms, Cookies) MUST be reviewed by a qualified lawyer for
  * your jurisdiction(s) before launch. Effective dates are placeholders.
  *
- * @typedef {{ heading?: string, paragraphs?: string[], list?: string[] }} ContentBlock
- * @typedef {{ title: string, icon: string, updated?: string, intro?: string, note?: string, body: ContentBlock[] }} ContentPage
+ * @typedef {{ label: string, to: string }} ContentLink
+ * @typedef {{ heading?: string, paragraphs?: string[], list?: string[], tone?: 'boundary', sources?: ContentLink[] }} ContentBlock
+ * @typedef {{ title: string, icon: string, layout?: 'brief' | 'policy', statusLabel?: string, updated?: string, intro?: string, note?: string, related?: ContentLink[], body: ContentBlock[] }} ContentPage
  */
 import { BRAND_NAME, BRAND_SLUG, CONTACT_EMAIL, SITE_URL } from '../constants/brand.js';
+import { ROUTES } from '../routes.js';
+
+const RELATED = {
+  research: { to: ROUTES.editorialPolicy, label: 'How We Research' },
+  reviewers: { to: ROUTES.reviewers, label: 'Medical Reviewers' },
+  sources: { to: ROUTES.sources, label: 'Sources & Citations' },
+  disclaimer: { to: ROUTES.medicalDisclaimer, label: 'Medical Disclaimer' },
+};
+
+const SOURCE_CHIPS = [
+  { label: 'WHO', to: ROUTES.sources },
+  { label: 'CDC', to: ROUTES.sources },
+  { label: 'AAP', to: ROUTES.sources },
+  { label: 'IAP', to: ROUTES.sources },
+];
 
 const REVIEW_NOTE =
   'This is drafted starter content for review. Please have it reviewed by a qualified professional before relying on it or publishing.';
@@ -20,6 +36,8 @@ export const PAGES = {
   about: {
     title: `About ${BRAND_NAME}`,
     icon: 'info',
+    layout: 'brief',
+    related: [RELATED.research, RELATED.sources, RELATED.disclaimer],
     intro: `${BRAND_NAME} is a baby milestone tracker and calm companion for early motherhood — not a knitting yarn crawl, a social network, or a medical app.`,
     body: [
       {
@@ -95,6 +113,8 @@ export const PAGES = {
   editorialPolicy: {
     title: 'How We Research',
     icon: 'microscope',
+    layout: 'brief',
+    related: [RELATED.reviewers, RELATED.sources, RELATED.disclaimer],
     intro: 'Our editorial process exists to keep ' + BRAND_NAME + ' accurate, current, and trustworthy.',
     body: [
       {
@@ -114,6 +134,7 @@ export const PAGES = {
       },
       {
         heading: 'What we will never do',
+        tone: 'boundary',
         list: [
           'Present opinion as medical fact',
           'Use fear to drive engagement',
@@ -126,10 +147,12 @@ export const PAGES = {
   reviewers: {
     title: 'Medical Reviewers',
     icon: 'stethoscope',
+    layout: 'brief',
+    related: [RELATED.research, RELATED.sources, RELATED.disclaimer],
     intro: `${BRAND_NAME} does not yet have a named clinical review board. Health pages are educational summaries of published guidance. They are not clinician-approved advice for your child.`,
     body: [
       {
-        heading: 'What is true today',
+        sources: SOURCE_CHIPS,
         paragraphs: [
           'No pediatrician, obstetrician, midwife, or dietitian is listed on this page, because none has been appointed to review this site. Do not read any page as doctor-approved.',
           'Developmental and vaccination pages cite public guidance from the WHO, the CDC, the AAP, and the Indian Academy of Pediatrics (IAP), including an India IAP/UIP-style schedule in the tracker. Those citations are a starting point for a conversation with your own clinician.',
@@ -148,6 +171,8 @@ export const PAGES = {
   privacy: {
     title: 'Privacy Policy',
     icon: 'shield',
+    layout: 'policy',
+    related: [RELATED.disclaimer, RELATED.research, RELATED.sources],
     updated: EFFECTIVE,
     note: REVIEW_NOTE,
     intro: `Your privacy matters to us. This policy explains what information ${BRAND_NAME} handles and how.`,
@@ -186,6 +211,8 @@ export const PAGES = {
   terms: {
     title: 'Terms of Service',
     icon: 'scales',
+    layout: 'policy',
+    related: [RELATED.disclaimer, RELATED.research, RELATED.sources],
     updated: EFFECTIVE,
     note: REVIEW_NOTE,
     intro: `By using ${BRAND_NAME}, you agree to these terms.`,
@@ -218,6 +245,8 @@ export const PAGES = {
   cookies: {
     title: 'Cookie Policy',
     icon: 'cookie',
+    layout: 'policy',
+    related: [RELATED.disclaimer, RELATED.research, RELATED.sources],
     updated: EFFECTIVE,
     note: REVIEW_NOTE,
     intro: `This policy explains how ${BRAND_NAME} uses cookies and similar technologies.`,
@@ -242,6 +271,8 @@ export const PAGES = {
   medicalDisclaimer: {
     title: 'Medical Disclaimer',
     icon: 'medical',
+    layout: 'brief',
+    related: [RELATED.reviewers, RELATED.research, RELATED.sources],
     updated: EFFECTIVE,
     intro: `Please read this disclaimer carefully before relying on any content from ${BRAND_NAME}.`,
     body: [
@@ -269,6 +300,8 @@ export const PAGES = {
   accessibility: {
     title: 'Accessibility Statement',
     icon: 'accessibility',
+    layout: 'policy',
+    related: [RELATED.disclaimer, RELATED.research, RELATED.sources],
     updated: EFFECTIVE,
     intro: `${BRAND_NAME} is committed to being usable by as many people as possible, regardless of ability.`,
     body: [
@@ -330,6 +363,10 @@ export const FAQS = [
     a: 'Development is a range, not a race. Milestone windows describe what is typical, not a deadline. If you have concerns, your pediatrician is the right person to ask.',
   },
   {
+    q: 'Where can I read baby monthly milestones month by month?',
+    a: `The baby monthly milestones guide at ${SITE_URL}/guides/baby-monthly-milestones covers newborn to 36 months. Tick skills on My Baby at ${SITE_URL}/baby, and open each month page for Watch For notes. Educational only — confirm concerns with your pediatrician.`,
+  },
+  {
     q: 'Where does your milestone information come from?',
     a: 'Our content is based on guidance from recognized authorities such as the WHO, CDC, and AAP. See our Sources & Citations page for details.',
   },
@@ -351,7 +388,7 @@ export const FAQS = [
   },
   {
     q: 'Does Yarn Trails have a vaccination tracker for India?',
-    a: `Yes. Open Vaccination in the app to log doses with an India (IAP/UIP-style), CDC, or custom schedule. The first-year vaccination guide at ${SITE_URL}/guides/first-year-vaccination-schedule explains how schedules are organized — always follow your pediatrician.`,
+    a: `Yes. Open Vaccination to log India IAP/UIP-style, CDC, or custom doses. The India tracker guide at ${SITE_URL}/guides/vaccination-tracker-india and the first-year overview at ${SITE_URL}/guides/first-year-vaccination-schedule explain how schedules are grouped — always follow your pediatrician.`,
   },
   {
     q: 'Where are nursery rhymes and lullabies for babies?',
@@ -364,6 +401,10 @@ export const FAQS = [
   {
     q: 'What are newborn dos and don’ts on Yarn Trails?',
     a: `The newborn safety guide at ${SITE_URL}/guides/newborn-dos-and-donts covers sleep, feeding, bathing, and visitors. It is educational only — see the medical disclaimer and your pediatrician for personal advice.`,
+  },
+  {
+    q: 'Where are DIY baby activities and a newborn essentials list?',
+    a: `DIY and tummy-time ideas: ${SITE_URL}/guides/diy-baby-activities. Newborn must-haves: ${SITE_URL}/guides/newborn-essentials-checklist. First-year daily care: ${SITE_URL}/guides/baby-care-first-year. Tick gear on Shopping.`,
   },
   {
     q: 'Is milestone tracking the same as a baby book?',

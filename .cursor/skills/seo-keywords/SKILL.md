@@ -26,13 +26,18 @@ Match the user request to a pillar id in `keywordSeeds.js` (e.g. `vaccination-in
 
 **Never** target the same primary keyword on two URLs. Use the mapping table in `docs/seo-keywords.md`:
 
-- Milestones → `/guides/{n}-month-old-milestones` or `/month/{n}`
-- Vaccination / India → `/vaccination`
+- Monthly milestones (head) → `/guides/baby-monthly-milestones`
+- Milestones by month → `/guides/{n}-month-old-milestones` or `/month/{n}`
+- Vaccination India → `/guides/vaccination-tracker-india` (tracker: `/vaccination`)
+- DIY / tummy time → `/guides/diy-baby-activities`
+- Baby care → `/guides/baby-care-first-year`
+- Newborn must-haves → `/guides/newborn-essentials-checklist` (list: `/shopping`)
 - Mom → `/mom-care`
-- Products → `/shopping`
-- Recipes/food → `/community/recipes`
-- Photoshoot → `/tools/milestone-cards`
-- Baby book / stories → `/premium`
+- Recipes/food → `/guides/starting-solids-guide` + `/community/recipes`
+- Photoshoot → `/guides/baby-photoshoot-ideas-at-home`
+- Baby book / stories → `/guides/digital-baby-book-guide` (`/baby/book` is noindex)
+
+Page-one program: [`docs/seo-page-one.md`](../../docs/seo-page-one.md). Never two URLs for one head term.
 
 ### 3. Select phrases
 

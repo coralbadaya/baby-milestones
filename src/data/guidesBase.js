@@ -130,7 +130,7 @@ const guidesBase = [
         ],
       },
     ],
-    relatedSlugs: ['first-year-vaccination-schedule'],
+    relatedSlugs: ['baby-monthly-milestones', 'first-year-vaccination-schedule'],
   },
   {
     slug: 'postpartum-recovery-week-by-week',
@@ -228,7 +228,7 @@ const guidesBase = [
         ],
       },
     ],
-    relatedSlugs: ['3-month-old-milestones'],
+    relatedSlugs: ['vaccination-tracker-india', '3-month-old-milestones', 'newborn-dos-and-donts'],
   },
 ];
 

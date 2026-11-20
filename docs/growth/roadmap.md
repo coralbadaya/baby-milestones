@@ -61,7 +61,7 @@ Impact and effort are judgments. Success metrics have no baseline in the repo. â
 - **Effort.** Medium. Writing and medical caution, not a new framework.
 - **Dependencies.** H2 stays honest. A clinician reviewer is ideal and not required to publish a sourced summary.
 - **Success metric.** Indexation of that URL, and assisted visits onward to `/vaccination` (`page_view` route). Rankings only via Search Console.
-- **Status.** Not started.
+- **Status.** Guide shipped: `/guides/vaccination-tracker-india`. Still needs deploy + Search Console indexing.
 
 ### H6. Charged price equals the sticker
 

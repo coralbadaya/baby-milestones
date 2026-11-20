@@ -2,6 +2,8 @@ import { useState } from 'react';
 import sources from '../data/sources';
 import { interact } from '../utils/haptics';
 import Icon from '../components/Icon';
+import PageBreadcrumb from '../components/PageBreadcrumb';
+import TrustShell from '../components/TrustShell';
 import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
@@ -40,12 +42,20 @@ function Sources() {
     activeTab === 'indian' ? sources.indian : null;
 
   return (
-    <div className="sources-page fade-in">
-      <div className="sources-hero">
-        <Icon name="books" size={48} className="sources-hero-icon" />
-        <h1>Medical Sources & Citations</h1>
-        <p>All milestones in this app are based on evidence from these globally and nationally recognized medical authorities.</p>
-      </div>
+    <TrustShell
+      icon="books"
+      title="Medical Sources & Citations"
+      className="trust-page--sources"
+      bodyWidth="wide"
+      breadcrumb={(
+        <PageBreadcrumb
+          items={[
+            { name: 'Home', to: ROUTES.home },
+            { name: 'Sources & Citations' },
+          ]}
+        />
+      )}
+    >
 
       <div className="sources-tabs">
         <TabButton active={activeTab === 'global'} onClick={() => handleTabChange('global')} icon="globe">
@@ -71,7 +81,7 @@ function Sources() {
               onClick={() => toggleSource(source.id)}
             >
               <div className="source-card-header">
-                <div className="source-icon-wrap" style={{ background: source.color + '20', color: source.color }}>
+                <div className="source-icon-wrap">
                   <Icon name={source.icon} size={28} />
                 </div>
                 <div className="source-info">
@@ -198,7 +208,7 @@ function Sources() {
           diagnosis, or treatment. Always consult your pediatrician for concerns about your child&apos;s development.
         </p>
       </div>
-    </div>
+    </TrustShell>
   );
 }
 

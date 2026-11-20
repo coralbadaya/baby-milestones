@@ -20,7 +20,7 @@ export const INDEXABLE_STATIC_PAGES = [
   {
     path: ROUTES.baby,
     title: 'My Baby',
-    description: 'Month-by-month baby milestones, DIY activities, and care from newborn to 36 months.',
+    description: 'Track baby monthly milestones from newborn to 36 months — checklists, DIY play, and care on one timeline.',
     changefreq: 'weekly',
     priority: 0.9,
   },

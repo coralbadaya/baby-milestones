@@ -62,10 +62,17 @@ function Baby({
         layout="split"
         eyebrow="Development"
         title="My Baby"
-        subtitle="Milestones, DIY activities, and care — month by month."
+        subtitle="Track baby monthly milestones, DIY activities, and care — month by month."
       />
 
       <PageSection surface="ivory" width="wide" className="page-body--with-mobile-nav">
+        <p className="hub-banner">
+          Baby monthly milestones from newborn to 36 months.{' '}
+          <Link to={ROUTES.guide('baby-monthly-milestones')} onClick={onLink}>
+            Read the month-by-month guide
+          </Link>
+          , then tick this month on the timeline.
+        </p>
         {currentMonth && (
           <section className="hub-quick-links">
             <Link

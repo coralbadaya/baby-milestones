@@ -68,7 +68,8 @@ Parent features are designed on a **390px** screen first. Desktop widens that la
 | `docs/vaccination-ui-design.md` | Vaccination tracker |
 | `docs/community-feature-plan.md` | Community feature — phased plan |
 | `docs/navigation-seo.md` | Navigation, footer & SEO — IA, top bar + page menus + Plus, footer columns, structured data, sitemap/robots, GEO, AISO |
-| `docs/seo-keywords.md` | **Keyword strategy** — 15 pillars, URL map, YMYL; matrix in `seo-keywords-matrix.md` (`generate:seo-keywords`) |
+| `docs/seo-page-one.md` | **Page-one program** — market ambition, one URL per head term, GSC, scoreboard |
+| `docs/seo-keywords.md` | **Keyword strategy** — 16 pillars, URL map, YMYL; matrix in `seo-keywords-matrix.md` (`generate:seo-keywords`) |
 | `docs/store-readiness.md` | App Store and Play listing rules the website must already satisfy |
 | `docs/mobile-app-plan.md` | **iOS and Android** — Expo app, daily open, OTP, Plus billing |
 | `docs/development-workflow.md` | **Beginner workflow** — Git, Vercel, Supabase, local dev, **login credentials** |

@@ -164,11 +164,23 @@ full-bleed child of `<main>` (that pins crumbs to the viewport left).
 
 | Context | Alignment |
 |---------|-----------|
-| `.content-page` (FAQ, guides article, legal) | Centered with the hero |
+| `.content-page` (guide articles) | Centered with the hero |
+| Trust pages (`TrustShell`, inside a narrow `PageSection`) | Left-aligned with the hero |
 | `PageSection` (Guides hub) | Left-aligned with the section header |
 
 Separator is Phosphor `caret-right`. Current page uses `aria-current="page"`.
-Legal/company pages pass the nav into `ContentPage` via the `breadcrumb` slot.
+Legal and company pages pass the nav into `ContentPage`, which renders it inside the ivory hero band.
+
+### Trust pages
+
+`TrustShell` (`src/components/TrustShell.jsx`) is the reading rhythm for legal copy, FAQ, Contact, Feedback, Sources, and the missing-page screen. Guide articles stay on `.content-page` and do not use it.
+
+| Band | Surface | What sits there |
+|------|---------|-----------------|
+| Hero | Ivory, narrow, left-aligned | Breadcrumb, 56px sand icon disc, title, date |
+| Body | White for long policies and FAQ; ivory for short pages so card gaps show the page mist | Brief pages: one white card per block, 1px mushroom border. Policy pages: hairline sections. A `tone: 'boundary'` block keeps the trail rule. No lead status panel |
+
+Source organization marks on `/sources` use one trail disc. They do not take a color from the organization record. Authority names on Medical Reviewers are underlined text links, not capsules.
 
 ---
 

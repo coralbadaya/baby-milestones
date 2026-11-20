@@ -13,6 +13,8 @@ Yarn Trails is a **quiet-luxury companion** for the first three years of parenth
 
 We are not a social network, a medical device, or a gamified checklist. We are an **editorial guide** with practical tools woven in.
 
+We intend to be the **best company in this segment**: the product a family actually opens at 3am, and the page Google and answer engines should rank when the query matches a job we do. That is not a content mill. **One head term, one definitive URL.** We will not out-shout the CDC on clinical lists; we will be the best tracker, India schedule companion, monthly guide, and baby book in the market. Rankings never outrank safety. → [`seo-page-one.md`](seo-page-one.md)
+
 ---
 
 ## 2. Who we serve

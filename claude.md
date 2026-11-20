@@ -9,6 +9,7 @@ Baby milestone tracker and mom care (React + Vite). Use this file for **fast age
 | Doc | When |
 |-----|------|
 | [`docs/doctrine-summary.md`](docs/doctrine-summary.md) | Principles, non‑negotiables (1 page) |
+| [`docs/seo-page-one.md`](docs/seo-page-one.md) | **Page-one ambition** — one canonical URL per head term, GSC, what we will not spam |
 | [`memory.md`](memory.md) | File map, localStorage keys, assistant KB, routes |
 | [`.cursor/rules/coral.mdc`](.cursor/rules/coral.mdc) | UI workflow + full design doc index |
 
@@ -155,6 +156,7 @@ Parents never see Insights. Ingest skips `/admin`. Server secrets: `SUPABASE_SER
 - UI changes: read design docs first, update docs after — see `.cursor/rules/coral.mdc`
 - **Phone first.** Design and check every parent feature at 390px before desktop: 56px targets, calm space, heroes that grow with their copy, primary job one tap from Today. Desktop widens the same layout. Elite means room, not a dense grid. Admin is a staff console.
 - Data changes: `npm run verify:data` + `npm test`
+- **Search:** Yarn Trails aims to be the best early-motherhood product in this market and the best honest Google/AI answer for every job we claim. One head term → one URL (never 14k thin pages). Pattern: [`docs/seo-page-one.md`](docs/seo-page-one.md). YMYL: we do not pretend to replace CDC/AAP. After new guides: `npm run audit:seo`, then request indexing in Search Console.
 
 ---
 

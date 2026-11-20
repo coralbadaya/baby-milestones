@@ -7,6 +7,40 @@ import { milestoneSlugSeoExtra } from './milestoneGuideSeo.js';
 
 /** @type {Record<string, { productLinks?: GuideProductLink[], faqs?: GuideFaq[] }>} */
 export const GUIDE_SEO_EXTRA = {
+  'baby-monthly-milestones': {
+    productLinks: [
+      { to: '/baby', label: 'My Baby — monthly tracker' },
+      { to: '/progress', label: 'Milestone progress' },
+      { to: '/guides/1-month-old-milestones', label: '1-month-old milestones' },
+      { to: '/guides/6-month-old-milestones', label: '6-month-old milestones' },
+      { to: '/guides/12-month-old-milestones', label: '12-month-old milestones' },
+      { to: '/month/1', label: 'Month 1 activities' },
+      { to: '/vaccination', label: 'Vaccination tracker' },
+      { to: '/sources', label: 'Sources & citations' },
+    ],
+    faqs: [
+      {
+        q: 'What are baby monthly milestones?',
+        a: 'They are skills that often appear around each month of age — movement, communication, thinking, and social connection. Lists describe a typical window, not a deadline. Yarn Trails tracks every month from newborn to 36 months; your pediatrician interprets what you see.',
+      },
+      {
+        q: 'When do babies hit monthly milestones?',
+        a: 'Most skills arrive across a range of weeks. Social smiles often show around 6–8 weeks, sitting without support later in the first year, first steps near the first birthday for many — and healthy babies sit outside those averages. Compare your baby to themselves over time.',
+      },
+      {
+        q: 'Are monthly milestones the same as CDC 2, 4, 6, 9, and 12 month lists?',
+        a: 'Those ages match common well-visits. Monthly tracking adds the months in between and continues through age three. Use both: the visit list with your clinician, the month page at home.',
+      },
+      {
+        q: 'What if my baby misses a monthly milestone?',
+        a: 'One late skill with strength elsewhere is common. Losing a skill, or a pattern that worries you, is a reason to call the pediatrician rather than waiting for the next birthday. Yarn Trails is educational only.',
+      },
+      {
+        q: 'How do I track baby monthly milestones on Yarn Trails?',
+        a: 'Set a birth date on Today, then open My Baby. Tick skills when you notice them. Month guides explain the window; the tracker stores the record on this phone, and on your account if you create one.',
+      },
+    ],
+  },
   'nursery-rhymes-for-babies': {
     productLinks: [
       { to: '/baby', label: 'My Baby — milestone tracker' },
@@ -176,6 +210,115 @@ export const GUIDE_SEO_EXTRA = {
       {
         q: 'How do I track vaccines while starting solids in India?',
         a: 'Use the vaccination tracker with the India schedule, and bring your clinic card to visits. The app supports IAP/UIP-style tracking but does not replace your provider’s record.',
+      },
+    ],
+  },
+  'vaccination-tracker-india': {
+    productLinks: [
+      { to: '/vaccination', label: 'Vaccination tracker' },
+      { to: '/guides/first-year-vaccination-schedule', label: 'First-year schedule, explained' },
+      { to: '/guides/newborn-dos-and-donts', label: 'Newborn dos and don’ts' },
+      { to: '/baby', label: 'My Baby' },
+      { to: '/sources', label: 'Sources & citations' },
+      { to: '/medical-disclaimer', label: 'Medical disclaimer' },
+    ],
+    faqs: [
+      {
+        q: 'Does Yarn Trails have a vaccination tracker for India?',
+        a: 'Yes. Open Vaccination and choose India IAP/UIP. Log doses you already received. The list is a reference grouped like common visits — your pediatrician confirms products and dates.',
+      },
+      {
+        q: 'What is the difference between IAP and UIP?',
+        a: 'UIP is the public programme. IAP publishes a recommended schedule many private clinics use, sometimes with extra or optional vaccines. Yarn Trails labels the India list IAP/UIP-style so both conversations fit one log.',
+      },
+      {
+        q: 'Can I download an IAP schedule PDF from Yarn Trails?',
+        a: 'The tracker is the living list. For an official PDF, use your pediatrician or the issuing body. Do not treat a screenshot of the app as a legal immunisation certificate.',
+      },
+      {
+        q: 'What if we also need a CDC schedule?',
+        a: 'Switch the tracker to CDC, or use Custom if you are splitting time between countries. Keep one clinic as the source of truth.',
+      },
+    ],
+  },
+  'diy-baby-activities': {
+    productLinks: [
+      { to: '/baby', label: 'My Baby — this month’s DIY' },
+      { to: '/month/3', label: 'Month 3 activities' },
+      { to: '/guides/baby-monthly-milestones', label: 'Baby monthly milestones' },
+      { to: '/guides/nursery-rhymes-for-babies', label: 'Nursery rhymes' },
+      { to: '/tools/milestone-cards', label: 'Milestone photo cards' },
+    ],
+    faqs: [
+      {
+        q: 'What are the best DIY baby activities at home?',
+        a: 'Tummy time, talking, and one or two safe objects. Match the month page — sitting games wait until sitting is emerging. No-prep beats a themed craft.',
+      },
+      {
+        q: 'How much tummy time does a baby need?',
+        a: 'Short, supervised, awake sessions several times a day, building as they tolerate it. Chest-to-chest counts. Never for sleep.',
+      },
+      {
+        q: 'Are sensory activities safe for newborns?',
+        a: 'Your face, voice, and high-contrast cards are enough at first. Skip small parts and loose loops. If in doubt, skip the basket until they sit with help.',
+      },
+      {
+        q: 'Where are month-by-month activity lists on Yarn Trails?',
+        a: 'My Baby → the current month. DIY cards sit next to milestones. This guide is the overview; the month page is the list for today.',
+      },
+    ],
+  },
+  'baby-care-first-year': {
+    productLinks: [
+      { to: '/guides/newborn-dos-and-donts', label: 'Newborn dos and don’ts' },
+      { to: '/guides/baby-monthly-milestones', label: 'Baby monthly milestones' },
+      { to: '/mom-care', label: 'Mom Care' },
+      { to: '/guides/starting-solids-guide', label: 'Starting solids' },
+      { to: '/baby', label: 'My Baby' },
+    ],
+    faqs: [
+      {
+        q: 'What is a good daily baby care routine?',
+        a: 'Feed, sleep, hold, clean — on a rhythm that follows the baby, not a strict clock. Newborns cluster feeds; older babies add play and, around six months, solids with your clinician’s advice.',
+      },
+      {
+        q: 'How is newborn care different from later baby care?',
+        a: 'The first weeks are almost all feeding and sleep safety. Motor play and a slightly longer awake window arrive gradually. Use the month page rather than a single “newborn routine” all year.',
+      },
+      {
+        q: 'When should I call the pediatrician about daily care?',
+        a: 'Fever in a young infant per your clinic, breathing worries, poor wet nappies, or a baby who will not wake to feed. Yarn Trails is educational only.',
+      },
+      {
+        q: 'Where do I track care and milestones together?',
+        a: 'My Baby for development, Mom Care for her recovery, Vaccination for doses. This guide explains the ordinary day those tools sit inside.',
+      },
+    ],
+  },
+  'newborn-essentials-checklist': {
+    productLinks: [
+      { to: '/shopping', label: 'Shopping checklist' },
+      { to: '/essentials', label: 'Essentials hub' },
+      { to: '/travel', label: 'Travel with baby' },
+      { to: '/guides/newborn-dos-and-donts', label: 'Newborn dos and don’ts' },
+      { to: '/guides/baby-care-first-year', label: 'Baby care first year' },
+    ],
+    faqs: [
+      {
+        q: 'What are newborn must-haves?',
+        a: 'A safe sleep surface, a feeding plan, nappies, a few layers, and a correctly installed car seat if you drive. Most other “must have” lists can wait.',
+      },
+      {
+        q: 'What baby essentials should I skip?',
+        a: 'Gadgets that replace supervision, duplicate strollers, and climate-wrong fabrics. Buy the next size when clothes are tight, not a year of onesies in one order.',
+      },
+      {
+        q: 'Does Yarn Trails have a baby shopping checklist?',
+        a: 'Yes — Essentials and Shopping, ticked by what you already own, month by month. This guide is the philosophy; the checklist is the list.',
+      },
+      {
+        q: 'Are the product links medical recommendations?',
+        a: 'No. Safety standards and recalls are your country’s job. Yarn Trails does not endorse a brand as clinically required.',
       },
     ],
   },
