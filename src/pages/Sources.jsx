@@ -56,6 +56,9 @@ function Sources() {
         />
       )}
     >
+      <p className="sources-iap-note">
+        The India vaccination tracker cites IAP and UIP schedules as public references for grouping visit ages. That is not an endorsement by those bodies, and the tracker is not a clinic record.
+      </p>
 
       <div className="sources-tabs">
         <TabButton active={activeTab === 'global'} onClick={() => handleTabChange('global')} icon="globe">

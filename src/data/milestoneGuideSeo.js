@@ -8,6 +8,7 @@ export function milestoneGuideSeoExtra(month) {
   const prev = month > 1 ? month - 1 : null;
   const next = month < 12 ? month + (month === 2 ? 2 : 1) : null;
   const productLinks = [
+    { to: '/guides/baby-monthly-milestones', label: 'Baby monthly milestones' },
     { to: '/baby', label: 'My Baby — milestone tracker' },
     { to: `/month/${month}`, label: `Month ${month} activities & DIY` },
     { to: '/progress', label: 'Milestone progress' },

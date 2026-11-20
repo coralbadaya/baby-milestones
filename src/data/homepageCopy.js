@@ -22,7 +22,7 @@ export const HOMEPAGE_COPY = {
       heading: 'What Yarn Trails is',
       paragraphs: [
         BRAND_NAME
-        + ' follows development as a range, not a deadline. Month-by-month baby milestones and Watch For notes sit next to an India IAP and UIP style vaccination tracker and postpartum recovery, so the mother’s care is not an afterthought. Guidance is educational, sourced from WHO, CDC, AAP, and IAP, and written for one-handed use at 3am.',
+        + ' follows development as a range, not a deadline. Month-by-month baby milestones and Watch For notes sit next to an India IAP and UIP style vaccination tracker — read the India vaccination tracker guide — and postpartum recovery, so the mother’s care is not an afterthought. Guidance is educational, sourced from WHO, CDC, AAP, and IAP, and written for one-handed use at 3am.',
         'The art of early motherhood, here, means sequence: what tends to happen this month, what to watch for without panic, and what can wait until morning.',
       ],
     },
@@ -45,6 +45,7 @@ export const HOMEPAGE_COPY = {
     { to: ROUTES.babyBook, label: 'Baby book' },
     { to: ROUTES.momCare, label: 'My Care' },
     { to: ROUTES.vaccination, label: 'Vaccination' },
+    { to: ROUTES.guide('vaccination-tracker-india'), label: 'India vaccination tracker' },
     { to: ROUTES.guide('baby-monthly-milestones'), label: 'Baby monthly milestones' },
     { to: ROUTES.guides, label: 'Guides' },
     { to: ROUTES.premium, label: 'Plus' },

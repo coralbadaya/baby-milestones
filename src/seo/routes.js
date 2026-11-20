@@ -27,7 +27,7 @@ export const INDEXABLE_STATIC_PAGES = [
   {
     path: ROUTES.momCare,
     title: 'Mom Care',
-    description: 'Postpartum recovery timeline, self-care, and gentle guidance for new mothers.',
+    description: 'Postpartum recovery timeline, week-by-week self-care, and gentle guidance for new mothers.',
     changefreq: 'weekly',
     priority: 0.9,
   },
@@ -41,7 +41,7 @@ export const INDEXABLE_STATIC_PAGES = [
   {
     path: ROUTES.shopping,
     title: 'Shopping Checklist',
-    description: 'A curated, month-by-month baby shopping checklist — investment pieces, not clutter.',
+    description: 'Month-by-month baby shopping checklist plus a newborn essentials guide — investment pieces, not clutter.',
     changefreq: 'monthly',
     priority: 0.6,
   },
@@ -54,8 +54,8 @@ export const INDEXABLE_STATIC_PAGES = [
   },
   {
     path: ROUTES.vaccination,
-    title: 'Vaccination Tracker',
-    description: 'Track immunizations with India, CDC, or custom schedules — educational, never alarmist.',
+    title: 'Baby vaccination tracker — India IAP/UIP, CDC, custom',
+    description: 'Track baby vaccines with India IAP/UIP, CDC, or a custom list. Educational only — confirm every dose with your pediatrician.',
     changefreq: 'monthly',
     priority: 0.8,
   },
@@ -69,7 +69,7 @@ export const INDEXABLE_STATIC_PAGES = [
   {
     path: ROUTES.sources,
     title: 'Medical Sources & Citations',
-    description: 'The WHO, CDC, AAP, and other authorities behind Yarn Trails milestone and care guidance.',
+    description: 'WHO, CDC, AAP, and IAP citations behind Yarn Trails. India tracker copy uses IAP/UIP as a reference, not an endorsement.',
     changefreq: 'yearly',
     priority: 0.6,
   },
@@ -83,7 +83,7 @@ export const INDEXABLE_STATIC_PAGES = [
   {
     path: ROUTES.guides,
     title: 'Guides & Articles',
-    description: 'Evidence-informed guides on baby development, postpartum recovery, vaccinations, and early parenthood.',
+    description: 'Guides on baby monthly milestones, India vaccination, starting solids, nursery rhymes, and early parenthood.',
     changefreq: 'weekly',
     priority: 0.9,
   },
@@ -185,7 +185,7 @@ export const INDEXABLE_COMMUNITY_TABS = [
   {
     path: ROUTES.communityTab('recipes'),
     title: 'Baby Recipes',
-    description: 'Baby-friendly recipes from the community — purees, khichdi, finger foods, and more.',
+    description: 'Baby food recipes and first foods — community purées, khichdi, and finger foods for starting solids.',
     changefreq: 'weekly',
     priority: 0.6,
   },

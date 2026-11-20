@@ -183,6 +183,8 @@ function MonthDetail({ month, checkedItems, toggleCheck, onBack, onNavigate, cur
           })}
         />
         <p className="month-related-links">
+          <Link to={ROUTES.guide('baby-monthly-milestones')}>Baby monthly milestones</Link>
+          {' · '}
           {guide ? (
             <>
               <Link to={ROUTES.guide(guide.slug)}>{guide.title}</Link>

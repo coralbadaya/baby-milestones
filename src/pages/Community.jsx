@@ -18,6 +18,7 @@ import MemoryFeed from '../components/community/MemoryFeed';
 import RecipeFeed from '../components/community/RecipeFeed';
 import TipsFeed from '../components/community/TipsFeed';
 import CreateMemory from '../components/community/CreateMemory';
+import HubSeoBanner from '../components/HubSeoBanner';
 
 const TABS = [
   { id: 'feed', label: 'Feed', icon: 'speech-bubble' },
@@ -38,7 +39,7 @@ const TAB_META = {
   },
   recipes: {
     title: 'Baby Recipes',
-    description: 'Swipe through baby-friendly recipes — purees, khichdi, finger foods, and more.',
+    description: 'Baby food recipes and first foods — purées, khichdi, finger foods, and more.',
   },
   tips: {
     title: 'Parenting Tips',
@@ -151,11 +152,14 @@ function Community({ currentMonth, tab, itemId }) {
             )
           )}
           {tab === 'recipes' && (
-            recipesLoading ? (
-              <p className="community-loading">Loading recipes…</p>
-            ) : (
-              <RecipeFeed recipes={recipes} itemId={itemId} />
-            )
+            <>
+              <HubSeoBanner pathname={ROUTES.communityTab('recipes')} />
+              {recipesLoading ? (
+                <p className="community-loading">Loading recipes…</p>
+              ) : (
+                <RecipeFeed recipes={recipes} itemId={itemId} />
+              )}
+            </>
           )}
           {tab === 'tips' && (
             tipsLoading ? (

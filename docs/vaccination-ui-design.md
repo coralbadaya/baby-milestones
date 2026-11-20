@@ -78,6 +78,7 @@ Record schema:
 
 ### Page UI (`Vaccination.jsx`) — chart-first
 
+- Hub SEO banner (`HubSeoBanner`) — one line naming India IAP/UIP / CDC / custom, linking `/guides/vaccination-tracker-india`. Same sentence in prerender (`hubSeoIntros.js`). H1 stays “Vaccination tracker”.
 - Hero summary + reminder banner
 - Schedule selector (shared `Select.jsx`)
 - Summary charts:

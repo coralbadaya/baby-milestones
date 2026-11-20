@@ -44,6 +44,7 @@ export const GUIDE_SEO_EXTRA = {
   'nursery-rhymes-for-babies': {
     productLinks: [
       { to: '/baby', label: 'My Baby — milestone tracker' },
+      { to: '/guides/diy-baby-activities', label: 'DIY baby activities' },
       { to: '/month/3', label: 'Month 3 — DIY activities' },
       { to: '/guides/lullabies-for-babies', label: 'Lullabies for babies' },
       { to: '/guides/best-books-for-babies-by-age', label: 'Best books by age' },
@@ -128,6 +129,7 @@ export const GUIDE_SEO_EXTRA = {
   'baby-photoshoot-ideas-at-home': {
     productLinks: [
       { to: '/tools/milestone-cards', label: 'Free printable milestone cards' },
+      { to: '/guides/baby-monthly-milestones', label: 'Baby monthly milestones' },
       { to: '/guides/milestone-cards-printable', label: 'Milestone cards guide' },
       { to: '/baby#moments', label: 'Life firsts' },
       { to: '/premium', label: 'Plus baby book & stories' },
@@ -156,6 +158,7 @@ export const GUIDE_SEO_EXTRA = {
   'starting-solids-guide': {
     productLinks: [
       { to: '/guides/indian-baby-food-recipes', label: 'Indian baby food recipes' },
+      { to: '/guides/newborn-essentials-checklist', label: 'Newborn essentials checklist' },
       { to: '/community/recipes', label: 'Community baby recipes' },
       { to: '/guides/6-month-old-milestones', label: '6-month milestones' },
       { to: '/guides/newborn-dos-and-donts', label: 'Feeding dos and don’ts' },
@@ -322,9 +325,198 @@ export const GUIDE_SEO_EXTRA = {
       },
     ],
   },
+  'postpartum-recovery-week-by-week': {
+    productLinks: [
+      { to: '/mom-care', label: 'Mom Care — postpartum timeline' },
+      { to: '/guides/baby-care-first-year', label: 'Baby care, first year' },
+      { to: '/guides/newborn-dos-and-donts', label: 'Newborn dos and don’ts' },
+      { to: '/baby', label: 'My Baby' },
+      { to: '/sources', label: 'Sources & citations' },
+      { to: '/medical-disclaimer', label: 'Medical disclaimer' },
+    ],
+    faqs: [
+      {
+        q: 'What is a postpartum recovery timeline?',
+        a: 'A week-by-week picture of common physical and emotional changes after birth — not a deadline. Open Mom Care to sit that timeline next to self-care topics.',
+      },
+      {
+        q: 'When should I see a doctor after birth?',
+        a: 'Many people have a check around six weeks, but heavy bleeding, fever, severe pain, or thoughts of harming yourself or the baby need care now. Call your obstetrician or local emergency number.',
+      },
+      {
+        q: 'How does mom recovery relate to baby care?',
+        a: 'Her rest and feeding plan shape the baby’s day. Pair this guide with baby care in the first year and the newborn dos and don’ts — educational only.',
+      },
+      {
+        q: 'Is Yarn Trails a substitute for postpartum clinical care?',
+        a: 'No. The timeline is a reading companion. Decisions belong with your obstetrician, midwife, or local emergency services.',
+      },
+    ],
+  },
+  'first-year-vaccination-schedule': {
+    productLinks: [
+      { to: '/guides/vaccination-tracker-india', label: 'Vaccination tracker India (IAP/UIP)' },
+      { to: '/vaccination', label: 'Vaccination tracker' },
+      { to: '/guides/newborn-dos-and-donts', label: 'Newborn dos and don’ts' },
+      { to: '/baby', label: 'My Baby' },
+      { to: '/sources', label: 'Sources & citations' },
+      { to: '/medical-disclaimer', label: 'Medical disclaimer' },
+    ],
+    faqs: [
+      {
+        q: 'Is this the India IAP vaccination schedule?',
+        a: 'No. This page explains how first-year schedules are grouped in general. For India IAP/UIP-style tracking, use the vaccination tracker India guide, then log doses in the app.',
+      },
+      {
+        q: 'How do I track my baby’s vaccines on Yarn Trails?',
+        a: 'Open Vaccination, pick India, CDC, or custom, and log doses you already received. The tracker is an organizer — your clinic card remains the official record.',
+      },
+      {
+        q: 'Why do countries have different first-year vaccine schedules?',
+        a: 'National programmes choose products, visit ages, and public vs optional doses. Timing still clusters around early well-child visits so immunity starts before likely exposure.',
+      },
+      {
+        q: 'Is this vaccination guide medical advice?',
+        a: 'No. It is educational. Confirm every dose, product, and catch-up plan with your pediatrician.',
+      },
+    ],
+  },
+  'yarntrails-vs-qeepsake': {
+    productLinks: [
+      { to: '/guides/digital-baby-book-guide', label: 'Digital baby book guide' },
+      { to: '/guides/best-baby-book-apps-2026', label: 'Best baby book apps 2026' },
+      { to: '/premium', label: 'Yarn Trails Plus' },
+      { to: '/baby', label: 'My Baby — free tracker' },
+    ],
+    faqs: [
+      {
+        q: 'Is Yarn Trails better than Qeepsake?',
+        a: 'They solve different jobs. Qeepsake is a text-prompt journal. Yarn Trails is a free milestone tracker plus optional AI stories and a flip-book. Pick the habit you will actually keep.',
+      },
+      {
+        q: 'Does Yarn Trails send daily text prompts like Qeepsake?',
+        a: 'No. Yarn Trails is built around this month’s milestones, photos, and stories — not SMS questions. If daily texts are the product you want, Qeepsake is the better fit.',
+      },
+      {
+        q: 'Can I use Yarn Trails without paying?',
+        a: 'Yes. Milestone tracking on My Baby stays free. Plus is the baby book: stories, the interactive flip-book, and HD memories.',
+      },
+      {
+        q: 'Do you publish download counts for either app?',
+        a: 'No. Store rankings change. Compare the job (journal vs storybook) and the free tier — not a screenshot of installs.',
+      },
+    ],
+  },
+  'best-baby-book-apps-2026': {
+    productLinks: [
+      { to: '/guides/yarntrails-vs-qeepsake', label: 'Yarn Trails vs Qeepsake' },
+      { to: '/guides/tinybeans-vs-qeepsake', label: 'Tinybeans vs Qeepsake' },
+      { to: '/guides/digital-baby-book-guide', label: 'Digital baby book guide' },
+      { to: '/premium', label: 'Yarn Trails Plus' },
+      { to: '/tools/milestone-cards', label: 'Free milestone photo cards' },
+    ],
+    faqs: [
+      {
+        q: 'What is the best baby book app in 2026?',
+        a: 'The best app is the one you open. Yarn Trails is for AI stories and a flip-book on top of a free tracker. Qeepsake is for text prompts. Tinybeans is for a private family photo circle.',
+      },
+      {
+        q: 'Which baby book apps are free?',
+        a: 'Yarn Trails Basic tracks milestones without a subscription. Other apps often limit photos, print, or prompts on free plans — read each current store listing; we do not invent prices or download counts.',
+      },
+      {
+        q: 'Is an AI baby story the same as a photo journal?',
+        a: 'No. A photo journal stores pictures. An AI baby story turns photos and milestones into a narrated page. Yarn Trails Plus is the latter; the tracker itself stays free.',
+      },
+      {
+        q: 'Where should I start on Yarn Trails?',
+        a: 'My Baby for the month, the digital baby book guide for how stories work, and Plus only if you want the book.',
+      },
+    ],
+  },
+  'tinybeans-vs-qeepsake': {
+    productLinks: [
+      { to: '/guides/yarntrails-vs-qeepsake', label: 'Yarn Trails vs Qeepsake' },
+      { to: '/guides/best-baby-book-apps-2026', label: 'Best baby book apps 2026' },
+      { to: '/guides/digital-baby-book-guide', label: 'Digital baby book guide' },
+      { to: '/premium', label: 'Yarn Trails Plus' },
+    ],
+    faqs: [
+      {
+        q: 'Is Tinybeans or Qeepsake better for grandparents?',
+        a: 'Tinybeans is built as a private photo circle. Qeepsake is built as prompted writing. Yarn Trails Plus adds viewer seats on a flip-book if the job is sharing stories, not a feed.',
+      },
+      {
+        q: 'Does Yarn Trails replace Tinybeans or Qeepsake?',
+        a: 'No. We do not claim their install numbers or print pipelines. We are a milestone tracker with an optional AI book. Families sometimes use more than one app.',
+      },
+      {
+        q: 'Which app has more downloads?',
+        a: 'We do not publish or guess store download counts. Compare the job you need this year.',
+      },
+      {
+        q: 'Where is the Yarn Trails baby book?',
+        a: 'Plus is the offer. The digital baby book guide explains the product; the book route itself is not indexed because it is an in-app surface.',
+      },
+    ],
+  },
+  'digital-baby-book-guide': {
+    productLinks: [
+      { to: '/premium', label: 'Yarn Trails Plus — baby book' },
+      { to: '/guides/best-baby-book-apps-2026', label: 'Best baby book apps 2026' },
+      { to: '/guides/yarntrails-vs-qeepsake', label: 'Yarn Trails vs Qeepsake' },
+      { to: '/baby', label: 'My Baby' },
+      { to: '/tools/milestone-cards', label: 'Milestone photo cards' },
+    ],
+    faqs: [
+      {
+        q: 'What is a digital baby book?',
+        a: 'A living record of photos, milestones, and (in Yarn Trails Plus) AI stories you can flip through — not a social feed and not a paper book until you choose print.',
+      },
+      {
+        q: 'What is an AI baby story?',
+        a: 'A narrated, illustrated page built from photos and milestones you already track. Yarn Trails keeps the tracker free; stories are Plus.',
+      },
+      {
+        q: 'Is the Yarn Trails baby book free?',
+        a: 'Tracking is free. The interactive flip-book, unlimited stories, and HD memories are Plus. One story taste is part of how we explain the product — check Plus for the current offer.',
+      },
+      {
+        q: 'Why is /baby/book not in Google?',
+        a: 'The book is an in-app surface (noindex). This guide is the public page for “AI baby story” and digital baby book queries.',
+      },
+    ],
+  },
+  'milestone-cards-printable': {
+    productLinks: [
+      { to: '/tools/milestone-cards', label: 'Free milestone card generator' },
+      { to: '/guides/baby-photoshoot-ideas-at-home', label: 'Baby photoshoot ideas at home' },
+      { to: '/guides/baby-monthly-milestones', label: 'Baby monthly milestones' },
+      { to: '/premium', label: 'Plus baby book' },
+    ],
+    faqs: [
+      {
+        q: 'Where can I download free baby milestone cards?',
+        a: 'Use the Yarn Trails generator at /tools/milestone-cards. Print one card a month; keep props simple.',
+      },
+      {
+        q: 'Are the milestone cards a medical checklist?',
+        a: 'No. They are photo signs. Developmental checklists live on My Baby and the month guides.',
+      },
+      {
+        q: 'Can I use the cards in a baby book?',
+        a: 'Yes — photograph the card with your baby, then keep the image in Life firsts or a Plus story page.',
+      },
+      {
+        q: 'Do I need Plus to print milestone cards?',
+        a: 'No. The generator is free. Plus is for stories and the flip-book, not the paper card.',
+      },
+    ],
+  },
   'newborn-dos-and-donts': {
     productLinks: [
       { to: '/guides/first-year-vaccination-schedule', label: 'First-year vaccination guide' },
+      { to: '/guides/vaccination-tracker-india', label: 'Vaccination tracker India' },
       { to: '/vaccination', label: 'Vaccination tracker' },
       { to: '/guides/3-month-old-milestones', label: '3-month milestones' },
       { to: '/guides/postpartum-recovery-week-by-week', label: 'Postpartum recovery' },

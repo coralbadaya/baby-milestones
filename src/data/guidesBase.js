@@ -183,7 +183,7 @@ const guidesBase = [
         ],
       },
     ],
-    relatedSlugs: ['3-month-old-milestones'],
+    relatedSlugs: ['3-month-old-milestones', 'baby-care-first-year'],
   },
   {
     slug: 'first-year-vaccination-schedule',
@@ -197,7 +197,7 @@ const guidesBase = [
     reviewedBy: 'Pending medical review',
     updated: '2026-06-29',
     intro:
-      'Vaccination schedules can look intimidating on paper. This guide explains how they are organized and why timing matters. Schedules differ by country — always follow the schedule your pediatrician recommends for your family.',
+      'Vaccination schedules can look intimidating on paper. This guide explains how they are organized globally and why timing matters. If you need a vaccination tracker for India (IAP/UIP), start with the India tracker guide, then log doses in the app. Schedules differ by country — always follow the schedule your pediatrician recommends for your family.',
     body: [
       {
         heading: 'Why the timing matters',

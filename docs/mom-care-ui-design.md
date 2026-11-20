@@ -9,6 +9,8 @@
 - **`/mom-care#timeline`** — Mom's postpartum milestones (first tab, default landing). Spec: [mom-milestones-ui-design.md](mom-milestones-ui-design.md)
 - **Topic tabs:** `/mom-care#posture`, `/mom-care#nippleCare`, etc. (16 self-care topics)
 
+A one-line hub banner links `/guides/postpartum-recovery-week-by-week`. Same copy in prerender via `src/data/hubSeoIntros.js`. H1 stays “My Care”.
+
 ## Navigation
 
 - **Desktop:** top bar in `Header.jsx` — "My Care", between My Baby and Essentials.

@@ -14,7 +14,7 @@ export const PRODUCT_PAGE_FAQS = {
       },
       {
         q: 'What is the vaccination tracker for India (IAP/UIP)?',
-        a: 'Choose the India schedule in the app to align reminders with commonly used IAP/UIP-style visit ages. Optional and private vaccines may differ — always follow the list your pediatrician gives you.',
+        a: 'Choose the India schedule in the app to align reminders with commonly used IAP/UIP-style visit ages. Read the India vaccination tracker guide at /guides/vaccination-tracker-india, then log doses here. Optional and private vaccines may differ — always follow the list your pediatrician gives you.',
       },
       {
         q: 'Can I use the CDC schedule instead of India?',
@@ -30,7 +30,7 @@ export const PRODUCT_PAGE_FAQS = {
       },
       {
         q: 'Is vaccination content on Yarn Trails medical advice?',
-        a: 'No. We summarise schedules for convenience; we do not diagnose or prescribe. Read the first-year vaccination guide and medical disclaimer; confirm every dose with your pediatrician.',
+        a: 'No. We summarise schedules for convenience; we do not diagnose or prescribe. India queries belong on /guides/vaccination-tracker-india; how schedules are grouped globally is /guides/first-year-vaccination-schedule. Confirm every dose with your pediatrician.',
       },
     ],
   },
@@ -43,7 +43,7 @@ export const PRODUCT_PAGE_FAQS = {
       },
       {
         q: 'How is this different from a generic newborn must-have list?',
-        a: 'Items surface by month band so you are not buying a full nursery at once. The goal is investment pieces and fewer duplicates — not every trending gadget.',
+        a: 'Items surface by month band so you are not buying a full nursery at once. Read the newborn essentials checklist at /guides/newborn-essentials-checklist for what actually matters in week one, then tick this page as you buy. The goal is investment pieces and fewer duplicates — not every trending gadget.',
       },
       {
         q: 'Recommended baby products for India vs US — does the list change?',
@@ -59,7 +59,7 @@ export const PRODUCT_PAGE_FAQS = {
       },
       {
         q: 'Where do I read about starting solids and feeding gear?',
-        a: 'See the Starting solids guide and Indian baby food recipes under Guides. Add feeding items as your clinician clears solids — often around six months.',
+        a: 'See /guides/starting-solids-guide and /guides/indian-baby-food-recipes, plus the newborn essentials checklist at /guides/newborn-essentials-checklist. Add feeding items as your clinician clears solids — often around six months.',
       },
     ],
   },

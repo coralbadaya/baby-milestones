@@ -62,6 +62,8 @@ Care types: `careTypeConfig.js` (colors/icons per type).
 
 Used by `DIYPreviewStrip`, `CarePreviewTeaser`, and Today focus cards.
 
+Related links under the month summary: **Baby monthly milestones** (head-term guide), the matching `/guides/{n}-month-old-milestones` article when it exists, vaccination, Mom Care, sources.
+
 ---
 
 ## DIY preview variant (`compact`)

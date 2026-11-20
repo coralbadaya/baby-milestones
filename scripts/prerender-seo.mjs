@@ -10,6 +10,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { homepageBodyHtml } from '../src/data/homepageCopy.js';
 import { PRODUCT_PAGE_FAQS } from '../src/data/productPageFaqs.js';
+import { hubSeoHeading, hubSeoIntroHtml } from '../src/data/hubSeoIntros.js';
 import guides from '../src/data/guides.js';
 import { PAGES, FAQS } from '../src/data/legalContent.js';
 import milestones from '../src/data/milestones.js';
@@ -42,15 +43,22 @@ const STATIC_PAGE_BY_PATH = {
   [ROUTES.accessibility]: PAGES.accessibility,
 };
 
+function linkEmails(text) {
+  return escapeHtml(text).replace(
+    /([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi,
+    (email) => `<a href="mailto:${email}">${email}</a>`,
+  );
+}
+
 function blocksToHtml(blocks = []) {
   return blocks.map((block) => {
     const heading = block.heading ? `<h2>${escapeHtml(block.heading)}</h2>` : '';
     const chips = block.sources?.length
       ? `<ul>${block.sources.map((source) => `<li><a href="${source.to}">${escapeHtml(source.label)}</a></li>`).join('')}</ul>`
       : '';
-    const paragraphs = (block.paragraphs || []).map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+    const paragraphs = (block.paragraphs || []).map((p) => `<p>${linkEmails(p)}</p>`).join('');
     const list = block.list?.length
-      ? `<ul>${block.list.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
+      ? `<ul>${block.list.map((item) => `<li>${linkEmails(item)}</li>`).join('')}</ul>`
       : '';
     return `${heading}${chips}${paragraphs}${list}`;
   }).join('');
@@ -171,7 +179,10 @@ for (const entry of entries) {
   const legal = STATIC_PAGE_BY_PATH[entry.path];
 
   let jsonLd;
-  let bodyHtml = `<article><h1>${escapeHtml(entry.title || 'Yarn Trails')}</h1><p>${escapeHtml(entry.description || '')}</p></article>`;
+  const hubIntro = hubSeoIntroHtml(entry.path);
+  const leadHtml = hubIntro || `<p>${escapeHtml(entry.description || '')}</p>`;
+  const heading = hubSeoHeading(entry.path, entry.title || 'Yarn Trails');
+  let bodyHtml = `<article><h1>${escapeHtml(heading)}</h1>${leadHtml}</article>`;
 
   if (guide) {
     jsonLd = pageGraph(articleSchema(guide, entry.path));
@@ -208,8 +219,8 @@ for (const entry of entries) {
     ]));
     jsonLd['@graph'].push(faqSchema(productFaq.faqs));
     bodyHtml = `<article>
-      <h1>${escapeHtml(entry.title || 'Yarn Trails')}</h1>
-      <p>${escapeHtml(entry.description || '')}</p>
+      <h1>${escapeHtml(heading)}</h1>
+      ${leadHtml}
       ${faqListBodyHtml(productFaq.faqs, productFaq.title)}
     </article>`;
   } else {

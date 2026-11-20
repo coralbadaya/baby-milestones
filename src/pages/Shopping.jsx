@@ -7,6 +7,7 @@ import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
 import ProductPageFaq from '../components/ProductPageFaq';
+import HubSeoBanner from '../components/HubSeoBanner';
 import { getProductPageFaqs } from '../data/productPageFaqs';
 
 function Shopping({ checkedItems, toggleCheck, currentMonth }) {
@@ -23,6 +24,7 @@ function Shopping({ checkedItems, toggleCheck, currentMonth }) {
         size="md"
       />
       <PageSection surface="sand" width="wide" className="page-body--with-mobile-nav shopping-page">
+        <HubSeoBanner pathname={ROUTES.shopping} />
         <ShoppingChecklist
           checkedItems={checkedItems}
           toggleCheck={toggleCheck}

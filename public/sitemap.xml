@@ -257,6 +257,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://yarntrails.com/guides/baby-monthly-milestones</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://yarntrails.com/guides/nursery-rhymes-for-babies</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>
@@ -295,6 +301,30 @@
   <url>
     <loc>https://yarntrails.com/guides/newborn-dos-and-donts</loc>
     <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yarntrails.com/guides/vaccination-tracker-india</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yarntrails.com/guides/diy-baby-activities</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yarntrails.com/guides/baby-care-first-year</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yarntrails.com/guides/newborn-essentials-checklist</loc>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

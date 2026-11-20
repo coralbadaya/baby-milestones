@@ -24,6 +24,8 @@ Uses shared [`.page-body`](page-layout-standardization.md) utilities on `.shoppi
 
 `<PageHero>` sits **outside** `.shopping-page` (full-bleed). Checklist content is inside the centered body wrapper.
 
+A one-line hub banner links `/guides/newborn-essentials-checklist` (canonical “newborn must-haves” article). Same copy in prerender via `src/data/hubSeoIntros.js`. H1 stays “Shopping”.
+
 ---
 
 ## Card anatomy

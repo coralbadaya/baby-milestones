@@ -5,6 +5,7 @@ import MomCareTips from '../components/MomCareTips';
 import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
+import HubSeoBanner from '../components/HubSeoBanner';
 
 function MomCare({ birthDate }) {
   usePageMeta(getStaticMeta(ROUTES.momCare) || {});
@@ -19,6 +20,7 @@ function MomCare({ birthDate }) {
         size="md"
       />
       <PageSection surface="lavender" width="wide" className="mom-care-page page-body--with-mobile-nav">
+        <HubSeoBanner pathname={ROUTES.momCare} />
         <HealthDisclaimerNote />
         <MomCareTips birthDate={birthDate} />
       </PageSection>

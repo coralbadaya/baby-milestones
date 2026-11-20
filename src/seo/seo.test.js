@@ -10,6 +10,9 @@ import { SITE_URL } from '../constants/brand.js';
 import { homepageBodyHtml } from '../data/homepageCopy.js';
 import { getGuideBySlug } from '../data/guides.js';
 import { KEYWORD_PILLARS } from './keywordSeeds.js';
+import { hubSeoHeading, hubSeoIntroHtml } from '../data/hubSeoIntros.js';
+import { PRODUCT_PAGE_FAQS } from '../data/productPageFaqs.js';
+import { ROUTES } from '../routes.js';
 
 describe('canonical URLs', () => {
   it('normalizes trailing slashes, query, and hash', () => {
@@ -229,6 +232,7 @@ describe('prerender HTML', () => {
     expect(html).toContain('<h2>What Yarn Trails is</h2>');
     expect(html).toContain('href="/guides"');
     expect(html).toContain('href="/guides/baby-monthly-milestones"');
+    expect(html).toContain('href="/guides/vaccination-tracker-india"');
     expect(html).toContain('baby monthly milestones');
     expect(html).not.toContain('<div id="root"><article');
   });
@@ -268,6 +272,62 @@ describe('milestone guide SEO', () => {
     }
     const three = getGuideBySlug('3-month-old-milestones');
     expect(three?.faqs?.length).toBeGreaterThanOrEqual(4);
+    expect(three?.productLinks?.some((l) => l.to === '/guides/baby-monthly-milestones')).toBe(true);
+  });
+});
+
+const COMPARISON_GUIDE_SLUGS = [
+  'yarntrails-vs-qeepsake',
+  'best-baby-book-apps-2026',
+  'tinybeans-vs-qeepsake',
+  'digital-baby-book-guide',
+  'milestone-cards-printable',
+];
+
+describe('comparison and digital-book guides', () => {
+  it('adds FAQs and product links without fake download counts', () => {
+    for (const slug of COMPARISON_GUIDE_SLUGS) {
+      const guide = getGuideBySlug(slug);
+      expect(guide, slug).toBeTruthy();
+      expect(guide.faqs?.length, `${slug} faqs`).toBeGreaterThanOrEqual(4);
+      expect(guide.productLinks?.length, `${slug} links`).toBeGreaterThanOrEqual(4);
+      const blob = JSON.stringify(guide.faqs);
+      expect(blob.toLowerCase()).not.toMatch(/\d[\d,]*\s*(downloads|installs)/);
+    }
+  });
+});
+
+describe('first-year vaccination guide', () => {
+  it('points India queries at the India tracker canonical', () => {
+    const guide = getGuideBySlug('first-year-vaccination-schedule');
+    expect(guide?.intro).toMatch(/India/i);
+    expect(guide?.intro).toMatch(/IAP/);
+    expect(guide?.faqs?.length).toBeGreaterThanOrEqual(4);
+    expect(guide?.productLinks?.some((l) => l.to === '/guides/vaccination-tracker-india')).toBe(true);
+    expect(guide?.relatedSlugs).toContain('vaccination-tracker-india');
+  });
+});
+
+describe('product hub SEO intros', () => {
+  it('names the canonical guide in visible prerender copy', () => {
+    const vaccination = hubSeoIntroHtml(ROUTES.vaccination);
+    expect(hubSeoHeading(ROUTES.vaccination)).toBe('Vaccination tracker');
+    expect(vaccination).toContain('href="/guides/vaccination-tracker-india"');
+    expect(vaccination).toContain('India IAP/UIP');
+    const shopping = hubSeoIntroHtml(ROUTES.shopping);
+    expect(shopping).toContain('href="/guides/newborn-essentials-checklist"');
+    const momCare = hubSeoIntroHtml(ROUTES.momCare);
+    expect(momCare).toContain('href="/guides/postpartum-recovery-week-by-week"');
+    const recipes = hubSeoIntroHtml(ROUTES.communityTab('recipes'));
+    expect(recipes).toContain('href="/guides/starting-solids-guide"');
+    expect(recipes).toContain('href="/guides/indian-baby-food-recipes"');
+  });
+
+  it('puts canonical guide URLs in product FAQs', () => {
+    const vax = PRODUCT_PAGE_FAQS['/vaccination'].faqs.map((f) => f.a).join(' ');
+    expect(vax).toContain('/guides/vaccination-tracker-india');
+    const shop = PRODUCT_PAGE_FAQS['/shopping'].faqs.map((f) => f.a).join(' ');
+    expect(shop).toContain('/guides/newborn-essentials-checklist');
   });
 });
 

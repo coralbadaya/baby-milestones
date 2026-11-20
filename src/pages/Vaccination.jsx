@@ -25,6 +25,7 @@ import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
 import { ROUTES } from '../routes';
 import ProductPageFaq from '../components/ProductPageFaq';
+import HubSeoBanner from '../components/HubSeoBanner';
 import ShareButton from '../components/community/ShareButton';
 import { getProductPageFaqs } from '../data/productPageFaqs';
 import { buildCanonicalUrl } from '../seo/urls';
@@ -294,6 +295,7 @@ function Vaccination({
       </PageHero>
 
       <PageSection surface="ivory" width="wide" className="vaccination-page">
+      <HubSeoBanner pathname={ROUTES.vaccination} />
       <HealthDisclaimerNote />
       <section className="vaccination-toolbar vaccination-print-hide">
         <div className="vaccination-toolbar-left">

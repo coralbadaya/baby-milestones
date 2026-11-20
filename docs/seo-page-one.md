@@ -54,8 +54,8 @@ Status is **coverage**, not Google rank. Rank only from Search Console after ind
 | N-month-old milestones (1–12) | `/guides/{n}-month-old-milestones` | Guides + FAQ |
 | milestone tracker / My Baby | `/baby` | Product hub |
 | vaccination tracker india / IAP / UIP | `/guides/vaccination-tracker-india` | Guide + FAQ → `/vaccination` |
-| first-year vaccination schedule | `/guides/first-year-vaccination-schedule` | Guide (global, thinner) |
-| postpartum / mom care | `/guides/postpartum-recovery-week-by-week` | Guide → `/mom-care` |
+| first-year vaccination schedule | `/guides/first-year-vaccination-schedule` | Guide + FAQ; India queries → `vaccination-tracker-india` |
+| postpartum / mom care | `/guides/postpartum-recovery-week-by-week` | Guide + FAQ → `/mom-care` |
 | starting solids / first foods | `/guides/starting-solids-guide` | Guide |
 | indian baby food recipes | `/guides/indian-baby-food-recipes` | Guide → `/community/recipes` |
 | nursery rhymes | `/guides/nursery-rhymes-for-babies` | Guide |
@@ -66,7 +66,7 @@ Status is **coverage**, not Google rank. Rank only from Search Console after ind
 | DIY / sensory / tummy time activities | `/guides/diy-baby-activities` | Guide → `/month/:n` |
 | baby care / newborn care | `/guides/baby-care-first-year` | Guide |
 | newborn must haves / baby essentials | `/guides/newborn-essentials-checklist` | Guide → `/shopping` |
-| AI baby story / baby book | `/guides/digital-baby-book-guide` | Guide → `/premium` (`/baby/book` is **noindex**) |
+| AI baby story / baby book | `/guides/digital-baby-book-guide` | Guide + FAQ → `/premium` (`/baby/book` is **noindex**) |
 | yarn trails / yarntrails | `/` · `/about` | Brand |
 
 **Months 13–36** have tracker pages (`/month/13`–`36`) but not long-form guides yet. Do not mass-generate 24 thin articles. Deepen a year-two and year-three band page when GSC shows demand.
@@ -101,6 +101,62 @@ Without 1–3, page-one work is unpublished homework.
 - Never add `<meta name="keywords">`. Never duplicate a head term on two URLs.
 
 ---
+
+## Indexation checklist (Search Console)
+
+Paste these into **URL inspection → Request indexing** after `main` is live. Domain property: `yarntrails.com`. Sitemap: `https://yarntrails.com/sitemap.xml`. Same sitemap in Bing Webmaster.
+
+### Pillar URLs (do these first)
+
+```
+https://yarntrails.com/
+https://yarntrails.com/guides/baby-monthly-milestones
+https://yarntrails.com/baby
+https://yarntrails.com/guides/vaccination-tracker-india
+https://yarntrails.com/vaccination
+https://yarntrails.com/guides/diy-baby-activities
+https://yarntrails.com/guides/baby-care-first-year
+https://yarntrails.com/guides/newborn-essentials-checklist
+https://yarntrails.com/shopping
+https://yarntrails.com/guides/postpartum-recovery-week-by-week
+https://yarntrails.com/mom-care
+https://yarntrails.com/guides/starting-solids-guide
+https://yarntrails.com/guides/indian-baby-food-recipes
+https://yarntrails.com/community/recipes
+https://yarntrails.com/guides/nursery-rhymes-for-babies
+https://yarntrails.com/guides/lullabies-for-babies
+https://yarntrails.com/guides/best-books-for-babies-by-age
+https://yarntrails.com/guides/baby-photoshoot-ideas-at-home
+https://yarntrails.com/guides/newborn-dos-and-donts
+https://yarntrails.com/guides/digital-baby-book-guide
+https://yarntrails.com/guides/first-year-vaccination-schedule
+https://yarntrails.com/guides
+https://yarntrails.com/sources
+https://yarntrails.com/sitemap.xml
+```
+
+### Comparison / tools (after pillars)
+
+```
+https://yarntrails.com/guides/yarntrails-vs-qeepsake
+https://yarntrails.com/guides/best-baby-book-apps-2026
+https://yarntrails.com/guides/tinybeans-vs-qeepsake
+https://yarntrails.com/guides/milestone-cards-printable
+https://yarntrails.com/tools/milestone-cards
+https://yarntrails.com/premium
+https://yarntrails.com/faq
+```
+
+Do **not** request indexing for `/baby/book`, `/login`, `/admin`, or other noindex shells.
+
+### Weekly query cadence (after 7–14 days)
+
+1. GSC → Performance → **Queries** (last 7 days, then 28).
+2. Sort by impressions. Next cluster = a query with impressions and a weak or missing page — not a new idea from the matrix.
+3. Confirm the canonical URL on the scoreboard above. If two URLs might compete, deepen one and leave the other.
+4. Pages with clicks: refresh FAQ and internal links before writing a new slug.
+5. India health-adjacent queries (`iap`, `uip`, tracker) stay on `/guides/vaccination-tracker-india` + `/vaccination`.
+6. Repeat Bing if GSC is still empty after two weeks (coverage report).
 
 ## Agent checklist (ship a cluster)
 
