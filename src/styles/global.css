@@ -56,6 +56,15 @@
   --surface-mist: #EEF4F1;
   --surface-ink: var(--brand-ink);
   --surface-primary: var(--cream);
+  /* Same fills as /guides chips + article themes (`GUIDE_THEMES`) */
+  --surface-care: #E8EFEC;
+  --surface-milestones: #E4ECE9;
+  --surface-vaccines: #E3EEF2;
+  --surface-food: #F0E9DA;
+  --surface-play: #E8EBF4;
+  --surface-mom: #F3E8EE;
+  --surface-memories: #F0EBE6;
+  --surface-compare: #E6E9EF;
   --surface-elevated: var(--white);
   --surface-card: var(--white);
   --surface-blend-height: 32px;

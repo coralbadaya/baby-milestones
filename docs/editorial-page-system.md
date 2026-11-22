@@ -69,8 +69,8 @@ Every editorial page follows this skeleton. Home is the reference implementation
 
 - `PageHero` = direct child of route, outside `max-width`
 - Body sections use `.page-body` + width modifier (`--wide` / `--narrow`)
-- New: `.page-section` + surface modifiers (`.page-section--sand`, `--white`, `--lavender`, `--mist`, `--ink`)
-- Home only: `data-scroll-surface` on bands + `useScrollSurface` on `.home-today` — parent background tracks the band at viewport center; bands transparent on Home. Editorial ink quote band is excluded (keeps its own fill). Section fade-in disabled on Home. Other routes keep per-section fills until opted in.
+- New: `.page-section` + surface modifiers (`.page-section--sand`, `--white`, `--lavender`, `--mist`, `--ink`) plus **guide job fills** (`--care`, `--milestones`, `--vaccines`, `--food`, `--play`, `--mom`, `--memories`, `--compare`) matching `/guides` chips and `GUIDE_THEMES`
+- Home: job bands keep those fills so sections stay segregated (Care → Play → Milestones → Memories). Ivory/white bands stay transparent for scroll-sync. Editorial ink quote band is excluded (keeps its own fill). Section fade-in disabled on Home. Other routes keep per-section fills until opted in.
 
 ### Scroll-synced surface (Home reference)
 

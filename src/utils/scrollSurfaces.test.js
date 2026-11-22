@@ -5,6 +5,9 @@ describe('surfaceToCssVar', () => {
   it('maps known surfaces to CSS variables', () => {
     expect(surfaceToCssVar('ivory')).toBe(SCROLL_SURFACE_VARS.ivory);
     expect(surfaceToCssVar('ink')).toBe(SCROLL_SURFACE_VARS.ink);
+    expect(surfaceToCssVar('play')).toBe(SCROLL_SURFACE_VARS.play);
+    expect(surfaceToCssVar('milestones')).toBe(SCROLL_SURFACE_VARS.milestones);
+    expect(surfaceToCssVar('care')).toBe(SCROLL_SURFACE_VARS.care);
   });
 
   it('falls back to primary for unknown surfaces', () => {

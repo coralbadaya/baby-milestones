@@ -2,7 +2,9 @@ import useSectionReveal from '../hooks/useSectionReveal';
 
 /**
  * Full-bleed section band with editorial surface tone.
- * @param {'ivory'|'sand'|'white'|'ink'|'lavender'|'mist'} surface
+ * Guide job fills (`care`, `milestones`, `vaccines`, `food`, `play`, `mom`,
+ * `memories`, `compare`) match `/guides` chips and `GUIDE_THEMES`.
+ * @param {'ivory'|'sand'|'white'|'ink'|'lavender'|'mist'|'care'|'milestones'|'vaccines'|'food'|'play'|'mom'|'memories'|'compare'} surface
  * @param {'default'|'wide'|'narrow'|'none'} width
  */
 function PageSection({

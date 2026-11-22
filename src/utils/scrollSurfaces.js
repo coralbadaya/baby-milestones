@@ -4,6 +4,16 @@ export const SCROLL_SURFACE_VARS = {
   sand: 'var(--surface-sand)',
   ink: 'var(--surface-ink)',
   primary: 'var(--surface-primary)',
+  lavender: 'var(--surface-lavender)',
+  mist: 'var(--surface-mist)',
+  care: 'var(--surface-care)',
+  milestones: 'var(--surface-milestones)',
+  vaccines: 'var(--surface-vaccines)',
+  food: 'var(--surface-food)',
+  play: 'var(--surface-play)',
+  mom: 'var(--surface-mom)',
+  memories: 'var(--surface-memories)',
+  compare: 'var(--surface-compare)',
 };
 
 /** @param {string} surface */

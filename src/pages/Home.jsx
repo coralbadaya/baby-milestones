@@ -115,11 +115,13 @@ function Home({
         </PageHero>
       )}
 
-      <HomeJobs />
+      <PageSection surface="care" width="wide" blendEdges className="page-section--home-jobs">
+        <HomeJobs />
+      </PageSection>
 
       {isWelcomeMode && (
         <PageSection
-          surface="ivory"
+          surface="mom"
           width="narrow"
           ariaLabelledby="welcome-intro-heading"
           blendEdges
@@ -149,7 +151,7 @@ function Home({
         </PageSection>
       )}
 
-      <PageSection surface="ivory" width="wide" ariaLabelledby="today-focus-heading" blendEdges>
+      <PageSection surface="play" width="wide" ariaLabelledby="today-focus-heading" blendEdges>
         <SectionHeader
           id="today-focus-heading"
           eyebrow="Your week"
@@ -172,7 +174,7 @@ function Home({
         )}
       </PageSection>
 
-      <PageSection surface="white" width="wide" blendEdges>
+      <PageSection surface="milestones" width="wide" blendEdges>
         {showPersonalized ? (
           <CurrentMonthPanel
             currentMonth={currentMonth}
@@ -209,7 +211,7 @@ function Home({
       </EditorialBand>
 
       {birthDate && (
-        <PageSection surface="ivory" width="wide" className="page-section--timeline" blendEdges>
+        <PageSection surface="memories" width="wide" className="page-section--timeline" blendEdges>
           <SectionHeader
             id="timeline-collapsed-heading"
             eyebrow="Journey"

@@ -54,16 +54,24 @@
   color: var(--cream);
 }
 
+.page-section--care { background: var(--surface-care); }
+.page-section--milestones { background: var(--surface-milestones); }
+.page-section--vaccines { background: var(--surface-vaccines); }
+.page-section--food { background: var(--surface-food); }
+.page-section--play { background: var(--surface-play); }
+.page-section--mom { background: var(--surface-mom); }
+.page-section--memories { background: var(--surface-memories); }
+.page-section--compare { background: var(--surface-compare); }
+
 /* Home scroll-synced surface (Today only) */
 .home-today {
   --scroll-surface: var(--surface-primary);
   background-color: var(--scroll-surface);
 }
 
-/* Welcome funnel (logged out, no birth date) — calm ivory canvas */
+/* Welcome funnel still tracks section fills (guide job surfaces) */
 .home-today--welcome {
-  --scroll-surface: var(--surface-ivory);
-  background-color: var(--surface-ivory);
+  --scroll-surface: var(--surface-care);
 }
 
 .home-today--welcome .page-section {
@@ -81,7 +89,8 @@
   margin-top: var(--space-6);
 }
 
-.home-today .page-section[class*="page-section--"] {
+.home-today .page-section--ivory,
+.home-today .page-section--white {
   background: transparent;
 }
 
@@ -98,7 +107,12 @@
 }
 
 .home-today .page-section + .page-section.page-section--white,
-.home-today .page-section + .page-section.page-section--ivory {
+.home-today .page-section + .page-section.page-section--ivory,
+.home-today .page-section + .page-section.page-section--care,
+.home-today .page-section + .page-section.page-section--play,
+.home-today .page-section + .page-section.page-section--milestones,
+.home-today .page-section + .page-section.page-section--mom,
+.home-today .page-section + .page-section.page-section--memories {
   border-top: none;
 }
 
@@ -202,8 +216,19 @@
   margin: 0;
 }
 
-.page-section--white .current-month-panel {
+.page-section--white .current-month-panel,
+.page-section--milestones .current-month-panel {
   box-shadow: var(--shadow-card);
+}
+
+.page-section--home-jobs {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+.page-section .home-jobs {
+  padding: 0;
+  max-width: none;
 }
 
 /* Elevated cards on tinted bands */
@@ -217,7 +242,9 @@
 .page-section--lavender .hub-card--editorial,
 .page-section--mist .diy-editorial-card,
 .page-section--mist .today-focus-card,
-.page-section--mist .hub-card--editorial {
+.page-section--mist .hub-card--editorial,
+.page-section--play .today-focus-card,
+.page-section--care .home-jobs__link {
   background: var(--white);
   box-shadow: var(--shadow-card);
 }
@@ -1028,7 +1055,12 @@
   }
 
   .home-today .home-jobs {
-    padding: var(--space-2) var(--space-4) var(--space-4);
+    padding: 0;
+  }
+
+  .home-today:not(.home-today--welcome) .page-section--home-jobs {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
   }
 
   .home-today .home-jobs__purpose {

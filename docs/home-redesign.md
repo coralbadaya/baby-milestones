@@ -107,17 +107,20 @@ Home uses `PageSection` surface bands — see [`docs/editorial-page-system.md`](
 
 | Section | Surface | Component |
 |---------|---------|-----------|
-| Focus | ivory | `TodayFocus` + image headers |
-| Milestones | white | `CurrentMonthPanel` |
-| DIY | sand (`#EFE3D4`) | `DIYPreviewStrip` — activity-specific photos, no gray wash |
+| Jobs | care (`#E8EFEC`, Guides Care/All fill) | `HomeJobs` |
+| Welcome intro | mom (`#F3E8EE`) | `homepageCopy` — welcome mode only |
+| Focus | play (`#E8EBF4`) | `TodayFocus` + image headers |
+| Milestones | milestones (`#E4ECE9`) | `CurrentMonthPanel` |
 | Brand | ink | `EditorialBand` |
-| Timeline | ivory | carousel `Timeline` (`variant="carousel"`) |
+| Timeline | memories (`#F0EBE6`) | carousel `Timeline` (`variant="carousel"`) |
+
+Home bands use the same job fills as [`/guides`](https://yarntrails.com/guides) chips (`GUIDE_THEMES`). Adjacent hues contrast (moss → periwinkle → sage → taupe) so sections read as separate rooms. Cards stay white on the tint.
 
 Hero: `PageHero` with `layout="split"` on desktop.
 
 ### Scroll-synced surface (Home only)
 
-`.home-today` carries a single `--scroll-surface` background synced to the band at **viewport center** (not IntersectionObserver ratio — avoids tiny bands winning). Driven by `useScrollSurface` on `[data-scroll-surface]` bands; **editorial ink quote band is excluded** and keeps its own fill. Section bands inside Home are **transparent** so the parent color tracks the active band (ivory ↔ white ↔ sand). Hero zone defaults to cream (`--surface-primary`) until a band dominates. Optional `.page-section--blend` feathers band edges (32px). Section fade-in is disabled on Home to avoid flicker over the live background.
+`.home-today` carries a single `--scroll-surface` background synced to the band at **viewport center** (not IntersectionObserver ratio — avoids tiny bands winning). Driven by `useScrollSurface` on `[data-scroll-surface]` bands; **editorial ink quote band is excluded** and keeps its own fill. Ivory/white Home bands stay **transparent** so the parent color can track them; **guide job bands keep their own fill** so Care, Play, Milestones, and Memories stay segregated while you scroll. Hero zone defaults to cream (`--surface-primary`) until a band dominates. Optional `.page-section--blend` feathers band edges (32px). Section fade-in is disabled on Home to avoid flicker over the live background.
 
 ---
 

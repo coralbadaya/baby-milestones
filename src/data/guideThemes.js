@@ -1,6 +1,7 @@
 /**
  * Editorial color themes for long-form guides — keyed by primary hub tag.
  * Wool & Trail palette with WCAG-friendly accent contrast on cream/ivory surfaces.
+ * Surface hexes are mirrored as `--surface-{id}` in `global.css` for Home bands.
  */
 
 import { primaryTag } from './guideTags';
