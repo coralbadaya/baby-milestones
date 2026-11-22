@@ -9,13 +9,13 @@ const MONTH_COPY = {
     summary: 'The first month is about settling in — feeding rhythms, brief eye contact, and growing head control during supervised tummy time.',
     highlights: [
       'Lifts head briefly during tummy time',
-      'Focuses on faces 8–12 inches away',
+      'Focuses on faces **8–12 inches** away',
       'Startles at loud sounds; quiets to familiar voices',
     ],
   },
   2: {
     title: '2-Month-Old Milestones',
-    summary: 'Social smiles often appear around six to eight weeks — a turning point that makes the exhaustion feel worth it.',
+    summary: 'Social smiles often appear around **six to eight weeks** — a turning point that makes the exhaustion feel worth it.',
     highlights: [
       'First social smiles in response to you',
       'Coos and gurgles during "conversations"',
@@ -89,7 +89,7 @@ const MONTH_COPY = {
     title: '11-Month-Old Milestones',
     summary: 'Standing alone briefly and fine-tuning motor skills before the first birthday.',
     highlights: [
-      'Stands alone for a few seconds',
+      'Stands alone for **a few seconds**',
       'Plays simple games like peek-a-boo',
       'Imitates gestures and sounds',
     ],
@@ -99,7 +99,7 @@ const MONTH_COPY = {
     summary: 'The first birthday — many take first steps, say a word or two, and show clear personality.',
     highlights: [
       'May take first independent steps',
-      'Uses one or two words with meaning',
+      'Uses **one or two words** with meaning',
       'Follows simple one-step commands',
     ],
   },
@@ -109,7 +109,7 @@ const MONTH_COPY = {
 const MONTH_BODY_EXTRA = {
   1: {
     sleepFeeding:
-      'Feeding still dominates the first month — cluster nursing or formula pacing on demand is typical. Total sleep is fragmented; safe back sleeping on a firm surface applies even when naps are only twenty minutes.',
+      'Feeding still dominates the first month — cluster nursing or formula pacing on demand is typical. Total sleep is fragmented; safe back sleeping on a firm surface applies even when naps are only **twenty minutes**.',
     social:
       'Brief eye contact during care routines builds connection. Narrate nappy changes and walks to the window — it sounds one-sided now; it is setting up back-and-forth later.',
   },
@@ -169,7 +169,7 @@ const MONTH_BODY_EXTRA = {
   },
   12: {
     sleepFeeding:
-      'First birthday meals are festive; still avoid choking hazards like whole grapes or hard sweets. Cow’s milk as a drink may be discussed at the check-up.',
+      'First birthday meals are festive; still avoid choking hazards like whole grapes or hard sweets. **Cow’s milk** as a drink may be discussed at the check-up.',
     social:
       'Parallel play with adults remains the norm — toddlers learn by copying and short cooperative games.',
   },
@@ -214,7 +214,7 @@ export function buildMilestoneGuide(month) {
         heading: 'Typical milestones this month',
         list: copy.highlights,
         paragraphs: [
-          `${copy.summary} If your baby has not done every item on this list, compare trends over the next two to four weeks rather than a single afternoon.`,
+          `${copy.summary} If your baby has not done every item on this list, compare trends over the next **two to four weeks** rather than a single afternoon.`,
         ],
       },
       {

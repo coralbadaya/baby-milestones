@@ -11,6 +11,7 @@ import {
   SITE_URL,
 } from '../constants/brand.js';
 import { buildCanonicalUrl } from '../seo/urls.js';
+import { stripGuideMarks } from './guideRichText.js';
 
 const MEDICAL_CATEGORIES = new Set(['Baby Development', 'Mom Care', 'Health & Safety']);
 
@@ -103,7 +104,7 @@ export function faqSchema(faqs) {
     mainEntity: faqs.map((f) => ({
       '@type': 'Question',
       name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
+      acceptedAnswer: { '@type': 'Answer', text: stripGuideMarks(f.a) },
     })),
   };
 }

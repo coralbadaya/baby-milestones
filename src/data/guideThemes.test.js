@@ -15,4 +15,12 @@ describe('resolveGuideTheme', () => {
     const theme = resolveGuideTheme({ slug: 'unknown-slug', category: 'Misc' });
     expect(theme.id).toBe('default');
   });
+
+  it('uses the primary tag from a staff override', () => {
+    const guide = getGuideBySlug('postpartum-recovery-week-by-week');
+    const theme = resolveGuideTheme(guide, {
+      'postpartum-recovery-week-by-week': ['care', 'mom'],
+    });
+    expect(theme.id).toBe('care');
+  });
 });

@@ -15,7 +15,7 @@ Six journey links in one 56px row, plus account and Plus. A section that holds m
 | **My Care** | `/mom-care` | `momCare` | Postpartum timeline + self-care topics |
 | **Essentials** | `/essentials` | `essentials` | Shopping + travel hub |
 | **Community** | `/community/feed` | `community` | Feed, recipes, tips |
-| **Guides** | `/guides` | `guides` | Editorial articles. Job tags (Milestones, Vaccines, Food, Play, Care, Mom, Memories, Compare). Month-by-month guides sit under Milestones, not on All. `?tag=` is shareable. |
+| **Guides** | `/guides` | `guides` | Editorial articles in the original library sections (Early Years, Memories, Baby Development, Mom Care, Health & Safety, Compare). Job tags (Milestones, Vaccines, Food, Play, Care, Mom, Memories, Compare) filter those sections; a guide can carry several tags. Month-by-month clones sit under Milestones, not on All. Staff edit tags at `/admin/guides`. `?tag=` is shareable. |
 
 **Named pages inside a section** (desktop menu, same words as the page):
 

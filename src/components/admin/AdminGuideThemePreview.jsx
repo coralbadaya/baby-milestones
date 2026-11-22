@@ -6,11 +6,14 @@ import { ROUTES } from '../../routes';
 
 /**
  * Live consumer chrome for staff — same theme classes as `/guides/:slug`.
- * @param {{ guide: import('../../data/guidesBase.js').Guide & { faqs?: { q: string, a: string }[] } }} props
+ * @param {{
+ *   guide: import('../../data/guidesBase.js').Guide & { faqs?: { q: string, a: string }[] },
+ *   overrides?: Record<string, string[]> | null,
+ * }} props
  */
-function AdminGuideThemePreview({ guide }) {
-  const theme = resolveGuideTheme(guide);
-  const tags = tagsForGuide(guide);
+function AdminGuideThemePreview({ guide, overrides = null }) {
+  const theme = resolveGuideTheme(guide, overrides);
+  const tags = tagsForGuide(guide, overrides);
   const previewFaqs = guide.faqs?.slice(0, 2) || [
   { q: 'Sample question for contrast check?', a: 'Accordion chevron and answer text use theme accent colors.' },
   ];
@@ -32,7 +35,7 @@ function AdminGuideThemePreview({ guide }) {
           </dd>
         </div>
         <div>
-          <dt>Primary tag</dt>
+          <dt>Tags</dt>
           <dd>{tags.map((id) => tagLabel(id)).join(', ') || '—'}</dd>
         </div>
         <div>
@@ -50,20 +53,22 @@ function AdminGuideThemePreview({ guide }) {
           <header className="content-page-hero guide-article__hero-band">
             <Icon name={guide.icon} size={32} className="content-page-icon" />
             <div className="guide-card-tags">
-              {tags.slice(0, 2).map((id) => (
-                <span key={id} className="guide-tag">
+              {tags.map((id) => (
+                <span key={id} className="guide-tag" data-tag={id}>
                   {tagLabel(id)}
                 </span>
               ))}
             </div>
             <h1>{guide.title}</h1>
-            <p className="guide-byline">
-              Preview ·
-              {' '}
-              {guide.readMinutes}
-              {' '}
-              min read
-            </p>
+            <div className="guide-byline">
+              <p className="guide-byline__credit">Preview</p>
+              <div className="guide-byline__row">
+                <time className="guide-byline__date" dateTime={guide.updated}>
+                  Updated {guide.updated}
+                </time>
+                <span className="guide-byline__read">{guide.readMinutes} min read</span>
+              </div>
+            </div>
             <p className="content-page-intro">{guide.intro}</p>
           </header>
 

@@ -164,12 +164,13 @@ full-bleed child of `<main>` (that pins crumbs to the viewport left).
 
 | Context | Alignment |
 |---------|-----------|
-| `.content-page` (guide articles) | Centered with the hero |
+| `.content-page` (guide articles) | Centered; **parent trail only** (`Home › Guides`) — do not repeat the H1. Tight chrome (`margin-bottom: var(--space-2)`, no 44px min-height). JSON-LD `BreadcrumbList` still includes the article. |
 | Trust pages (`TrustShell`, inside a narrow `PageSection`) | Left-aligned with the hero |
 | `PageSection` (Guides hub) | Left-aligned with the section header |
 
-Separator is Phosphor `caret-right`. Current page uses `aria-current="page"`.
-Legal and company pages pass the nav into `ContentPage`, which renders it inside the ivory hero band.
+Separator is Phosphor `caret-right`. Current page (item without `to`) uses `aria-current="page"`. Guide articles omit that last crumb because the title is already the H1; repeating it does not help SEO/GEO/AISO. Legal and company pages pass the nav into `ContentPage`, which renders it inside the ivory hero band.
+
+**Guide article hero:** job chips sit centered under the icon (`margin: 8px 0 12px` before the title). On the themed band they use **solid accent + white text** per `data-tag` so fills stay visible. Byline: credit line, then **Updated date** left / **N min read** right (`font-weight: 600`). Intro, body, lists, and FAQ answers render `**facts**` as `<strong>` (`guideRichText`). JSON-LD strips the marks.
 
 ### Trust pages
 
@@ -177,7 +178,7 @@ Legal and company pages pass the nav into `ContentPage`, which renders it inside
 
 **Guide article themes:** primary hub tag maps to `guide-article--theme-*` via `src/data/guideThemes.js` — hero band, section rule, FAQ chrome. Staff list + live preview: `/admin/guides`.
 
-**Guides hub tags:** compact filled chips, not 56px tabs. Phone: wrap in the content width (no horizontal scroll), 28px filter chips, 22px card chips, 11px/10px type. Each job tag uses that article theme’s fill + ink; the selected filter is the solid accent. Desktop: 32px / 12px.
+**Guides hub:** original category sections stay on `/guides` (Early Years, Memories, Baby Development, Mom Care, Health & Safety, Compare, then leftover categories). Compact filled job-tag chips filter those sections — wrap on a phone, no horizontal scroll. 28px filter chips, 22px card chips, 11px/10px type. A card can show several tags. Each job tag uses that article theme’s fill + ink; the selected filter is the solid accent. Article pages use the same solid accent on chips so they read on the themed hero. Desktop: 32px / 12px. Staff can change tags (multi-select, primary = theme) at `/admin/guides`.
 
 | Band | Surface | What sits there |
 |------|---------|-----------------|

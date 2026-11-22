@@ -7,13 +7,13 @@ export const CONTENT_GAP_EXTRA_SECTIONS = {
     {
       heading: 'Corrected age after a premature birth',
       paragraphs: [
-        'If your baby arrived before 37 weeks, many clinicians use corrected age for the first months (and sometimes longer). A monthly milestone list on the calendar birthday can look “late” when the due-date age is still on track. Ask your pediatrician which age to use on Yarn Trails; you can set the birth date you were given and still treat the list as a range.',
+        'If your baby arrived before **37 weeks**, many clinicians use **corrected age** for the first months (and sometimes longer). A monthly milestone list on the calendar birthday can look “late” when the due-date age is still on track. Ask your pediatrician which age to use on Yarn Trails; you can set the birth date you were given and still treat the list as a range.',
       ],
     },
     {
       heading: 'India well-visits and the monthly list',
       paragraphs: [
-        'Families in India often pair an IAP or UIP-style vaccination calendar with developmental surveillance at the same visits. The Yarn Trails vaccination tracker logs doses; this milestone guide does not replace that card. Bring concerns about sitting, hearing, or social smile to the same clinician who sees the immunisation schedule.',
+        'Families in India often pair an **IAP** or **UIP**-style vaccination calendar with developmental surveillance at the same visits. The Yarn Trails vaccination tracker logs doses; this milestone guide does not replace that card. Bring concerns about sitting, hearing, or social smile to the same clinician who sees the immunisation schedule.',
       ],
     },
   ],
@@ -21,7 +21,7 @@ export const CONTENT_GAP_EXTRA_SECTIONS = {
     {
       heading: 'Optional vaccines on the India list',
       paragraphs: [
-        'Some rows in Yarn Trails are marked optional (for example PCV, influenza, JE, extra MMR or varicella in some plans). Optional means “ask the pediatrician,” not “unimportant” and not “skip forever.” Cost, local disease risk, and stock change.',
+        'Some rows in Yarn Trails are marked optional (for example **PCV**, **influenza**, **JE**, extra **MMR** or **varicella** in some plans). Optional means “ask the pediatrician,” not “unimportant” and not “skip forever.” Cost, local disease risk, and stock change.',
       ],
     },
     {
@@ -59,7 +59,7 @@ export const CONTENT_GAP_EXTRA_SECTIONS = {
     {
       heading: 'Rhymes for bedtime vs playtime',
       paragraphs: [
-        'Bedtime rhymes stay slow and predictable — the same two lines every night. Playtime rhymes can be faster: pat-a-cake, horsey bounce, itsy bitsy spider with big gestures. Splitting roles helps a tired parent at 7 p.m. without losing richness during the day.',
+        'Bedtime rhymes stay slow and predictable — the same two lines every night. Playtime rhymes can be faster: pat-a-cake, horsey bounce, itsy bitsy spider with big gestures. Splitting roles helps a tired parent at **7 p.m.** without losing richness during the day.',
         'If your baby startles at loud verses, hum the melody or drop the last verse. Consistency beats drama.',
       ],
     },
@@ -88,7 +88,7 @@ export const CONTENT_GAP_EXTRA_SECTIONS = {
     {
       heading: 'Library habits that stick',
       paragraphs: [
-        'Keep three books visible where you already sit — nursing chair, change table, car door pocket. Rotate weekly; do not buy shelves full at once. Babies prefer worn corners and familiar pages.',
+        'Keep **three books** visible where you already sit — nursing chair, change table, car door pocket. Rotate weekly; do not buy shelves full at once. Babies prefer worn corners and familiar pages.',
       ],
     },
     {
@@ -108,7 +108,7 @@ export const CONTENT_GAP_EXTRA_SECTIONS = {
     {
       heading: 'Seasonal series without clutter',
       paragraphs: [
-        'One seasonal accent per month (a leaf, a knit hat, a festival colour) keeps a year gallery coherent. Store props in one small box so setup stays under five minutes — sustainability beats a new Etsy theme every four weeks.',
+        'One seasonal accent per month (a leaf, a knit hat, a festival colour) keeps a year gallery coherent. Store props in one small box so setup stays under **five minutes** — sustainability beats a new Etsy theme every **four weeks**.',
       ],
     },
   ],
@@ -126,9 +126,9 @@ export const CONTENT_GAP_EXTRA_SECTIONS = {
       ],
       list: [
         'Start with low-stakes foods you can mash with a fork',
-        'Sit baby upright with hips at 90°',
+        'Sit baby upright with hips at **90°**',
         'Offer iron-rich foods early as your clinician advises',
-        'Keep milk feeds primary for much of the first year',
+        'Keep milk feeds primary for much of the **first year**',
       ],
     },
     {
@@ -142,7 +142,7 @@ export const CONTENT_GAP_EXTRA_SECTIONS = {
     {
       heading: 'Portions and frequency',
       paragraphs: [
-        'Early solids are tasting sessions — a few teaspoons once or twice a day after a milk feed, not replacing bottles abruptly. Increase slowly as your pediatrician and baby’s appetite allow.',
+        'Early solids are tasting sessions — a few teaspoons **once or twice a day** after a milk feed, not replacing bottles abruptly. Increase slowly as your pediatrician and baby’s appetite allow.',
       ],
     },
     {

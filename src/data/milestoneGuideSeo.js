@@ -36,15 +36,15 @@ const MONTH_FAQS = {
   1: [
     {
       q: 'What should a 1-month-old be able to do?',
-      a: 'Many babies briefly lift their head on tummy time, focus on faces about 8–12 inches away, startle at loud sounds, and quiet to familiar voices. Ranges are wide in week four — compare your baby to themselves over time, not to a neighbour’s baby.',
+      a: 'Many babies briefly lift their head on tummy time, focus on faces about **8–12 inches** away, startle at loud sounds, and quiet to familiar voices. Ranges are wide in week four — compare your baby to themselves over time, not to a neighbour’s baby.',
     },
     {
       q: 'How much tummy time does a 1-month-old need?',
-      a: 'Short, supervised sessions several times a day — often 1–3 minutes when awake and calm, building as they tolerate it. Tummy-to-chest on you counts.',
+      a: 'Short, supervised sessions several times a day — often **1–3 minutes** when awake and calm, building as they tolerate it. Tummy-to-chest on you counts.',
     },
     {
       q: 'Is my 1-month-old smiling yet?',
-      a: 'Reflex smiles can appear early; social smiles in response to you often come closer to 6–8 weeks. If you are worried about social connection, mention it at your next well-baby visit.',
+      a: 'Reflex smiles can appear early; social smiles in response to you often come closer to **6–8 weeks**. If you are worried about social connection, mention it at your next well-baby visit.',
     },
     {
       q: 'Where do I track 1-month milestones in Yarn Trails?',
@@ -54,7 +54,7 @@ const MONTH_FAQS = {
   2: [
     {
       q: 'When do babies start smiling at parents?',
-      a: 'Social smiles often emerge between 6 and 8 weeks — a response to your face and voice, not only a sleep grin. Development is a range; mention concerns to your pediatrician.',
+      a: 'Social smiles often emerge between **6 and 8 weeks** — a response to your face and voice, not only a sleep grin. Development is a range; mention concerns to your pediatrician.',
     },
     {
       q: 'What sounds should a 2-month-old make?',
@@ -66,7 +66,7 @@ const MONTH_FAQS = {
     },
     {
       q: 'What vaccines happen around 2 months?',
-      a: 'Schedules differ by country — many clinics use ~6–8 weeks for early series doses. Log what your pediatrician gives in the Vaccination tracker (India, CDC, or custom).',
+      a: 'Schedules differ by country — many clinics use **~6–8 weeks** for early series doses. Log what your pediatrician gives in the Vaccination tracker (**India**, **CDC**, or custom).',
     },
   ],
   3: [
@@ -84,13 +84,13 @@ const MONTH_FAQS = {
     },
     {
       q: 'Can I give water or solids at 3 months?',
-      a: 'For most healthy term babies, milk alone is recommended until around six months unless your pediatrician advises otherwise.',
+      a: 'For most healthy term babies, milk alone is recommended until around **six months** unless your pediatrician advises otherwise.',
     },
   ],
   4: [
     {
       q: 'When do babies laugh out loud?',
-      a: 'Many babies laugh around three to four months during play. If your baby is engaged but not laughing yet, keep offering face-to-face games — ranges vary.',
+      a: 'Many babies laugh around **three to four months** during play. If your baby is engaged but not laughing yet, keep offering face-to-face games — ranges vary.',
     },
     {
       q: 'Is rolling at 4 months expected?',
@@ -116,7 +116,7 @@ const MONTH_FAQS = {
     },
     {
       q: 'When do babies recognize their name?',
-      a: 'Many respond to their name between five and seven months, though hearing and attention develop gradually.',
+      a: 'Many respond to their name between **five and seven months**, though hearing and attention develop gradually.',
     },
     {
       q: 'How often should I do tummy time at 5 months?',
@@ -130,7 +130,7 @@ const MONTH_FAQS = {
     },
     {
       q: 'When should I start baby food?',
-      a: 'Many authorities suggest around six months when baby shows readiness. See the Starting solids guide on Yarn Trails — always follow your clinician’s plan.',
+      a: 'Many authorities suggest around **six months** when baby shows readiness. See the Starting solids guide on Yarn Trails — always follow your clinician’s plan.',
     },
     {
       q: 'Is it normal for a 6-month-old to not sit alone?',
@@ -238,15 +238,15 @@ const MONTH_FAQS = {
     },
     {
       q: 'How many words should a 1-year-old say?',
-      a: 'One or two words with meaning is typical for some twelve-month-olds; others understand more than they say. Discuss hearing and speech concerns with your pediatrician.',
+      a: '**One or two words** with meaning is typical for some twelve-month-olds; others understand more than they say. Discuss hearing and speech concerns with your pediatrician.',
     },
     {
       q: 'Can I give cow’s milk at 12 months?',
-      a: 'Many pediatricians introduce whole cow’s milk as a drink after one year if there is no allergy — confirm timing and volume with your clinician.',
+      a: 'Many pediatricians introduce whole **cow’s milk** as a drink after **one year** if there is no allergy — confirm timing and volume with your clinician.',
     },
     {
       q: 'What vaccines happen at 12 months?',
-      a: 'Schedules vary (e.g. MMR/MR timing differs by country). Log doses in the Vaccination tracker and bring records to the birthday check-up.',
+      a: 'Schedules vary (e.g. **MMR/MR** timing differs by country). Log doses in the Vaccination tracker and bring records to the birthday check-up.',
     },
   ],
 };

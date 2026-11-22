@@ -19,8 +19,8 @@ const comparisonGuides = [
         list: [
           'AI-illustrated stories with narration from your photos',
           'Interactive 3D flip-book on Plus',
-          'Free milestone tracking forever on Basic',
-          'First Year Plan at $49.99/yr with optional linen bundle',
+          'Free milestone tracking forever on **Basic**',
+          'First Year Plan at **$49.99/yr** with optional linen bundle',
         ],
       },
       {
@@ -50,7 +50,7 @@ const comparisonGuides = [
     author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending review',
     updated: '2026-07-02',
-    intro: 'The category split in 2026: prompt journals (Qeepsake), private photo sharing (Tinybeans), and AI-rendered storybooks (Yarn Trails). Here is how to pick.',
+    intro: 'The category split in **2026**: prompt journals (Qeepsake), private photo sharing (Tinybeans), and AI-rendered storybooks (Yarn Trails). Here is how to pick.',
     body: [
       {
         heading: 'Best AI baby book',
@@ -111,7 +111,7 @@ const comparisonGuides = [
         list: [
           'Unlimited milestone tracking without paywall',
           'Clear free tier (photos + one story taste test)',
-          'Annual plan aligned to the first 12 months',
+          'Annual plan aligned to the first **12 months**',
           'Grandparent viewer seats or sharing',
         ],
       },
@@ -133,7 +133,7 @@ const comparisonGuides = [
       {
         heading: 'Top picks',
         list: [
-          'Yarn Trails gift subscription ($59.99) — the full first year',
+          'Yarn Trails gift subscription (**$59.99**) — the full first year',
           'First Year Bundle with linen hardcover for the nursery shelf',
           'Viewer seat invite on Plus — read-only flip-book access',
         ],
@@ -151,7 +151,7 @@ const comparisonGuides = [
     author: 'Yarn Trails Editorial Team',
     reviewedBy: 'Pending review',
     updated: '2026-07-02',
-    intro: 'Paper books gather dust; apps meet you at 3am. The best alternatives combine free tracking with optional print and AI narrative.',
+    intro: 'Paper books gather dust; apps meet you at **3 a.m.** The best alternatives combine free tracking with optional print and AI narrative.',
     body: [
       {
         heading: 'Alternatives worth trying',

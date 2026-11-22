@@ -4,7 +4,8 @@ import Icon from './Icon';
 /**
  * Visible breadcrumb for editorial / content pages. Keep chrome quiet.
  * Must sit inside the page column (`.content-page` or `PageSection`), never as a
- * full-bleed sibling of `<main>`.
+ * full-bleed sibling of `<main>`. Items with `to` stay links (parent-only trails
+ * on guide articles). Items without `to` are the current page.
  * @param {{ items: { name: string, to?: string }[] }} props
  */
 function PageBreadcrumb({ items }) {
@@ -18,7 +19,7 @@ function PageBreadcrumb({ items }) {
           return (
             <li key={`${item.name}-${index}`} className="page-breadcrumb-item">
               {index > 0 && <Icon name="caret-right" size={12} className="page-breadcrumb-sep" />}
-              {!last && item.to ? (
+              {item.to ? (
                 <Link to={item.to}>{item.name}</Link>
               ) : (
                 <span aria-current={last ? 'page' : undefined}>{item.name}</span>

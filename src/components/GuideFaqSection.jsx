@@ -1,5 +1,6 @@
 import { useId, useState } from 'react';
 import { interact } from '../utils/haptics';
+import { guideRichText } from '../utils/guideRichText';
 
 /**
  * Visible FAQ — same content feeds FAQPage JSON-LD on the guide.
@@ -33,7 +34,7 @@ function GuideFaqSection({ faqs, heading = 'Common questions' }) {
             </button>
             {open === i ? (
               <div className="faq-answer fade-in">
-                <p>{item.a}</p>
+                <p>{guideRichText(item.a)}</p>
               </div>
             ) : null}
           </div>

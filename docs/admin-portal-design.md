@@ -84,6 +84,7 @@ Professional staff console for Yarn Trails. **Separate visual language** from th
 6. Newsletter  
 7. Community  
 8. DIY images *(admin only)*  
+9. Guides  
 
 Community post detail (`/admin/community/posts/:id`) shows a copyable **Public URL** (`/community/feed/:slug`) and **View public post**. Recipes and tips use **View live** → `/community/recipes/:id` or `/community/tips/:id`. Unpublished memories still show the URL with a note that they are not live until published. 
 
@@ -219,6 +220,7 @@ Contact form submissions from visitors.
 | Promo codes | Promo codes | Create code | Inline form + table |
 | Newsletter | Newsletter | New campaign | Tabs: Campaigns · Compose · Templates · Subscribers |
 | DIY images | DIY activities | Default image + Edit | Default card image panel; per-activity upload on edit page |
+| Guides | Guides | Save tags | Multi-select job tags; primary tag sets article theme |
 
 Feature details: [`newsletter-admin.md`](newsletter-admin.md), [`diy-images-admin.md`](diy-images-admin.md).
 

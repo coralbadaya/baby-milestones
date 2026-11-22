@@ -58,6 +58,7 @@ Tables:
 | `user_saved_recipes` / `user_helpful_tips` | Community saves |
 | `stripe_events` | Webhook idempotency (service role only) |
 | `analytics_events` / `analytics_daily` | Staff Insights warehouse (service-role ingest; not in `export_my_data`) |
+| `guide_tag_overrides` | Staff-edited job tags per guide slug (`text[]`); public SELECT, staff write |
 
 Apply locally or to remote:
 

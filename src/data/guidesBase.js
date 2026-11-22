@@ -35,12 +35,12 @@ const guidesBase = [
     updated: '2026-09-04',
     milestoneMonth: 3,
     intro:
-      'Most 3-month-old babies are becoming more social and physically capable: steadier head control, longer face-to-face stretches, cooing, and reaching toward toys. These 3-month-old milestones describe a typical window, not a deadline. Development is a range — if something feels off, your pediatrician is the right next call.',
+      'Most **3-month-old** babies are becoming more social and physically capable: steadier head control, longer face-to-face stretches, cooing, and reaching toward toys. These 3-month-old milestones describe a typical window, not a deadline. Development is a range — if something feels off, your pediatrician is the right next call.',
     body: [
       {
         heading: 'Physical & motor',
         paragraphs: [
-          'By three months, many babies have noticeably more head control. The newborn “wobble” eases as neck and upper-back muscles strengthen, especially during supervised tummy time. You may see your baby push up onto the forearms, lift the chest briefly, and look around the room from that new vantage point.',
+          'By **three months**, many babies have noticeably more head control. The newborn “wobble” eases as neck and upper-back muscles strengthen, especially during supervised tummy time. You may see your baby push up onto the forearms, lift the chest briefly, and look around the room from that new vantage point.',
           'Hands are opening more often. Fists that stayed clenched in the first weeks begin to unfurl; many babies bring hands to the mouth and swipe or bat at dangling toys. Grasping is still early — they may close on an object placed in the palm more readily than they reach out and pick it up. Supported sitting (with your hands or a pillow nest) gives a new view of the world and works the core, but independent sitting is still months away.',
           'When held upright with support under the arms, some babies will bear a little weight on their legs. That bounce is a reflex and a workout, not a sign they are ready to stand. Keep sessions brief and stop if they fuss.',
         ],
@@ -90,7 +90,7 @@ const guidesBase = [
       {
         heading: 'Feeding at 3 months',
         paragraphs: [
-          'At three months, milk is still the whole diet. The World Health Organization and the Indian Academy of Pediatrics recommend exclusive milk feeding — breast milk, infant formula, or a combination — until around six months, unless your pediatrician advises otherwise. Water, juice, and solids are not needed at this age for a healthy term baby.',
+          'At **three months**, milk is still the whole diet. The **World Health Organization** and the **Indian Academy of Pediatrics** recommend exclusive milk feeding — breast milk, infant formula, or a combination — until around **six months**, unless your pediatrician advises otherwise. Water, juice, and solids are not needed at this age for a healthy term baby.',
           'Feeds may look more rhythmic than in the newborn weeks: some babies go longer between daytime feeds; cluster feeding in the evening can still happen. Wet nappies, alert periods, and following their growth curve matter more than ounces on a given day. If you are breastfeeding, supply often feels more settled by now; if you are formula feeding, follow the preparation on the tin and your pediatrician’s guidance — do not dilute to “make it last.”',
           'Drooling often increases around three months. It is usually not first teeth; it is more saliva and more hands in the mouth. Offer a clean cloth and extra shirt changes. If feeding is painful, baby is not gaining, or you see fewer wet nappies, talk to your pediatrician or lactation specialist rather than waiting for the next scheduled visit.',
         ],
@@ -98,8 +98,8 @@ const guidesBase = [
       {
         heading: 'Well-baby visits and vaccines around 3 months',
         paragraphs: [
-          'Three months often sits between routine well-baby visits rather than on a single “month 3” appointment. In India, IAP/UIP-style schedules commonly include doses around 10 weeks and 14 weeks — including OPV, pentavalent, rotavirus, and, at 14 weeks, IPV, with some extra vaccines marked optional on the private schedule. Other countries group visits at two and four months. The exact list is your pediatrician’s, not a webpage’s.',
-          'Use those visits to ask about head control, smiles, feeding, and sleep — not only injections. Bring a note of what you have noticed. Yarn Trails can help you see what is typically due next; it does not replace the record in your clinic book. For a tracker with India IAP/UIP, CDC, or a custom schedule, open the vaccination page in this app.',
+          'Three months often sits between routine well-baby visits rather than on a single “month 3” appointment. In India, **IAP/UIP**-style schedules commonly include doses around **10 weeks** and **14 weeks** — including **OPV**, **pentavalent**, **rotavirus**, and, at **14 weeks**, **IPV**, with some extra vaccines marked optional on the private schedule. Other countries group visits at **two** and **four months**. The exact list is your pediatrician’s, not a webpage’s.',
+          'Use those visits to ask about head control, smiles, feeding, and sleep — not only injections. Bring a note of what you have noticed. Yarn Trails can help you see what is typically due next; it does not replace the record in your clinic book. For a tracker with **India IAP/UIP**, **CDC**, or a custom schedule, open the vaccination page in this app.',
         ],
       },
       {
@@ -119,14 +119,14 @@ const guidesBase = [
       {
         heading: 'When to talk to your pediatrician',
         paragraphs: [
-          'Every baby develops on their own timeline. Mention it to your pediatrician if, around three to four months, your baby does not smile at people, does not watch things as they move, does not respond to loud sounds, cannot support their head well, or does not grasp or hold objects. These match common Watch For notes at this age — they are conversation starters, not diagnoses.',
+          'Every baby develops on their own timeline. Mention it to your pediatrician if, around **three to four months**, your baby does not smile at people, does not watch things as they move, does not respond to loud sounds, cannot support their head well, or does not grasp or hold objects. These match common Watch For notes at this age — they are conversation starters, not diagnoses.',
           'Seek care the same day for breathing difficulty, a colour change that worries you, a fever in a young infant as your clinic has defined it, fewer wet nappies, or a baby who is unusually floppy, inconsolable, or hard to wake. For any emergency, call your local emergency number. Yarn Trails is educational only.',
         ],
       },
       {
         heading: 'Where this guidance comes from',
         paragraphs: [
-          'Milestone windows on Yarn Trails are written from recognized authorities such as the WHO, CDC, AAP, and IAP — and from how those bodies describe ranges, not races. Country schedules and screening tools differ; your pediatrician applies them to your child. See our Sources & citations page for the publications we reference, and the medical disclaimer for the limits of this guide.',
+          'Milestone windows on Yarn Trails are written from recognized authorities such as the **WHO**, **CDC**, **AAP**, and **IAP** — and from how those bodies describe ranges, not races. Country schedules and screening tools differ; your pediatrician applies them to your child. See our Sources & citations page for the publications we reference, and the medical disclaimer for the limits of this guide.',
         ],
       },
     ],
@@ -158,14 +158,14 @@ const guidesBase = [
         heading: 'Weeks 2–3: Settling in',
         list: [
           'Bleeding usually tapers; incision or perineal soreness eases for many',
-          'Emotional ups and downs ("baby blues") are common in the first two weeks',
+          'Emotional ups and downs ("baby blues") are common in the **first two weeks**',
           'Hydration, gentle movement, and sleep when you can remain priorities',
         ],
       },
       {
         heading: 'Weeks 4–6: Finding a rhythm',
         list: [
-          'Many people attend a postpartum check-up around six weeks',
+          'Many people attend a postpartum check-up around **six weeks**',
           'Energy often begins to return, though fatigue can linger',
           'Discuss activity, exercise, and intimacy timelines with your provider',
         ],
@@ -173,13 +173,13 @@ const guidesBase = [
       {
         heading: 'Caring for your mental health',
         paragraphs: [
-          'Baby blues typically fade within two weeks. Symptoms that are more intense, last longer, or interfere with daily life may signal postpartum depression or anxiety — both common and treatable. Reaching out is a sign of strength, not failure.',
+          'Baby blues typically fade within **two weeks**. Symptoms that are more intense, last longer, or interfere with daily life may signal postpartum depression or anxiety — both common and treatable. Reaching out is a sign of strength, not failure.',
         ],
       },
       {
         heading: 'When to seek urgent care',
         paragraphs: [
-          'Contact your obstetric provider promptly for heavy bleeding (soaking a pad an hour), fever, severe pain, foul-smelling discharge, signs of a blood clot, or thoughts of harming yourself or your baby. For any emergency, call your local emergency number.',
+          'Contact your obstetric provider promptly for heavy bleeding (**soaking a pad an hour**), fever, severe pain, foul-smelling discharge, signs of a blood clot, or thoughts of harming yourself or your baby. For any emergency, call your local emergency number.',
         ],
       },
     ],
@@ -197,7 +197,7 @@ const guidesBase = [
     reviewedBy: 'Pending medical review',
     updated: '2026-06-29',
     intro:
-      'Vaccination schedules can look intimidating on paper. This guide explains how they are organized globally and why timing matters. If you need a vaccination tracker for India (IAP/UIP), start with the India tracker guide, then log doses in the app. Schedules differ by country — always follow the schedule your pediatrician recommends for your family.',
+      'Vaccination schedules can look intimidating on paper. This guide explains how they are organized globally and why timing matters. If you need a vaccination tracker for India (**IAP/UIP**), start with the India tracker guide, then log doses in the app. Schedules differ by country — always follow the schedule your pediatrician recommends for your family.',
     body: [
       {
         heading: 'Why the timing matters',
@@ -208,7 +208,7 @@ const guidesBase = [
       {
         heading: 'How schedules are organized',
         list: [
-          'By age: doses are grouped at common visit ages (e.g. birth, 6 weeks, and so on)',
+          'By age: doses are grouped at common visit ages (e.g. **birth**, **6 weeks**, and so on)',
           'By series: some vaccines require several doses spaced weeks or months apart',
           'By region: national bodies publish their own recommended schedules',
         ],

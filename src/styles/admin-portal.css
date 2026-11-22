@@ -1174,6 +1174,63 @@ a.admin-stat-card:hover {
   color: var(--admin-text-primary);
 }
 
+.admin-guide-tags-lede {
+  margin: 0 0 var(--space-3);
+  padding: 0 var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--admin-text-secondary);
+}
+
+.admin-guide-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 var(--space-4);
+  padding: 0 var(--space-5);
+}
+
+.admin-guide-tag-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--admin-panel-muted, #eef1ee);
+  color: var(--admin-text-primary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-guide-tag-option.is-on {
+  background: var(--admin-text-primary);
+  color: #fff;
+}
+
+.admin-guide-tag-option input {
+  margin: 0;
+}
+
+.admin-guide-primary {
+  margin: 0 0 var(--space-4);
+  padding: 0 var(--space-5);
+  max-width: 280px;
+}
+
+.admin-guide-tag-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 var(--space-3);
+  padding: 0 var(--space-5);
+}
+
+.admin-guide-layout__preview > .admin-muted {
+  margin: 0 0 var(--space-4);
+  padding: 0 var(--space-5);
+}
+
 .admin-guide-theme-chip {
   display: inline-flex;
   align-items: center;

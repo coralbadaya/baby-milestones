@@ -105,7 +105,7 @@ function guideFaqBodyHtml(guide) {
 
 function guideBodyHtml(guide) {
   return `<article>
-    <nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/guides">Guides</a> / ${escapeHtml(guide.title)}</nav>
+    <nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/guides">Guides</a></nav>
     <h1>${escapeHtml(guide.title)}</h1>
     <p>${escapeHtml(guide.intro || guide.description || '')}</p>
     ${guideQuickLinksHtml(guide)}

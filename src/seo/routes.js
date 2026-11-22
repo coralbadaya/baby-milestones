@@ -256,7 +256,7 @@ export const SPA_SHELL_PAGES = [
   { path: ROUTES.adminNewsletter, title: 'Admin Newsletter' },
   { path: ROUTES.adminCommunity, title: 'Admin Community' },
   { path: ROUTES.adminDiy, title: 'Admin DIY' },
-  { path: ROUTES.adminGuides, title: 'Admin Guide themes' },
+  { path: ROUTES.adminGuides, title: 'Admin Guides' },
   { path: ROUTES.babyBook, title: 'Baby Book' },
   { path: ROUTES.newsletterUnsubscribe, title: 'Unsubscribe' },
   { path: ROUTES.communityTab('create'), title: 'Share a Memory' },

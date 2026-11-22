@@ -7,12 +7,14 @@ import Icon from '../components/Icon';
 import guides from '../data/guides';
 import {
   GUIDE_TAGS,
+  groupGuidesByCategory,
   isMonthMilestoneGuide,
   listGuidesForTag,
   parseGuideTag,
   tagLabel,
   tagsForGuide,
 } from '../data/guideTags';
+import { useGuideTagOverrides } from '../hooks/useGuideTagOverrides';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
@@ -21,8 +23,8 @@ import PageBreadcrumb from '../components/PageBreadcrumb';
 import { useBabyIdentity } from '../hooks/useBabyIdentity';
 import { getCurrentMonthFromBirthDate } from '../utils/vaccines';
 
-function GuideCard({ guide, currentMonth }) {
-  const tags = tagsForGuide(guide);
+function GuideCard({ guide, currentMonth, overrides }) {
+  const tags = tagsForGuide(guide, overrides);
   const thisMonth = isMonthMilestoneGuide(guide) && guide.milestoneMonth === currentMonth;
 
   return (
@@ -51,22 +53,24 @@ function Guides() {
   usePageMeta(getStaticMeta(ROUTES.guides) || {});
   const [params, setParams] = useSearchParams();
   const { birthDate } = useBabyIdentity();
+  const { overrides } = useGuideTagOverrides();
   const currentMonth = getCurrentMonthFromBirthDate(birthDate);
   const activeTag = parseGuideTag(params.get('tag'));
 
   const items = useMemo(
-    () => listGuidesForTag(guides, activeTag, { currentMonth }),
-    [activeTag, currentMonth],
+    () => listGuidesForTag(guides, activeTag, { currentMonth, overrides }),
+    [activeTag, currentMonth, overrides],
   );
+  const groups = useMemo(() => groupGuidesByCategory(items), [items]);
 
   const activeLabel = tagLabel(activeTag);
   const subtitle = activeTag === 'all'
-    ? 'Head-term guides first. Month-by-month articles live under Milestones.'
+    ? null
     : activeTag === 'milestones'
       ? (currentMonth
         ? `Your month ${currentMonth} guide first, then the rest of the first year.`
         : 'The monthly hub, then each month’s guide.')
-      : `${items.length} guide${items.length === 1 ? '' : 's'} in ${activeLabel}.`;
+      : `${items.length} guide${items.length === 1 ? '' : 's'} tagged ${activeLabel}.`;
 
   const setTag = (id) => {
     interact('tap', 'selection');
@@ -116,14 +120,29 @@ function Guides() {
       </PageSection>
 
       <PageSection surface="white" width="wide" className="page-body--with-mobile-nav">
-        <h2 className="guides-category-title font-display">{activeLabel}</h2>
-        <p className="guides-tag-sub">{subtitle}</p>
-        {items.length > 0 ? (
-          <div className="guides-grid" aria-labelledby="guides-list-heading">
-            {items.map((guide) => (
-              <GuideCard key={guide.slug} guide={guide} currentMonth={currentMonth} />
-            ))}
-          </div>
+        {subtitle ? <p className="guides-tag-sub">{subtitle}</p> : null}
+        {groups.length > 0 ? (
+          groups.map((group) => (
+            <section
+              key={group.category}
+              className="guides-category"
+              aria-labelledby={`guides-cat-${group.category}`}
+            >
+              <h2 id={`guides-cat-${group.category}`} className="guides-category-title font-display">
+                {group.category}
+              </h2>
+              <div className="guides-grid" aria-labelledby={`guides-cat-${group.category}`}>
+                {group.items.map((guide) => (
+                  <GuideCard
+                    key={guide.slug}
+                    guide={guide}
+                    currentMonth={currentMonth}
+                    overrides={overrides}
+                  />
+                ))}
+              </div>
+            </section>
+          ))
         ) : (
           <p className="month-section-empty">Nothing in this topic yet.</p>
         )}

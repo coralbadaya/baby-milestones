@@ -16,20 +16,20 @@ const contentGapGuides = [
     reviewedBy: 'Pending medical review',
     updated: '2026-11-20',
     intro:
-      'Baby monthly milestones are the skills that often show up around each month of age — lifting the head, a social smile, sitting, first words, first steps. They are a range, not a deadline. Pediatric well-visits often use 2, 4, 6, 9, and 12 month checkpoints; Yarn Trails also tracks every month from newborn to three years so you can see this month without racing the neighbour’s baby. This guide is educational. Your pediatrician decides whether development is on track for your child.',
+      'Baby monthly milestones are the skills that often show up around each month of age — lifting the head, a social smile, sitting, first words, first steps. They are a range, not a deadline. Pediatric well-visits often use **2, 4, 6, 9, and 12 month** checkpoints; Yarn Trails also tracks every month from newborn to **three years** so you can see this month without racing the neighbour’s baby. This guide is educational. Your pediatrician decides whether development is on track for your child.',
     body: [
       {
         heading: 'What baby monthly milestones actually measure',
         paragraphs: [
           'Developmental milestones sit in four overlapping groups: movement (motor), communication, thinking (cognitive), and social-emotional. A monthly list is a snapshot of what many babies can do around that age — not a test you pass or fail in week four of the month.',
-          'Authorities such as the CDC, AAP, and WHO describe skills that most children can do by a given age (often about three in four). Yarn Trails month pages follow the same idea: typical windows, Watch For notes, and a reminder that late in one area with strength in another is common. If a skill is missing and you are worried, say so at the next well-baby visit rather than waiting for a perfect checklist.',
+          'Authorities such as the **CDC**, **AAP**, and **WHO** describe skills that most children can do by a given age (often about **three in four**). Yarn Trails month pages follow the same idea: typical windows, Watch For notes, and a reminder that late in one area with strength in another is common. If a skill is missing and you are worried, say so at the next well-baby visit rather than waiting for a perfect checklist.',
         ],
       },
       {
         heading: 'Monthly tracker vs well-visit checkpoints',
         paragraphs: [
-          'Search results for baby monthly milestones often show 2, 4, 6, 9, and 12 month lists because those ages match routine immunisation and surveillance visits. That is useful. It is not the only way to watch the first year.',
-          'A month-by-month tracker fills the gaps between visits: month 5 sitting practice, month 7 rolling both ways, month 10 cruising. Yarn Trails keeps 36 months on My Baby so toddler years stay in the same place as newborn weeks. Use the well-visit list with your clinician; use the monthly list at home as a calm record, not a diagnosis.',
+          'Search results for baby monthly milestones often show **2, 4, 6, 9, and 12 month** lists because those ages match routine immunisation and surveillance visits. That is useful. It is not the only way to watch the first year.',
+          'A month-by-month tracker fills the gaps between visits: **month 5** sitting practice, **month 7** rolling both ways, **month 10** cruising. Yarn Trails keeps **36 months** on My Baby so toddler years stay in the same place as newborn weeks. Use the well-visit list with your clinician; use the monthly list at home as a calm record, not a diagnosis.',
         ],
       },
       {
@@ -38,25 +38,25 @@ const contentGapGuides = [
           'These first-year windows match the Yarn Trails month pages. Open the linked guide for sleep, feeding, play, and when to call. Premature babies are often followed on corrected age until your pediatrician says otherwise.',
         ],
         list: [
-          'Month 1 — brief head lift on tummy time, faces at 8–12 inches, startles then quiets to a familiar voice',
-          'Month 2 — social smiles, cooing, eyes tracking across midline',
-          'Month 3 — steadier head, hands opening, longer face-to-face stretches',
-          'Month 4 — laughs, reaches, may roll tummy to back',
-          'Month 5 — transferring toys, more intentional batting and mouthing',
-          'Month 6 — supported sitting, babbling, interest in family food',
-          'Month 7 — rolling both ways, name response, exploring by banging and dropping',
-          'Month 8 — sitting without support, hands-and-knees, stranger awareness',
-          'Month 9 — emerging pincer grasp, pulling to stand',
-          'Month 10 — cruising furniture, more gestures',
-          'Month 11 — first words for some, more confident standing',
-          'Month 12 — first steps for many, pointing, simple games of imitation',
+          '**Month 1** — brief head lift on tummy time, faces at **8–12 inches**, startles then quiets to a familiar voice',
+          '**Month 2** — social smiles, cooing, eyes tracking across midline',
+          '**Month 3** — steadier head, hands opening, longer face-to-face stretches',
+          '**Month 4** — laughs, reaches, may roll tummy to back',
+          '**Month 5** — transferring toys, more intentional batting and mouthing',
+          '**Month 6** — supported sitting, babbling, interest in family food',
+          '**Month 7** — rolling both ways, name response, exploring by banging and dropping',
+          '**Month 8** — sitting without support, hands-and-knees, stranger awareness',
+          '**Month 9** — emerging pincer grasp, pulling to stand',
+          '**Month 10** — cruising furniture, more gestures',
+          '**Month 11** — first words for some, more confident standing',
+          '**Month 12** — first steps for many, pointing, simple games of imitation',
         ],
       },
       {
         heading: 'Year two and three — months 13 to 36',
         paragraphs: [
-          'After the first birthday, monthly change is still real but less dramatic week to week. Language explodes, pretend play starts, and motor skills shift from first steps to running, climbing, and scribbling. Yarn Trails keeps a page for every month through 36 so the toddler years are not a blank after “first steps.”',
-          'Typical bands: 13–18 months (walking more steadily, more words, following a simple request); 18–24 months (two-word phrases for many, climbing, helping with clothes); 24–36 months (short sentences, pretend play, toilet interest on a wide timetable). None of these is a pass/fail date. Open the month page for that age for Watch For notes and play ideas.',
+          'After the first birthday, monthly change is still real but less dramatic week to week. Language explodes, pretend play starts, and motor skills shift from first steps to running, climbing, and scribbling. Yarn Trails keeps a page for every month through **36** so the toddler years are not a blank after “first steps.”',
+          'Typical bands: **13–18 months** (walking more steadily, more words, following a simple request); **18–24 months** (two-word phrases for many, climbing, helping with clothes); **24–36 months** (short sentences, pretend play, toilet interest on a wide timetable). None of these is a pass/fail date. Open the month page for that age for Watch For notes and play ideas.',
         ],
       },
       {
@@ -108,7 +108,7 @@ const contentGapGuides = [
           'Twinkle, Twinkle, Little Star — slow, steady, good for dim light before sleep',
           'Rock-a-Bye Baby — keep the ending gentle; skip the dramatic lines if they startle',
           'Itsy Bitsy Spider — finger play once hands can track',
-          'Pat-a-Cake — chest-level clapping from ~4 months',
+          'Pat-a-Cake — chest-level clapping from **~4 months**',
           'The Wheels on the Bus — verses one at a time when you are fresh',
           'Round and Round the Garden — tummy or palm “round” with a tickle finish',
         ],
@@ -178,7 +178,7 @@ const contentGapGuides = [
       {
         heading: 'Simple lullaby lyrics you can own',
         paragraphs: [
-          'Original lines beat forgotten lyrics at 2 a.m. Name your baby, name the room, name one small thing from the day — then goodnight. Example pattern: “Goodnight, little [name], the day is done / Mama’s here till the morning sun.” Repeat the last two lines until breathing slows.',
+          'Original lines beat forgotten lyrics at **2 a.m.** Name your baby, name the room, name one small thing from the day — then goodnight. Example pattern: “Goodnight, little [name], the day is done / Mama’s here till the morning sun.” Repeat the last two lines until breathing slows.',
         ],
       },
       {
@@ -299,8 +299,8 @@ const contentGapGuides = [
           'Same spot each month — blanket, chair, or crib corner for a growth series',
           'Printed milestone card with month number — free tool at /tools/milestone-cards',
           'Seasonal prop: one flower, one knit hat — one accent only',
-          'Tummy-time action shot at 3–6 months',
-          'Sitting milestone at ~6–9 months with pillows behind, never loose piles',
+          'Tummy-time action shot at **3–6 months**',
+          'Sitting milestone at **~6–9 months** with pillows behind, never loose piles',
         ],
       },
       {
@@ -338,7 +338,7 @@ const contentGapGuides = [
     reviewedBy: 'Pending medical review',
     updated: '2026-11-19',
     intro:
-      'Baby foods shift from milk-only to family table over months, not days. WHO and IAP commonly point to around six months for starting solids when baby shows readiness signs — but your pediatrician knows your child. This baby food guide explains first foods, textures, and safety without replacing clinical advice.',
+      'Baby foods shift from milk-only to family table over months, not days. **WHO** and **IAP** commonly point to around **six months** for starting solids when baby shows readiness signs — but your pediatrician knows your child. This baby food guide explains first foods, textures, and safety without replacing clinical advice.',
     body: [
       {
         heading: 'Readiness signs (typical around 6 months)',
@@ -361,7 +361,7 @@ const contentGapGuides = [
       {
         heading: 'Baby food textures over time',
         paragraphs: [
-          'Move from thin purée to mashed, then soft lumps and finger foods as chewing develops. Gagging is different from choking — learn infant first aid; cut round foods lengthwise; avoid honey before 12 months, whole nuts, and choking hazards.',
+          'Move from thin purée to mashed, then soft lumps and finger foods as chewing develops. Gagging is different from choking — learn infant first aid; cut round foods lengthwise; avoid **honey before 12 months**, whole nuts, and choking hazards.',
         ],
       },
       {
@@ -400,7 +400,7 @@ const contentGapGuides = [
         heading: 'Principles before recipes',
         list: [
           'Introduce one new ingredient every few days',
-          'Begin plain (no salt, sugar, or honey under 12 months)',
+          'Begin plain (no salt, sugar, or **honey under 12 months**)',
           'Add ghee or mild spice only after the base food is tolerated',
           'Texture should match development — thin porridge early, mashed later',
         ],
@@ -411,8 +411,8 @@ const contentGapGuides = [
           'Cook slow: fine sooji whisked into boiling water, stirred until smooth and pourable. Cool to lukewarm. Many parents offer a plain batch first, then add a touch of ghee or mashed fruit once tolerated.',
         ],
         list: [
-          '1–1.5 tbsp fine sooji',
-          '1.5–2 cups water (adjust for thickness)',
+          '**1–1.5 tbsp** fine sooji',
+          '**1.5–2 cups** water (adjust for thickness)',
           'Low flame until soft and lump-free',
         ],
       },
@@ -496,7 +496,7 @@ const contentGapGuides = [
       {
         heading: 'Vaccination and checkups',
         paragraphs: [
-          'Follow the schedule your pediatrician gives — in India many families use IAP/UIP references alongside clinic records. Log doses in the Yarn Trails vaccination tracker (India, CDC, or custom) and bring the app summary to visits; it does not replace the clinic card.',
+          'Follow the schedule your pediatrician gives — in India many families use **IAP/UIP** references alongside clinic records. Log doses in the Yarn Trails vaccination tracker (**India**, **CDC**, or custom) and bring the app summary to visits; it does not replace the clinic card.',
         ],
       },
       {
@@ -520,33 +520,33 @@ const contentGapGuides = [
     reviewedBy: 'Pending medical review',
     updated: '2026-11-20',
     intro:
-      'A vaccination tracker India parents can actually use sits next to the clinic card — it does not replace it. Indian families often hear both IAP (Indian Academy of Pediatrics) recommendations and UIP (Universal Immunization Programme) public doses. Yarn Trails groups an IAP/UIP-style calendar from birth through the toddler years so you can see what is commonly due, tick what was given, and take the summary to the pediatrician. Dates and optional vaccines always follow that clinician, not an app.',
+      'A vaccination tracker India parents can actually use sits next to the clinic card — it does not replace it. Indian families often hear both **IAP** (Indian Academy of Pediatrics) recommendations and **UIP** (Universal Immunization Programme) public doses. Yarn Trails groups an **IAP/UIP**-style calendar from **birth** through the toddler years so you can see what is commonly due, tick what was given, and take the summary to the pediatrician. Dates and optional vaccines always follow that clinician, not an app.',
     body: [
       {
         heading: 'IAP, UIP, and what “tracker” means',
         paragraphs: [
-          'UIP is the government programme: core vaccines offered at public clinics. IAP publishes a broader recommended schedule that many private pediatricians follow, including some doses marked optional in our list (for example PCV or influenza, depending on the year and your doctor).',
+          '**UIP** is the government programme: core vaccines offered at public clinics. **IAP** publishes a broader recommended schedule that many private pediatricians follow, including some doses marked optional in our list (for example **PCV** or **influenza**, depending on the year and your doctor).',
           'Yarn Trails is a log and a reminder surface. It is educational. It is not a prescription, a catch-up calculator for missed years, or a substitute for the immunisation card you keep at home.',
         ],
       },
       {
         heading: 'How the India schedule is grouped in Yarn Trails',
         paragraphs: [
-          'The in-app India list is organised the way visits often are — not as 36 duplicate pages. Confirm every dose with your pediatrician; formulations and timing change.',
+          'The in-app India list is organised the way visits often are — not as **36** duplicate pages. Confirm every dose with your pediatrician; formulations and timing change.',
         ],
         list: [
-          'Birth — BCG, OPV birth dose, Hepatitis B birth dose in many protocols',
-          '6, 10, and 14 weeks — OPV and pentavalent series; rotavirus; IPV appears in the 14-week visit in our list; PCV may be optional',
-          '6–9 months — seasonal influenza when your clinician advises it',
-          '9 months — measles-rubella; Japanese encephalitis where recommended',
-          '12–18 months — boosters and additional doses your clinic schedules (PCV booster, MMR, varicella, DPT/OPV boosters, hepatitis A in some plans)',
-          'Around 24 months — second MMR or varicella when your pediatrician uses those slots',
+          '**Birth** — **BCG**, **OPV** birth dose, **Hepatitis B** birth dose in many protocols',
+          '**6, 10, and 14 weeks** — **OPV** and **pentavalent** series; **rotavirus**; **IPV** appears in the **14-week** visit in our list; **PCV** may be optional',
+          '**6–9 months** — seasonal **influenza** when your clinician advises it',
+          '**9 months** — **measles-rubella**; **Japanese encephalitis** where recommended',
+          '**12–18 months** — boosters and additional doses your clinic schedules (**PCV** booster, **MMR**, **varicella**, **DPT/OPV** boosters, **hepatitis A** in some plans)',
+          'Around **24 months** — second **MMR** or **varicella** when your pediatrician uses those slots',
         ],
       },
       {
         heading: 'How to use the vaccination tracker',
         paragraphs: [
-          'Open Vaccination, choose India IAP/UIP (or CDC, or a custom list if you live between countries). Log the date a dose was given. The next due item is a prompt for a clinic conversation, not an alarm that you are late.',
+          'Open Vaccination, choose **India IAP/UIP** (or **CDC**, or a custom list if you live between countries). Log the date a dose was given. The next due item is a prompt for a clinic conversation, not an alarm that you are late.',
           'Travel, moving city, or a missing card: bring whatever record you have. The tracker can sit beside a paper card; it should not be the only copy. See the first-year vaccination guide for how schedules are structured globally.',
         ],
       },
@@ -587,17 +587,17 @@ const contentGapGuides = [
       {
         heading: 'No-prep ideas that scale by month',
         list: [
-          'Newborn — chest-to-chest tummy time, high-contrast card, your voice',
-          '3–4 months — batting a dangling scarf (secure, no loose loops near the neck), supported sitting against you',
-          '6–8 months — treasure basket with kitchen objects too large to swallow, sitting play on a firm mat',
-          '9–12 months — cruising along the sofa with you, putting blocks in a box, peekaboo',
+          '**Newborn** — chest-to-chest tummy time, high-contrast card, your voice',
+          '**3–4 months** — batting a dangling scarf (secure, no loose loops near the neck), supported sitting against you',
+          '**6–8 months** — treasure basket with kitchen objects too large to swallow, sitting play on a firm mat',
+          '**9–12 months** — cruising along the sofa with you, putting blocks in a box, peekaboo',
           'Toddler — simple pouring, stacking, a walk with a bag of leaves — still supervised',
         ],
       },
       {
         heading: 'Safety while you play',
         paragraphs: [
-          'Stay within arm’s reach on raised surfaces. Skip small parts, long cords, and honey under one year. If an activity is for “tummy time” it is awake and watched — never sleep on the tummy. Watch For notes on the month page flag when to pause and ask a clinician.',
+          'Stay within arm’s reach on raised surfaces. Skip small parts, long cords, and **honey under one year**. If an activity is for “tummy time” it is awake and watched — never sleep on the tummy. Watch For notes on the month page flag when to pause and ask a clinician.',
         ],
       },
       {
@@ -621,26 +621,26 @@ const contentGapGuides = [
     reviewedBy: 'Pending medical review',
     updated: '2026-11-20',
     intro:
-      'Baby care in the first year is mostly rhythm: feed, sleep, clean, hold, repeat. Newborn care feels like all night; by six months the day has more play and solids. This guide is a map of ordinary days, not a medical protocol. Pair it with newborn dos and don’ts for safety rules, and My Baby for this month’s milestones.',
+      'Baby care in the first year is mostly rhythm: feed, sleep, clean, hold, repeat. Newborn care feels like all night; by **six months** the day has more play and solids. This guide is a map of ordinary days, not a medical protocol. Pair it with newborn dos and don’ts for safety rules, and My Baby for this month’s milestones.',
     body: [
       {
         heading: 'A first-year daily rhythm (not a timetable)',
         paragraphs: [
-          'Mornings: light, a feed, a short stretch of awake time that grows with age. Afternoons: another nap window, a walk if weather allows. Evenings: dimmer light, the same bath or song if you have one. Newborns do not “sleep through”; many six-month-olds still wake. Compare your baby to yesterday, not to a chart on social media.',
+          'Mornings: light, a feed, a short stretch of awake time that grows with age. Afternoons: another nap window, a walk if weather allows. Evenings: dimmer light, the same bath or song if you have one. Newborns do not “sleep through”; many **six-month-olds** still wake. Compare your baby to yesterday, not to a chart on social media.',
         ],
       },
       {
         heading: 'Sleep, feeding, and bath — the three loops',
         list: [
           'Sleep — back to sleep, firm flat surface; room-share if you choose; see dos and don’ts for what not to put in the cot',
-          'Feeding — breast, formula, or both as your clinician advised; solids typically enter around six months with signs of readiness (starting solids guide)',
+          'Feeding — breast, formula, or both as your clinician advised; solids typically enter around **six months** with signs of readiness (starting solids guide)',
           'Bath and nappy — warm room, one hand on baby, no unattended water; skin care is usually simple unless a doctor names a condition',
         ],
       },
       {
         heading: 'What changes month to month',
         paragraphs: [
-          'Care stays the same jobs; the baby’s motor and social skills change. That is why Yarn Trails is month-paged: month 2 is still mostly holding and feeding, month 8 is sitting and more floor time. Open the month page rather than hunting a new “routine app” each season.',
+          'Care stays the same jobs; the baby’s motor and social skills change. That is why Yarn Trails is month-paged: **month 2** is still mostly holding and feeding, **month 8** is sitting and more floor time. Open the month page rather than hunting a new “routine app” each season.',
         ],
       },
       {

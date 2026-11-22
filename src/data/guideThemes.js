@@ -92,9 +92,12 @@ export const GUIDE_THEMES = {
   },
 };
 
-/** @param {{ slug?: string, category?: string, milestoneMonth?: number } | null | undefined} guide */
-export function resolveGuideTheme(guide) {
-  const tag = primaryTag(guide);
+/**
+ * @param {{ slug?: string, category?: string, milestoneMonth?: number } | null | undefined} guide
+ * @param {Record<string, string[]> | null} [overrides]
+ */
+export function resolveGuideTheme(guide, overrides = null) {
+  const tag = primaryTag(guide, overrides);
   if (tag && GUIDE_THEMES[tag]) return GUIDE_THEMES[tag];
   return GUIDE_THEMES.default;
 }

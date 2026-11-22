@@ -6,6 +6,7 @@ import StructuredData from '../components/StructuredData';
 import { getGuideBySlug } from '../data/guides';
 import { guideThemeClassName, resolveGuideTheme } from '../data/guideThemes';
 import { tagLabel, tagsForGuide } from '../data/guideTags';
+import { useGuideTagOverrides } from '../hooks/useGuideTagOverrides';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
@@ -14,6 +15,7 @@ import GuideQuickLinks from '../components/GuideQuickLinks';
 import GuideFaqSection from '../components/GuideFaqSection';
 import { articleSchema, breadcrumbSchema, faqSchema } from '../utils/structuredData';
 import { trackEvent } from '../utils/analytics';
+import { guideRichText } from '../utils/guideRichText';
 import NotFound from './NotFound';
 
 function GuideArticle() {
@@ -28,6 +30,7 @@ function GuideArticle() {
     path: pathname,
   });
 
+  const { overrides } = useGuideTagOverrides();
   const guideSlug = guide?.slug;
   useEffect(() => {
     if (!guideSlug) return undefined;
@@ -40,7 +43,7 @@ function GuideArticle() {
   const related = (guide.relatedSlugs || [])
     .map((s) => getGuideBySlug(s))
     .filter(Boolean);
-  const theme = resolveGuideTheme(guide);
+  const theme = resolveGuideTheme(guide, overrides);
 
   return (
     <article className={`content-page guide-article fade-in ${guideThemeClassName(theme)}`}>
@@ -48,14 +51,13 @@ function GuideArticle() {
         items={[
           { name: 'Home', to: ROUTES.home },
           { name: 'Guides', to: ROUTES.guides },
-          { name: guide.title },
         ]}
       />
 
       <header className="content-page-hero guide-article__hero-band">
         <Icon name={guide.icon} size={40} className="content-page-icon" />
         <div className="guide-card-tags">
-          {tagsForGuide(guide).map((id) => (
+          {tagsForGuide(guide, overrides).map((id) => (
             <Link
               key={id}
               to={`${ROUTES.guides}?tag=${id}`}
@@ -68,11 +70,18 @@ function GuideArticle() {
           ))}
         </div>
         <h1>{guide.title}</h1>
-        <p className="guide-byline">
-          By {guide.author} · Reviewed by {guide.reviewedBy} · Updated {guide.updated} ·{' '}
-          {guide.readMinutes} min read
-        </p>
-        <p className="content-page-intro">{guide.intro}</p>
+        <div className="guide-byline">
+          <p className="guide-byline__credit">
+            By {guide.author} · Reviewed by {guide.reviewedBy}
+          </p>
+          <div className="guide-byline__row">
+            <time className="guide-byline__date" dateTime={guide.updated}>
+              Updated {guide.updated}
+            </time>
+            <span className="guide-byline__read">{guide.readMinutes} min read</span>
+          </div>
+        </div>
+        <p className="content-page-intro">{guideRichText(guide.intro)}</p>
         <GuideQuickLinks guide={guide} />
       </header>
 
@@ -81,12 +90,12 @@ function GuideArticle() {
           <section key={block.heading || i} className="content-block">
             {block.heading && <h2>{block.heading}</h2>}
             {block.paragraphs?.map((p, j) => (
-              <p key={j}>{p}</p>
+              <p key={j}>{guideRichText(p)}</p>
             ))}
             {block.list && (
               <ul>
                 {block.list.map((item, j) => (
-                  <li key={j}>{item}</li>
+                  <li key={j}>{guideRichText(item)}</li>
                 ))}
               </ul>
             )}

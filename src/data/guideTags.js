@@ -1,5 +1,6 @@
 /**
  * Job tags for the /guides hub. Curated — not one chip per month or keyword.
+ * A guide can carry several tags; the first is primary (article theme).
  */
 
 /** @typedef {{ id: string, label: string }} GuideTag */
@@ -17,7 +18,20 @@ export const GUIDE_TAGS = [
   { id: 'compare', label: 'Compare' },
 ];
 
-/** Head-term / pillar guides first on All. Month clones stay behind Milestones. */
+export const JOB_TAGS = GUIDE_TAGS.filter((tag) => tag.id !== 'all');
+export const JOB_TAG_IDS = JOB_TAGS.map((tag) => tag.id);
+
+/** Library sections on /guides — original hub groups, then leftover categories. */
+export const GUIDE_CATEGORY_ORDER = [
+  'Early Years',
+  'Memories',
+  'Baby Development',
+  'Mom Care',
+  'Health & Safety',
+  'Compare',
+];
+
+/** Head-term / pillar guides first inside a section. Month clones stay behind Milestones. */
 export const HUB_GUIDE_SLUGS = [
   'baby-monthly-milestones',
   'vaccination-tracker-india',
@@ -38,26 +52,26 @@ export const HUB_GUIDE_SLUGS = [
 
 const SLUG_TAGS = {
   'baby-monthly-milestones': ['milestones'],
-  'first-year-vaccination-schedule': ['vaccines'],
-  'vaccination-tracker-india': ['vaccines'],
-  'starting-solids-guide': ['food'],
+  'first-year-vaccination-schedule': ['vaccines', 'care'],
+  'vaccination-tracker-india': ['vaccines', 'care'],
+  'starting-solids-guide': ['food', 'care'],
   'indian-baby-food-recipes': ['food'],
-  'diy-baby-activities': ['play'],
+  'diy-baby-activities': ['play', 'care'],
   'nursery-rhymes-for-babies': ['play'],
-  'lullabies-for-babies': ['play'],
+  'lullabies-for-babies': ['play', 'care'],
   'best-books-for-babies-by-age': ['play'],
   'baby-care-first-year': ['care'],
   'newborn-dos-and-donts': ['care'],
   'newborn-essentials-checklist': ['care'],
-  'postpartum-recovery-week-by-week': ['mom'],
+  'postpartum-recovery-week-by-week': ['mom', 'care'],
   'baby-photoshoot-ideas-at-home': ['memories'],
-  'digital-baby-book-guide': ['memories'],
+  'digital-baby-book-guide': ['memories', 'compare'],
   'baby-memory-book-alternatives': ['memories'],
-  'milestone-cards-printable': ['memories'],
+  'milestone-cards-printable': ['memories', 'milestones'],
   'new-grandparent-gifts': ['memories'],
   'yarntrails-vs-qeepsake': ['compare'],
-  'best-baby-book-apps-2026': ['compare'],
-  'tinybeans-vs-qeepsake': ['compare'],
+  'best-baby-book-apps-2026': ['compare', 'memories'],
+  'tinybeans-vs-qeepsake': ['compare', 'memories'],
 };
 
 const CATEGORY_TAGS = {
@@ -73,8 +87,36 @@ export function isMonthMilestoneGuide(guide) {
   return Number.isFinite(guide?.milestoneMonth);
 }
 
-/** @param {{ slug?: string, category?: string, milestoneMonth?: number }} guide */
-export function tagsForGuide(guide) {
+export function isJobTag(id) {
+  return JOB_TAG_IDS.includes(id);
+}
+
+/** Drop unknown ids; keep first occurrence. */
+export function sanitizeTags(list) {
+  if (!Array.isArray(list)) return [];
+  const seen = new Set();
+  const out = [];
+  for (const raw of list) {
+    if (!isJobTag(raw) || seen.has(raw)) continue;
+    seen.add(raw);
+    out.push(raw);
+  }
+  return out;
+}
+
+/**
+ * Primary first, remaining job tags in catalog order.
+ * @param {string[]} list
+ * @param {string} [primary]
+ */
+export function orderTags(list, primary) {
+  const unique = sanitizeTags(list);
+  const head = unique.includes(primary) ? primary : unique[0];
+  if (!head) return [];
+  return [head, ...JOB_TAG_IDS.filter((id) => id !== head && unique.includes(id))];
+}
+
+export function defaultTagsForGuide(guide) {
   if (!guide) return [];
   const fromSlug = SLUG_TAGS[guide.slug];
   if (fromSlug) return fromSlug;
@@ -82,8 +124,19 @@ export function tagsForGuide(guide) {
   return CATEGORY_TAGS[guide.category] || [];
 }
 
-export function primaryTag(guide) {
-  return tagsForGuide(guide)[0] || null;
+/**
+ * @param {{ slug?: string, category?: string, milestoneMonth?: number }} guide
+ * @param {Record<string, string[]> | null} [overrides]
+ */
+export function tagsForGuide(guide, overrides = null) {
+  if (!guide) return [];
+  const override = overrides?.[guide.slug];
+  if (override !== undefined) return sanitizeTags(override);
+  return defaultTagsForGuide(guide);
+}
+
+export function primaryTag(guide, overrides = null) {
+  return tagsForGuide(guide, overrides)[0] || null;
 }
 
 export function tagLabel(id) {
@@ -96,21 +149,43 @@ export function parseGuideTag(raw) {
 }
 
 /**
+ * @param {Array<{ slug: string, title?: string, category?: string, milestoneMonth?: number }>} list
+ */
+export function groupGuidesByCategory(list) {
+  const extras = [];
+  const seen = new Set();
+  for (const guide of list) {
+    const category = guide.category || 'Other';
+    if (!GUIDE_CATEGORY_ORDER.includes(category) && !seen.has(category)) {
+      seen.add(category);
+      extras.push(category);
+    }
+  }
+  extras.sort((a, b) => a.localeCompare(b));
+
+  return [...GUIDE_CATEGORY_ORDER, ...extras]
+    .map((category) => ({
+      category,
+      items: list.filter((guide) => (guide.category || 'Other') === category),
+    }))
+    .filter((group) => group.items.length > 0);
+}
+
+/**
  * @param {Array<{ slug: string, milestoneMonth?: number }>} guides
  * @param {string} tag
- * @param {{ currentMonth?: number | null }} [opts]
+ * @param {{ currentMonth?: number | null, overrides?: Record<string, string[]> | null }} [opts]
  */
-export function listGuidesForTag(guides, tag, { currentMonth = null } = {}) {
+export function listGuidesForTag(guides, tag, { currentMonth = null, overrides = null } = {}) {
   const id = parseGuideTag(tag);
 
   if (id === 'all') {
-    const hub = guides.filter((guide) => !isMonthMilestoneGuide(guide));
-    return sortHubFirst(hub);
+    return sortHubFirst(guides.filter((guide) => !isMonthMilestoneGuide(guide)));
   }
 
-  const tagged = guides.filter((guide) => tagsForGuide(guide).includes(id));
+  const tagged = guides.filter((guide) => tagsForGuide(guide, overrides).includes(id));
   if (id === 'milestones') return sortMilestones(tagged, currentMonth);
-  return sortHubFirst(tagged.filter((guide) => !isMonthMilestoneGuide(guide)));
+  return sortHubFirst(tagged);
 }
 
 function sortHubFirst(list) {
@@ -119,7 +194,7 @@ function sortHubFirst(list) {
     const aRank = rank.has(a.slug) ? rank.get(a.slug) : HUB_GUIDE_SLUGS.length;
     const bRank = rank.has(b.slug) ? rank.get(b.slug) : HUB_GUIDE_SLUGS.length;
     if (aRank !== bRank) return aRank - bRank;
-    return a.title.localeCompare(b.title);
+    return (a.title || a.slug).localeCompare(b.title || b.slug);
   });
 }
 

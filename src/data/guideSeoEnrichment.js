@@ -21,15 +21,15 @@ export const GUIDE_SEO_EXTRA = {
     faqs: [
       {
         q: 'What are baby monthly milestones?',
-        a: 'They are skills that often appear around each month of age — movement, communication, thinking, and social connection. Lists describe a typical window, not a deadline. Yarn Trails tracks every month from newborn to 36 months; your pediatrician interprets what you see.',
+        a: 'They are skills that often appear around each month of age — movement, communication, thinking, and social connection. Lists describe a typical window, not a deadline. Yarn Trails tracks every month from newborn to **36 months**; your pediatrician interprets what you see.',
       },
       {
         q: 'When do babies hit monthly milestones?',
-        a: 'Most skills arrive across a range of weeks. Social smiles often show around 6–8 weeks, sitting without support later in the first year, first steps near the first birthday for many — and healthy babies sit outside those averages. Compare your baby to themselves over time.',
+        a: 'Most skills arrive across a range of weeks. Social smiles often show around **6–8 weeks**, sitting without support later in the first year, first steps near the first birthday for many — and healthy babies sit outside those averages. Compare your baby to themselves over time.',
       },
       {
         q: 'Are monthly milestones the same as CDC 2, 4, 6, 9, and 12 month lists?',
-        a: 'Those ages match common well-visits. Monthly tracking adds the months in between and continues through age three. Use both: the visit list with your clinician, the month page at home.',
+        a: 'Those ages match common well-visits. Monthly tracking adds the months in between and continues through **age three**. Use both: the visit list with your clinician, the month page at home.',
       },
       {
         q: 'What if my baby misses a monthly milestone?',
@@ -54,11 +54,11 @@ export const GUIDE_SEO_EXTRA = {
     faqs: [
       {
         q: 'What age should I start nursery rhymes with my baby?',
-        a: 'From birth. Newborns benefit from tone and rhythm even before they understand words. Add finger-play rhymes once your baby can track your hands (often around 3–4 months).',
+        a: 'From birth. Newborns benefit from tone and rhythm even before they understand words. Add finger-play rhymes once your baby can track your hands (often around **3–4 months**).',
       },
       {
         q: 'How many nursery rhymes does a baby need?',
-        a: 'Three to five songs on rotation are enough. Consistency matters more than variety — the same bedtime rhyme can become a sleep cue.',
+        a: '**Three to five** songs on rotation are enough. Consistency matters more than variety — the same bedtime rhyme can become a sleep cue.',
       },
       {
         q: 'Are Hindi and English rhymes both okay for one baby?',
@@ -168,7 +168,7 @@ export const GUIDE_SEO_EXTRA = {
     faqs: [
       {
         q: 'When should I start baby food and solids?',
-        a: 'Many authorities suggest around six months when baby shows readiness — sitting with support, interest in food, reduced tongue-thrust. Your pediatrician should confirm timing for your child.',
+        a: 'Many authorities suggest around **six months** when baby shows readiness — sitting with support, interest in food, reduced tongue-thrust. Your pediatrician should confirm timing for your child.',
       },
       {
         q: 'What are common first foods for babies?',
@@ -180,7 +180,7 @@ export const GUIDE_SEO_EXTRA = {
       },
       {
         q: 'What foods should babies avoid in the first year?',
-        a: 'Honey before 12 months, choking hazards (whole grapes, nuts), and added salt or sugar in baby food. Discuss allergenic foods with your pediatrician — guidance has evolved toward early introduction for many families.',
+        a: '**Honey before 12 months**, choking hazards (whole grapes, nuts), and added salt or sugar in baby food. Discuss allergenic foods with your pediatrician — guidance has evolved toward early introduction for many families.',
       },
       {
         q: 'Where are baby food recipes on Yarn Trails?',
@@ -200,7 +200,7 @@ export const GUIDE_SEO_EXTRA = {
     faqs: [
       {
         q: 'What is a good first Indian baby food?',
-        a: 'Plain smooth sooji porridge or thin moong dal soup after your pediatrician clears solids — one ingredient at a time, no salt, sugar, or honey under 12 months.',
+        a: 'Plain smooth sooji porridge or thin moong dal soup after your pediatrician clears solids — one ingredient at a time, no salt, sugar, or **honey under 12 months**.',
       },
       {
         q: 'When can I add ghee to baby food?',
@@ -212,7 +212,7 @@ export const GUIDE_SEO_EXTRA = {
       },
       {
         q: 'How do I track vaccines while starting solids in India?',
-        a: 'Use the vaccination tracker with the India schedule, and bring your clinic card to visits. The app supports IAP/UIP-style tracking but does not replace your provider’s record.',
+        a: 'Use the vaccination tracker with the India schedule, and bring your clinic card to visits. The app supports **IAP/UIP**-style tracking but does not replace your provider’s record.',
       },
     ],
   },
@@ -228,11 +228,11 @@ export const GUIDE_SEO_EXTRA = {
     faqs: [
       {
         q: 'Does Yarn Trails have a vaccination tracker for India?',
-        a: 'Yes. Open Vaccination and choose India IAP/UIP. Log doses you already received. The list is a reference grouped like common visits — your pediatrician confirms products and dates.',
+        a: 'Yes. Open Vaccination and choose **India IAP/UIP**. Log doses you already received. The list is a reference grouped like common visits — your pediatrician confirms products and dates.',
       },
       {
         q: 'What is the difference between IAP and UIP?',
-        a: 'UIP is the public programme. IAP publishes a recommended schedule many private clinics use, sometimes with extra or optional vaccines. Yarn Trails labels the India list IAP/UIP-style so both conversations fit one log.',
+        a: '**UIP** is the public programme. **IAP** publishes a recommended schedule many private clinics use, sometimes with extra or optional vaccines. Yarn Trails labels the India list **IAP/UIP**-style so both conversations fit one log.',
       },
       {
         q: 'Can I download an IAP schedule PDF from Yarn Trails?',
@@ -240,7 +240,7 @@ export const GUIDE_SEO_EXTRA = {
       },
       {
         q: 'What if we also need a CDC schedule?',
-        a: 'Switch the tracker to CDC, or use Custom if you are splitting time between countries. Keep one clinic as the source of truth.',
+        a: 'Switch the tracker to **CDC**, or use Custom if you are splitting time between countries. Keep one clinic as the source of truth.',
       },
     ],
   },
@@ -282,7 +282,7 @@ export const GUIDE_SEO_EXTRA = {
     faqs: [
       {
         q: 'What is a good daily baby care routine?',
-        a: 'Feed, sleep, hold, clean — on a rhythm that follows the baby, not a strict clock. Newborns cluster feeds; older babies add play and, around six months, solids with your clinician’s advice.',
+        a: 'Feed, sleep, hold, clean — on a rhythm that follows the baby, not a strict clock. Newborns cluster feeds; older babies add play and, around **six months**, solids with your clinician’s advice.',
       },
       {
         q: 'How is newborn care different from later baby care?',
@@ -341,7 +341,7 @@ export const GUIDE_SEO_EXTRA = {
       },
       {
         q: 'When should I see a doctor after birth?',
-        a: 'Many people have a check around six weeks, but heavy bleeding, fever, severe pain, or thoughts of harming yourself or the baby need care now. Call your obstetrician or local emergency number.',
+        a: 'Many people have a check around **six weeks**, but heavy bleeding, fever, severe pain, or thoughts of harming yourself or the baby need care now. Call your obstetrician or local emergency number.',
       },
       {
         q: 'How does mom recovery relate to baby care?',
@@ -365,11 +365,11 @@ export const GUIDE_SEO_EXTRA = {
     faqs: [
       {
         q: 'Is this the India IAP vaccination schedule?',
-        a: 'No. This page explains how first-year schedules are grouped in general. For India IAP/UIP-style tracking, use the vaccination tracker India guide, then log doses in the app.',
+        a: 'No. This page explains how first-year schedules are grouped in general. For **India IAP/UIP**-style tracking, use the vaccination tracker India guide, then log doses in the app.',
       },
       {
         q: 'How do I track my baby’s vaccines on Yarn Trails?',
-        a: 'Open Vaccination, pick India, CDC, or custom, and log doses you already received. The tracker is an organizer — your clinic card remains the official record.',
+        a: 'Open Vaccination, pick **India**, **CDC**, or custom, and log doses you already received. The tracker is an organizer — your clinic card remains the official record.',
       },
       {
         q: 'Why do countries have different first-year vaccine schedules?',
@@ -530,7 +530,7 @@ export const GUIDE_SEO_EXTRA = {
       },
       {
         q: 'When should a newborn see a doctor for vaccination in India?',
-        a: 'Follow the schedule your pediatrician gives — often aligned with IAP/UIP references at birth and early weeks. Log doses in the Yarn Trails vaccination tracker.',
+        a: 'Follow the schedule your pediatrician gives — often aligned with **IAP/UIP** references at **birth** and early weeks. Log doses in the Yarn Trails vaccination tracker.',
       },
       {
         q: 'Can visitors hold my newborn?',

@@ -21,7 +21,7 @@ const ADMIN_NAV = [
   { to: ROUTES.adminNewsletter, label: 'Newsletter', icon: 'paper-plane' },
   { to: ROUTES.adminCommunity, label: 'Community', icon: 'speech-bubble' },
   { to: ROUTES.adminDiy, label: 'DIY activities', icon: 'image', adminOnly: true },
-  { to: ROUTES.adminGuides, label: 'Guide themes', icon: 'books' },
+  { to: ROUTES.adminGuides, label: 'Guides', icon: 'books' },
 ];
 
 function userInitial(email) {

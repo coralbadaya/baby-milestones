@@ -54,8 +54,9 @@ Footer (4 columns):
   `related` links live on the page record. `intro` is the meta description only.
   Guide articles do not use this shell.
 - **`PageBreadcrumb.jsx`** — quiet trail for guides, FAQ, legal/company. Centered
-  on `.content-page` (guide articles); left-aligned inside `TrustShell` and other
-  `PageSection` heroes. Phosphor caret separator.
+  on `.content-page` (guide articles show **Home › Guides** only — the H1 is the
+  current page; JSON-LD still lists the article). Left-aligned inside `TrustShell`
+  and other `PageSection` heroes. Phosphor caret separator.
 - **`StructuredData.jsx`** — injects/removes a JSON-LD `<script>` by id.
 
 ### Key CSS classes (`global.css`)
@@ -69,7 +70,7 @@ Footer (4 columns):
 - **`src/data/guides.js`** — evergreen articles (`getGuideBySlug`). Each has
   `author`, `reviewedBy`, `updated` for Article/MedicalWebPage schema.
   Visual theme comes from primary hub tag (`src/data/guideThemes.js`; classes
-  `guide-article--theme-*` on `/guides/:slug`). Staff preview: `/admin/guides`.
+  `guide-article--theme-*` on `/guides/:slug`). Staff tags + preview: `/admin/guides`.
 - **`src/data/guideTags.js`** — job tags on `/guides` (not 12 month chips). All shows
   pillar/head-term guides; Milestones lists the hub then month articles (current month first).
 - **`src/data/legalContent.js`** — `PAGES` (legal + company copy) and `FAQS`.
@@ -118,7 +119,10 @@ metadata live in `src/seo/` and are applied at build time plus in the client.
   Placeholder reviewers (`Pending medical review`) are omitted from schema.
 - **Visible breadcrumbs:** `src/components/PageBreadcrumb.jsx` on guides, FAQ,
   legal/company pages. Always inside the page column (`.content-page` or
-  `PageSection`), never a sibling of the centered article. Content pages center
+  `PageSection`), never a sibling of the centered article. Guide articles show
+  the parent path only (`Home › Guides`) so crawlers still get hierarchy without
+  repeating the H1 — that last crumb does not help GEO/AISO. `BreadcrumbList`
+  JSON-LD (and prerender) still includes the article title. Content pages center
   the trail with the hero; the Guides hub left-aligns it with the section header.
   Month pages keep the timeline back control and add related internal links
   (baby monthly milestones guide, per-month guide, vaccination, mom care, sources).

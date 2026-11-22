@@ -156,7 +156,7 @@ When adding another guide: extend `contentGapGuides.js` or `guidesBase.js`, run 
 | Layer | Implementation |
 |-------|----------------|
 | **Crawl** | `sitemap.xml`, `robots.txt`, prerendered `dist/*/index.html`, apex canonical |
-| **On-page** | Unique title/description, H1, intro, H2 body, visible breadcrumbs |
+| **On-page** | Unique title/description, H1, intro, H2 body; parent breadcrumbs on guides (`Home › Guides`); full `BreadcrumbList` in JSON-LD |
 | **FAQ** | `guideSeoEnrichment.js` + `milestoneGuideSeo.js` (months 1–12) + `productPageFaqs.js` (`/vaccination`, `/shopping`) + `/faq` |
 | **JSON-LD** | `Article` / `MedicalWebPage`, `BreadcrumbList`, `FAQPage` (guide + global FAQ) |
 | **Internal links** | `GuideQuickLinks` product row, `relatedSlugs`, footer Learn column, tagged `/guides` hub (`?tag=`) |
