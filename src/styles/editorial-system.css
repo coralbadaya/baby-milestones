@@ -396,12 +396,6 @@
   padding: 0 var(--space-5) var(--space-4);
 }
 
-.trust-strip--premium {
-  margin-bottom: var(--space-5);
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--cream-dark);
-}
-
 /* --- Welcome hero (Home funnel) — dedicated layout, not split PageHero --- */
 .welcome-hero {
   background: var(--surface-ivory);

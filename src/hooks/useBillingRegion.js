@@ -19,7 +19,10 @@ export function useBillingRegion() {
   const [state, setState] = useState(() => {
     try {
       const raw = sessionStorage.getItem(CACHE_KEY);
-      if (raw) return { ...JSON.parse(raw), loading: true };
+      if (raw) {
+        const cached = JSON.parse(raw);
+        if (cached?.region) return { ...cached, loading: false };
+      }
     } catch {
       /* ignore */
     }
@@ -27,7 +30,7 @@ export function useBillingRegion() {
   });
 
   const refresh = useCallback(async () => {
-    setState((prev) => ({ ...prev, loading: true }));
+    setState((prev) => (prev.region ? prev : { ...prev, loading: true }));
     const { data: { session } } = await supabase.auth.getSession();
     const headers = {};
     if (session?.access_token) {
@@ -49,7 +52,7 @@ export function useBillingRegion() {
       sessionStorage.setItem(CACHE_KEY, JSON.stringify(next));
       setState(next);
     } catch {
-      const fallback = {
+      setState({
         loading: false,
         region: 'IN',
         currency: 'INR',
@@ -57,8 +60,7 @@ export function useBillingRegion() {
         label: 'India',
         country: null,
         source: 'fallback',
-      };
-      setState(fallback);
+      });
     }
   }, []);
 

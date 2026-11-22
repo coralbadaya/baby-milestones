@@ -131,11 +131,12 @@ export const SKU_LABELS = {
   gift_subscription: 'Gift first year',
 };
 
+/** Staff/docs only — parent UI shows currency amounts without naming providers. */
 export const PREMIUM_CHECKOUT_NOTE_INR =
-  'Prices in Indian rupees (INR). Pay with UPI, cards, or netbanking via Razorpay.';
+  'INR checkout (Razorpay).';
 
 export const PREMIUM_CHECKOUT_NOTE_USD =
-  'Prices in US dollars (USD). Pay with cards via Stripe Checkout.';
+  'USD checkout (Stripe).';
 
 export const PLANS = {
   basic: {

@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import EditorialBand from '../components/EditorialBand';
-import TrustStrip from '../components/TrustStrip';
 import Icon from '../components/Icon';
 import { interact } from '../utils/haptics';
-import { BILLING_REGIONS, PLANS, PLAN_LIMIT_ROWS } from '../constants/premium';
-import BillingRegionPanel from '../components/BillingRegionPanel';
+import { PLANS, PLAN_LIMIT_ROWS } from '../constants/premium';
 import { useBillingRegion } from '../hooks/useBillingRegion';
 import { useAuth } from '../context/AuthContext';
 import { membershipExpiry, membershipLabel } from '../utils/membership';
@@ -58,11 +56,12 @@ function Premium() {
   const [checkoutError, setCheckoutError] = useState(null);
 
   const billing = useBillingRegion();
-  const activeRegion = billing.region || 'IN';
+  /** Shown and used at checkout; updates when `/api/billing-region` resolves (no loading placeholders). */
+  const checkoutRegion = billing.region ?? 'IN';
   const plusPlan = PLANS.plus;
   const expiry = membershipExpiry(membership);
   const label = membershipLabel(membership);
-  const pricing = formatPremiumRateLineForRegion(activeRegion);
+  const pricing = formatPremiumRateLineForRegion(checkoutRegion);
   const isMember = isPremium && user;
   const isLocalPreview = isPremium && !user;
   const localPreviewEnds = isLocalPreview && readLocalPremium().trialEndsAt
@@ -100,7 +99,7 @@ function Premium() {
     }
     setBusy(true);
     try {
-      await startPlusCheckout(sku, activeRegion);
+      await startPlusCheckout(sku, checkoutRegion);
     } catch (err) {
       setCheckoutError(err.message || 'Checkout unavailable — try a promo code during early access.');
     } finally {
@@ -206,7 +205,7 @@ function Premium() {
                   <h2 className="premium-plan__name premium-plan__name--plus font-display">{plusPlan.name}</h2>
                   <div className="premium-plan__offer">
                     <p className="premium-plan__kicker premium-plan__kicker--plus">
-                      First Year Plan · {BILLING_REGIONS[activeRegion]?.label} ({pricing.currencyCode})
+                      First Year Plan
                     </p>
                     <p className="premium-plan__price">
                       <span className="premium-plan__amount">{pricing.annual}</span>
@@ -228,34 +227,34 @@ function Premium() {
                   >
                     Get First Year Plan
                   </button>
-                  <button
-                    type="button"
-                    className="btn-ghost premium-plan__local"
-                    disabled={busy}
-                    onClick={() => handleCheckout('plus_monthly')}
-                  >
-                    {pricing.monthly}/mo — no trial
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-ghost premium-plan__local"
-                    disabled={busy}
-                    onClick={() => handleCheckout('first_year_bundle')}
-                  >
-                    Bundle + linen hardcover — {pricing.bundle}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-ghost premium-plan__local"
-                    disabled={busy}
-                    onClick={() => handleCheckout('gift_subscription')}
-                  >
-                    Gift a first year — {pricing.gift}
-                  </button>
+                  <div className="premium-plan__checkout-alts" aria-label="Other ways to get Plus">
+                    <button
+                      type="button"
+                      className="premium-plan__alt-btn premium-plan__alt-btn--monthly"
+                      disabled={busy}
+                      onClick={() => handleCheckout('plus_monthly')}
+                    >
+                      {`${pricing.monthly}/mo — no trial`}
+                    </button>
+                    <button
+                      type="button"
+                      className="premium-plan__alt-btn premium-plan__alt-btn--bundle"
+                      disabled={busy}
+                      onClick={() => handleCheckout('first_year_bundle')}
+                    >
+                      {`Bundle + linen hardcover — ${pricing.bundle}`}
+                    </button>
+                    <button
+                      type="button"
+                      className="premium-plan__alt-btn premium-plan__alt-btn--gift"
+                      disabled={busy}
+                      onClick={() => handleCheckout('gift_subscription')}
+                    >
+                      {`Gift a first year — ${pricing.gift}`}
+                    </button>
+                  </div>
 
                   {checkoutError && <p className="auth-error" role="alert">{checkoutError}</p>}
-
-                  {!user && <TrustStrip className="trust-strip--premium" showPrivacyNote />}
 
                   {user && (
                     <>
@@ -295,10 +294,6 @@ function Premium() {
                   </div>
                 </div>
               </div>
-              <p className="premium-plan__region">{pricing.regionNote}</p>
-
-              <BillingRegionPanel activeRegion={activeRegion} loading={billing.loading} />
-
               <p className="premium-trial-note">
                 <Icon name="sparkles" size={18} />
                 Generate one full AI story free — then unlock Plus when the moment lands.

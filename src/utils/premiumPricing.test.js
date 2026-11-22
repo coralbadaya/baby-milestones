@@ -37,7 +37,7 @@ describe('formatPremiumRateLineForRegion', () => {
     expect(result.currencyCode).toBe('INR');
     expect(result.annual).toMatch(/2,?499/);
     expect(result.monthly).toMatch(/399/);
-    expect(result.regionNote).toMatch(/Razorpay|UPI/i);
+    expect(result.regionNote).toMatch(/INR/i);
     expect(result.savingsPct).toBeGreaterThan(40);
   });
 
@@ -45,7 +45,7 @@ describe('formatPremiumRateLineForRegion', () => {
     const result = formatPremiumRateLineForRegion('ROW');
     expect(result.currencyCode).toBe('USD');
     expect(result.annual).toMatch(/24\.99/);
-    expect(result.regionNote).toMatch(/Stripe|USD/i);
+    expect(result.regionNote).toMatch(/USD/i);
   });
 });
 
