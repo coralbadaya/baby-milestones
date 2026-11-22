@@ -182,6 +182,7 @@ export const PAGES = {
         list: [
           'Baby and care data you enter (e.g. birth date, milestone checks, vaccine records) — stored in your browser\u2019s local storage by default, and in your account if you sign in',
           'Optional contact details you provide (e.g. newsletter email)',
+          'Cookieless page counts from Vercel Web Analytics on public pages. These are not tied to your account.',
           'First-party operational analytics if you accept analytics (page views and key product events). Raw IP is kept for 30 days for fraud and debugging, then hashed. This data is for staff product insights only and is not sold. Optional Google Analytics may also load when configured.',
         ],
       },
@@ -255,6 +256,7 @@ export const PAGES = {
         heading: 'What we use',
         list: [
           'Essential storage required for the app to function (e.g. saving your entries locally)',
+          'Cookieless Vercel Web Analytics page counts on public pages, so we can see aggregate sources. This does not use a cookie.',
           'Optional first-party analytics (and Google Analytics, when configured) after you accept. First-party events are stored internally for staff Insights. IP addresses are retained for 30 days, then hashed. We do not sell this data.',
         ],
       },

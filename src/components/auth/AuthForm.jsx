@@ -4,6 +4,7 @@ import { interact } from '../../utils/haptics';
 import { ROUTES } from '../../routes';
 import Icon from '../Icon';
 import DevAuthAssist from './DevAuthAssist';
+import { CONTACT_EMAIL } from '../../constants/brand';
 
 /**
  * @param {{
@@ -61,7 +62,7 @@ function AuthForm({ mode, onSubmit, error: externalError }) {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
+          placeholder={CONTACT_EMAIL}
         />
       </div>
 

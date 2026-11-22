@@ -11,6 +11,7 @@ import AdminStatCard from '../../components/admin/AdminStatCard';
 import AdminToolbar from '../../components/admin/AdminToolbar';
 import Select from '../../components/Select';
 import { useAuth } from '../../context/AuthContext';
+import { CONTACT_EMAIL } from '../../constants/brand';
 import { useEscToClose } from '../../hooks/useEscToClose';
 import { interact } from '../../utils/haptics';
 import {
@@ -704,7 +705,7 @@ function AdminNewsletter() {
                     type="email"
                     value={manualEmail}
                     onChange={(e) => setManualEmail(e.target.value)}
-                    placeholder="you@example.com"
+                    placeholder={CONTACT_EMAIL}
                     required
                   />
                 </div>

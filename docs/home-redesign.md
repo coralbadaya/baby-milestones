@@ -37,11 +37,16 @@ Same on welcome and Today, directly under the hero. Purpose sentence from `HOMEP
 
 My Baby · Baby book · My Care · Vaccination · Guides · Plus
 
+**≤639px Today:** purpose one line; tile padding `--space-3`; hide `.home-jobs__detail`. Desktop keeps the detail line.
+
 Labels match the crawler links in `homepageBodyHtml()`.
 
 ### 2. This week's focus (`TodayFocus.jsx`)
 
-Three cards max, age-aware:
+Three cards max, age-aware. Photos live on Journey, not on these shortcuts.
+
+- **≤639px:** no photo. Body padding `--space-3`, title `--text-md`, meta one line, icon 18px, grid gap `--space-3`. Card 1 title is **This month's milestones** (not `Month {n}: {title}`); hide its eyebrow so the title is not duplicated. Meta stays `{n} of {m} checked`.
+- **≥640px:** 16:9 three-up, card 1 title remains `Month {n}: {title}`.
 
 | Card | Source | Link |
 |------|--------|------|
@@ -52,7 +57,9 @@ Three cards max, age-aware:
 
 ### 3. Current month preview (`CurrentMonthPanel.jsx`)
 
-- Shown on **Today** (compact, 3 items) and **My Baby** (full, 4 items)
+- **Today (compact):** full list for this month, physical then emotional, **checked stay visible** (strike). In-card scroll: `max-height` 224px on phone / 280px desktop, `overscroll-behavior: contain`, bottom fade. Whole row is the 56px tap. No header “Open month →”; footer **View all milestones →** remains. Phone title `--text-md`.
+- **My Baby (full):** 4-item preview, prefers unchecked; header link + summary stay.
+- Tick control: **20px round** check (not a tall rectangle). Compact Home still uses a 56px row tap; the mark stays the small circle.
 - Inline checkboxes — same `checkedItems` / `toggleCheck` as month detail
 - **Empty state:** Month 1 sample with banner to set birth date
 
@@ -73,6 +80,7 @@ Three cards max, age-aware:
 - Horizontal carousel: prev/next arrows, dot indicators, auto-centers on current month
 - Swipe on mobile; keyboard left/right when track is focused
 - Link in section header: **View full timeline →** `/baby`
+- Card face: **4:3 still** for current and past months. Resolution: user album photo (`photo_month`) → owned still in `public/images/journey/month-NN.jpg` (`getJourneyCardImage`). Future months stay number + title only. Same card on My Baby’s grid. No upload on the carousel.
 
 ### 7. Life firsts
 
@@ -117,8 +125,9 @@ Hero: `PageHero` with `layout="split"` on desktop.
 
 - `.home-today` — page wrapper; scroll-synced `--scroll-surface` background
 - `.page-section--blend` — edge feather on Home bands
-- `.today-focus` — 3-column grid (1 col mobile)
+- `.today-focus` — 3-column grid (1 col mobile); phone hides card photos
 - `.today-focus-card` — `.card-accent-top`, minimal border
+- `.home-today` phone: section titles `--text-xl`, hide section subtitles, page-section padding `--space-6`
 - `.timeline-collapsed-footer` — centered link to `/baby`
 - `.firsts-carousel` — life firsts horizontal carousel
 - `.firsts-journal` — full numbered journal on My Baby
@@ -147,4 +156,4 @@ Hero: `PageHero` with `layout="split"` on desktop.
 
 ---
 
-*Last updated: July 2026*
+*Last updated: November 2026*

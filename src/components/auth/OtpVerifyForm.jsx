@@ -5,6 +5,7 @@ import { interact } from '../../utils/haptics';
 import { ROUTES } from '../../routes';
 import DevAuthAssist from './DevAuthAssist';
 import { fetchDevInboxOtp } from '../../utils/fetchDevInboxOtp';
+import { CONTACT_EMAIL } from '../../constants/brand';
 
 const RESEND_COOLDOWN_SEC = 60;
 
@@ -94,7 +95,7 @@ function OtpVerifyForm({ email, onEmailChange, onVerify, onResend }) {
           value={email}
           onChange={(e) => onEmailChange?.(e.target.value)}
           readOnly={!onEmailChange}
-          placeholder="you@example.com"
+          placeholder={CONTACT_EMAIL}
         />
       </div>
 

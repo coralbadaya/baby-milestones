@@ -6,7 +6,7 @@ import { useCookieConsent } from '../context/CookieConsentContext';
 import { interact } from '../utils/haptics';
 import { subscribeFooter } from '../utils/newsletterAdmin';
 import { ROUTES, FOOTER_SECTIONS } from '../routes';
-import { BRAND_NAME, SOCIAL_LINKS } from '../constants/brand';
+import { BRAND_NAME, CONTACT_EMAIL, SOCIAL_LINKS } from '../constants/brand';
 
 function NewsletterSignup() {
   const [email, setEmail] = useState('');
@@ -52,7 +52,7 @@ function NewsletterSignup() {
             type="email"
             inputMode="email"
             autoComplete="email"
-            placeholder="you@example.com"
+            placeholder={CONTACT_EMAIL}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="site-footer-newsletter-input"

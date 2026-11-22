@@ -160,7 +160,7 @@ function Feedback() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
+                placeholder={CONTACT_EMAIL}
               />
             </div>
           </div>

@@ -38,10 +38,10 @@ function CookieConsentBanner() {
               </>
             ) : (
               <>
-                We use essential storage so the app works on your device. With your permission,
-                we also collect first-party operational analytics for staff (page views and key
-                product events; IP kept 30 days then hashed). Google Analytics may load as well
-                when configured. We do not sell this data.
+                We use essential storage so the app works on your device. Public pages also send
+                cookieless page counts to Vercel. With your permission, we collect first-party
+                operational analytics for staff (page views and key product events; IP kept 30 days
+                then hashed). Google Analytics may load as well when configured. We do not sell this data.
                 {' '}
                 <Link to={ROUTES.cookies} className="cookie-consent-link">Cookie Policy</Link>
               </>

@@ -210,6 +210,8 @@
 .page-section--sand .diy-editorial-card,
 .page-section--sand .today-focus-card,
 .page-section--sand .hub-card--editorial,
+.page-section--sand .hub-plus-stack .hub-quick-link,
+.page-section--sand .hub-plus-stack .hub-story-teaser,
 .page-section--lavender .diy-editorial-card,
 .page-section--lavender .today-focus-card,
 .page-section--lavender .hub-card--editorial,
@@ -964,6 +966,93 @@
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-5);
+}
+
+.today-focus-card__title--short {
+  display: none;
+}
+
+@media (max-width: 639px) {
+  .home-today .today-focus-card__image {
+    display: none;
+  }
+
+  .home-today .today-focus__grid {
+    gap: var(--space-3);
+  }
+
+  .today-focus-card {
+    min-height: 56px;
+  }
+
+  .today-focus-card__body {
+    padding: var(--space-3);
+  }
+
+  .today-focus-card__title {
+    font-size: var(--text-md);
+  }
+
+  .today-focus-card__title--short {
+    display: block;
+  }
+
+  .today-focus-card__title--full {
+    display: none;
+  }
+
+  .today-focus-card--milestones .today-focus-card__label {
+    display: none;
+  }
+
+  .today-focus-card__meta {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .today-focus-card__body .app-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .home-today:not(.home-today--welcome) .page-section {
+    padding: var(--space-6) 0;
+  }
+
+  .home-today .section-header {
+    margin-bottom: var(--space-3);
+  }
+
+  .home-today .section-header__title {
+    font-size: var(--text-xl);
+  }
+
+  .home-today .section-header__subtitle {
+    display: none;
+  }
+
+  .home-today .home-jobs {
+    padding: var(--space-2) var(--space-4) var(--space-4);
+  }
+
+  .home-today .home-jobs__purpose {
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-3);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .home-today .home-jobs__detail {
+    display: none;
+  }
+
+  .home-today .home-jobs__link {
+    padding: var(--space-3);
+  }
 }
 
 /* --- Hub editorial cards --- */

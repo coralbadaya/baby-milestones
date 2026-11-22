@@ -115,32 +115,33 @@ function Baby({
           title="Your baby book"
           subtitle="AI stories in your language, photo-book ideas, and a 3D flip-book — the magic rendering tier."
         />
-        <Link
-          to={ROUTES.babyBookTab('home')}
-          className="hub-quick-link card-accent-top card-hover-lift"
-          onClick={onLink}
-          style={{ display: 'inline-flex', marginTop: '0.5rem' }}
-        >
-          <Icon name="book-open" size={20} />
-          <span>
-            <strong>Open baby book</strong>
-            <span className="hub-quick-link__meta">Stories · Ideas · 3D Book · Family</span>
-          </span>
-        </Link>
-        <div className="hub-story-teaser card-accent-top">
-          <Icon name="sparkles" size={22} />
-          <div>
-            <strong>Turn this month into a story</strong>
-            <p className="hub-story-teaser__copy">
-              In your language, in your voice — generate this month&apos;s chapter in the Stories tab.
-            </p>
-            <Link
-              to={ROUTES.babyBookTab('stories')}
-              className="btn-secondary hub-story-teaser__btn"
-              onClick={onLink}
-            >
-              Open Stories tab
-            </Link>
+        <div className="hub-plus-stack">
+          <Link
+            to={ROUTES.babyBookTab('home')}
+            className="hub-quick-link card-accent-top card-hover-lift"
+            onClick={onLink}
+          >
+            <Icon name="book-open" size={20} />
+            <span>
+              <strong>Open baby book</strong>
+              <span className="hub-quick-link__meta">Stories · Ideas · 3D Book · Family</span>
+            </span>
+          </Link>
+          <div className="hub-story-teaser card-accent-top">
+            <Icon name="sparkles" size={22} />
+            <div>
+              <strong>Turn this month into a story</strong>
+              <p className="hub-story-teaser__copy">
+                In your language, in your voice — generate this month&apos;s chapter in the Stories tab.
+              </p>
+              <Link
+                to={ROUTES.babyBookTab('stories')}
+                className="btn-secondary hub-story-teaser__btn"
+                onClick={onLink}
+              >
+                Open Stories tab
+              </Link>
+            </div>
           </div>
         </div>
       </PageSection>

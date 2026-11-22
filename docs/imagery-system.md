@@ -39,7 +39,12 @@ public/images/heroes/
   shopping.jpg      — (optional) Shopping deep link
   travel.jpg        — (optional) Travel deep link
   vaccination.jpg   — (optional) Vaccination
+
+public/images/journey/
+  month-01.jpg … month-36.jpg   — 4:3 Journey timeline stills (past + current months)
 ```
+
+Manifest: `src/data/journeyMonthImages.js` (`getJourneyCardImage`). User album photos override stills. Future months have no image. DIY JPGs in `public/images/diy/` stay prompt helpers, not these card faces.
 
 Manifest: `src/data/pageImages.js`
 

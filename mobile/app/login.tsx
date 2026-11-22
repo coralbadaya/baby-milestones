@@ -5,6 +5,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button } from '@/components/Button';
 import { DevAuthAssist } from '@/components/DevAuthAssist';
 import { Body, Screen, Title } from '@/components/Screen';
+import { CONTACT_EMAIL } from '@/constants/brand';
 import { TEST_USER, isMailinatorAddress } from '@/content/testCredentials';
 import { colors, fonts, space } from '@/constants/theme';
 import { fetchDevInboxOtp } from '@/lib/fetchDevInboxOtp';
@@ -123,7 +124,7 @@ export default function LoginScreen() {
       <TextInput
         value={email}
         onChangeText={setEmail}
-        placeholder="you@example.com"
+        placeholder={CONTACT_EMAIL}
         placeholderTextColor={colors.textSecondary}
         autoCapitalize="none"
         autoCorrect={false}

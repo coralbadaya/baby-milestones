@@ -49,7 +49,7 @@ function TodayFocus({ birthDate, currentMonth, checkedItems }) {
       <div className="today-focus__grid">
         <Link
           to={currentMonth ? ROUTES.month(currentMonth) : ROUTES.baby}
-          className="today-focus-card card-accent-top card-hover-lift today-focus-card--with-image"
+          className="today-focus-card card-accent-top card-hover-lift today-focus-card--with-image today-focus-card--milestones"
           onClick={onLink}
           style={{ '--cat-color': 'var(--baby-blue-dark)', '--cat-bg': 'var(--baby-blue)' }}
         >
@@ -57,11 +57,18 @@ function TodayFocus({ birthDate, currentMonth, checkedItems }) {
           <div className="today-focus-card__body">
             <Icon name="baby" size={22} />
             <span className="today-focus-card__label">This month&apos;s milestones</span>
-            <span className="today-focus-card__title">
-              {monthData
-                ? `Month ${currentMonth}: ${monthData.title}`
-                : 'Set birth date to see milestones'}
-            </span>
+            {monthData ? (
+              <>
+                <span className="today-focus-card__title today-focus-card__title--short">
+                  This month&apos;s milestones
+                </span>
+                <span className="today-focus-card__title today-focus-card__title--full">
+                  Month {currentMonth}: {monthData.title}
+                </span>
+              </>
+            ) : (
+              <span className="today-focus-card__title">Set birth date to see milestones</span>
+            )}
             <span className="today-focus-card__meta">
               {milestoneProgress || monthData?.summary?.slice(0, 80) || 'Track development month by month.'}
               {monthData?.summary && monthData.summary.length > 80 && !milestoneProgress ? '…' : ''}

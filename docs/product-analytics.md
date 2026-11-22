@@ -6,6 +6,8 @@ First-party operational analytics for Yarn Trails staff. **Parents never see thi
 **Ingest:** `POST /api/analytics` (Vercel, service role insert). Clients cannot `SELECT` `analytics_events`.  
 **Rollup/scrub:** `GET/POST /api/analytics-rollup` (cron `15 1 * * *`) calls `analytics_rollup_and_scrub()`.
 
+**Vercel Web Analytics** is separate and already enabled on the nestmile project. The site loads `@vercel/analytics` on public pages (not `/admin`). It is cookieless and does not wait for the consent banner. On Hobby it keeps 1 month of page views and referrers, with no UTM breakdown. Staff Insights remains the consented product log.
+
 Related: [`admin-portal-design.md`](admin-portal-design.md) · [`auth-membership-admin.md`](auth-membership-admin.md) · Privacy/Cookie copy in [`src/data/legalContent.js`](../src/data/legalContent.js)
 
 ---

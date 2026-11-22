@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import milestones from '../data/milestones';
+import { getJourneyCardImage } from '../data/journeyMonthImages';
+import { useMonthlyAlbum } from '../hooks/useMonthlyAlbum';
 import Icon from './Icon';
 import { interact } from '../utils/haptics';
 
@@ -11,7 +13,7 @@ function getMonthProgress(month, checkedItems) {
   return allIds.length > 0 ? checked.length / allIds.length : 0;
 }
 
-function TimelineMonthCard({ month, title, currentMonth, progress, onSelect }) {
+function TimelineMonthCard({ month, title, currentMonth, progress, onSelect, image }) {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -21,7 +23,7 @@ function TimelineMonthCard({ month, title, currentMonth, progress, onSelect }) {
 
   return (
     <div
-      className={`timeline-card ${month === currentMonth ? 'current' : ''} ${progress === 1 ? 'completed' : ''}`}
+      className={`timeline-card${image ? ' timeline-card--with-image' : ''} ${month === currentMonth ? 'current' : ''} ${progress === 1 ? 'completed' : ''}`}
       onClick={() => onSelect(month)}
       onKeyDown={handleKeyDown}
       role="button"
@@ -30,7 +32,14 @@ function TimelineMonthCard({ month, title, currentMonth, progress, onSelect }) {
     >
       {progress > 0 && progress < 1 && <div className="progress-dot" style={{ background: '#F5A572' }} />}
       {progress === 1 && <div className="progress-dot" />}
-      <div className="month-num">{month}</div>
+      {image ? (
+        <div className="timeline-card__image">
+          <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+          <span className="month-num">{month}</span>
+        </div>
+      ) : (
+        <div className="month-num">{month}</div>
+      )}
       <div className="month-label">Month</div>
       <div className="month-title">{title}</div>
     </div>
@@ -42,6 +51,7 @@ function TimelineCarousel({
   currentMonth,
   checkedItems,
   onSelectMonth,
+  albumPhotos,
 }) {
   const trackRef = useRef(null);
   const cardRefs = useRef(new Map());
@@ -176,6 +186,11 @@ function TimelineCarousel({
                 currentMonth={currentMonth}
                 progress={progress}
                 onSelect={handleSelect}
+                image={getJourneyCardImage({
+                  month: m.month,
+                  currentMonth,
+                  albumPhotos,
+                })}
               />
             </div>
           );
@@ -222,6 +237,7 @@ function Timeline({
   hideHeading = false,
   variant = 'grid',
 }) {
+  const { photos: albumPhotos } = useMonthlyAlbum(currentMonth || 1);
   const handleSelect = (month) => {
     interact('tap', 'light');
     onSelectMonth(month);
@@ -246,6 +262,7 @@ function Timeline({
           currentMonth={currentMonth}
           checkedItems={checkedItems}
           onSelectMonth={onSelectMonth}
+          albumPhotos={albumPhotos}
         />
       ) : (
         <div className="timeline-grid">
@@ -259,6 +276,11 @@ function Timeline({
                 currentMonth={currentMonth}
                 progress={progress}
                 onSelect={handleSelect}
+                image={getJourneyCardImage({
+                  month: m.month,
+                  currentMonth,
+                  albumPhotos,
+                })}
               />
             );
           })}

@@ -7,23 +7,12 @@ import Icon from './Icon';
 const SAMPLE_MONTH = 1;
 
 function pickPreviewItems(data, limit) {
-  const physical = data.physical.map((item) => ({ ...item, kind: 'physical' }));
-  const emotional = data.emotional.map((item) => ({ ...item, kind: 'emotional' }));
-  const combined = [...physical, ...emotional];
-
+  const combined = [
+    ...data.physical.map((item) => ({ ...item, kind: 'physical' })),
+    ...data.emotional.map((item) => ({ ...item, kind: 'emotional' })),
+  ];
   const unchecked = combined.filter((item) => !item.checked);
   const pool = unchecked.length > 0 ? unchecked : combined;
-
-  if (limit <= 3) {
-    const picks = [];
-    const phys = pool.filter((i) => i.kind === 'physical');
-    const emo = pool.filter((i) => i.kind === 'emotional');
-    if (phys[0]) picks.push(phys[0]);
-    if (emo[0]) picks.push(emo[0]);
-    if (phys[1]) picks.push(phys[1]);
-    return picks.slice(0, limit);
-  }
-
   return pool.slice(0, limit);
 }
 
@@ -42,15 +31,13 @@ function CurrentMonthPanel({
 
   const allIds = [...data.physical, ...data.emotional].map((i) => i.id);
   const checkedCount = allIds.filter((id) => checkedItems[id]).length;
-  const limit = compact ? 3 : 4;
-
-  const items = pickPreviewItems(
-    {
-      physical: data.physical.map((i) => ({ ...i, checked: checkedItems[i.id] })),
-      emotional: data.emotional.map((i) => ({ ...i, checked: checkedItems[i.id] })),
-    },
-    limit,
-  );
+  const tagged = {
+    physical: data.physical.map((i) => ({ ...i, checked: checkedItems[i.id] })),
+    emotional: data.emotional.map((i) => ({ ...i, checked: checkedItems[i.id] })),
+  };
+  const items = compact
+    ? [...tagged.physical, ...tagged.emotional]
+    : pickPreviewItems(tagged, 4);
 
   const handleCheck = (id) => {
     interact(checkedItems[id] ? 'uncheck' : 'check', checkedItems[id] ? 'light' : 'success');
@@ -77,13 +64,15 @@ function CurrentMonthPanel({
           </h2>
           {!compact && <p className="current-month-panel__summary">{data.summary}</p>}
         </div>
-        <Link
-          to={ROUTES.month(month)}
-          className="current-month-panel__month-link"
-          onClick={() => interact('tap', 'light')}
-        >
-          Open month →
-        </Link>
+        {!compact && (
+          <Link
+            to={ROUTES.month(month)}
+            className="current-month-panel__month-link"
+            onClick={() => interact('tap', 'light')}
+          >
+            Open month →
+          </Link>
+        )}
       </div>
 
       <div className="current-month-panel__progress">
@@ -98,24 +87,49 @@ function CurrentMonthPanel({
         </span>
       </div>
 
-      <ul className="current-month-panel__list">
-        {items.map((item) => (
-          <li key={item.id} className="milestone-preview-item">
-            <button
-              type="button"
-              className={`milestone-preview-check${checkedItems[item.id] ? ' checked' : ''}`}
-              onClick={() => handleCheck(item.id)}
-              aria-pressed={!!checkedItems[item.id]}
-              aria-label={checkedItems[item.id] ? 'Uncheck milestone' : 'Check milestone'}
-            >
-              {checkedItems[item.id] && <Icon name="check" size={14} />}
-            </button>
-            <span className={`milestone-preview-text${checkedItems[item.id] ? ' is-checked' : ''}`}>
-              {item.text}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <div
+        className={compact ? 'current-month-panel__scroll' : undefined}
+        role={compact ? 'region' : undefined}
+        aria-label={compact ? "This month's milestones" : undefined}
+      >
+        <ul className="current-month-panel__list">
+          {items.map((item) => {
+            const isChecked = !!checkedItems[item.id];
+            const checkClass = `milestone-preview-check${isChecked ? ' checked' : ''}`;
+            const textClass = `milestone-preview-text${isChecked ? ' is-checked' : ''}`;
+            const checkMark = isChecked ? <Icon name="check" size={11} /> : null;
+            return (
+              <li key={item.id} className="milestone-preview-item">
+                {compact ? (
+                  <button
+                    type="button"
+                    className="milestone-preview-row"
+                    onClick={() => handleCheck(item.id)}
+                    aria-pressed={isChecked}
+                    aria-label={isChecked ? 'Uncheck milestone' : 'Check milestone'}
+                  >
+                    <span className={checkClass} aria-hidden="true">{checkMark}</span>
+                    <span className={textClass}>{item.text}</span>
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className={checkClass}
+                      onClick={() => handleCheck(item.id)}
+                      aria-pressed={isChecked}
+                      aria-label={isChecked ? 'Uncheck milestone' : 'Check milestone'}
+                    >
+                      {checkMark}
+                    </button>
+                    <span className={textClass}>{item.text}</span>
+                  </>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
 
       <p className="current-month-panel__footer">
         <Link
