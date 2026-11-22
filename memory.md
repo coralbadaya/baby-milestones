@@ -86,7 +86,7 @@ Signed-in users: Supabase `memberships` is source of truth for premium (not loca
 | Area | Key files |
 |------|-----------|
 | Shell | `src/App.jsx`, `src/components/Header.jsx`, `src/components/HeaderMobileActions.jsx`, `src/components/Footer.jsx` |
-| Routes | `src/routes.js` |
+| Routes | `src/routes.js` (admin guide themes: `ROUTES.adminGuides`, `/admin/guides`) |
 | Brand / SEO | `src/constants/brand.js`, `src/data/homepageCopy.js`, `src/seo/` (incl. `keywordSeeds.js`), `src/data/guideSeoEnrichment.js`, `GuideQuickLinks` / `GuideFaqSection`, `src/utils/pageMeta.js`, `src/components/StructuredData.jsx`, `docs/seo-keywords.md`, `docs/seo-keywords-matrix.md` (`npm run generate:seo-keywords`), `.cursor/skills/seo-keywords/SKILL.md`, growth baseline in `docs/growth/` |
 | Styles | `src/styles/global.css`, `src/styles/editorial-system.css` |
 
@@ -142,10 +142,10 @@ Travel types: `car`, `air`, `train`, `dayOuting`, `hotel` — parsed in `assista
 | Premium / Plus | `src/pages/Premium.jsx`, `PremiumGate`, `src/constants/premium.js`, `src/utils/entitlements.js` |
 | AI baby book | `src/components/book/*`, `src/book/albumHtml.js` (3D album document, used by the Book tab and the download), `src/book/engine` (shared sheet, reel, and phone poses, 1.9s), `src/book/pageFold.js` (legacy names plus the offline script), `src/book/pageLayouts.js` (open-book spreads), `src/book/albumStore.js` (per-account local store), `scripts/personal-album.mjs` (private photos, page editor file), **dev QA** `src/pages/dev/PageTurnPlayground.jsx` at `/dev/page-turn-playground` (Vite dev only — see `docs/page-turn-qa.md`) |
 | iOS / Android | `mobile/` (Expo), plan in `docs/mobile-app-plan.md`. Birth date key `babyBirthDate` matches the website |
-| Stripe | `api/checkout.js`, `api/stripe-webhook.js`, `src/utils/stripeCheckout.js` |
+| Billing (dual) | **IN** → Razorpay (`api/razorpay-checkout.js`, `api/razorpay-webhook.js`, `src/utils/razorpayCheckout.js`). **ROW** → Stripe USD (`api/checkout.js`, `api/stripe-webhook.js`, `src/utils/stripeCheckout.js`). Region: `api/billing-region.js`, `src/hooks/useBillingRegion.js`, `profiles.billing_country` override. USD = INR ÷ 100 in `src/constants/premium.js`. |
 | Admin | `src/pages/admin/*`, `docs/auth-membership-admin.md`, `docs/admin-portal-design.md`, `docs/product-analytics.md` |
 
-Admin routes: `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/users/:userId`, `/admin/promos`, `/admin/diy`, `/admin/newsletter`, `/admin/community`, `/admin/community/posts/:id`
+Admin routes: `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/users/:userId`, `/admin/promos`, `/admin/billing`, `/admin/diy`, `/admin/newsletter`, `/admin/community`, `/admin/community/posts/:id`
 
 Public community permalinks: `/community/feed/:slug`, `/community/recipes/:id`, `/community/tips/:id`
 

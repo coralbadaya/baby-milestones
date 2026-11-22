@@ -175,6 +175,10 @@ Legal and company pages pass the nav into `ContentPage`, which renders it inside
 
 `TrustShell` (`src/components/TrustShell.jsx`) is the reading rhythm for legal copy, FAQ, Contact, Feedback, Sources, and the missing-page screen. Guide articles stay on `.content-page` and do not use it.
 
+**Guide article themes:** primary hub tag maps to `guide-article--theme-*` via `src/data/guideThemes.js` — hero band, section rule, FAQ chrome. Staff list + live preview: `/admin/guides`.
+
+**Guides hub tags:** compact filled chips, not 56px tabs. Phone: wrap in the content width (no horizontal scroll), 28px filter chips, 22px card chips, 11px/10px type. Each job tag uses that article theme’s fill + ink; the selected filter is the solid accent. Desktop: 32px / 12px.
+
 | Band | Surface | What sits there |
 |------|---------|-----------------|
 | Hero | Ivory, narrow, left-aligned | Breadcrumb, 56px sand icon disc, title, date |
@@ -186,11 +190,12 @@ Source organization marks on `/sources` use one trail disc. They do not take a c
 
 ## Content card grid & detail modal
 
-Used on **month detail** for DIY and Care (not shopping).
+Used on **month detail** for DIY and Care cards (not shopping). DIY and Care **browse** with `SmartCarousel` at every width.
 
 | Class / component | Purpose |
 |-------------------|---------|
-| `.content-card-grid` | 1 → 2 → 3 column responsive grid |
+| `SmartCarousel` | Snap carousel — arrows, dots, easy-first mixed order |
+| `.content-card-grid` | Still used by shopping and other grids |
 | `.content-card` | Compact card with media header + body; add `.card-accent-top` |
 | `.content-card-cta` | Opens `DetailModal` |
 | `DetailModal` | Scrollable body; bottom sheet mobile; title reserves space for close. Optional `meta` (chip row), `lead` (description), `displayTitle` (Fraunces) for editorial headers (recipes). |
@@ -215,7 +220,7 @@ Shared shell: `AuthPageShell`, `AuthForm` in `src/components/auth/AuthForm.jsx`.
 | `.auth-otp-input` | Centered 6-digit code (tabular nums, letter-spacing) |
 | `.auth-resend-btn` | Text button for OTP resend (60s cooldown in component) |
 
-Signup sends email OTP before session; unverified users redirect to `/verify-email`. Full flow: [`docs/auth-membership-admin.md`](auth-membership-admin.md).
+`/login` and `/signup` share one Continue form. The account is created with email + password; the code at `/verify-email` is optional. Full flow: [`docs/auth-membership-admin.md`](auth-membership-admin.md).
 
 ---
 

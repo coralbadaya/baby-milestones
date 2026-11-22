@@ -15,7 +15,7 @@ Six journey links in one 56px row, plus account and Plus. A section that holds m
 | **My Care** | `/mom-care` | `momCare` | Postpartum timeline + self-care topics |
 | **Essentials** | `/essentials` | `essentials` | Shopping + travel hub |
 | **Community** | `/community/feed` | `community` | Feed, recipes, tips |
-| **Guides** | `/guides` | `guides` | Editorial articles. The page title is Guides & Articles. On a phone this is the fifth bottom-bar item. |
+| **Guides** | `/guides` | `guides` | Editorial articles. Job tags (Milestones, Vaccines, Food, Play, Care, Mom, Memories, Compare). Month-by-month guides sit under Milestones, not on All. `?tag=` is shareable. |
 
 **Named pages inside a section** (desktop menu, same words as the page):
 
@@ -80,10 +80,10 @@ Today (what matters now)
 1. PageHero — developmental moment
 2. Quick links — current month, vaccination; baby book band (stories / 3D book — album & voice live in book tabs)
 3. **CurrentMonthPanel** — checkable milestone preview for current month
-4. **DIYPreviewStrip** — DIY carousel (mobile) or grid (desktop)
+4. **DIYPreviewStrip** — DIY carousel (easiest first, mixed categories)
 5. **CarePreviewTeaser** — bath/massage guides linking to `#care`
 6. **FirstsCarousel** — life firsts (`#moments`) — swipeable 17 moments + capture
-7. Full 36-month Timeline
+7. Monthly Milestones — 6 months at a time (4 recent + current + next), paginated Earlier / Later through all 36
 
 ### My Care (`/mom-care`)
 
@@ -108,14 +108,14 @@ Reachable from the top bar and from direct URLs. They are not in the mobile bott
 
 | Label | Route | Purpose |
 |-------|-------|---------|
-| Sign in | `/login` | Password login; unverified → `/verify-email` |
-| Create account | `/signup` | Email + password; sends OTP |
-| Verify email | `/verify-email` | 6-digit OTP entry + resend (post-signup) |
+| Sign in | `/login` | Email + password: sign in or create account |
+| Create account | `/signup` | Same form as `/login` |
+| Verify email | `/verify-email` | Optional 6-digit code; skippable when signed in |
 | Account | `/account` | Parent hub: snapshot KPIs, app shortcuts, profile, baby, membership, data (`RequireAuth`) |
 | Feedback | `/feedback` | Product feedback — topic cards + optional note; footer + Account |
 | Admin | `/admin` | Staff/admin center |
 
-See [`docs/auth-membership-admin.md`](auth-membership-admin.md) for OTP flow and Supabase dashboard setup.
+See [`docs/auth-membership-admin.md`](auth-membership-admin.md) for the shared continue form and optional verification.
 
 ---
 

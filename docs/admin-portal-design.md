@@ -2,7 +2,7 @@
 
 Professional staff console for Yarn Trails. **Separate visual language** from the consumer app: operational, data-first, calm — not editorial parenting warmth.
 
-**Routes:** `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/newsletter`, `/admin/community`, `/admin/diy`  
+**Routes:** `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/promos`, `/admin/billing`, `/admin/newsletter`, `/admin/community`, `/admin/diy`  
 **Access:** `staff` (read-most) · `admin` (write + DIY images)  
 **Auth doc:** [`auth-membership-admin.md`](auth-membership-admin.md)
 

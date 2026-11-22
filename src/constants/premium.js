@@ -79,27 +79,63 @@ export const PLAN_LIMIT_ROWS = [
   },
 ];
 
-/** Display-only regional rates (until Stripe checkout). USD is anchor. */
-export const PREMIUM_CURRENCIES = {
-  USD: {
-    priceMonthly: 7.99,
-    priceAnnual: 49.99,
-    priceBundle: 79.99,
-    priceGift: 59.99,
-  },
-  GBP: {
-    priceMonthly: 6.99,
-    priceAnnual: 39.99,
-    priceBundle: 64.99,
-    priceGift: 49.99,
-  },
-  INR: {
-    priceMonthly: 399,
-    priceAnnual: 2499,
-    priceBundle: 3999,
-    priceGift: 2999,
-  },
+/** INR is the price anchor; ROW uses USD derived as INR ÷ 100. */
+export const DEFAULT_PREMIUM_CURRENCY = 'INR';
+
+export const INR_PRICE_ANCHOR = {
+  priceMonthly: 399,
+  priceAnnual: 2499,
+  priceBundle: 3999,
+  priceGift: 2999,
 };
+
+/** @param {number} inrWholeRupees */
+export function deriveUsdAmountFromInr(inrWholeRupees) {
+  return inrWholeRupees / 100;
+}
+
+/** @param {{ priceMonthly: number, priceAnnual: number, priceBundle: number, priceGift: number }} inr */
+export function buildUsdPricesFromInr(inr) {
+  return {
+    priceMonthly: deriveUsdAmountFromInr(inr.priceMonthly),
+    priceAnnual: deriveUsdAmountFromInr(inr.priceAnnual),
+    priceBundle: deriveUsdAmountFromInr(inr.priceBundle),
+    priceGift: deriveUsdAmountFromInr(inr.priceGift),
+  };
+}
+
+/** Display + checkout amounts — USD is always derived from INR anchor. */
+export const PREMIUM_CURRENCIES = {
+  INR: { ...INR_PRICE_ANCHOR },
+  USD: buildUsdPricesFromInr(INR_PRICE_ANCHOR),
+};
+
+/** @typedef {'IN' | 'ROW'} BillingRegion */
+
+export const BILLING_REGIONS = {
+  IN: { currency: 'INR', provider: 'razorpay', label: 'India' },
+  ROW: { currency: 'USD', provider: 'stripe', label: 'International' },
+};
+
+export const PLUS_SKUS = Object.freeze([
+  'plus_monthly',
+  'plus_annual',
+  'first_year_bundle',
+  'gift_subscription',
+]);
+
+export const SKU_LABELS = {
+  plus_monthly: 'Plus monthly',
+  plus_annual: 'First year (annual)',
+  first_year_bundle: 'First year + linen hardcover',
+  gift_subscription: 'Gift first year',
+};
+
+export const PREMIUM_CHECKOUT_NOTE_INR =
+  'Prices in Indian rupees (INR). Pay with UPI, cards, or netbanking via Razorpay.';
+
+export const PREMIUM_CHECKOUT_NOTE_USD =
+  'Prices in US dollars (USD). Pay with cards via Stripe Checkout.';
 
 export const PLANS = {
   basic: {
@@ -107,7 +143,7 @@ export const PLANS = {
     name: 'Yarn Trails Basic',
     priceMonthly: 0,
     priceAnnual: 0,
-    currency: 'USD',
+    currency: 'INR',
     /** Short marketing lines. /premium renders PLAN_LIMIT_ROWS instead. */
     features: [
       'Unlimited milestone tracking with captions',
@@ -120,11 +156,11 @@ export const PLANS = {
   plus: {
     id: 'plus',
     name: 'Yarn Trails Plus',
-    priceMonthly: 7.99,
-    priceAnnual: 49.99,
-    priceBundle: 79.99,
-    priceGift: 59.99,
-    currency: 'USD',
+    priceMonthly: PREMIUM_CURRENCIES.INR.priceMonthly,
+    priceAnnual: PREMIUM_CURRENCIES.INR.priceAnnual,
+    priceBundle: PREMIUM_CURRENCIES.INR.priceBundle,
+    priceGift: PREMIUM_CURRENCIES.INR.priceGift,
+    currency: 'INR',
     trialDays: 7,
     annualTrialDays: 7,
     features: [
@@ -217,10 +253,40 @@ export const PREMIUM_FEATURE_COPY = {
   },
 };
 
-/** Stripe price lookup keys (configure in Stripe dashboard). */
+/** Stripe Price lookup keys (configured in Stripe dashboard). */
 export const STRIPE_PRICE_KEYS = {
   plusMonthly: 'plus_monthly',
   plusAnnual: 'plus_annual',
   firstYearBundle: 'first_year_bundle',
   giftSubscription: 'gift_subscription',
 };
+
+/** Stripe Price IDs — ROW / USD only (India uses Razorpay). */
+export const STRIPE_PRICE_ENV = {
+  USD: {
+    plus_monthly: ['STRIPE_PRICE_PLUS_MONTHLY_USD', 'STRIPE_PRICE_PLUS_MONTHLY'],
+    plus_annual: ['STRIPE_PRICE_PLUS_ANNUAL_USD', 'STRIPE_PRICE_PLUS_ANNUAL'],
+    first_year_bundle: ['STRIPE_PRICE_FIRST_YEAR_BUNDLE_USD', 'STRIPE_PRICE_FIRST_YEAR_BUNDLE'],
+    gift_subscription: ['STRIPE_PRICE_GIFT_USD', 'STRIPE_PRICE_GIFT'],
+  },
+};
+
+/** Staff admin matrix (read-only display). */
+export const BILLING_PLAN_MATRIX = PLUS_SKUS.map((sku) => ({
+  sku,
+  label: SKU_LABELS[sku] || sku,
+  inr: INR_PRICE_ANCHOR[
+    sku === 'plus_monthly' ? 'priceMonthly'
+      : sku === 'plus_annual' ? 'priceAnnual'
+        : sku === 'first_year_bundle' ? 'priceBundle'
+          : 'priceGift'
+  ],
+  usd: PREMIUM_CURRENCIES.USD[
+    sku === 'plus_monthly' ? 'priceMonthly'
+      : sku === 'plus_annual' ? 'priceAnnual'
+        : sku === 'first_year_bundle' ? 'priceBundle'
+          : 'priceGift'
+  ],
+  indiaProvider: 'razorpay',
+  rowProvider: 'stripe',
+}));

@@ -301,6 +301,15 @@ function AccountContent() {
               <section className="account-panel card-accent-top">
                 <h2 className="account-panel__title">You</h2>
                 <p className="account-panel__meta">{user?.email}</p>
+                {!verified && (
+                  <p className="account-panel__verify">
+                    Verify when you can.{' '}
+                    <Link to={ROUTES.verifyEmail} state={{ email: user?.email }} onClick={onLink}>
+                      Enter the code from your email
+                    </Link>
+                    . You can use Yarn Trails in the meantime.
+                  </p>
+                )}
                 <ul className="account-panel__facts">
                   <li>
                     <span>Email verified</span>

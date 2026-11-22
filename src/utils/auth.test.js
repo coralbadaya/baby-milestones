@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isEmailVerified, isEmailNotConfirmedError } from './auth';
+import { isEmailVerified, isEmailNotConfirmedError, isInvalidCredentialsError } from './auth';
 
 describe('isEmailVerified', () => {
   it('returns false for null user', () => {
@@ -22,5 +22,15 @@ describe('isEmailNotConfirmedError', () => {
 
   it('returns false for other errors', () => {
     expect(isEmailNotConfirmedError({ message: 'Invalid login credentials' })).toBe(false);
+  });
+});
+
+describe('isInvalidCredentialsError', () => {
+  it('detects invalid login credentials', () => {
+    expect(isInvalidCredentialsError({ message: 'Invalid login credentials' })).toBe(true);
+  });
+
+  it('returns false for email not confirmed', () => {
+    expect(isInvalidCredentialsError({ message: 'Email not confirmed' })).toBe(false);
   });
 });

@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Icon from '../Icon';
 import { interact } from '../../utils/haptics';
-import { ROUTES } from '../../routes';
 import DevAuthAssist from './DevAuthAssist';
 import { fetchDevInboxOtp } from '../../utils/fetchDevInboxOtp';
 import { CONTACT_EMAIL } from '../../constants/brand';
@@ -150,12 +148,6 @@ function OtpVerifyForm({ email, onEmailChange, onVerify, onResend }) {
             {resending ? 'Sending…' : 'Resend code'}
           </button>
         )}
-      </p>
-
-      <p className="auth-switch">
-        <Link to={ROUTES.login} onClick={() => interact('tap', 'light')}>
-          Back to sign in
-        </Link>
       </p>
 
       <DevAuthAssist

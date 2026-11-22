@@ -1,6 +1,6 @@
 # Monetization Strategy
 
-> **Yarn Trails Basic** = recording habit (free forever). **Yarn Trails Plus** = magic rendering + editorial perks. Stripe checkout in progress.
+> **Yarn Trails Basic** = recording habit (free forever). **Yarn Trails Plus** = magic rendering + editorial perks. **Dual billing:** India → Razorpay (INR); rest of world → Stripe (USD derived as INR ÷ 100).
 
 ---
 
@@ -17,14 +17,14 @@ See [`docs/ai-baby-book-plan.md`](ai-baby-book-plan.md) for feature specs.
 
 ## Tiers
 
-| Tier | Price (USD anchor) | Includes |
-|------|-------------------|----------|
-| **Basic** | $0 | Milestone tracking + captions, 2 photos/mo, 1 AI story ever, 3 voice notes, flip-book preview |
-| **Plus** | $7.99/mo or **$49.99/yr** | Unlimited stories, 3D flip-book, HD photos, voice notes, 4K export, print discount, 2 viewer seats, editorial perks |
-| **First Year Bundle** | $79.99 | Annual Plus + linen hardcover ($99 value) — hero SKU |
-| **Gift subscription** | $59.99 one-time | Gift the baby's first year — grandparents |
+| Tier | Price (INR — primary) | Includes |
+|------|----------------------|----------|
+| **Basic** | ₹0 | Milestone tracking + captions, 2 photos/mo, 1 AI story ever, 3 voice notes, flip-book preview |
+| **Plus** | **₹399/mo** or **₹2,499/yr** | Unlimited stories, 3D flip-book, HD photos, voice notes, 4K export, print discount, 2 viewer seats, editorial perks |
+| **First Year Bundle** | **₹3,999** | Annual Plus + linen hardcover — hero SKU |
+| **Gift subscription** | **₹2,999** one-time | Gift the baby's first year — grandparents |
 
-**Regional display:** `src/utils/premiumPricing.js` — USD default; GBP and INR variants in `PREMIUM_CURRENCIES`.
+**Regional display & checkout:** `GET /api/billing-region` resolves **IN** vs **ROW** (IP `x-vercel-ip-country`, then `profiles.billing_country` when set). `/premium` uses `formatPremiumRateLineForRegion` and routes checkout via `startPlusCheckout` — Razorpay for IN, Stripe for ROW. USD amounts in `PREMIUM_CURRENCIES.USD` are always **INR anchor ÷ 100** (₹399 → $3.99). Stripe env: `STRIPE_PRICE_*_USD` (or unprefixed fallbacks). Razorpay: plan/order IDs per SKU — see `docs/auth-membership-admin.md`.
 
 ---
 
@@ -92,14 +92,18 @@ Events: `story_generated`, `trial_started`, `guide_cta_click`, `install_banner_c
 
 | File | Role |
 |------|------|
-| `src/constants/premium.js` | Plans, limits, feature flags, Stripe keys |
-| `src/utils/premiumPricing.js` | Currency detection + formatting |
+| `src/constants/premium.js` | Plans, limits, INR anchor, derived USD, `BILLING_REGIONS`, Stripe env map (USD only) |
+| `src/utils/premiumPricing.js` | Region-aware formatting (`formatPremiumRateLineForRegion`) |
+| `src/hooks/useBillingRegion.js` | Client region + provider for `/premium` |
+| `api/billing-region.js` | IP + profile override JSON |
 | `src/utils/entitlements.js` | Quota checks |
 | `src/hooks/useEntitlements.js` | React hook |
 | `src/context/AuthContext.jsx` | Session, membership, usage fetch |
 | `src/components/PremiumGate.jsx` | Teaser overlay. On the baby book, the cream card uses dark ink so the title stays readable; the flip-book gate shows an open-book illustration. |
 | `src/pages/Premium.jsx` | Basic vs Plus comparison — display names + labeled limits, annual-first |
-| `api/checkout.js` / `api/stripe-webhook.js` | Stripe Checkout + signed webhook (`stripe_events` idempotency) |
+| `api/checkout.js` / `api/stripe-webhook.js` | Stripe Checkout (ROW only) + webhook (`stripe_events`, `billing_webhook_health`) |
+| `api/razorpay-checkout.js` / `api/razorpay-webhook.js` | Razorpay subscriptions/orders (IN) + webhook (`razorpay_events`) |
+| `src/pages/admin/AdminBilling.jsx` | Staff plan matrix + webhook health + recent paid Plus |
 
 ---
 

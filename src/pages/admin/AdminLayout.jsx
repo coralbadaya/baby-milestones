@@ -17,9 +17,11 @@ const ADMIN_NAV = [
   { to: ROUTES.adminInbox, label: 'Inbox', icon: 'envelope', badgeKey: 'inbox' },
   { to: ROUTES.adminUsers, label: 'Users', icon: 'users' },
   { to: ROUTES.adminPromos, label: 'Promo codes', icon: 'ticket' },
+  { to: ROUTES.adminBilling, label: 'Billing', icon: 'bank', adminOnly: true },
   { to: ROUTES.adminNewsletter, label: 'Newsletter', icon: 'paper-plane' },
   { to: ROUTES.adminCommunity, label: 'Community', icon: 'speech-bubble' },
   { to: ROUTES.adminDiy, label: 'DIY activities', icon: 'image', adminOnly: true },
+  { to: ROUTES.adminGuides, label: 'Guide themes', icon: 'books' },
 ];
 
 function userInitial(email) {

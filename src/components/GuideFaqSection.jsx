@@ -1,4 +1,5 @@
 import { useId, useState } from 'react';
+import { interact } from '../utils/haptics';
 
 /**
  * Visible FAQ — same content feeds FAQPage JSON-LD on the guide.
@@ -20,9 +21,15 @@ function GuideFaqSection({ faqs, heading = 'Common questions' }) {
               type="button"
               className="faq-question"
               aria-expanded={open === i}
-              onClick={() => setOpen(open === i ? -1 : i)}
+              onClick={() => {
+                setOpen(open === i ? -1 : i);
+                interact('tap', 'light');
+              }}
             >
-              {item.q}
+              <span className="faq-question-text">{item.q}</span>
+              <span className={`expand-arrow ${open === i ? 'open' : ''}`} aria-hidden="true">
+                ▾
+              </span>
             </button>
             {open === i ? (
               <div className="faq-answer fade-in">

@@ -65,14 +65,14 @@ Impact and effort are judgments. Success metrics have no baseline in the repo. �
 
 ### H6. Charged price equals the sticker
 
-- **Problem.** `detectPremiumCurrency` shows ₹399 / ₹2,499 for `Asia/Kolkata`. `api/checkout.js` sends a single Stripe price ID per SKU and does not pass a currency. If those prices are USD, Indian parents see rupees and pay dollars.
-- **Solution.** Create INR (and GBP, USD) Stripe prices, or stop showing non-USD amounts until they exist. Pass the price ID that matches the displayed currency.
+- **Problem.** India parents saw INR on `/premium` but Stripe charged USD when prices were misaligned.
+- **Solution (shipped in code).** **IN** → Razorpay + INR; **ROW** → Stripe + USD (INR ÷ 100). Region from IP + `profiles.billing_country` override. `begin_checkout` records `billing_region` + `provider`.
 - **Expected outcome.** Checkout trust. A fair test of whether anyone will pay.
 - **Priority.** P0 before any pricing experiment.
-- **Effort.** Low in code, blocked on Stripe dashboard access.
-- **Dependencies.** `STRIPE_SECRET_KEY` and price IDs. Do not guess them.
-- **Success metric.** A test checkout in India charges the amount shown on `/premium`.
-- **Status.** Not started. Needs Stripe access.
+- **Effort.** Low in code; **blocked on live keys** — Razorpay plans + Stripe USD price IDs in Vercel, migration `20261122120000_billing_razorpay.sql` applied.
+- **Dependencies.** `RAZORPAY_*`, `STRIPE_PRICE_*_USD`, webhook secrets.
+- **Success metric.** A test checkout in India charges the amount shown on `/premium` (Razorpay); US/EU charges derived USD (Stripe).
+- **Status.** Code complete; needs env + one end-to-end test per provider.
 
 ### H7. One free viewer seat
 

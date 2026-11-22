@@ -39,11 +39,12 @@
 - `AdminInbox.jsx` — contact submissions
 - `AdminUsers.jsx` — profiles + membership
 - `AdminPromos.jsx` — promo code CRUD
+- `AdminBilling.jsx` — plan matrix (from `premium.js`), webhook health, recent Stripe/Razorpay Plus memberships; env checklist (no secret values)
 - `AdminNewsletter.jsx` — campaigns, compose, templates, subscribers
 - `AdminDiyImages.jsx` — per-activity image config
 - `AdminCommunity.jsx` / `AdminCommunityPost.jsx` — recipes, tips, memories; post overview includes copyable public URL (`/community/feed/:slug`)
 
-**Nav order** (match `AdminLayout.jsx`): Overview · Insights · Inbox · Users · Promo codes · Newsletter · Community · DIY images *(admin only)*
+**Nav order** (match `AdminLayout.jsx`): Overview · Insights · Inbox · Users · Promo codes · Billing *(admin only)* · Newsletter · Community · DIY images *(admin only)*
 
 ---
 

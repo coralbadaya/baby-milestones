@@ -13,8 +13,10 @@ import { interact } from '../utils/haptics';
  *   initialId?: string | null,
  *   resetKey?: string | number,
  *   ariaLabel: string,
+ *   prevLabel?: string,
+ *   nextLabel?: string,
  *   className?: string,
- *   renderItem: (item: T) => import('react').ReactNode,
+ *   renderItem: (item: T, index: number) => import('react').ReactNode,
  * }} props
  */
 function SmartCarousel({
@@ -24,6 +26,8 @@ function SmartCarousel({
   initialId = null,
   resetKey,
   ariaLabel,
+  prevLabel = 'Previous',
+  nextLabel = 'Next',
   className = '',
   renderItem,
 }) {
@@ -126,7 +130,7 @@ function SmartCarousel({
         className="smart-carousel__nav smart-carousel__nav--prev"
         onClick={goPrev}
         disabled={!canPrev}
-        aria-label="Previous activity"
+        aria-label={prevLabel}
       >
         <Icon name="caret-left" size={20} />
       </button>
@@ -140,7 +144,7 @@ function SmartCarousel({
         aria-label={ariaLabel}
         onKeyDown={onKeyDown}
       >
-        {items.map((item) => {
+        {items.map((item, index) => {
           const id = getItemId(item);
           return (
             <div
@@ -151,7 +155,7 @@ function SmartCarousel({
                 else cardRefs.current.delete(id);
               }}
             >
-              {renderItem(item)}
+              {renderItem(item, index)}
             </div>
           );
         })}
@@ -162,7 +166,7 @@ function SmartCarousel({
         className="smart-carousel__nav smart-carousel__nav--next"
         onClick={goNext}
         disabled={!canNext}
-        aria-label="Next activity"
+        aria-label={nextLabel}
       >
         <Icon name="caret-right" size={20} />
       </button>

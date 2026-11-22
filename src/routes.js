@@ -59,8 +59,10 @@ export const ROUTES = {
   adminUsers: '/admin/users',
   adminUser: (userId) => `/admin/users/${userId}`,
   adminPromos: '/admin/promos',
+  adminBilling: '/admin/billing',
   adminDiy: '/admin/diy',
   adminDiyImage: (activityId) => `/admin/diy/${activityId}`,
+  adminGuides: '/admin/guides',
   adminNewsletter: '/admin/newsletter',
   adminCommunity: '/admin/community',
   adminCommunityPost: (id) => `/admin/community/posts/${id}`,
@@ -161,7 +163,6 @@ export const PREMIUM_NAV = { key: 'premium', to: ROUTES.premium, label: 'Plus', 
 export const MOBILE_USER_MENU = {
   guest: [
     { key: 'login', to: ROUTES.login, label: 'Sign in' },
-    { key: 'signup', to: ROUTES.signup, label: 'Sign up' },
     { key: 'premium', to: PREMIUM_NAV.to, label: PREMIUM_NAV.label },
   ],
   member: [

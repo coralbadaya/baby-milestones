@@ -5,7 +5,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button } from '@/components/Button';
 import { DevAuthAssist } from '@/components/DevAuthAssist';
 import { Body, Screen, Title } from '@/components/Screen';
-import { CONTACT_EMAIL } from '@/constants/brand';
+import { CONTACT_EMAIL, SITE_URL } from '@/constants/brand';
 import { TEST_USER, isMailinatorAddress } from '@/content/testCredentials';
 import { colors, fonts, space } from '@/constants/theme';
 import { fetchDevInboxOtp } from '@/lib/fetchDevInboxOtp';
@@ -20,6 +20,16 @@ export default function LoginScreen() {
   const [step, setStep] = useState<'password' | 'otp'>('password');
   const [note, setNote] = useState('');
   const [busy, setBusy] = useState(false);
+
+  async function confirmEmail(trimmed: string) {
+    const origin = process.env.EXPO_PUBLIC_SITE_URL || SITE_URL;
+    const res = await fetch(`${origin}/api/auth-confirm-email`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: trimmed, password }),
+    });
+    if (!res.ok) throw new Error('Could not open this account yet.');
+  }
 
   async function signInWithPassword() {
     if (!EMAIL.test(email.trim())) {
@@ -36,26 +46,50 @@ export default function LoginScreen() {
     }
     setBusy(true);
     setNote('');
+    const trimmed = email.trim();
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
-      });
-      if (error) throw error;
-      if (data.session) {
+      const first = await supabase.auth.signInWithPassword({ email: trimmed, password });
+      if (!first.error && first.data.session) {
         router.replace('/(tabs)');
         return;
       }
-      setStep('otp');
-      setNote('Check your email for a code, or use Fill OTP from Mailinator.');
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Sign-in failed';
-      if (/confirm|verified/i.test(message)) {
-        setStep('otp');
-        setNote('Email not verified yet. Enter the code or fetch from Mailinator.');
-      } else {
-        setNote(message);
+      const message = first.error?.message || '';
+      if (/not confirmed/i.test(message)) {
+        await confirmEmail(trimmed);
+        const retry = await supabase.auth.signInWithPassword({ email: trimmed, password });
+        if (retry.error) throw retry.error;
+        if (retry.data.session) {
+          router.replace('/(tabs)');
+          return;
+        }
+      } else if (/invalid login|invalid credentials/i.test(message) || first.error) {
+        if (first.error && !/invalid login|invalid credentials/i.test(message) && !/not confirmed/i.test(message)) {
+          throw first.error;
+        }
+        const signedUp = await supabase.auth.signUp({ email: trimmed, password });
+        if (signedUp.error) throw signedUp.error;
+        if (signedUp.data.session) {
+          router.replace('/(tabs)');
+          return;
+        }
+        try {
+          await confirmEmail(trimmed);
+          const after = await supabase.auth.signInWithPassword({ email: trimmed, password });
+          if (after.error) throw after.error;
+          if (after.data.session) {
+            router.replace('/(tabs)');
+            return;
+          }
+        } catch {
+          setStep('otp');
+          setNote('Account created. You can enter the email code now, or later.');
+          return;
+        }
       }
+      setStep('otp');
+      setNote('You can enter the email code now, or later.');
+    } catch (err) {
+      setNote(err instanceof Error ? err.message : 'Sign-in failed');
     } finally {
       setBusy(false);
     }
@@ -105,12 +139,12 @@ export default function LoginScreen() {
       footer={
         <View style={styles.actions}>
           {step === 'password' ? (
-            <Button label={busy ? 'Signing in…' : 'Sign in'} onPress={signInWithPassword} />
+            <Button label={busy ? 'Please wait…' : 'Continue'} onPress={signInWithPassword} />
           ) : (
             <>
               <Button label={busy ? 'Verifying…' : 'Verify code'} onPress={verifyOtp} />
               <Button label="Resend code" onPress={resendCode} tone="quiet" />
-              <Button label="Back to password" onPress={() => setStep('password')} tone="quiet" />
+              <Button label="Skip for now" onPress={() => setStep('password')} tone="quiet" />
             </>
           )}
         </View>
@@ -118,7 +152,7 @@ export default function LoginScreen() {
     >
       <Title>One account.</Title>
       <Body>
-        Same Supabase login as yarntrails.com. Seeded test users use password only — no OTP at login.
+        Sign in or create an account with the same email as yarntrails.com. The code is optional verification.
       </Body>
 
       <TextInput

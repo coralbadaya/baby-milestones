@@ -84,7 +84,7 @@ Parent features are designed on a **390px** screen first. Desktop widens that la
 - **Select:** `src/components/Select.jsx` — use for all dropdowns; spec in `docs/ui-design.md`.
 - **Footer:** `src/components/Footer.jsx` — global footer; do not duplicate per page.
 - **PremiumGate:** `src/components/PremiumGate.jsx` — premium content gating.
-- **Auth:** `AuthForm`, `OtpVerifyForm`, `RequireAuth`, `RequireRole` in `src/components/auth/`; session in `src/context/AuthContext.jsx`. Signup requires email OTP — see [`docs/auth-membership-admin.md`](docs/auth-membership-admin.md).
+- **Auth:** `AuthForm`, `OtpVerifyForm`, `RequireAuth`, `RequireRole` in `src/components/auth/`; session in `src/context/AuthContext.jsx`. Sign in and sign up share one email form; OTP is optional verification — see [`docs/auth-membership-admin.md`](docs/auth-membership-admin.md).
 
 ## Nav order (primary)
 

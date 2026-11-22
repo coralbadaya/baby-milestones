@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import milestones from '../data/milestones';
 import { getJourneyCardImage } from '../data/journeyMonthImages';
+import {
+  MILESTONE_MONTH_COUNT,
+  milestonePageEnd,
+  milestonePageStart,
+  shiftMilestonePage,
+} from '../data/milestonePage';
 import { useMonthlyAlbum } from '../hooks/useMonthlyAlbum';
 import Icon from './Icon';
 import { interact } from '../utils/haptics';
@@ -238,22 +244,74 @@ function Timeline({
   variant = 'grid',
 }) {
   const { photos: albumPhotos } = useMonthlyAlbum(currentMonth || 1);
+  const paged = variant === 'grid';
+  const [pageStart, setPageStart] = useState(() => milestonePageStart(currentMonth));
+
+  useEffect(() => {
+    setPageStart(milestonePageStart(currentMonth));
+  }, [currentMonth]);
+
   const handleSelect = (month) => {
     interact('tap', 'light');
     onSelectMonth(month);
   };
 
-  const visibleMonths = milestones.filter(
-    (m) => !collapsed || (m.month >= rangeStart && m.month <= rangeEnd),
-  );
+  const pageEnd = milestonePageEnd(pageStart);
+  const visibleMonths = milestones.filter((m) => {
+    if (variant === 'carousel' && collapsed) {
+      return m.month >= rangeStart && m.month <= rangeEnd;
+    }
+    if (paged) return m.month >= pageStart && m.month <= pageEnd;
+    return !collapsed || (m.month >= rangeStart && m.month <= rangeEnd);
+  });
+
+  const canPrev = paged && pageStart > 1;
+  const canNext = paged && pageEnd < MILESTONE_MONTH_COUNT;
+
+  const goPage = (delta) => {
+    interact('tap', 'light');
+    setPageStart((start) => shiftMilestonePage(start, delta));
+  };
 
   return (
     <section className={`timeline-section${variant === 'carousel' ? ' timeline-section--carousel' : ''}`}>
       {!hideHeading && (
         <>
           <h2>Monthly Milestones</h2>
-          <p className="timeline-subtitle">Click any month to explore milestones, activities, and tips</p>
+          <p className="timeline-subtitle">
+            {paged
+              ? `Months ${pageStart}–${pageEnd} — tap a month to open it`
+              : 'Click any month to explore milestones, activities, and tips'}
+          </p>
         </>
+      )}
+
+      {paged && (
+        <div className="timeline-pager">
+          <button
+            type="button"
+            className="timeline-pager__btn"
+            onClick={() => goPage(-1)}
+            disabled={!canPrev}
+            aria-label="Previous months"
+          >
+            <Icon name="caret-left" size={20} />
+            Earlier
+          </button>
+          <p className="timeline-pager__status" aria-live="polite">
+            {pageStart}–{pageEnd} of {MILESTONE_MONTH_COUNT}
+          </p>
+          <button
+            type="button"
+            className="timeline-pager__btn"
+            onClick={() => goPage(1)}
+            disabled={!canNext}
+            aria-label="Next months"
+          >
+            Later
+            <Icon name="caret-right" size={20} />
+          </button>
+        </div>
       )}
 
       {variant === 'carousel' ? (
@@ -265,7 +323,7 @@ function Timeline({
           albumPhotos={albumPhotos}
         />
       ) : (
-        <div className="timeline-grid">
+        <div className={`timeline-grid${paged ? ' timeline-grid--paged' : ''}`}>
           {visibleMonths.map((m) => {
             const progress = getMonthProgress(m.month, checkedItems);
             return (

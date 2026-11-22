@@ -14,7 +14,7 @@ Read with [`store-readiness.md`](store-readiness.md), [`doctrine-summary.md`](do
 Parents already meet Yarn Trails in a browser. Three things the browser cannot do well enough are the reason to ship iOS and Android:
 
 1. **Charging for Plus.** Digital membership on a phone must be billed by Apple and Google. A wallet, a coin pack, or a “recharge” balance fights both the stores and the brand. Plus is a membership. The App Store and Play Billing renew it. The website can keep its own checkout for people who subscribe in a browser. One account, two ways to pay, no double charge for the same period.
-2. **OTP.** Signup on the website already requires an email code before a session. The app uses that same code and the same Supabase account, so a parent who joined on the web is the same parent on the phone. Sign in with Apple is added before any other social button, because Apple requires it. Phone-number OTP can wait until a store review or a country actually needs it.
+2. **OTP.** The website creates the account on email + password; the code is optional verification. The app uses the same Supabase account, so a parent who joined on the web is the same parent on the phone. Sign in with Apple is added before any other social button, because Apple requires it. Phone-number OTP can wait until a store review or a country actually needs it.
 3. **A daily open.** Push, a home-screen icon, and a lock on the birth date are what make Tomorrow’s month feel like a place to return. The website remains for reading. The app is for the minute at 3am.
 
 This is not a second product and not a freelance marketplace. We charge for Yarn Trails Plus. We do not charge parents to message each other, and we do not add a services board.

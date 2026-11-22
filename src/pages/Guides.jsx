@@ -1,32 +1,30 @@
-import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import PageHero from '../components/PageHero';
 import PageSection from '../components/PageSection';
 import SectionHeader from '../components/SectionHeader';
 import Icon from '../components/Icon';
 import guides from '../data/guides';
+import {
+  GUIDE_TAGS,
+  isMonthMilestoneGuide,
+  listGuidesForTag,
+  parseGuideTag,
+  tagLabel,
+  tagsForGuide,
+} from '../data/guideTags';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
 import PageBreadcrumb from '../components/PageBreadcrumb';
+import { useBabyIdentity } from '../hooks/useBabyIdentity';
+import { getCurrentMonthFromBirthDate } from '../utils/vaccines';
 
-const GUIDE_CATEGORY_ORDER = [
-  'Early Years',
-  'Memories',
-  'Baby Development',
-  'Mom Care',
-  'Health & Safety',
-  'Compare',
-];
+function GuideCard({ guide, currentMonth }) {
+  const tags = tagsForGuide(guide);
+  const thisMonth = isMonthMilestoneGuide(guide) && guide.milestoneMonth === currentMonth;
 
-function guidesByCategory() {
-  return GUIDE_CATEGORY_ORDER.map((category) => ({
-    category,
-    items: guides.filter((g) => g.category === category),
-  })).filter((group) => group.items.length > 0);
-}
-
-function GuideCard({ guide }) {
   return (
     <Link
       to={ROUTES.guide(guide.slug)}
@@ -36,7 +34,12 @@ function GuideCard({ guide }) {
       <div className="guide-card-icon">
         <Icon name={guide.icon} size={28} />
       </div>
-      <span className="guide-card-category">{guide.category}</span>
+      <div className="guide-card-tags">
+        {thisMonth && <span className="guide-tag guide-tag--now">This month</span>}
+        {tags.map((id) => (
+          <span key={id} className="guide-tag" data-tag={id}>{tagLabel(id)}</span>
+        ))}
+      </div>
       <h2 className="guide-card-title">{guide.title}</h2>
       <p className="guide-card-desc">{guide.description}</p>
       <span className="guide-card-meta">{guide.readMinutes} min read</span>
@@ -46,7 +49,30 @@ function GuideCard({ guide }) {
 
 function Guides() {
   usePageMeta(getStaticMeta(ROUTES.guides) || {});
-  const groups = guidesByCategory();
+  const [params, setParams] = useSearchParams();
+  const { birthDate } = useBabyIdentity();
+  const currentMonth = getCurrentMonthFromBirthDate(birthDate);
+  const activeTag = parseGuideTag(params.get('tag'));
+
+  const items = useMemo(
+    () => listGuidesForTag(guides, activeTag, { currentMonth }),
+    [activeTag, currentMonth],
+  );
+
+  const activeLabel = tagLabel(activeTag);
+  const subtitle = activeTag === 'all'
+    ? 'Head-term guides first. Month-by-month articles live under Milestones.'
+    : activeTag === 'milestones'
+      ? (currentMonth
+        ? `Your month ${currentMonth} guide first, then the rest of the first year.`
+        : 'The monthly hub, then each month’s guide.')
+      : `${items.length} guide${items.length === 1 ? '' : 's'} in ${activeLabel}.`;
+
+  const setTag = (id) => {
+    interact('tap', 'selection');
+    if (id === 'all') setParams({}, { replace: true });
+    else setParams({ tag: id }, { replace: true });
+  };
 
   return (
     <div className="guides-page">
@@ -72,21 +98,35 @@ function Guides() {
           title="Curated reading"
           subtitle="Reviewed against trusted medical guidance — calm, never alarmist."
         />
+        <div className="guides-tag-tabs" role="tablist" aria-label="Guide topics">
+          {GUIDE_TAGS.map((tag) => (
+            <button
+              key={tag.id}
+              type="button"
+              role="tab"
+              aria-selected={activeTag === tag.id}
+              className={`guides-tag-btn${activeTag === tag.id ? ' is-active' : ''}`}
+              data-tag={tag.id}
+              onClick={() => setTag(tag.id)}
+            >
+              {tag.label}
+            </button>
+          ))}
+        </div>
       </PageSection>
 
       <PageSection surface="white" width="wide" className="page-body--with-mobile-nav">
-        {groups.map((group) => (
-          <section key={group.category} className="guides-category" aria-labelledby={`guides-cat-${group.category}`}>
-            <h2 id={`guides-cat-${group.category}`} className="guides-category-title font-display">
-              {group.category}
-            </h2>
-            <div className="guides-grid" aria-labelledby={`guides-cat-${group.category}`}>
-              {group.items.map((guide) => (
-                <GuideCard key={guide.slug} guide={guide} />
-              ))}
-            </div>
-          </section>
-        ))}
+        <h2 className="guides-category-title font-display">{activeLabel}</h2>
+        <p className="guides-tag-sub">{subtitle}</p>
+        {items.length > 0 ? (
+          <div className="guides-grid" aria-labelledby="guides-list-heading">
+            {items.map((guide) => (
+              <GuideCard key={guide.slug} guide={guide} currentMonth={currentMonth} />
+            ))}
+          </div>
+        ) : (
+          <p className="month-section-empty">Nothing in this topic yet.</p>
+        )}
       </PageSection>
     </div>
   );

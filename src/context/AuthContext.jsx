@@ -3,7 +3,7 @@ import { supabase } from '../utils/supabaseClient';
 import { isPremiumActive } from '../utils/membership';
 import { readLocalPremium } from '../utils/localPremium';
 import { PREMIUM_STORAGE_KEY, PLANS } from '../constants/premium';
-import { isEmailVerified } from '../utils/auth';
+import { isEmailNotConfirmedError, isEmailVerified, isInvalidCredentialsError } from '../utils/auth';
 import { trackEvent } from '../utils/analytics';
 
 const AuthContext = createContext(null);
@@ -101,6 +101,60 @@ export function AuthProvider({ children }) {
     return data;
   }, []);
 
+  const confirmEmailForLogin = useCallback(async (email, password) => {
+    const res = await fetch('/api/auth-confirm-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(payload.error || 'Could not open this account yet.');
+    }
+  }, []);
+
+  const continueWithPassword = useCallback(async ({ email, password, displayName }) => {
+    const trimmed = email.trim();
+    const first = await supabase.auth.signInWithPassword({ email: trimmed, password });
+    if (!first.error) {
+      return { action: 'signin', ...first.data };
+    }
+
+    if (isEmailNotConfirmedError(first.error)) {
+      await confirmEmailForLogin(trimmed, password);
+      const retry = await supabase.auth.signInWithPassword({ email: trimmed, password });
+      if (retry.error) throw retry.error;
+      return { action: 'signin', ...retry.data };
+    }
+
+    if (!isInvalidCredentialsError(first.error)) {
+      throw first.error;
+    }
+
+    const { data: signedUp, error: signUpError } = await supabase.auth.signUp({
+      email: trimmed,
+      password,
+      options: { data: { display_name: displayName || undefined } },
+    });
+    if (signUpError) throw signUpError;
+    if (signedUp.session) {
+      return { action: 'signup', ...signedUp };
+    }
+    const created = (signedUp.user?.identities?.length ?? 0) > 0;
+    if (!created) {
+      throw new Error('Invalid email or password.');
+    }
+
+    try {
+      await confirmEmailForLogin(trimmed, password);
+    } catch {
+      return { action: 'signup', ...signedUp };
+    }
+    const after = await supabase.auth.signInWithPassword({ email: trimmed, password });
+    if (after.error) throw after.error;
+    return { action: 'signup', ...after.data };
+  }, [confirmEmailForLogin]);
+
   const verifyEmailOtp = useCallback(async ({ email, token }) => {
     const { data, error } = await supabase.auth.verifyOtp({
       email,
@@ -183,6 +237,7 @@ export function AuthProvider({ children }) {
     isStaff,
     signUp,
     signIn,
+    continueWithPassword,
     verifyEmailOtp,
     resendSignupOtp,
     signOut,
@@ -192,7 +247,7 @@ export function AuthProvider({ children }) {
     startLocalTrial,
   }), [
     session, profile, membership, loading, profileLoading, isPremium, isPlus, isAdmin, isStaff,
-    signUp, signIn, verifyEmailOtp, resendSignupOtp, signOut,
+    signUp, signIn, continueWithPassword, verifyEmailOtp, resendSignupOtp, signOut,
     updateDisplayName, redeemPromoCode, refreshProfile, startLocalTrial,
   ]);
 

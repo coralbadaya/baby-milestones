@@ -11,9 +11,9 @@ Information architecture, navigation chrome, and SEO/GEO infrastructure for Yarn
 ## Information architecture
 
 ```
-Top bar:          Today · My Baby · My Care · Essentials · Community · Guides · Sign up · Sign in/Account · [Plus]
+Top bar:          Today · My Baby · My Care · Essentials · Community · Guides · Sign in/Account · [Plus]
                   A section with more than one page opens a square menu of those page names.
-Mobile top bar:   Logo · [Plus] · You menu (Sign in / Sign up / Plus for guests; Profile & account / Plus when signed in)
+Mobile top bar:   Logo · [Plus] · You menu (Sign in / Plus for guests; Profile & account / Plus when signed in)
 Mobile bottom bar: Baby · Care · Book · Community · Guides   (Today is the logo; Essentials in desktop nav / footer; Book is the Plus circle)
 
 Footer (4 columns):
@@ -41,7 +41,7 @@ Footer (4 columns):
 
 ## Components
 
-- **`Header.jsx`** — a 56px top bar (`--header-height`): logo, `PRIMARY_NAV`, Sign up / Sign in or Account, and a square `.header-cta` Plus button.
+- **`Header.jsx`** — a 56px top bar (`--header-height`): logo, `PRIMARY_NAV`, Sign in or Account, and a square `.header-cta` Plus button.
   Sections with a `pages` list open a square menu of the page titles (My Baby → Vaccination tracker, Baby book; Essentials → Shopping, Travel; Community → Mom Feed, Baby Recipes, Parenting Tips; Today → Progress).
   On a phone, `.header-nav` is hidden; `.header-mobile-actions` shows Plus and the account menu (`HeaderMobileActions.jsx`, `MOBILE_USER_MENU` in `routes.js`). `.mobile-nav` still renders `MOBILE_NAV` at the bottom.
   The current section is a 2px trail rule along the bottom edge of the bar. Corners stay square. Plus is a filled square, not a pill.
@@ -68,6 +68,10 @@ Footer (4 columns):
 
 - **`src/data/guides.js`** — evergreen articles (`getGuideBySlug`). Each has
   `author`, `reviewedBy`, `updated` for Article/MedicalWebPage schema.
+  Visual theme comes from primary hub tag (`src/data/guideThemes.js`; classes
+  `guide-article--theme-*` on `/guides/:slug`). Staff preview: `/admin/guides`.
+- **`src/data/guideTags.js`** — job tags on `/guides` (not 12 month chips). All shows
+  pillar/head-term guides; Milestones lists the hub then month articles (current month first).
 - **`src/data/legalContent.js`** — `PAGES` (legal + company copy) and `FAQS`.
   > Legal copy is **drafted placeholder** — must be lawyer-reviewed before launch.
   > Replace `reviewedBy: 'Pending medical review'` with named clinicians.

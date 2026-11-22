@@ -83,7 +83,7 @@ Health and postpartum content is **educational only**. We cite sources, demote u
 | **Educational, not medical** | We inform; we do not diagnose or prescribe. |
 | **Never paywall core tracking** | Milestones, vaccination log, mom care basics stay free. |
 | **Never paywall emergency paths** | Assistant and static pages must route to professional care when appropriate. |
-| **Verified accounts for membership** | Signup requires email OTP before session — reduces abuse, protects list quality. |
+| **Accounts first, verify when you can** | Sign in and sign up share one email form. The account is created immediately; the email code is verification, not a gate to using Yarn Trails. |
 | **Honest premium framing** | Early access / founding membership until Stripe ships — no fake checkout. |
 | **Privacy by default** | Baby data in localStorage until cloud sync is designed; no silent exfiltration. |
 | **Staff data is operational** | Contact inbox, users, promos — staff roles only; RLS enforced in Supabase. |

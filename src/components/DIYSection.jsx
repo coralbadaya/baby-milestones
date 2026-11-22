@@ -1,31 +1,35 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import DIYActivityCard from './DIYActivityCard';
 import SmartCarousel from './SmartCarousel';
 import { diyCategoryConfig } from './diyCategoryConfig';
 import { interact } from '../utils/haptics';
 import Icon from './Icon';
 import { useDiyActivitiesContext } from '../context/DiyActivitiesContext';
-import { useMaxWidth } from '../hooks/useMaxWidth';
+import { orderForCarousel } from '../utils/smartCarouselOrder';
 
 function DIYSection({ month }) {
   const [activeFilter, setActiveFilter] = useState('all');
   const [openId, setOpenId] = useState(null);
-  const isMobile = useMaxWidth(639);
   const { activitiesByMonth } = useDiyActivitiesContext();
   const monthData = activitiesByMonth.find((d) => d.month === month);
+  const filtered = useMemo(() => {
+    if (!monthData) return [];
+    const list = activeFilter === 'all'
+      ? monthData.activities
+      : monthData.activities.filter((a) => a.category === activeFilter);
+    return orderForCarousel(list);
+  }, [monthData, activeFilter]);
+
   if (!monthData) return null;
 
   const filters = ['all', ...Object.keys(diyCategoryConfig)];
-  const filtered = activeFilter === 'all'
-    ? monthData.activities
-    : monthData.activities.filter((a) => a.category === activeFilter);
 
   return (
     <section id="diy" className="month-section diy-section-wrapper">
       <div className="month-section-header">
         <h3>DIY Games & Activities</h3>
         <p className="month-section-sub">
-          {filtered.length} hands-on ideas for month {month} — tap <strong>Open guide</strong> for steps and videos.
+          {filtered.length} hands-on ideas for month {month} — easiest first, mixed so you are not stuck in one type. Swipe or use arrows.
         </p>
       </div>
 
@@ -54,7 +58,7 @@ function DIYSection({ month }) {
         })}
       </div>
 
-      {isMobile ? (
+      {filtered.length > 0 ? (
         <SmartCarousel
           items={filtered}
           getItemId={(a) => a.id}
@@ -72,17 +76,7 @@ function DIYSection({ month }) {
           )}
         />
       ) : (
-        <div className="content-card-grid">
-          {filtered.map((activity) => (
-            <DIYActivityCard
-              key={activity.id}
-              activity={activity}
-              isOpen={openId === activity.id}
-              onOpen={setOpenId}
-              onClose={() => setOpenId(null)}
-            />
-          ))}
-        </div>
+        <p className="month-section-empty">Nothing in this filter for month {month}.</p>
       )}
     </section>
   );

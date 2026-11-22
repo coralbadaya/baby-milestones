@@ -1,46 +1,47 @@
+import { useEffect } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import AuthForm, { AuthPageShell, AuthSwitchLink } from '../components/auth/AuthForm';
-import { isEmailVerified, useAuth } from '../context/AuthContext';
+import AuthForm, { AuthPageShell } from '../components/auth/AuthForm';
+import { useAuth } from '../context/AuthContext';
 import { trackEvent } from '../utils/analytics';
-import { isEmailNotConfirmedError } from '../utils/auth';
 import { usePageMeta } from '../utils/pageMeta';
 import { ROUTES } from '../routes';
 
 function Login() {
-  usePageMeta({ title: 'Sign In', description: 'Sign in to your Yarn Trails account.', robots: 'noindex, nofollow' });
-  const { signIn, user } = useAuth();
-  const navigate = useNavigate();
   const location = useLocation();
+  const isSignupPath = location.pathname === ROUTES.signup;
+  usePageMeta({
+    title: isSignupPath ? 'Create Account' : 'Sign In',
+    description: 'Sign in or create a Yarn Trails account with your email.',
+    robots: 'noindex, nofollow',
+  });
+  const { continueWithPassword, user } = useAuth();
+  const navigate = useNavigate();
   const from = location.state?.from || ROUTES.account;
 
-  if (user && isEmailVerified(user)) {
+  useEffect(() => {
+    if (isSignupPath) trackEvent('signup_view');
+  }, [isSignupPath]);
+
+  if (user) {
     return <Navigate to={from} replace />;
   }
-  if (user && !isEmailVerified(user)) {
-    return <Navigate to={ROUTES.verifyEmail} state={{ email: user.email }} replace />;
-  }
 
-  const handleSubmit = async ({ email, password }) => {
-    try {
-      await signIn({ email, password });
-      trackEvent('login_completed');
-      navigate(from, { replace: true });
-    } catch (err) {
-      if (isEmailNotConfirmedError(err)) {
-        navigate(ROUTES.verifyEmail, { replace: true, state: { email } });
-        return;
-      }
-      throw err;
+  const handleSubmit = async ({ email, password, displayName }) => {
+    const result = await continueWithPassword({ email, password, displayName });
+    trackEvent(result.action === 'signup' ? 'signup_completed' : 'login_completed');
+    if (!result.session) {
+      navigate(ROUTES.verifyEmail, { replace: true, state: { email, from } });
+      return;
     }
+    navigate(from, { replace: true });
   };
 
   return (
     <AuthPageShell
-      title="Welcome back"
-      intro="Sign in to sync your membership and saved progress."
-      footer={<AuthSwitchLink mode="login" />}
+      title="Welcome"
+      intro="Sign in or create an account with your email. We’ll send a code you can use later to verify — you can start now."
     >
-      <AuthForm mode="login" onSubmit={handleSubmit} />
+      <AuthForm onSubmit={handleSubmit} />
       <p className="auth-forgot">
         <Link to={ROUTES.premium}>Explore membership</Link>
       </p>

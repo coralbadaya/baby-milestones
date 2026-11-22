@@ -4,6 +4,8 @@ import Icon from '../components/Icon';
 import PageBreadcrumb from '../components/PageBreadcrumb';
 import StructuredData from '../components/StructuredData';
 import { getGuideBySlug } from '../data/guides';
+import { guideThemeClassName, resolveGuideTheme } from '../data/guideThemes';
+import { tagLabel, tagsForGuide } from '../data/guideTags';
 import { ROUTES } from '../routes';
 import { interact } from '../utils/haptics';
 import { usePageMeta } from '../utils/pageMeta';
@@ -38,9 +40,10 @@ function GuideArticle() {
   const related = (guide.relatedSlugs || [])
     .map((s) => getGuideBySlug(s))
     .filter(Boolean);
+  const theme = resolveGuideTheme(guide);
 
   return (
-    <article className="content-page guide-article fade-in">
+    <article className={`content-page guide-article fade-in ${guideThemeClassName(theme)}`}>
       <PageBreadcrumb
         items={[
           { name: 'Home', to: ROUTES.home },
@@ -49,9 +52,21 @@ function GuideArticle() {
         ]}
       />
 
-      <header className="content-page-hero">
+      <header className="content-page-hero guide-article__hero-band">
         <Icon name={guide.icon} size={40} className="content-page-icon" />
-        <span className="guide-card-category">{guide.category}</span>
+        <div className="guide-card-tags">
+          {tagsForGuide(guide).map((id) => (
+            <Link
+              key={id}
+              to={`${ROUTES.guides}?tag=${id}`}
+              className="guide-tag"
+              data-tag={id}
+              onClick={() => interact('tap', 'light')}
+            >
+              {tagLabel(id)}
+            </Link>
+          ))}
+        </div>
         <h1>{guide.title}</h1>
         <p className="guide-byline">
           By {guide.author} · Reviewed by {guide.reviewedBy} · Updated {guide.updated} ·{' '}

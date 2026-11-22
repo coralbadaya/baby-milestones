@@ -163,7 +163,7 @@ function Baby({
       </PageSection>
 
       <PageSection surface="sand" width="wide" className="page-section--diy">
-        <DIYPreviewStrip month={month} limit={4} layout="grid" />
+        <DIYPreviewStrip month={month} limit={4} />
       </PageSection>
 
       <PageSection surface="lavender" width="wide">

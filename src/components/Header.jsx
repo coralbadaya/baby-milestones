@@ -70,22 +70,13 @@ function Header() {
                     Account
                   </Link>
                 ) : (
-                  <>
-                    <Link
-                      to={ROUTES.signup}
-                      className={`header-auth ${pathname === ROUTES.signup ? 'active' : ''}`}
-                      onClick={onNav}
-                    >
-                      Sign up
-                    </Link>
-                    <Link
-                      to={ROUTES.login}
-                      className={`header-auth ${pathname === ROUTES.login ? 'active' : ''}`}
-                      onClick={onNav}
-                    >
-                      Sign in
-                    </Link>
-                  </>
+                  <Link
+                    to={ROUTES.login}
+                    className={`header-auth ${pathname === ROUTES.login || pathname === ROUTES.signup ? 'active' : ''}`}
+                    onClick={onNav}
+                  >
+                    Sign in
+                  </Link>
                 )
               )}
               <Link

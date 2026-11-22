@@ -1,23 +1,27 @@
-import { PREMIUM_CURRENCIES } from '../../constants/premium';
+import { DEFAULT_PREMIUM_CURRENCY, PREMIUM_CURRENCIES } from '../../constants/premium';
+import { formatPremiumAmount } from '../../utils/premiumPricing';
 
 const PRINT_TIERS = [
   {
     id: 'softcover',
     title: 'Softcover',
     detail: '20 pages · matte',
-    price: 29,
+    priceLabel: 'From ₹2,400',
   },
   {
     id: 'hardcover',
     title: 'Linen hardcover',
     detail: '24 pages · foil title · sealed letter page',
-    price: 49,
+    priceLabel: 'From ₹4,100',
     featured: true,
   },
 ];
 
 function PrintTierCards({ onSelect }) {
-  const currency = PREMIUM_CURRENCIES.USD;
+  const bundle = formatPremiumAmount(
+    PREMIUM_CURRENCIES[DEFAULT_PREMIUM_CURRENCY].priceBundle,
+    DEFAULT_PREMIUM_CURRENCY,
+  );
 
   return (
     <div className="baby-book-print-tiers">
@@ -30,11 +34,11 @@ function PrintTierCards({ onSelect }) {
         >
           <strong>{tier.title}</strong>
           <p>{tier.detail}</p>
-          <span className="baby-book-print-tier__price">${tier.price}</span>
+          <span className="baby-book-print-tier__price">{tier.priceLabel}</span>
         </button>
       ))}
       <p className="baby-book-print-tier__note">
-        Plus members save 20% · Bundle from ${currency.priceBundle}
+        Plus members save 20% · Bundle from {bundle}
       </p>
     </div>
   );

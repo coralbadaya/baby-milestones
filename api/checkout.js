@@ -1,7 +1,9 @@
 /**
  * Vercel serverless: create Stripe Checkout session for Yarn Trails Plus SKUs.
- * Requires STRIPE_SECRET_KEY and price IDs in env.
+ * Requires STRIPE_SECRET_KEY and price IDs in env (INR primary — see STRIPE_PRICE_ENV).
  */
+import { resolveStripePriceId } from '../src/utils/stripePriceEnv.js';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -14,15 +16,14 @@ export default async function handler(req, res) {
     return;
   }
 
-  const { sku, userId, email, trialDays } = req.body || {};
-  const priceMap = {
-    plus_monthly: process.env.STRIPE_PRICE_PLUS_MONTHLY,
-    plus_annual: process.env.STRIPE_PRICE_PLUS_ANNUAL,
-    first_year_bundle: process.env.STRIPE_PRICE_FIRST_YEAR_BUNDLE,
-    gift_subscription: process.env.STRIPE_PRICE_GIFT,
-  };
+  const { sku, userId, email, trialDays, billing_region: billingRegion } = req.body || {};
 
-  const priceId = priceMap[sku];
+  if (billingRegion === 'IN') {
+    res.status(400).json({ error: 'India checkout uses Razorpay — call /api/razorpay-checkout' });
+    return;
+  }
+
+  const priceId = resolveStripePriceId('USD', sku);
   if (!priceId) {
     res.status(400).json({ error: 'Invalid SKU' });
     return;

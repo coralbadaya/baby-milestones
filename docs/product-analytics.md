@@ -43,7 +43,7 @@ Salt: `ANALYTICS_IP_SALT` (Vercel/Supabase secrets — never `VITE_`). Cron auth
 
 Traffic: `page_view`, `session_start`, `consent_accepted`, `consent_rejected`
 
-Auth/revenue: `signup_view`, `signup_completed`, `login_completed`, `logout_completed`, `premium_view`, `begin_checkout`, `subscribe_success` (Stripe webhook, not the browser), `trial_started`, `gate_hit`
+Auth/revenue: `signup_view`, `signup_completed`, `login_completed`, `logout_completed`, `premium_view`, `begin_checkout` (`sku`, `billing_region` `IN`|`ROW`, `provider` `razorpay`|`stripe`; legacy `feature`/`tab` mirror), `subscribe_success` (Stripe or Razorpay webhook — not the browser), `trial_started`, `gate_hit`
 
 Habit: `birth_date_set`, `milestone_checked` (`month` only), `first_saved` (`media_type` only)
 
@@ -53,7 +53,7 @@ Sharing: `content_shared` (`feature` = channel `whatsapp` | `native` | `x` | `fa
 
 Baby book ideas: `baby_book_idea` (`tab` = step, `feature` = idea id + creation type)
 
-**Allowed `props` keys:** `month`, `guide_slug`, `sku`, `feature`, `media_type`, `tab`. Unknown keys are dropped. Do not send baby names, notes, photos, vaccine IDs, or birth dates.
+**Allowed `props` keys:** `month`, `guide_slug`, `sku`, `feature`, `media_type`, `tab`, `billing_region`, `provider`. Unknown keys are dropped. Do not send baby names, notes, photos, vaccine IDs, or birth dates.
 
 Unknown `event_name` → `400`. `/admin` paths → skipped (`204`).
 

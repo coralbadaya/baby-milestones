@@ -7,7 +7,16 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { loadAlbum, photoPath, writeAlbumHtml } from './personal-album.mjs';
 
-const ALLOWED = new Set(['analytics', 'analytics-rollup', 'dev-inbox-otp']);
+const ALLOWED = new Set([
+  'analytics',
+  'analytics-rollup',
+  'dev-inbox-otp',
+  'auth-confirm-email',
+  'billing-region',
+  'checkout',
+  'razorpay-checkout',
+  'razorpay-webhook',
+]);
 
 function readJsonBody(req) {
   return new Promise((resolveBody, reject) => {

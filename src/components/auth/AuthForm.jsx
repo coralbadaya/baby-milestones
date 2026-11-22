@@ -1,19 +1,19 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { interact } from '../../utils/haptics';
-import { ROUTES } from '../../routes';
 import Icon from '../Icon';
 import DevAuthAssist from './DevAuthAssist';
 import { CONTACT_EMAIL } from '../../constants/brand';
 
 /**
+ * Common sign-in / create-account form. One email + password continues:
+ * existing members are signed in; new emails get an account.
+ *
  * @param {{
- *   mode: 'login'|'signup',
  *   onSubmit: (values: { email: string, password: string, displayName?: string }) => Promise<void>,
  *   error?: string|null,
  * }} props
  */
-function AuthForm({ mode, onSubmit, error: externalError }) {
+function AuthForm({ onSubmit, error: externalError }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -39,19 +39,17 @@ function AuthForm({ mode, onSubmit, error: externalError }) {
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
-      {mode === 'signup' && (
-        <div className="auth-field">
-          <label htmlFor="auth-display-name">Display name</label>
-          <input
-            id="auth-display-name"
-            type="text"
-            autoComplete="name"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            placeholder="How we greet you"
-          />
-        </div>
-      )}
+      <div className="auth-field">
+        <label htmlFor="auth-display-name">Display name (optional)</label>
+        <input
+          id="auth-display-name"
+          type="text"
+          autoComplete="name"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+          placeholder="How we greet you"
+        />
+      </div>
 
       <div className="auth-field">
         <label htmlFor="auth-email">Email</label>
@@ -71,7 +69,7 @@ function AuthForm({ mode, onSubmit, error: externalError }) {
         <input
           id="auth-password"
           type="password"
-          autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+          autoComplete="current-password"
           required
           minLength={8}
           value={password}
@@ -88,7 +86,7 @@ function AuthForm({ mode, onSubmit, error: externalError }) {
       )}
 
       <button type="submit" className="btn-primary auth-submit" disabled={submitting}>
-        {submitting ? 'Please wait…' : mode === 'signup' ? 'Create account' : 'Sign in'}
+        {submitting ? 'Please wait…' : 'Continue'}
       </button>
 
       <DevAuthAssist
@@ -117,27 +115,5 @@ export function AuthPageShell({ title, intro, children, footer }) {
         {footer}
       </div>
     </div>
-  );
-}
-
-export function AuthSwitchLink({ mode }) {
-  return (
-    <p className="auth-switch">
-      {mode === 'login' ? (
-        <>
-          New here?{' '}
-          <Link to={ROUTES.signup} onClick={() => interact('tap', 'light')}>
-            Create an account
-          </Link>
-        </>
-      ) : (
-        <>
-          Already have an account?{' '}
-          <Link to={ROUTES.login} onClick={() => interact('tap', 'light')}>
-            Sign in
-          </Link>
-        </>
-      )}
-    </p>
   );
 }

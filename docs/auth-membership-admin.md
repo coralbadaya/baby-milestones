@@ -86,17 +86,17 @@ update public.profiles set role = 'admin' where id = (
 
 | File | Role |
 |------|------|
-| `src/context/AuthContext.jsx` | Session, profile, membership, promo redeem, OTP verify/resend |
-| `src/utils/auth.js` | `isEmailVerified`, `isEmailNotConfirmedError` |
+| `src/context/AuthContext.jsx` | Session, profile, membership, promo redeem, `continueWithPassword`, optional OTP |
+| `src/utils/auth.js` | `isEmailVerified`, `isEmailNotConfirmedError`, `isInvalidCredentialsError` |
 | `src/utils/membership.js` | `isPremiumActive`, labels, expiry |
 | `src/utils/supabaseClient.js` | Supabase client |
-| `src/components/auth/RequireAuth.jsx` | Redirect to login; unverified → verify email |
+| `src/components/auth/RequireAuth.jsx` | Redirect to login when there is no session |
 | `src/components/auth/OtpVerifyForm.jsx` | 6-digit OTP entry + resend |
 | `src/components/auth/RequireRole.jsx` | Staff/admin guard |
 | `src/pages/Login.jsx`, `SignUp.jsx`, `VerifyEmail.jsx` | Auth pages |
 | `src/pages/admin/*` | Admin center (overview, insights, inbox, users, promos, newsletter, DIY images) |
 
-Routes: `/login`, `/signup`, `/verify-email`, `/account`, `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/users/:userId` (activity drill-down), `/admin/promos`, `/admin/newsletter`, `/admin/diy`, `/newsletter/unsubscribe`.
+Routes: `/login`, `/signup`, `/verify-email`, `/account`, `/admin`, `/admin/insights`, `/admin/inbox`, `/admin/users`, `/admin/users/:userId` (activity drill-down), `/admin/promos`, `/admin/billing`, `/admin/newsletter`, `/admin/diy`, `/newsletter/unsubscribe`.
 
 ### Admin UI
 
@@ -110,17 +110,17 @@ Routes: `/login`, `/signup`, `/verify-email`, `/account`, `/admin`, `/admin/insi
 
 ## Email verification (OTP)
 
-Signup uses **email + password** with mandatory **6-digit OTP** before the user receives a session.
+Sign in and sign up share **one form** (`/login` and `/signup` render the same page). Email + password **creates the account immediately**. The 6-digit code is **verification**, not a gate: parents can use Yarn Trails and verify later from Account.
 
 ### Flow
 
-1. User submits `/signup` → `auth.signUp()` → Supabase sends OTP email
-2. If no session (confirm email enabled) → redirect to `/verify-email` with email in route state
-3. User enters OTP → `auth.verifyOtp({ type: 'signup' })` → session established → `/account`
-4. Login before verify → error → redirect to `/verify-email` with resend option
-5. `RequireAuth` redirects unverified users to `/verify-email`
+1. Submit email + password on `/login` (or `/signup`) → `continueWithPassword`
+2. Existing account → sign in. New email → `auth.signUp()` (Supabase still emails a code)
+3. If Confirm email is on and there is no session yet, `POST /api/auth-confirm-email` (password must already be correct) marks the user confirmed so they can start now
+4. Session → `/account`. Code entry at `/verify-email` is optional; **Continue without verifying** is available when signed in
+5. `RequireAuth` only requires a session — not a verified inbox
 
-After verification, `handle_new_user` has already created profile + **7-day Premium trial** (trigger runs on auth user insert at signup).
+`handle_new_user` still creates profile + **7-day Premium trial** on auth user insert.
 
 ### Supabase dashboard (required)
 
@@ -140,16 +140,30 @@ Configure in **Authentication** for your project:
 4. **SMTP** (production)
    - Custom sender via Resend: `Yarn Trails <no-reply@yarntrails.com>`, host `smtp.resend.com`, port `465`, user `resend`, password = `RESEND_API_KEY`.
 
-If **Confirm email** is disabled locally, signup may return a session immediately and skip `/verify-email` — enable confirm email in the linked project to test the full flow.
+If **Confirm email** is disabled, signup returns a session immediately. If it is enabled, the confirm API still lets a correct password through so verification can wait. Keep OTP templates so parents who want to verify have a code.
 
 ## Membership model (early access)
 
-- **Signup** → email OTP required → Basic (`free`) membership + empty primary `baby_profiles` row via `handle_new_user`
+- **Signup** → account on email + password → Basic (`free`) membership + empty primary `baby_profiles` row via `handle_new_user`. Email code is optional verification.
 - **Promo codes** → `redeem_promo_code` RPC (`FOUNDING30` seeded)
 - **Anonymous** → optional local preview via `localStorage` (`yarntrailsPremium`)
 - **Signed-in** → Supabase membership is source of truth
 
-No Stripe yet — Premium page frames **Early Access Membership**, not a broken paywall. Webhook at `api/stripe-webhook.js` verifies `Stripe-Signature`, records `stripe_events` for idempotency, and maps checkout/subscription events onto `memberships`.
+**Dual billing** (see `docs/monetization-strategy.md`):
+
+| Region | Display | Checkout |
+|--------|---------|----------|
+| India (`IN`) | INR | `api/razorpay-checkout.js` → Razorpay |
+| Rest of world (`ROW`) | USD (INR ÷ 100) | `api/checkout.js` → Stripe |
+
+`GET /api/billing-region` uses `x-vercel-ip-country` and optional `profiles.billing_country` (admin override via `admin_set_billing_country` on `/admin/users/:id`). Dev: `VITE_BILLING_REGION` or `?billing_region=IN|ROW` on the billing-region API.
+
+**Vercel env (never `VITE_` for secrets):**
+
+- Stripe ROW: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_PLUS_MONTHLY_USD`, `STRIPE_PRICE_PLUS_ANNUAL_USD`, `STRIPE_PRICE_FIRST_YEAR_BUNDLE_USD`, `STRIPE_PRICE_GIFT_USD` (or unprefixed fallbacks in `STRIPE_PRICE_ENV`)
+- Razorpay IN: `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, plan IDs per subscription SKU (`RAZORPAY_PLAN_PLUS_MONTHLY`, `RAZORPAY_PLAN_PLUS_ANNUAL`, etc.)
+
+Webhooks: `api/stripe-webhook.js` (`stripe_events`) and `api/razorpay-webhook.js` (`razorpay_events`); both upsert `memberships` and touch `billing_webhook_health`. Staff console: `/admin/billing` (`admin_billing_overview` RPC).
 
 ## RLS summary
 
@@ -210,16 +224,14 @@ npm test
 
 Covers `src/utils/membership.test.js`, `src/utils/localPremium.test.js`, `src/utils/auth.test.js`.
 
-### Manual OTP signup test
+### Manual continue-with-email test
 
-Requires **Confirm email** + **OTP** enabled in Supabase (see above):
+1. Open `/login` or `/signup` with a new inbox (not seeded test users)
+2. Submit email + password → `/account` with trial membership (no code required)
+3. Optional: from Account, enter the email code at `/verify-email`
+4. Sign out; Continue with the same email + password signs in
 
-1. Open `/signup` with a real inbox (not seeded test users)
-2. Submit email + password → redirect to `/verify-email`
-3. Enter the 6-digit code from email → `/account` with trial membership
-4. Sign out; try `/login` before verifying a new account → redirect to `/verify-email`
-
-Seeded test users skip OTP (`email_confirm: true` in `scripts/seed-test-users.mjs`).
+Seeded test users are already confirmed (`email_confirm: true` in `scripts/seed-test-users.mjs`).
 
 ### Integration tests
 

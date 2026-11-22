@@ -31,7 +31,9 @@ import AdminInbox from './pages/admin/AdminInbox';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminUserDetail from './pages/admin/AdminUserDetail';
 import AdminPromos from './pages/admin/AdminPromos';
+import AdminBilling from './pages/admin/AdminBilling';
 import AdminDiyImages from './pages/admin/AdminDiyImages';
+import AdminGuides from './pages/admin/AdminGuides';
 import AdminDiyImageEdit from './pages/admin/AdminDiyImageEdit';
 import AdminNewsletter from './pages/admin/AdminNewsletter';
 import AdminCommunity from './pages/admin/AdminCommunity';
@@ -323,8 +325,10 @@ function App() {
           <Route path="users" element={<AdminUsers />} />
           <Route path="users/:userId" element={<AdminUserDetail />} />
           <Route path="promos" element={<AdminPromos />} />
+          <Route path="billing" element={<AdminBilling />} />
           <Route path="diy" element={<AdminDiyImages />} />
           <Route path="diy/:activityId" element={<AdminDiyImageEdit />} />
+          <Route path="guides" element={<AdminGuides />} />
           <Route path="newsletter" element={<AdminNewsletter />} />
           <Route path="community" element={<AdminCommunity />} />
           <Route path="community/posts/:postId" element={<AdminCommunityPost />} />

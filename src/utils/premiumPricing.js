@@ -1,51 +1,26 @@
-import { PREMIUM_CURRENCIES } from '../constants/premium';
+import {
+  BILLING_REGIONS,
+  DEFAULT_PREMIUM_CURRENCY,
+  PREMIUM_CHECKOUT_NOTE_INR,
+  PREMIUM_CHECKOUT_NOTE_USD,
+  PREMIUM_CURRENCIES,
+} from '../constants/premium';
+
+/** @typedef {import('../constants/premium').BillingRegion} BillingRegion */
 
 /**
- * Detect display currency from browser locale and timezone heuristics.
- * Display-only until Stripe checkout — no geo-IP.
- * @param {{ language?: string, timeZone?: string }} [overrides] — for tests
+ * @param {BillingRegion} region
  * @returns {keyof typeof PREMIUM_CURRENCIES}
  */
-export function detectPremiumCurrency(overrides = {}) {
-  const language = (overrides.language ?? (typeof navigator !== 'undefined' ? navigator.language : 'en-US') ?? 'en-US').toLowerCase();
-  const timeZone = overrides.timeZone ?? (typeof Intl !== 'undefined'
-    ? Intl.DateTimeFormat().resolvedOptions().timeZone
-    : 'America/New_York');
-
-  if (language.startsWith('en-in') || language === 'hi-in' || timeZone === 'Asia/Kolkata') {
-    return 'INR';
-  }
-
-  if (
-    language.startsWith('en-gb')
-    || timeZone.startsWith('Europe/London')
-    || timeZone.startsWith('Europe/')
-  ) {
-    if (!language.startsWith('en-us') && !timeZone.startsWith('America/')) {
-      return 'GBP';
-    }
-  }
-
-  if (
-    language.startsWith('en-us')
-    || language.startsWith('en-ca')
-    || timeZone.startsWith('America/')
-    || language.startsWith('en-ae')
-    || language.startsWith('ar-ae')
-    || timeZone.startsWith('Asia/Dubai')
-    || timeZone.startsWith('Asia/Muscat')
-  ) {
-    return 'USD';
-  }
-
-  return 'USD';
+export function currencyForBillingRegion(region) {
+  return BILLING_REGIONS[region]?.currency ?? DEFAULT_PREMIUM_CURRENCY;
 }
 
 /**
  * @param {keyof typeof PREMIUM_CURRENCIES} currencyCode
  */
 export function getPremiumPrices(currencyCode) {
-  return PREMIUM_CURRENCIES[currencyCode] ?? PREMIUM_CURRENCIES.USD;
+  return PREMIUM_CURRENCIES[currencyCode] ?? PREMIUM_CURRENCIES[DEFAULT_PREMIUM_CURRENCY];
 }
 
 /**
@@ -53,7 +28,8 @@ export function getPremiumPrices(currencyCode) {
  * @param {string} currencyCode
  */
 export function formatPremiumAmount(amount, currencyCode) {
-  return new Intl.NumberFormat(undefined, {
+  const locale = currencyCode === 'INR' ? 'en-IN' : currencyCode === 'GBP' ? 'en-GB' : undefined;
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currencyCode,
     minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
@@ -62,22 +38,37 @@ export function formatPremiumAmount(amount, currencyCode) {
 }
 
 /**
- * @param {keyof typeof PREMIUM_CURRENCIES} [currencyCode]
+ * @param {BillingRegion} [region]
  */
-export function formatPremiumRateLine(currencyCode = detectPremiumCurrency()) {
+export function formatPremiumRateLineForRegion(region = 'IN') {
+  const currencyCode = currencyForBillingRegion(region);
   const prices = getPremiumPrices(currencyCode);
+  const provider = BILLING_REGIONS[region]?.provider ?? 'razorpay';
   const monthly = formatPremiumAmount(prices.priceMonthly, currencyCode);
   const annual = formatPremiumAmount(prices.priceAnnual, currencyCode);
   const monthlyEquiv = formatPremiumAmount(prices.priceAnnual / 12, currencyCode);
   return {
+    region,
     currencyCode,
+    provider,
     monthly,
     annual,
     monthlyEquiv,
     bundle: formatPremiumAmount(prices.priceBundle, currencyCode),
     gift: formatPremiumAmount(prices.priceGift, currencyCode),
     line: `${annual}/yr First Year Plan (~${monthlyEquiv}/mo) or ${monthly}/mo`,
-    regionNote: `Prices shown in ${currencyCode} for your region`,
+    regionNote: region === 'IN' ? PREMIUM_CHECKOUT_NOTE_INR : PREMIUM_CHECKOUT_NOTE_USD,
     savingsPct: Math.round((1 - (prices.priceAnnual / 12) / prices.priceMonthly) * 100),
   };
+}
+
+/** @deprecated use formatPremiumRateLineForRegion */
+export function formatPremiumRateLine(currencyCode = DEFAULT_PREMIUM_CURRENCY) {
+  const region = currencyCode === 'USD' ? 'ROW' : 'IN';
+  return formatPremiumRateLineForRegion(region);
+}
+
+/** @deprecated billing region API replaces browser heuristics */
+export function detectPremiumCurrency() {
+  return DEFAULT_PREMIUM_CURRENCY;
 }

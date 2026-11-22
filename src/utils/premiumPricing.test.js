@@ -1,56 +1,69 @@
 import { describe, it, expect } from 'vitest';
+import { deriveUsdAmountFromInr, PREMIUM_CURRENCIES } from '../constants/premium';
 import {
-  detectPremiumCurrency,
   formatPremiumAmount,
   formatPremiumRateLine,
+  formatPremiumRateLineForRegion,
   getPremiumPrices,
 } from './premiumPricing';
 
-describe('detectPremiumCurrency', () => {
-  it('returns INR for India locale or timezone', () => {
-    expect(detectPremiumCurrency({ language: 'en-IN', timeZone: 'Europe/London' })).toBe('INR');
-    expect(detectPremiumCurrency({ language: 'en-GB', timeZone: 'Asia/Kolkata' })).toBe('INR');
+describe('USD derivation from INR anchor', () => {
+  it('divides whole rupees by 100', () => {
+    expect(deriveUsdAmountFromInr(399)).toBe(3.99);
+    expect(deriveUsdAmountFromInr(2499)).toBe(24.99);
   });
 
-  it('returns USD for US locale or Americas timezone', () => {
-    expect(detectPremiumCurrency({ language: 'en-US', timeZone: 'Europe/London' })).toBe('USD');
-    expect(detectPremiumCurrency({ language: 'en-GB', timeZone: 'America/New_York' })).toBe('USD');
-  });
-
-  it('returns USD for Gulf timezone', () => {
-    expect(detectPremiumCurrency({ language: 'en-AE', timeZone: 'Asia/Dubai' })).toBe('USD');
-  });
-
-  it('returns GBP for UK', () => {
-    expect(detectPremiumCurrency({ language: 'en-GB', timeZone: 'Europe/London' })).toBe('GBP');
-  });
-
-  it('defaults to USD for non-UK non-IN regions', () => {
-    expect(detectPremiumCurrency({ language: 'fr-FR', timeZone: 'Asia/Tokyo' })).toBe('USD');
+  it('builds USD price table from INR', () => {
+    expect(PREMIUM_CURRENCIES.USD.priceMonthly).toBe(3.99);
+    expect(PREMIUM_CURRENCIES.USD.priceAnnual).toBe(24.99);
+    expect(PREMIUM_CURRENCIES.USD.priceBundle).toBe(39.99);
+    expect(PREMIUM_CURRENCIES.USD.priceGift).toBe(29.99);
   });
 });
 
 describe('getPremiumPrices', () => {
-  it('falls back to USD for unknown currency', () => {
-    expect(getPremiumPrices('ZZZ').priceMonthly).toBe(7.99);
+  it('falls back to INR for unknown currency', () => {
+    expect(getPremiumPrices('ZZZ').priceMonthly).toBe(399);
   });
 
-  it('has Plus annual anchor price', () => {
-    expect(getPremiumPrices('USD').priceAnnual).toBe(49.99);
+  it('returns derived USD amounts', () => {
+    expect(getPremiumPrices('USD').priceAnnual).toBe(24.99);
   });
 });
 
-describe('formatPremiumRateLine', () => {
-  it('formats USD First Year Plan line', () => {
-    const result = formatPremiumRateLine('USD');
-    expect(result.currencyCode).toBe('USD');
-    expect(result.line).toMatch(/\/yr First Year Plan/);
+describe('formatPremiumRateLineForRegion', () => {
+  it('formats India (INR · Razorpay)', () => {
+    const result = formatPremiumRateLineForRegion('IN');
+    expect(result.currencyCode).toBe('INR');
+    expect(result.annual).toMatch(/2,?499/);
+    expect(result.monthly).toMatch(/399/);
+    expect(result.regionNote).toMatch(/Razorpay|UPI/i);
     expect(result.savingsPct).toBeGreaterThan(40);
-    expect(result.regionNote).toMatch(/USD/);
   });
 
+  it('formats ROW (USD · Stripe)', () => {
+    const result = formatPremiumRateLineForRegion('ROW');
+    expect(result.currencyCode).toBe('USD');
+    expect(result.annual).toMatch(/24\.99/);
+    expect(result.regionNote).toMatch(/Stripe|USD/i);
+  });
+});
+
+describe('formatPremiumAmount', () => {
   it('formats USD amounts', () => {
-    const monthly = formatPremiumAmount(7.99, 'USD');
+    const monthly = formatPremiumAmount(3.99, 'USD');
     expect(monthly).toMatch(/\$/);
+  });
+
+  it('formats INR amounts with rupee symbol', () => {
+    const annual = formatPremiumAmount(2499, 'INR');
+    expect(annual).toMatch(/₹|INR/);
+  });
+});
+
+describe('formatPremiumRateLine (legacy)', () => {
+  it('defaults to INR without overrides', () => {
+    expect(formatPremiumRateLine().currencyCode).toBe('INR');
+    expect(formatPremiumRateLine().annual).toMatch(/2,?499/);
   });
 });

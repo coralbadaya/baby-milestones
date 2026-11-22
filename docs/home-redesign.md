@@ -65,7 +65,7 @@ Three cards max, age-aware. Photos live on Journey, not on these shortcuts.
 
 ### 4. DIY preview strip (`DIYPreviewStrip.jsx`)
 
-- **Not on Home.** Lives on **My Baby** only (4 cards). **&lt;640px:** `SmartCarousel` with stack editorial cards; **≥640px:** 2-column grid.
+- **Not on Home.** Lives on **My Baby** only (4 cards). `SmartCarousel` at every width — stack editorial cards, easiest first, mixed categories.
 - Photos via `getDiyImage({ activityId, illustration, category }, overrides, globalDefault)` — per-activity override, else site-wide default, else cream lockup (see [`docs/diy-images-admin.md`](diy-images-admin.md))
 - **Open guide** opens in-app modal; video access inside modal only (no card-face YouTube button); sand section band via `PageSection`
 

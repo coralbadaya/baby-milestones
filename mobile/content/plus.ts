@@ -1,7 +1,8 @@
 /** The membership the website already sells. The store is not connected yet, so this screen does not charge. */
 
 export const PLUS_PRICE = '₹399 a month, or ₹2,499 a year';
-export const PLUS_PRICE_NOTE = 'The same membership is $7.99 a month or $49.99 a year on the website.';
+export const PLUS_PRICE_NOTE =
+  'UPI, cards, and netbanking at checkout. USD and GBP rates apply only outside India on the website.';
 
 export const PLUS_FEATURES: { label: string; basic: string; plus: string }[] = [
   { label: 'Album photos', basic: '2 a month', plus: 'Unlimited HD' },

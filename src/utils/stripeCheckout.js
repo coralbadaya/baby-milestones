@@ -1,16 +1,25 @@
 import { trackEvent } from './analytics';
+import { checkoutRequestInit } from './checkoutAuth';
 
 /**
- * Start Stripe Checkout for a Plus SKU.
+ * Stripe Checkout — rest of world (USD).
  * @param {'plus_monthly'|'plus_annual'|'first_year_bundle'|'gift_subscription'} sku
  */
-export async function startCheckout(sku) {
-  trackEvent('begin_checkout', { sku });
+export async function startStripeCheckout(sku) {
+  trackEvent('begin_checkout', {
+    sku,
+    billing_region: 'ROW',
+    provider: 'stripe',
+    feature: 'stripe',
+    tab: 'ROW',
+  });
 
+  const { headers } = await checkoutRequestInit();
   const res = await fetch('/api/checkout', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sku }),
+    headers,
+    credentials: 'include',
+    body: JSON.stringify({ sku, billing_region: 'ROW' }),
   });
 
   const data = await res.json().catch(() => ({}));
@@ -27,18 +36,10 @@ export async function startCheckout(sku) {
   throw new Error('No checkout URL returned');
 }
 
-/**
- * Request 4K export (Plus only) — queues server job when configured.
- * @param {string} storyId
- */
-export async function request4kExport(storyId) {
-  trackEvent('export_4k_requested', { story_id: storyId });
-  const res = await fetch('/api/export-4k', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ storyId }),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || 'Export unavailable');
-  return data;
+/** @deprecated use startPlusCheckout */
+export const startCheckout = startStripeCheckout;
+
+/** Plus extras UI calls this; full 4K pipeline is not wired yet. */
+export async function request4kExport(_storyId) {
+  throw new Error('4K export is not ready yet.');
 }

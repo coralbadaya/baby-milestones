@@ -1530,7 +1530,7 @@
   transform: scale(1.25);
 }
 
-/* Smart carousel — DIY on mobile (My Baby + month detail) */
+/* Smart carousel — DIY + Baby Care (month page, My Baby) */
 .smart-carousel {
   position: relative;
   display: grid;
@@ -1555,7 +1555,7 @@
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  padding: var(--space-2) var(--space-9);
+  padding: var(--space-2) 64px;
   scrollbar-width: none;
 }
 
@@ -1581,6 +1581,12 @@
   min-width: 0;
 }
 
+@media (min-width: 640px) {
+  .smart-carousel__card-wrap {
+    flex-basis: min(420px, 62%);
+  }
+}
+
 .smart-carousel--diy .smart-carousel__card-wrap .diy-editorial-card,
 .smart-carousel--diy .smart-carousel__card-wrap .content-card {
   height: 100%;
@@ -1592,8 +1598,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 56px;
+  min-height: 56px;
   padding: 0;
   border: var(--card-border);
   border-radius: var(--radius-full);
@@ -1659,7 +1665,8 @@
   padding-right: 0;
 }
 
-.diy-section-carousel {
+.diy-section-carousel,
+.care-section-carousel {
   margin-top: var(--space-4);
 }
 

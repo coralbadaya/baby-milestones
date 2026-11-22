@@ -174,7 +174,7 @@ Supabase is the backend. It can provide:
 
 This repo includes Supabase auth, membership, contact, and admin — see [`docs/auth-membership-admin.md`](auth-membership-admin.md) and migration `supabase/migrations/20250629120000_membership_and_contact.sql`.
 
-**Signup flow:** email + password → 6-digit OTP at `/verify-email` → session + 7-day Premium trial. Enable **Confirm email** and **OTP** in the Supabase dashboard before testing (documented in auth-membership-admin.md). Seeded test users bypass OTP for integration tests.
+**Signup flow:** `/login` and `/signup` share one email + password form. Continue creates the account (or signs in) immediately; the 6-digit code is optional verification. Seeded test users are pre-verified.
 
 ### Login details (local dev)
 
@@ -309,8 +309,8 @@ For UI changes, also check:
 
 For Supabase auth changes, also check:
 
-- signup → OTP email → verify → account access
-- login before email verified → redirect to `/verify-email`
+- continue with email → account + session (new or existing)
+- verification code optional; skip from `/verify-email` when signed in
 - resend OTP cooldown and error states
 - logged-out behavior
 - logged-in behavior

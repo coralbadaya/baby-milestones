@@ -24,6 +24,12 @@ const RANGE_OPTIONS = [
   { value: '90', label: 'Last 90 days' },
 ];
 
+const BILLING_REGION_OPTIONS = [
+  { value: '', label: 'Auto (IP)' },
+  { value: 'IN', label: 'India · Razorpay' },
+  { value: 'ROW', label: 'International · Stripe' },
+];
+
 const EVENT_FILTER_OPTIONS = [
   { value: 'all', label: 'All events' },
   { value: 'page_view', label: 'Page views' },
@@ -51,6 +57,9 @@ function AdminUserDetail() {
   const [detail, setDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [billingCountry, setBillingCountry] = useState('');
+  const [billingSaveError, setBillingSaveError] = useState(null);
+  const [billingBusy, setBillingBusy] = useState(false);
 
   const load = useCallback(async () => {
     if (!userId) return;
@@ -73,6 +82,40 @@ function AdminUserDetail() {
   }, [userId, days]);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    if (!userId || !isAdmin) return;
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from('profiles')
+        .select('billing_country')
+        .eq('id', userId)
+        .maybeSingle();
+      if (!cancelled) {
+        setBillingCountry(data?.billing_country || '');
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [userId, isAdmin]);
+
+  const saveBillingCountry = async (value) => {
+    if (!userId) return;
+    setBillingBusy(true);
+    setBillingSaveError(null);
+    interact('tap', 'light');
+    const next = value || null;
+    const { error: rpcError } = await supabase.rpc('admin_set_billing_country', {
+      p_user_id: userId,
+      p_billing_country: next,
+    });
+    if (rpcError) {
+      setBillingSaveError(rpcError.message);
+    } else {
+      setBillingCountry(value);
+    }
+    setBillingBusy(false);
+  };
 
   const metrics = detail?.metrics || {};
   const sessions = detail?.sessions || [];
@@ -165,6 +208,25 @@ function AdminUserDetail() {
             <div><dt>Joined</dt><dd>{formatAdminDateTime(detail.profile?.created_at)}</dd></div>
             <div><dt>Email verified</dt><dd>{detail.auth?.email_confirmed_at ? formatAdminDateTime(detail.auth.email_confirmed_at) : 'Pending'}</dd></div>
             <div><dt>Membership</dt><dd><AdminBadge variant={membershipStatus === 'active' || membershipStatus === 'comp' ? 'active' : 'neutral'}>{membershipStatus}</AdminBadge></dd></div>
+            {isAdmin && (
+              <div className="admin-user-detail__billing">
+                <dt>Billing region</dt>
+                <dd>
+                  <Select
+                    id="user-billing-country"
+                    label="Billing region override"
+                    value={billingCountry}
+                    onChange={(v) => saveBillingCountry(v)}
+                    options={BILLING_REGION_OPTIONS}
+                    disabled={billingBusy}
+                  />
+                  {billingSaveError && (
+                    <p className="auth-error" role="alert">{billingSaveError}</p>
+                  )}
+                  <p className="admin-hint">Overrides IP for /premium checkout until the parent can self-serve on Account.</p>
+                </dd>
+              </div>
+            )}
           </dl>
         </AdminPanel>
         <AdminPanel>

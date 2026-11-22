@@ -32,6 +32,8 @@ export const ANALYTICS_PROP_KEYS = [
   'feature',
   'media_type',
   'tab',
+  'billing_region',
+  'provider',
 ];
 
 const PROP_SET = new Set(ANALYTICS_PROP_KEYS);

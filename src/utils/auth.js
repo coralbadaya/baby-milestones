@@ -8,3 +8,9 @@ export function isEmailNotConfirmedError(error) {
   const msg = error?.message?.toLowerCase() || '';
   return msg.includes('email not confirmed') || msg.includes('not confirmed');
 }
+
+/** @param {{ message?: string }|null|undefined} error */
+export function isInvalidCredentialsError(error) {
+  const msg = error?.message?.toLowerCase() || '';
+  return msg.includes('invalid login') || msg.includes('invalid credentials');
+}

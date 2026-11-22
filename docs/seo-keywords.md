@@ -159,7 +159,7 @@ When adding another guide: extend `contentGapGuides.js` or `guidesBase.js`, run 
 | **On-page** | Unique title/description, H1, intro, H2 body, visible breadcrumbs |
 | **FAQ** | `guideSeoEnrichment.js` + `milestoneGuideSeo.js` (months 1–12) + `productPageFaqs.js` (`/vaccination`, `/shopping`) + `/faq` |
 | **JSON-LD** | `Article` / `MedicalWebPage`, `BreadcrumbList`, `FAQPage` (guide + global FAQ) |
-| **Internal links** | `GuideQuickLinks` product row, `relatedSlugs`, footer Learn column, grouped `/guides` hub |
+| **Internal links** | `GuideQuickLinks` product row, `relatedSlugs`, footer Learn column, tagged `/guides` hub (`?tag=`) |
 | **Keywords** | `keywordSeeds.js` + matrix; no `<meta keywords>` |
 | **Trust** | Medical disclaimer on guides, Sources, pending reviewer attribution in schema |
 

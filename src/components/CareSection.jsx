@@ -1,9 +1,11 @@
 import { useState, useMemo } from 'react';
 import DetailModal from './DetailModal';
+import SmartCarousel from './SmartCarousel';
 import { careTypeConfig } from './careTypeConfig';
 import shoppingAndCare from '../data/shoppingAndCare';
 import { interact } from '../utils/haptics';
 import Icon from './Icon';
+import { currentRangeItems, orderForCarousel } from '../utils/smartCarouselOrder';
 
 const FILTER_TABS = [
   { id: 'all', label: 'All', icon: "target" },
@@ -174,6 +176,102 @@ function ClothesCard({ clothes }) {
   );
 }
 
+function includeType(filter, type) {
+  return filter === 'all' || filter === type;
+}
+
+function buildCareSlides(monthData, previousHolds, activeFilter) {
+  const { careGuides, holdingGames, clothes } = monthData;
+  const slides = [];
+
+  if (includeType(activeFilter, 'bath') && careGuides.bath) {
+    slides.push({
+      id: 'bath',
+      category: 'bath',
+      duration: careGuides.bath.duration,
+      difficulty: 'Easy',
+      kind: 'guide',
+      type: 'bath',
+      guide: careGuides.bath,
+    });
+  }
+  if (includeType(activeFilter, 'massage') && careGuides.massage) {
+    slides.push({
+      id: 'massage',
+      category: 'massage',
+      duration: '10 min',
+      difficulty: 'Easy',
+      kind: 'guide',
+      type: 'massage',
+      guide: careGuides.massage,
+    });
+  }
+  if (includeType(activeFilter, 'pacifier') && careGuides.pacifier) {
+    slides.push({
+      id: 'pacifier',
+      category: 'pacifier',
+      duration: null,
+      difficulty: 'Easy',
+      kind: 'guide',
+      type: 'pacifier',
+      guide: careGuides.pacifier,
+    });
+  }
+  if (includeType(activeFilter, 'hold')) {
+    const rangeHolds = currentRangeItems(holdingGames, previousHolds);
+    const holds = activeFilter === 'hold'
+      ? [...rangeHolds, ...holdingGames.filter((game) => !rangeHolds.some((fresh) => fresh.id === game.id))]
+      : rangeHolds;
+    holds.forEach((game) => {
+      slides.push({
+        id: game.id,
+        category: 'hold',
+        duration: '5 min',
+        difficulty: 'Easy',
+        kind: 'hold',
+        game,
+      });
+    });
+  }
+  if (includeType(activeFilter, 'clothes') && clothes) {
+    slides.push({
+      id: 'clothes',
+      category: 'clothes',
+      duration: null,
+      difficulty: 'Easy',
+      kind: 'clothes',
+      clothes,
+    });
+  }
+
+  return orderForCarousel(slides);
+}
+
+function CareSlide({ slide, openKey, onOpen, onClose }) {
+  if (slide.kind === 'guide') {
+    return (
+      <CareGuideCard
+        guide={slide.guide}
+        type={slide.type}
+        isOpen={openKey === slide.type}
+        onOpen={onOpen}
+        onClose={onClose}
+      />
+    );
+  }
+  if (slide.kind === 'hold') {
+    return (
+      <HoldingCard
+        game={slide.game}
+        isOpen={openKey === slide.game.id}
+        onOpen={onOpen}
+        onClose={onClose}
+      />
+    );
+  }
+  return <ClothesCard clothes={slide.clothes} />;
+}
+
 function CareSection({ month, id = 'care' }) {
   const [activeFilter, setActiveFilter] = useState('all');
   const [openKey, setOpenKey] = useState(null);
@@ -186,29 +284,20 @@ function CareSection({ month, id = 'care' }) {
     return FILTER_TABS;
   }, [monthData]);
 
+  const slides = useMemo(() => {
+    if (!monthData) return [];
+    const previousHolds = shoppingAndCare.find((d) => d.month === month - 1)?.holdingGames ?? [];
+    return buildCareSlides(monthData, previousHolds, activeFilter);
+  }, [monthData, month, activeFilter]);
+
   if (!monthData) return null;
-
-  const { careGuides, holdingGames, clothes } = monthData;
-
-  const showBath = activeFilter === 'all' || activeFilter === 'bath';
-  const showMassage = activeFilter === 'all' || activeFilter === 'massage';
-  const showHold = activeFilter === 'all' || activeFilter === 'hold';
-  const showClothes = activeFilter === 'all' || activeFilter === 'clothes';
-  const showPacifier = (activeFilter === 'all' || activeFilter === 'pacifier') && careGuides.pacifier;
-
-  let visibleCount = 0;
-  if (showBath && careGuides.bath) visibleCount += 1;
-  if (showMassage && careGuides.massage) visibleCount += 1;
-  if (showPacifier) visibleCount += 1;
-  if (showHold) visibleCount += holdingGames.length;
-  if (showClothes && clothes) visibleCount += 1;
 
   return (
     <section id={id} className="month-section care-section-wrapper">
       <div className="month-section-header">
         <h3>Baby Care</h3>
         <p className="month-section-sub">
-          Bath, massage, holds, and clothes for month {month}. Based on what we have used—not medical advice.
+          Bath, massage, this month’s holds, and clothes. Easiest first, mixed so a bath is not buried under every hold. Based on what we have used—not medical advice.
         </p>
       </div>
 
@@ -225,47 +314,28 @@ function CareSection({ month, id = 'care' }) {
         ))}
       </div>
 
-      <div className="content-card-grid">
-        {showBath && careGuides.bath && (
-          <CareGuideCard
-            guide={careGuides.bath}
-            type="bath"
-            isOpen={openKey === 'bath'}
-            onOpen={setOpenKey}
-            onClose={() => setOpenKey(null)}
-          />
-        )}
-        {showMassage && careGuides.massage && (
-          <CareGuideCard
-            guide={careGuides.massage}
-            type="massage"
-            isOpen={openKey === 'massage'}
-            onOpen={setOpenKey}
-            onClose={() => setOpenKey(null)}
-          />
-        )}
-        {showPacifier && (
-          <CareGuideCard
-            guide={careGuides.pacifier}
-            type="pacifier"
-            isOpen={openKey === 'pacifier'}
-            onOpen={setOpenKey}
-            onClose={() => setOpenKey(null)}
-          />
-        )}
-        {showHold && holdingGames.map((game) => (
-          <HoldingCard
-            key={game.id}
-            game={game}
-            isOpen={openKey === game.id}
-            onOpen={setOpenKey}
-            onClose={() => setOpenKey(null)}
-          />
-        ))}
-        {showClothes && clothes && <ClothesCard clothes={clothes} />}
-      </div>
-
-      {visibleCount === 0 && (
+      {slides.length > 0 ? (
+        <SmartCarousel
+          items={slides}
+          getItemId={(slide) => slide.id}
+          getItemLabel={(slide) => (
+            slide.kind === 'guide' ? slide.guide.title
+              : slide.kind === 'hold' ? slide.game.name
+                : 'What to have ready'
+          )}
+          resetKey={`${month}-${activeFilter}`}
+          ariaLabel={`Baby care for month ${month}`}
+          className="care-section-carousel"
+          renderItem={(slide) => (
+            <CareSlide
+              slide={slide}
+              openKey={openKey}
+              onOpen={setOpenKey}
+              onClose={() => setOpenKey(null)}
+            />
+          )}
+        />
+      ) : (
         <p className="month-section-empty">Nothing in this filter for month {month}.</p>
       )}
     </section>

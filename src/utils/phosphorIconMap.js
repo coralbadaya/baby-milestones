@@ -201,6 +201,7 @@ export const PHOSPHOR_ICON_MAP = {
   bug: Bug,
   users: Users,
   ticket: Ticket,
+  bank: Bank,
   'paper-plane': PaperPlaneTilt,
   image: Image,
   list: List,

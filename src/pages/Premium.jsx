@@ -6,15 +6,17 @@ import EditorialBand from '../components/EditorialBand';
 import TrustStrip from '../components/TrustStrip';
 import Icon from '../components/Icon';
 import { interact } from '../utils/haptics';
-import { PLANS, PLAN_LIMIT_ROWS } from '../constants/premium';
+import { BILLING_REGIONS, PLANS, PLAN_LIMIT_ROWS } from '../constants/premium';
+import BillingRegionPanel from '../components/BillingRegionPanel';
+import { useBillingRegion } from '../hooks/useBillingRegion';
 import { useAuth } from '../context/AuthContext';
 import { membershipExpiry, membershipLabel } from '../utils/membership';
 import { readLocalPremium } from '../utils/localPremium';
-import { formatPremiumRateLine } from '../utils/premiumPricing';
+import { formatPremiumRateLineForRegion } from '../utils/premiumPricing';
+import { startPlusCheckout } from '../utils/plusCheckout';
 import { ROUTES } from '../routes';
 import { usePageMeta } from '../utils/pageMeta';
 import { getStaticMeta } from '../seo/routes';
-import { startCheckout } from '../utils/stripeCheckout';
 import { trackEvent } from '../utils/analytics';
 
 function PlanLimits({ tier }) {
@@ -55,10 +57,12 @@ function Premium() {
   const [busy, setBusy] = useState(false);
   const [checkoutError, setCheckoutError] = useState(null);
 
+  const billing = useBillingRegion();
+  const activeRegion = billing.region || 'IN';
   const plusPlan = PLANS.plus;
   const expiry = membershipExpiry(membership);
   const label = membershipLabel(membership);
-  const pricing = formatPremiumRateLine();
+  const pricing = formatPremiumRateLineForRegion(activeRegion);
   const isMember = isPremium && user;
   const isLocalPreview = isPremium && !user;
   const localPreviewEnds = isLocalPreview && readLocalPremium().trialEndsAt
@@ -96,7 +100,7 @@ function Premium() {
     }
     setBusy(true);
     try {
-      await startCheckout(sku);
+      await startPlusCheckout(sku, activeRegion);
     } catch (err) {
       setCheckoutError(err.message || 'Checkout unavailable — try a promo code during early access.');
     } finally {
@@ -201,7 +205,9 @@ function Premium() {
                 <div className="premium-compare__col premium-compare__col--featured card-accent-top">
                   <h2 className="premium-plan__name premium-plan__name--plus font-display">{plusPlan.name}</h2>
                   <div className="premium-plan__offer">
-                    <p className="premium-plan__kicker premium-plan__kicker--plus">First Year Plan</p>
+                    <p className="premium-plan__kicker premium-plan__kicker--plus">
+                      First Year Plan · {BILLING_REGIONS[activeRegion]?.label} ({pricing.currencyCode})
+                    </p>
                     <p className="premium-plan__price">
                       <span className="premium-plan__amount">{pricing.annual}</span>
                       <span className="premium-plan__period"> / year</span>
@@ -236,7 +242,7 @@ function Premium() {
                     disabled={busy}
                     onClick={() => handleCheckout('first_year_bundle')}
                   >
-                    Bundle + hardcover — {pricing.bundle}
+                    Bundle + linen hardcover — {pricing.bundle}
                   </button>
                   <button
                     type="button"
@@ -290,6 +296,8 @@ function Premium() {
                 </div>
               </div>
               <p className="premium-plan__region">{pricing.regionNote}</p>
+
+              <BillingRegionPanel activeRegion={activeRegion} loading={billing.loading} />
 
               <p className="premium-trial-note">
                 <Icon name="sparkles" size={18} />

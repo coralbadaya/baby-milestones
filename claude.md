@@ -48,7 +48,7 @@ Primary nav: Today · My Baby · My Care · Essentials · Community · Guides
 
 Source of truth: `src/routes.js` · Spec: `docs/information-architecture.md`
 
-Auth: `/login` · `/signup` · `/verify-email` · `/account`  
+Auth: `/login` and `/signup` share one email form · `/verify-email` (optional) · `/account`  
 Admin: `/admin` · `/admin/insights` · `/admin/inbox` · `/admin/users` · `/admin/promos` · `/admin/diy` · `/admin/newsletter` · `/admin/community`  
 Community permalinks: `/community/feed/:slug` · `/community/recipes/:id` · `/community/tips/:id`  
 Company: `/contact` · `/feedback`

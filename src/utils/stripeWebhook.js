@@ -191,6 +191,10 @@ export async function applyStripeEvent(supabase, event) {
     });
   }
 
+  await supabase
+    .from('billing_webhook_health')
+    .upsert({ provider: 'stripe', last_success_at: new Date().toISOString() }, { onConflict: 'provider' });
+
   return { processed: true, userId };
 }
 

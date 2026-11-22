@@ -34,7 +34,7 @@ Educated, time-poor mothers in tier‑1 cities. **Design for 3am:** one hand, lo
 - **Watch For** (not "Take Care") on warning cards  
 - Baby emergencies → pediatrician / emergency services  
 - Postpartum emergencies → obstetrician / emergency services  
-- Signup → email OTP before session  
+- Signup and sign in share one email form; verification code can wait  
 - Premium = invitation tone, not punishment  
 - Reuse shared components (`Select`, `PageHero`, `Footer`, `PremiumGate`)  
 - Update design docs when UI changes
