@@ -91,6 +91,13 @@ export function initAnalytics() {
   }
 
   const measurementId = resolveGaMeasurementId();
+  if (measurementId) {
+    appendScriptOnce(
+      `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`,
+      'gtag/js',
+    );
+  }
+
   if (measurementId && typeof window.gtag === 'function') {
     window.gtag('config', measurementId, {
       send_page_view: false,
@@ -102,13 +109,6 @@ export function initAnalytics() {
     appendScriptOnce(
       `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(GTM_ID)}`,
       'gtm.js',
-    );
-  }
-
-  if (isGaMeasurementConfigured()) {
-    appendScriptOnce(
-      `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA_ID.trim())}`,
-      'gtag/js',
     );
   }
 }

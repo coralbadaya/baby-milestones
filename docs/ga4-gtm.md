@@ -20,9 +20,11 @@ Account **Yarn Trails** → container **yarntrails.com** → **`GTM-MNS7GQ24`**.
 
 The repo injects `gtm.js` after consent (no manual snippet in `index.html`). You still need **one published tag** in this container (see below). The older public container **`GTM-T7HG74HL`** belonged to another Google account and is **not** used anymore.
 
-Minimum tag in [tagmanager.google.com](https://tagmanager.google.com):
+**Runtime:** After consent the app loads **`gtag/js?id=G-7E22FF9EJN`** and **`gtm.js?id=GTM-MNS7GQ24`**, so GA4 receives hits **without** a published GTM Google tag. Use an empty GTM container for future marketing tags, or add a **Google tag** in GTM only if you remove the in-app `gtag/js` load (avoid double counting).
 
-1. **Google tag** (or GA4 Configuration) → measurement ID `G-7E22FF9EJN`, trigger **Initialization / All Pages** (or consent-aware equivalent).
+Optional tag in [tagmanager.google.com](https://tagmanager.google.com) (not required for GA4 with current code):
+
+1. **Google tag** → measurement ID `G-7E22FF9EJN`, trigger **Initialization / All Pages**.
 2. **GA4 Event** tags for conversions — Custom Event triggers matching:
    - `signup_completed`, `login_completed`, `premium_view`, `begin_checkout`, `consent_accepted`
    - Event name = `{{Event}}` (built-in variable).
