@@ -2,7 +2,8 @@
 
 | Item | Value |
 |------|--------|
-| GTM container | `GTM-T7HG74HL` |
+| GTM account | Yarn Trails |
+| GTM container | `GTM-MNS7GQ24` (web · yarntrails.com) |
 | GA4 measurement ID | `G-7E22FF9EJN` |
 | Code | `src/utils/analytics.js` (loads after cookie consent) |
 
@@ -13,11 +14,13 @@
 3. Calls `gtag('config', 'G-7E22FF9EJN', { send_page_view: false })` so the container picks up the property without duplicate auto page views.
 4. Sends SPA **`page_view`** and product events via `dataLayer.push({ event, ... })` and `gtag('event', …)` (signup, premium, checkout, etc.).
 
-## GTM (your side — already partly configured)
+## GTM (console)
 
-Published `gtm.js` for this container already references **`G-7E22FF9EJN`** and **`begin_checkout`**.
+Account **Yarn Trails** → container **yarntrails.com** → **`GTM-MNS7GQ24`**.
 
-Recommended checks in [tagmanager.google.com](https://tagmanager.google.com):
+The repo injects `gtm.js` after consent (no manual snippet in `index.html`). You still need **one published tag** in this container (see below). The older public container **`GTM-T7HG74HL`** belonged to another Google account and is **not** used anymore.
+
+Minimum tag in [tagmanager.google.com](https://tagmanager.google.com):
 
 1. **Google tag** (or GA4 Configuration) → measurement ID `G-7E22FF9EJN`, trigger **Initialization / All Pages** (or consent-aware equivalent).
 2. **GA4 Event** tags for conversions — Custom Event triggers matching:
@@ -36,7 +39,7 @@ Recommended checks in [tagmanager.google.com](https://tagmanager.google.com):
 ## Verify
 
 1. Incognito → yarntrails.com → Accept analytics.
-2. Network: `gtm.js?id=GTM-T7HG74HL` (200).
+2. Network: `gtm.js?id=GTM-MNS7GQ24` (200).
 3. GTM **Preview** or GA4 **Realtime**: navigate `/premium`, trigger `premium_view`.
 4. Staff funnel: `/admin/insights` (first-party, no GA required).
 
@@ -44,5 +47,5 @@ Recommended checks in [tagmanager.google.com](https://tagmanager.google.com):
 
 | Variable | Purpose |
 |----------|---------|
-| `VITE_GTM_CONTAINER_ID` | Override container (default `GTM-T7HG74HL` in build) |
+| `VITE_GTM_CONTAINER_ID` | Override container (default `GTM-MNS7GQ24` in build) |
 | `VITE_GA_MEASUREMENT_ID` | Load **additional** `gtag/js` — only if you want direct GA without GTM; do not duplicate the same ID in both paths |

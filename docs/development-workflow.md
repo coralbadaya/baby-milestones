@@ -213,7 +213,7 @@ VITE_SUPABASE_ANON_KEY
 VITE_GA_MEASUREMENT_ID
 ```
 
-`VITE_GTM_CONTAINER_ID` is optional (defaults to `GTM-T7HG74HL` in production builds). Google Tag Manager loads after analytics consent via `src/utils/analytics.js`. `VITE_GA_MEASUREMENT_ID` is optional; when set, GA4 gtag also loads after consent (often configured inside GTM instead). First-party Insights ingest (`/api/analytics`) also requires consent but does not need a GA ID. Admin routes (`/admin/*`) are excluded. Server secrets: `ANALYTICS_IP_SALT`, `CRON_SECRET`, `SUPABASE_SERVICE_ROLE_KEY` (never `VITE_`). See [`product-analytics.md`](product-analytics.md).
+`VITE_GTM_CONTAINER_ID` is optional (defaults to `GTM-MNS7GQ24` in production builds). Google Tag Manager loads after analytics consent via `src/utils/analytics.js`. `VITE_GA_MEASUREMENT_ID` is optional; when set, GA4 gtag also loads after consent (often configured inside GTM instead). First-party Insights ingest (`/api/analytics`) also requires consent but does not need a GA ID. Admin routes (`/admin/*`) are excluded. Server secrets: `ANALYTICS_IP_SALT`, `CRON_SECRET`, `SUPABASE_SERVICE_ROLE_KEY` (never `VITE_`). See [`product-analytics.md`](product-analytics.md).
 
 Frontend code must never use:
 

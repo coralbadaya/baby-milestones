@@ -1,7 +1,7 @@
 /** @typedef {Record<string, string | number | boolean | undefined>} AnalyticsParams */
 
 import { ingestAnalyticsEvent } from './analyticsIngest';
-import { GA4_MEASUREMENT_ID } from '../constants/ga4';
+import { GA4_MEASUREMENT_ID, GTM_CONTAINER_ID } from '../constants/ga4';
 
 const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 const GTM_ID = (
@@ -9,7 +9,7 @@ const GTM_ID = (
   && import.meta.env.VITE_GTM_CONTAINER_ID.trim()
 )
   ? import.meta.env.VITE_GTM_CONTAINER_ID.trim()
-  : 'GTM-T7HG74HL';
+  : GTM_CONTAINER_ID;
 
 /** @returns {boolean} */
 export function isGtmEnabled() {
