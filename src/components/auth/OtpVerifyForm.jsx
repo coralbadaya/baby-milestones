@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Icon from '../Icon';
 import { interact } from '../../utils/haptics';
 import DevAuthAssist from './DevAuthAssist';
-import { fetchDevInboxOtp } from '../../utils/fetchDevInboxOtp';
 import { CONTACT_EMAIL } from '../../constants/brand';
 
 const RESEND_COOLDOWN_SEC = 60;
@@ -150,11 +149,16 @@ function OtpVerifyForm({ email, onEmailChange, onVerify, onResend }) {
         )}
       </p>
 
-      <DevAuthAssist
-        email={email}
-        onFillOtp={(otp) => setToken(otp.replace(/\D/g, '').slice(0, 6))}
-        fetchOtp={fetchDevInboxOtp}
-      />
+      {import.meta.env.DEV ? (
+        <DevAuthAssist
+          email={email}
+          onFillOtp={(otp) => setToken(otp.replace(/\D/g, '').slice(0, 6))}
+          fetchOtp={async (target) => {
+            const { fetchDevInboxOtp } = await import('../../utils/fetchDevInboxOtp');
+            return fetchDevInboxOtp(target);
+          }}
+        />
+      ) : null}
     </form>
   );
 }

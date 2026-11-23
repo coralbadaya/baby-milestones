@@ -7,10 +7,14 @@ function isMailinatorAddress(email) {
   return /@mailinator\.com$/i.test(String(email || '').trim());
 }
 
+/** 404 unless this is not Vercel production and ENABLE_DEV_INBOX=true. */
+export function isDevInboxEnabled(env = process.env) {
+  if (env.VERCEL_ENV === 'production') return false;
+  return env.ENABLE_DEV_INBOX === 'true';
+}
+
 function devAssistEnabled() {
-  if (process.env.VERCEL_ENV === 'production') return false;
-  if (process.env.DEV_AUTH_ASSIST === '0') return false;
-  return true;
+  return isDevInboxEnabled();
 }
 
 function parseOtpFromText(text) {

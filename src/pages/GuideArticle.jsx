@@ -4,6 +4,7 @@ import Icon from '../components/Icon';
 import PageBreadcrumb from '../components/PageBreadcrumb';
 import StructuredData from '../components/StructuredData';
 import { getGuideBySlug } from '../data/guides';
+import { guideCreditLine } from '../data/reviewers';
 import { guideThemeClassName, resolveGuideTheme } from '../data/guideThemes';
 import { tagLabel, tagsForGuide } from '../data/guideTags';
 import { useGuideTagOverrides } from '../hooks/useGuideTagOverrides';
@@ -72,7 +73,7 @@ function GuideArticle() {
         <h1>{guide.title}</h1>
         <div className="guide-byline">
           <p className="guide-byline__credit">
-            By {guide.author} · Reviewed by {guide.reviewedBy}
+            By {guide.author} · {guideCreditLine(guide)}
           </p>
           <div className="guide-byline__row">
             <time className="guide-byline__date" dateTime={guide.updated}>

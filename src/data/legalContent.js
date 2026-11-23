@@ -149,20 +149,20 @@ export const PAGES = {
     icon: 'stethoscope',
     layout: 'brief',
     related: [RELATED.research, RELATED.sources, RELATED.disclaimer],
-    intro: `${BRAND_NAME} does not yet have a named clinical review board. Health pages are educational summaries of published guidance. They are not clinician-approved advice for your child.`,
+    intro: 'How our content is checked. Milestone and vaccination pages follow published guidance from the WHO, CDC, AAP, and the Indian Academy of Pediatrics (IAP). They are not personal medical advice.',
     body: [
       {
         sources: SOURCE_CHIPS,
         paragraphs: [
-          'No pediatrician, obstetrician, midwife, or dietitian is listed on this page, because none has been appointed to review this site. Do not read any page as doctor-approved.',
-          'Developmental and vaccination pages cite public guidance from the WHO, the CDC, the AAP, and the Indian Academy of Pediatrics (IAP), including an India IAP/UIP-style schedule in the tracker. Those citations are a starting point for a conversation with your own clinician.',
+          'We are inviting practising paediatricians and obstetric clinicians in India to review our guides. Their names and credentials will appear here once they have signed off. Until then, every guide lists its sources and the date it was last checked.',
+          'No paediatrician, obstetrician, midwife, or dietitian is listed on this page, because none has been appointed yet. Do not read any page as doctor-approved.',
         ],
       },
       {
         heading: 'What a review will mean',
         paragraphs: [
           'When a clinician reviews a guide, this page will name them, their credentials, and the topics they reviewed. A medical review still will not be personal medical advice.',
-          'Until then, use How We Research and Sources & Citations to see how a page was written. Decisions about your family belong with your pediatrician or obstetrician.',
+          'Until then, use How We Research and Sources & Citations to see how a page was written. Decisions about your family belong with your paediatrician or obstetrician.',
         ],
       },
     ],
