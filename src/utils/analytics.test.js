@@ -12,13 +12,22 @@ describe('analytics', () => {
     delete globalThis.window?.dataLayer;
   });
 
-  it('is disabled for GA when measurement ID is unset but still ingests', async () => {
+  it('enables third-party analytics when GTM container is configured', async () => {
     vi.stubEnv('VITE_GA_MEASUREMENT_ID', '');
+    vi.stubEnv('VITE_GTM_CONTAINER_ID', 'GTM-TEST');
     vi.resetModules();
-    const { isAnalyticsEnabled, trackPageView } = await import('./analytics.js');
+    const { isAnalyticsEnabled, isGtmEnabled } = await import('./analytics.js');
+    expect(isGtmEnabled()).toBe(true);
+    expect(isAnalyticsEnabled()).toBe(true);
+  });
+
+  it('still ingests when GA is unset (GTM container may still load)', async () => {
+    vi.stubEnv('VITE_GA_MEASUREMENT_ID', '');
+    vi.stubEnv('VITE_GTM_CONTAINER_ID', '');
+    vi.resetModules();
+    const { trackPageView } = await import('./analytics.js');
     const { ingestAnalyticsEvent } = await import('./analyticsIngest.js');
     globalThis.window = globalThis.window || {};
-    expect(isAnalyticsEnabled()).toBe(false);
     expect(() => trackPageView('/')).not.toThrow();
     expect(ingestAnalyticsEvent).toHaveBeenCalledWith('page_view', {}, { path: '/' });
   });
