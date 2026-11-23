@@ -1,6 +1,7 @@
 /** @typedef {Record<string, string | number | boolean | undefined>} AnalyticsParams */
 
 import { ingestAnalyticsEvent } from './analyticsIngest';
+import { GA4_MEASUREMENT_ID } from '../constants/ga4';
 
 const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 const GTM_ID = (
@@ -20,6 +21,13 @@ export function isGaMeasurementConfigured() {
   return typeof GA_ID === 'string' && GA_ID.trim().length > 0;
 }
 
+/** @returns {string | null} */
+export function resolveGaMeasurementId() {
+  if (isGaMeasurementConfigured()) return GA_ID.trim();
+  if (isGtmEnabled()) return GA4_MEASUREMENT_ID;
+  return null;
+}
+
 /** Google Tag Manager and/or GA4 measurement ID (after consent). */
 export function isAnalyticsEnabled() {
   return isGtmEnabled() || isGaMeasurementConfigured();
@@ -32,7 +40,8 @@ export function isFirstPartyAnalyticsEnabled() {
 
 /** @returns {string | undefined} */
 export function getGaMeasurementId() {
-  return isGaMeasurementConfigured() ? GA_ID.trim() : undefined;
+  const id = resolveGaMeasurementId();
+  return id || undefined;
 }
 
 /** @returns {string | undefined} */
@@ -60,12 +69,34 @@ function appendScriptOnce(src, matchSubstring) {
   document.head.appendChild(script);
 }
 
+function pushGtmEvent(name, params = {}) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: name, ...params });
+}
+
 /** Load GTM and/or gtag.js once when configured — only after consent. */
 export function initAnalytics() {
   if (!isAnalyticsEnabled() || initialized || typeof window === 'undefined') return;
   initialized = true;
 
   bootstrapDataLayer();
+
+  if (typeof window.gtag === 'function') {
+    window.gtag('consent', 'update', {
+      analytics_storage: 'granted',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    });
+  }
+
+  const measurementId = resolveGaMeasurementId();
+  if (measurementId && typeof window.gtag === 'function') {
+    window.gtag('config', measurementId, {
+      send_page_view: false,
+      anonymize_ip: true,
+    });
+  }
 
   if (isGtmEnabled()) {
     appendScriptOnce(
@@ -75,10 +106,6 @@ export function initAnalytics() {
   }
 
   if (isGaMeasurementConfigured()) {
-    window.gtag('config', GA_ID.trim(), {
-      send_page_view: false,
-      anonymize_ip: true,
-    });
     appendScriptOnce(
       `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA_ID.trim())}`,
       'gtag/js',
@@ -97,11 +124,18 @@ export function trackPageView(path, title) {
 
   ingestAnalyticsEvent('page_view', {}, { path });
 
-  if (!isAnalyticsEnabled() || !window.gtag) return;
-  window.gtag('event', 'page_view', {
+  if (!isAnalyticsEnabled()) return;
+
+  const payload = {
     page_path: path,
-    page_title: title || document.title,
-  });
+    page_title: title || (typeof document !== 'undefined' ? document.title : ''),
+  };
+
+  pushGtmEvent('page_view', payload);
+
+  if (window.gtag) {
+    window.gtag('event', 'page_view', payload);
+  }
 }
 
 /**
@@ -112,6 +146,11 @@ export function trackPageView(path, title) {
 export function trackEvent(name, params = {}) {
   if (typeof window === 'undefined') return;
   ingestAnalyticsEvent(name, params);
-  if (!isAnalyticsEnabled() || !window.gtag) return;
-  window.gtag('event', name, params);
+  if (!isAnalyticsEnabled()) return;
+
+  pushGtmEvent(name, params);
+
+  if (window.gtag) {
+    window.gtag('event', name, params);
+  }
 }

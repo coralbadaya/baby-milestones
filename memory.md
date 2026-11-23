@@ -142,6 +142,7 @@ Travel types: `car`, `air`, `train`, `dayOuting`, `hotel` — parsed in `assista
 | Premium / Plus | `src/pages/Premium.jsx`, `PremiumGate`, `src/constants/premium.js`, `src/utils/entitlements.js` |
 | AI baby book | `src/components/book/*`, `src/book/albumHtml.js` (3D album document, used by the Book tab and the download), `src/book/engine` (shared sheet, reel, and phone poses, 1.9s), `src/book/pageFold.js` (legacy names plus the offline script), `src/book/pageLayouts.js` (open-book spreads), `src/book/albumStore.js` (per-account local store), `scripts/personal-album.mjs` (private photos, page editor file), **dev QA** `src/pages/dev/PageTurnPlayground.jsx` at `/dev/page-turn-playground` (Vite dev only — see `docs/page-turn-qa.md`) |
 | iOS / Android | `mobile/` (Expo), plan in `docs/mobile-app-plan.md`. Birth date key `babyBirthDate` matches the website |
+| GA4 / GTM | `GTM-T7HG74HL`, `G-7E22FF9EJN` — consent-gated; see `docs/ga4-gtm.md` |
 | Billing (dual) | **IN** → Razorpay (`api/razorpay-checkout.js`, `api/razorpay-webhook.js`, `src/utils/razorpayCheckout.js`). **ROW** → Stripe USD (`api/checkout.js`, `api/stripe-webhook.js`, `src/utils/stripeCheckout.js`). Region: `api/billing-region.js`, `src/hooks/useBillingRegion.js`, `profiles.billing_country` override. USD = INR ÷ 100 in `src/constants/premium.js`. |
 | Admin | `src/pages/admin/*`, `docs/auth-membership-admin.md`, `docs/admin-portal-design.md`, `docs/product-analytics.md` |
 

@@ -28,8 +28,18 @@ describe('analytics', () => {
     const { trackPageView } = await import('./analytics.js');
     const { ingestAnalyticsEvent } = await import('./analyticsIngest.js');
     globalThis.window = globalThis.window || {};
+    globalThis.window.dataLayer = [];
     expect(() => trackPageView('/')).not.toThrow();
     expect(ingestAnalyticsEvent).toHaveBeenCalledWith('page_view', {}, { path: '/' });
+    expect(globalThis.window.dataLayer.some((row) => row?.event === 'page_view')).toBe(true);
+  });
+
+  it('resolves GA4 id from GTM default constant', async () => {
+    vi.stubEnv('VITE_GA_MEASUREMENT_ID', '');
+    vi.stubEnv('VITE_GTM_CONTAINER_ID', 'GTM-TEST');
+    vi.resetModules();
+    const { getGaMeasurementId } = await import('./analytics.js');
+    expect(getGaMeasurementId()).toBe('G-7E22FF9EJN');
   });
 
   it('tracks page views when GA is enabled', async () => {
